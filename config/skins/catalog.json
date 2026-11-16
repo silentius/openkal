@@ -1,0 +1,1107 @@
+{
+  "schema": "openkal.skin-catalog/v1",
+  "reserved_range": [25000, 29999],
+  "next_id": 25808,
+  "supplemental_items": [
+    {"index": 25467, "class": "knight", "part": "boots", "action": [1, 1]},
+    {"index": 25468, "class": "knight", "part": "helmet", "action": [14, 1]},
+    {"index": 25469, "class": "knight", "part": "upper", "action": [14, 1]},
+    {"index": 25470, "class": "knight", "part": "gauntlet", "action": [14, 1]},
+    {"index": 25471, "class": "knight", "part": "pants", "action": [14, 1]},
+    {"index": 25472, "class": "magician", "part": "boots", "action": [1, 1]},
+    {"index": 25473, "class": "magician", "part": "helmet", "action": [14, 1]},
+    {"index": 25474, "class": "magician", "part": "upper", "action": [14, 1]},
+    {"index": 25475, "class": "magician", "part": "gauntlet", "action": [14, 1]},
+    {"index": 25476, "class": "magician", "part": "pants", "action": [14, 1]},
+    {"index": 25477, "class": "archer", "part": "boots", "action": [1, 1]},
+    {"index": 25478, "class": "archer", "part": "helmet", "action": [14, 1]},
+    {"index": 25479, "class": "archer", "part": "upper", "action": [14, 1]},
+    {"index": 25480, "class": "archer", "part": "gauntlet", "action": [14, 1]},
+    {"index": 25481, "class": "archer", "part": "pants", "action": [14, 1]},
+    {"index": 25482, "class": "thief", "part": "boots", "action": [1, 1]},
+    {"index": 25483, "class": "thief", "part": "helmet", "action": [14, 1]},
+    {"index": 25484, "class": "thief", "part": "upper", "action": [14, 1]},
+    {"index": 25485, "class": "thief", "part": "gauntlet", "action": [14, 1]},
+    {"index": 25486, "class": "thief", "part": "pants", "action": [14, 1]},
+    {"index": 25487, "class": "knight", "part": "helmet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25488, "class": "knight", "part": "upper", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25489, "class": "knight", "part": "gauntlet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25490, "class": "knight", "part": "pants", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25491, "class": "knight", "part": "boots", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25492, "class": "knight", "part": "helmet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25493, "class": "knight", "part": "upper", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25494, "class": "knight", "part": "gauntlet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25495, "class": "knight", "part": "pants", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25496, "class": "knight", "part": "boots", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25497, "class": "knight", "part": "helmet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25498, "class": "knight", "part": "upper", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25499, "class": "knight", "part": "gauntlet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25500, "class": "knight", "part": "pants", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25501, "class": "knight", "part": "boots", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25502, "class": "knight", "part": "helmet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25503, "class": "knight", "part": "upper", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25504, "class": "knight", "part": "gauntlet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25505, "class": "knight", "part": "pants", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25506, "class": "knight", "part": "boots", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25507, "class": "knight", "part": "helmet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25508, "class": "knight", "part": "upper", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25509, "class": "knight", "part": "gauntlet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25510, "class": "knight", "part": "pants", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25511, "class": "knight", "part": "boots", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25512, "class": "knight", "part": "helmet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25513, "class": "knight", "part": "upper", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25514, "class": "knight", "part": "gauntlet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25515, "class": "knight", "part": "pants", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25516, "class": "knight", "part": "boots", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25517, "class": "knight", "part": "helmet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25518, "class": "knight", "part": "upper", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25519, "class": "knight", "part": "gauntlet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25520, "class": "knight", "part": "pants", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25521, "class": "knight", "part": "boots", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25522, "class": "knight", "part": "helmet", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25523, "class": "knight", "part": "upper", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25524, "class": "knight", "part": "gauntlet", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25525, "class": "knight", "part": "pants", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25526, "class": "knight", "part": "boots", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25527, "class": "knight", "part": "weapon", "action": [1, 1], "family": "grade_weapon", "appearance_grade": 1, "weapon_type": "sword"},
+    {"index": 25528, "class": "knight", "part": "weapon", "action": [2, 1], "family": "grade_weapon", "appearance_grade": 5, "weapon_type": "sword"},
+    {"index": 25529, "class": "knight", "part": "weapon", "action": [2, 2], "family": "grade_weapon", "appearance_grade": 9, "weapon_type": "sword"},
+    {"index": 25530, "class": "knight", "part": "weapon", "action": [3, 1], "family": "grade_weapon", "appearance_grade": 13, "weapon_type": "sword"},
+    {"index": 25531, "class": "knight", "part": "weapon", "action": [3, 2], "family": "grade_weapon", "appearance_grade": 17, "weapon_type": "sword"},
+    {"index": 25532, "class": "knight", "part": "weapon", "action": [3, 3], "family": "grade_weapon", "appearance_grade": 21, "weapon_type": "sword"},
+    {"index": 25533, "class": "knight", "part": "weapon", "action": [4, 1], "family": "grade_weapon", "appearance_grade": 25, "weapon_type": "sword"},
+    {"index": 25534, "class": "knight", "part": "weapon", "action": [4, 2], "family": "grade_weapon", "appearance_grade": 29, "weapon_type": "sword"},
+    {"index": 25535, "class": "knight", "part": "weapon", "action": [4, 3], "family": "grade_weapon", "appearance_grade": 33, "weapon_type": "sword"},
+    {"index": 25536, "class": "knight", "part": "weapon", "action": [5, 1], "family": "grade_weapon", "appearance_grade": 37, "weapon_type": "sword"},
+    {"index": 25537, "class": "knight", "part": "weapon", "action": [5, 2], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "sword"},
+    {"index": 25538, "class": "knight", "part": "weapon", "action": [5, 3], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "sword"},
+    {"index": 25539, "class": "knight", "part": "weapon", "action": [6, 1], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "sword"},
+    {"index": 25540, "class": "knight", "part": "weapon", "action": [6, 2], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "sword"},
+    {"index": 25541, "class": "knight", "part": "weapon", "action": [6, 3], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "sword"},
+    {"index": 25542, "class": "knight", "part": "weapon", "action": [6, 4], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "sword"},
+    {"index": 25543, "class": "knight", "part": "weapon", "action": [6, 5], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "sword"},
+    {"index": 25544, "class": "knight", "part": "weapon", "action": [7, 1], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword"},
+    {"index": 25545, "class": "knight", "part": "weapon", "action": [7, 2], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword"},
+    {"index": 25546, "class": "knight", "part": "weapon", "action": [7, 3], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword"},
+    {"index": 25547, "class": "knight", "part": "weapon", "action": [7, 4], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword"},
+    {"index": 25548, "class": "knight", "part": "weapon", "action": [8, 1], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword2h"},
+    {"index": 25549, "class": "knight", "part": "weapon", "action": [8, 2], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword2h"},
+    {"index": 25550, "class": "knight", "part": "weapon", "action": [8, 3], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword2h"},
+    {"index": 25551, "class": "knight", "part": "weapon", "action": [8, 4], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "sword2h"},
+    {"index": 25552, "class": "knight", "part": "weapon", "action": [9, 1], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword"},
+    {"index": 25553, "class": "knight", "part": "weapon", "action": [9, 2], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword"},
+    {"index": 25554, "class": "knight", "part": "weapon", "action": [9, 3], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword"},
+    {"index": 25555, "class": "knight", "part": "weapon", "action": [9, 4], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword"},
+    {"index": 25556, "class": "knight", "part": "weapon", "action": [10, 1], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword2h"},
+    {"index": 25557, "class": "knight", "part": "weapon", "action": [10, 2], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword2h"},
+    {"index": 25558, "class": "knight", "part": "weapon", "action": [10, 3], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword2h"},
+    {"index": 25559, "class": "knight", "part": "weapon", "action": [10, 4], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "sword2h"},
+    {"index": 25560, "class": "knight", "part": "weapon", "action": [20, 1], "family": "darkness_weapon", "weapon_type": "sword"},
+    {"index": 25561, "class": "knight", "part": "weapon", "action": [20, 2], "family": "darkness_weapon", "weapon_type": "sword2h"},
+    {"index": 25562, "class": "knight", "part": "weapon", "action": [20, 3], "family": "darkness_weapon", "weapon_type": "sword"},
+    {"index": 25563, "class": "knight", "part": "weapon", "action": [20, 4], "family": "darkness_weapon", "weapon_type": "sword2h"},
+    {"index": 25564, "class": "knight", "part": "shield", "action": [1, 1], "family": "grade_shield", "appearance_grade": 10},
+    {"index": 25565, "class": "knight", "part": "shield", "action": [1, 2], "family": "grade_shield", "appearance_grade": 17},
+    {"index": 25566, "class": "knight", "part": "shield", "action": [2, 1], "family": "grade_shield", "appearance_grade": 25},
+    {"index": 25567, "class": "knight", "part": "shield", "action": [2, 2], "family": "grade_shield", "appearance_grade": 30},
+    {"index": 25568, "class": "knight", "part": "shield", "action": [2, 3], "family": "grade_shield", "appearance_grade": 35},
+    {"index": 25569, "class": "knight", "part": "shield", "action": [3, 1], "family": "grade_shield", "appearance_grade": 40},
+    {"index": 25570, "class": "knight", "part": "shield", "action": [3, 2], "family": "grade_shield", "appearance_grade": 53},
+    {"index": 25571, "class": "knight", "part": "shield", "action": [4, 1], "family": "grade_shield", "appearance_grade": 44},
+    {"index": 25572, "class": "knight", "part": "shield", "action": [4, 2], "family": "grade_shield", "appearance_grade": 48},
+    {"index": 25573, "class": "knight", "part": "shield", "action": [4, 3], "family": "grade_shield", "appearance_grade": 52},
+    {"index": 25574, "class": "knight", "part": "shield", "action": [4, 4], "family": "grade_shield", "appearance_grade": 55},
+    {"index": 25575, "class": "knight", "part": "shield", "action": [5, 1], "family": "darkness_shield"},
+    {"index": 25576, "class": "magician", "part": "helmet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25577, "class": "magician", "part": "upper", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25578, "class": "magician", "part": "gauntlet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25579, "class": "magician", "part": "pants", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25580, "class": "magician", "part": "boots", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25581, "class": "magician", "part": "helmet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25582, "class": "magician", "part": "upper", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25583, "class": "magician", "part": "gauntlet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25584, "class": "magician", "part": "pants", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25585, "class": "magician", "part": "boots", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25586, "class": "magician", "part": "helmet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25587, "class": "magician", "part": "upper", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25588, "class": "magician", "part": "gauntlet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25589, "class": "magician", "part": "pants", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25590, "class": "magician", "part": "boots", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25591, "class": "magician", "part": "helmet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25592, "class": "magician", "part": "upper", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25593, "class": "magician", "part": "gauntlet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25594, "class": "magician", "part": "pants", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25595, "class": "magician", "part": "boots", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25596, "class": "magician", "part": "helmet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25597, "class": "magician", "part": "upper", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25598, "class": "magician", "part": "gauntlet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25599, "class": "magician", "part": "pants", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25600, "class": "magician", "part": "boots", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25601, "class": "magician", "part": "helmet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25602, "class": "magician", "part": "upper", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25603, "class": "magician", "part": "gauntlet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25604, "class": "magician", "part": "pants", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25605, "class": "magician", "part": "boots", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25606, "class": "magician", "part": "helmet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25607, "class": "magician", "part": "upper", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25608, "class": "magician", "part": "gauntlet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25609, "class": "magician", "part": "pants", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25610, "class": "magician", "part": "boots", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25611, "class": "magician", "part": "helmet", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25612, "class": "magician", "part": "upper", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25613, "class": "magician", "part": "gauntlet", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25614, "class": "magician", "part": "pants", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25615, "class": "magician", "part": "boots", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25616, "class": "magician", "part": "weapon", "action": [1, 1], "family": "grade_weapon", "appearance_grade": 1, "weapon_type": "wand"},
+    {"index": 25617, "class": "magician", "part": "weapon", "action": [2, 1], "family": "grade_weapon", "appearance_grade": 5, "weapon_type": "wand"},
+    {"index": 25618, "class": "magician", "part": "weapon", "action": [2, 2], "family": "grade_weapon", "appearance_grade": 9, "weapon_type": "wand"},
+    {"index": 25619, "class": "magician", "part": "weapon", "action": [3, 1], "family": "grade_weapon", "appearance_grade": 13, "weapon_type": "wand"},
+    {"index": 25620, "class": "magician", "part": "weapon", "action": [3, 2], "family": "grade_weapon", "appearance_grade": 17, "weapon_type": "wand"},
+    {"index": 25621, "class": "magician", "part": "weapon", "action": [3, 3], "family": "grade_weapon", "appearance_grade": 21, "weapon_type": "wand"},
+    {"index": 25622, "class": "magician", "part": "weapon", "action": [4, 1], "family": "grade_weapon", "appearance_grade": 25, "weapon_type": "wand"},
+    {"index": 25623, "class": "magician", "part": "weapon", "action": [4, 2], "family": "grade_weapon", "appearance_grade": 29, "weapon_type": "wand"},
+    {"index": 25624, "class": "magician", "part": "weapon", "action": [4, 3], "family": "grade_weapon", "appearance_grade": 33, "weapon_type": "wand"},
+    {"index": 25625, "class": "magician", "part": "weapon", "action": [5, 1], "family": "grade_weapon", "appearance_grade": 37, "weapon_type": "wand"},
+    {"index": 25626, "class": "magician", "part": "weapon", "action": [5, 2], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "wand"},
+    {"index": 25627, "class": "magician", "part": "weapon", "action": [5, 3], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "wand"},
+    {"index": 25628, "class": "magician", "part": "weapon", "action": [6, 1], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "wand"},
+    {"index": 25629, "class": "magician", "part": "weapon", "action": [6, 2], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "wand"},
+    {"index": 25630, "class": "magician", "part": "weapon", "action": [6, 3], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "wand"},
+    {"index": 25631, "class": "magician", "part": "weapon", "action": [6, 4], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "wand"},
+    {"index": 25632, "class": "magician", "part": "weapon", "action": [6, 5], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "wand"},
+    {"index": 25633, "class": "magician", "part": "weapon", "action": [7, 1], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "wand"},
+    {"index": 25634, "class": "magician", "part": "weapon", "action": [7, 2], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "wand"},
+    {"index": 25635, "class": "magician", "part": "weapon", "action": [7, 3], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "wand"},
+    {"index": 25636, "class": "magician", "part": "weapon", "action": [7, 4], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "wand"},
+    {"index": 25637, "class": "magician", "part": "weapon", "action": [8, 1], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "wand"},
+    {"index": 25638, "class": "magician", "part": "weapon", "action": [8, 2], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "wand"},
+    {"index": 25639, "class": "magician", "part": "weapon", "action": [8, 3], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "wand"},
+    {"index": 25640, "class": "magician", "part": "weapon", "action": [8, 4], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "wand"},
+    {"index": 25641, "class": "archer", "part": "helmet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25642, "class": "archer", "part": "upper", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25643, "class": "archer", "part": "gauntlet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25644, "class": "archer", "part": "pants", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25645, "class": "archer", "part": "boots", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25646, "class": "archer", "part": "helmet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25647, "class": "archer", "part": "upper", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25648, "class": "archer", "part": "gauntlet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25649, "class": "archer", "part": "pants", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25650, "class": "archer", "part": "boots", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25651, "class": "archer", "part": "helmet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25652, "class": "archer", "part": "upper", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25653, "class": "archer", "part": "gauntlet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25654, "class": "archer", "part": "pants", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25655, "class": "archer", "part": "boots", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25656, "class": "archer", "part": "helmet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25657, "class": "archer", "part": "upper", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25658, "class": "archer", "part": "gauntlet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25659, "class": "archer", "part": "pants", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25660, "class": "archer", "part": "boots", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25661, "class": "archer", "part": "helmet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25662, "class": "archer", "part": "upper", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25663, "class": "archer", "part": "gauntlet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25664, "class": "archer", "part": "pants", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25665, "class": "archer", "part": "boots", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25666, "class": "archer", "part": "helmet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25667, "class": "archer", "part": "upper", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25668, "class": "archer", "part": "gauntlet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25669, "class": "archer", "part": "pants", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25670, "class": "archer", "part": "boots", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25671, "class": "archer", "part": "helmet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25672, "class": "archer", "part": "upper", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25673, "class": "archer", "part": "gauntlet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25674, "class": "archer", "part": "pants", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25675, "class": "archer", "part": "boots", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25676, "class": "archer", "part": "helmet", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25677, "class": "archer", "part": "upper", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25678, "class": "archer", "part": "gauntlet", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25679, "class": "archer", "part": "pants", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25680, "class": "archer", "part": "boots", "action": [9, 1], "family": "darkness_armor"},
+    {"index": 25681, "class": "archer", "part": "weapon", "action": [1, 1], "family": "grade_weapon", "appearance_grade": 1, "weapon_type": "bow"},
+    {"index": 25682, "class": "archer", "part": "weapon", "action": [2, 1], "family": "grade_weapon", "appearance_grade": 5, "weapon_type": "bow"},
+    {"index": 25683, "class": "archer", "part": "weapon", "action": [2, 2], "family": "grade_weapon", "appearance_grade": 9, "weapon_type": "bow"},
+    {"index": 25684, "class": "archer", "part": "weapon", "action": [3, 1], "family": "grade_weapon", "appearance_grade": 13, "weapon_type": "bow"},
+    {"index": 25685, "class": "archer", "part": "weapon", "action": [3, 2], "family": "grade_weapon", "appearance_grade": 17, "weapon_type": "bow"},
+    {"index": 25686, "class": "archer", "part": "weapon", "action": [3, 3], "family": "grade_weapon", "appearance_grade": 21, "weapon_type": "bow"},
+    {"index": 25687, "class": "archer", "part": "weapon", "action": [4, 1], "family": "grade_weapon", "appearance_grade": 25, "weapon_type": "bow"},
+    {"index": 25688, "class": "archer", "part": "weapon", "action": [4, 2], "family": "grade_weapon", "appearance_grade": 29, "weapon_type": "bow"},
+    {"index": 25689, "class": "archer", "part": "weapon", "action": [4, 3], "family": "grade_weapon", "appearance_grade": 33, "weapon_type": "bow"},
+    {"index": 25690, "class": "archer", "part": "weapon", "action": [5, 1], "family": "grade_weapon", "appearance_grade": 37, "weapon_type": "bow"},
+    {"index": 25691, "class": "archer", "part": "weapon", "action": [5, 2], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "bow"},
+    {"index": 25692, "class": "archer", "part": "weapon", "action": [5, 3], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "bow"},
+    {"index": 25693, "class": "archer", "part": "weapon", "action": [6, 1], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "bow"},
+    {"index": 25694, "class": "archer", "part": "weapon", "action": [6, 2], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "bow"},
+    {"index": 25695, "class": "archer", "part": "weapon", "action": [6, 3], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "bow"},
+    {"index": 25696, "class": "archer", "part": "weapon", "action": [6, 4], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "bow"},
+    {"index": 25697, "class": "archer", "part": "weapon", "action": [6, 5], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "bow"},
+    {"index": 25698, "class": "archer", "part": "weapon", "action": [7, 1], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "bow"},
+    {"index": 25699, "class": "archer", "part": "weapon", "action": [7, 2], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "bow"},
+    {"index": 25700, "class": "archer", "part": "weapon", "action": [7, 3], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "bow"},
+    {"index": 25701, "class": "archer", "part": "weapon", "action": [7, 4], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "bow"},
+    {"index": 25702, "class": "archer", "part": "weapon", "action": [8, 1], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "bow"},
+    {"index": 25703, "class": "archer", "part": "weapon", "action": [8, 2], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "bow"},
+    {"index": 25704, "class": "archer", "part": "weapon", "action": [8, 3], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "bow"},
+    {"index": 25705, "class": "archer", "part": "weapon", "action": [8, 4], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "bow"},
+    {"index": 25706, "class": "archer", "part": "weapon", "action": [20, 1], "family": "darkness_weapon", "weapon_type": "bow"},
+    {"index": 25707, "class": "archer", "part": "weapon", "action": [20, 2], "family": "darkness_weapon", "weapon_type": "bow"},
+    {"index": 25708, "class": "thief", "part": "helmet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25709, "class": "thief", "part": "upper", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25710, "class": "thief", "part": "gauntlet", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25711, "class": "thief", "part": "pants", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25712, "class": "thief", "part": "boots", "action": [2, 1], "family": "grade_armor", "appearance_grade": 16},
+    {"index": 25713, "class": "thief", "part": "helmet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25714, "class": "thief", "part": "upper", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25715, "class": "thief", "part": "gauntlet", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25716, "class": "thief", "part": "pants", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25717, "class": "thief", "part": "boots", "action": [3, 1], "family": "grade_armor", "appearance_grade": 24},
+    {"index": 25718, "class": "thief", "part": "helmet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25719, "class": "thief", "part": "upper", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25720, "class": "thief", "part": "gauntlet", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25721, "class": "thief", "part": "pants", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25722, "class": "thief", "part": "boots", "action": [4, 1], "family": "grade_armor", "appearance_grade": 32},
+    {"index": 25723, "class": "thief", "part": "helmet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25724, "class": "thief", "part": "upper", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25725, "class": "thief", "part": "gauntlet", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25726, "class": "thief", "part": "pants", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25727, "class": "thief", "part": "boots", "action": [5, 1], "family": "grade_armor", "appearance_grade": 42},
+    {"index": 25728, "class": "thief", "part": "helmet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25729, "class": "thief", "part": "upper", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25730, "class": "thief", "part": "gauntlet", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25731, "class": "thief", "part": "pants", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25732, "class": "thief", "part": "boots", "action": [6, 1], "family": "grade_armor", "appearance_grade": 46},
+    {"index": 25733, "class": "thief", "part": "helmet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25734, "class": "thief", "part": "upper", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25735, "class": "thief", "part": "gauntlet", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25736, "class": "thief", "part": "pants", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25737, "class": "thief", "part": "boots", "action": [7, 1], "family": "grade_armor", "appearance_grade": 50},
+    {"index": 25738, "class": "thief", "part": "helmet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25739, "class": "thief", "part": "upper", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25740, "class": "thief", "part": "gauntlet", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25741, "class": "thief", "part": "pants", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25742, "class": "thief", "part": "boots", "action": [8, 1], "family": "grade_armor", "appearance_grade": 55},
+    {"index": 25743, "class": "thief", "part": "weapon", "action": [1, 1], "family": "grade_weapon", "appearance_grade": 1, "weapon_type": "dagger"},
+    {"index": 25744, "class": "thief", "part": "weapon", "action": [2, 1], "family": "grade_weapon", "appearance_grade": 5, "weapon_type": "dagger"},
+    {"index": 25745, "class": "thief", "part": "weapon", "action": [2, 2], "family": "grade_weapon", "appearance_grade": 9, "weapon_type": "dagger"},
+    {"index": 25746, "class": "thief", "part": "weapon", "action": [3, 1], "family": "grade_weapon", "appearance_grade": 13, "weapon_type": "dagger"},
+    {"index": 25747, "class": "thief", "part": "weapon", "action": [3, 2], "family": "grade_weapon", "appearance_grade": 17, "weapon_type": "dagger"},
+    {"index": 25748, "class": "thief", "part": "weapon", "action": [3, 3], "family": "grade_weapon", "appearance_grade": 21, "weapon_type": "dagger"},
+    {"index": 25749, "class": "thief", "part": "weapon", "action": [4, 1], "family": "grade_weapon", "appearance_grade": 25, "weapon_type": "dagger"},
+    {"index": 25750, "class": "thief", "part": "weapon", "action": [4, 2], "family": "grade_weapon", "appearance_grade": 33, "weapon_type": "dagger"},
+    {"index": 25751, "class": "thief", "part": "weapon", "action": [5, 1], "family": "grade_weapon", "appearance_grade": 37, "weapon_type": "dagger"},
+    {"index": 25752, "class": "thief", "part": "weapon", "action": [5, 2], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "dagger"},
+    {"index": 25753, "class": "thief", "part": "weapon", "action": [5, 3], "family": "grade_weapon", "appearance_grade": 40, "weapon_type": "dagger"},
+    {"index": 25754, "class": "thief", "part": "weapon", "action": [5, 4], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "dagger"},
+    {"index": 25755, "class": "thief", "part": "weapon", "action": [6, 1], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "dagger"},
+    {"index": 25756, "class": "thief", "part": "weapon", "action": [6, 2], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "dagger"},
+    {"index": 25757, "class": "thief", "part": "weapon", "action": [6, 3], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "dagger"},
+    {"index": 25758, "class": "thief", "part": "weapon", "action": [6, 4], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "dagger"},
+    {"index": 25759, "class": "thief", "part": "weapon", "action": [6, 5], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "dagger"},
+    {"index": 25760, "class": "thief", "part": "weapon", "action": [6, 6], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "dagger"},
+    {"index": 25761, "class": "thief", "part": "weapon", "action": [6, 7], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "dagger"},
+    {"index": 25762, "class": "thief", "part": "weapon", "action": [6, 8], "family": "grade_weapon", "appearance_grade": 45, "weapon_type": "dagger"},
+    {"index": 25763, "class": "thief", "part": "weapon", "action": [6, 9], "family": "grade_weapon", "appearance_grade": 48, "weapon_type": "dagger"},
+    {"index": 25764, "class": "thief", "part": "weapon", "action": [6, 10], "family": "grade_weapon", "appearance_grade": 50, "weapon_type": "dagger"},
+    {"index": 25765, "class": "thief", "part": "weapon", "action": [7, 1], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "dagger"},
+    {"index": 25766, "class": "thief", "part": "weapon", "action": [7, 2], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "dagger"},
+    {"index": 25767, "class": "thief", "part": "weapon", "action": [7, 3], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "dagger"},
+    {"index": 25768, "class": "thief", "part": "weapon", "action": [7, 7], "family": "grade_weapon", "appearance_grade": 53, "weapon_type": "dagger"},
+    {"index": 25769, "class": "thief", "part": "weapon", "action": [20, 1], "family": "darkness_weapon", "weapon_type": "dagger"},
+    {"index": 25770, "class": "thief", "part": "weapon", "action": [20, 2], "family": "darkness_weapon", "weapon_type": "dagger"},
+    {"index": 25771, "class": "knight", "part": "weapon", "action": [13, 1], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword"},
+    {"index": 25772, "class": "knight", "part": "weapon", "action": [13, 2], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword"},
+    {"index": 25773, "class": "knight", "part": "weapon", "action": [13, 3], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword"},
+    {"index": 25774, "class": "knight", "part": "weapon", "action": [13, 4], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword"},
+    {"index": 25775, "class": "knight", "part": "weapon", "action": [14, 1], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword2h"},
+    {"index": 25776, "class": "knight", "part": "weapon", "action": [14, 2], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword2h"},
+    {"index": 25777, "class": "knight", "part": "weapon", "action": [14, 3], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword2h"},
+    {"index": 25778, "class": "knight", "part": "weapon", "action": [14, 4], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "sword2h"},
+    {"index": 25779, "class": "magician", "part": "weapon", "action": [10, 1], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "wand"},
+    {"index": 25780, "class": "magician", "part": "weapon", "action": [10, 2], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "wand"},
+    {"index": 25781, "class": "magician", "part": "weapon", "action": [10, 3], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "wand"},
+    {"index": 25782, "class": "magician", "part": "weapon", "action": [10, 4], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "wand"},
+    {"index": 25783, "class": "archer", "part": "weapon", "action": [10, 1], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "bow"},
+    {"index": 25784, "class": "archer", "part": "weapon", "action": [10, 2], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "bow"},
+    {"index": 25785, "class": "archer", "part": "weapon", "action": [10, 3], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "bow"},
+    {"index": 25786, "class": "archer", "part": "weapon", "action": [10, 4], "family": "grade_weapon", "appearance_grade": 56, "weapon_type": "bow"},
+    {"index": 25787, "class": "thief", "part": "weapon", "action": [8, 1], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "dagger"},
+    {"index": 25788, "class": "thief", "part": "weapon", "action": [8, 2], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "dagger"},
+    {"index": 25789, "class": "thief", "part": "weapon", "action": [8, 3], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "dagger"},
+    {"index": 25790, "class": "knight", "part": "weapon", "action": [11, 1], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword"},
+    {"index": 25791, "class": "knight", "part": "weapon", "action": [11, 2], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword"},
+    {"index": 25792, "class": "knight", "part": "weapon", "action": [11, 3], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword"},
+    {"index": 25793, "class": "knight", "part": "weapon", "action": [11, 4], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword"},
+    {"index": 25794, "class": "knight", "part": "weapon", "action": [12, 1], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword2h"},
+    {"index": 25795, "class": "knight", "part": "weapon", "action": [12, 2], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword2h"},
+    {"index": 25796, "class": "knight", "part": "weapon", "action": [12, 3], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword2h"},
+    {"index": 25797, "class": "knight", "part": "weapon", "action": [12, 4], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "sword2h"},
+    {"index": 25798, "class": "magician", "part": "weapon", "action": [9, 1], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "wand"},
+    {"index": 25799, "class": "magician", "part": "weapon", "action": [9, 2], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "wand"},
+    {"index": 25800, "class": "magician", "part": "weapon", "action": [9, 3], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "wand"},
+    {"index": 25801, "class": "magician", "part": "weapon", "action": [9, 4], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "wand"},
+    {"index": 25802, "class": "magician", "part": "weapon", "action": [9, 5], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "wand"},
+    {"index": 25803, "class": "magician", "part": "weapon", "action": [9, 6], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "wand"},
+    {"index": 25804, "class": "archer", "part": "weapon", "action": [9, 1], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "bow"},
+    {"index": 25805, "class": "archer", "part": "weapon", "action": [9, 2], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "bow"},
+    {"index": 25806, "class": "archer", "part": "weapon", "action": [9, 3], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "bow"},
+    {"index": 25807, "class": "archer", "part": "weapon", "action": [9, 4], "family": "grade_weapon", "appearance_grade": 59, "weapon_type": "bow"}
+  ],
+  "withdrawn_ranges": [
+    [25031, 25036],
+    [25176, 25181],
+    [25292, 25297],
+    [25412, 25417]
+  ],
+  "equipment_expansion": {
+    "source": {
+      "author": "OpenKal contributors",
+      "license": "GPL-3.0-or-later",
+      "created_on": "2026-10-30",
+      "origin": "Project-defined cosmetic definitions from local filename and visual observations, with public equipment-grade labels.",
+      "public_references": [
+        "https://gameagit.com/kalonline/Armor01",
+        "https://gameagit.com/kalonline/Armor02",
+        "https://gameagit.com/kalonline/Armor03",
+        "https://gameagit.com/kalonline/Armor04",
+        "https://gameagit.com/kalonline/Weapon01",
+        "https://gameagit.com/kalonline/Weapon02",
+        "https://gameagit.com/kalonline/Weapon03",
+        "https://gameagit.com/kalonline/Weapon04",
+        "https://gameagit.com/kalonline/Weapon01_shield"
+      ],
+      "scope": "Project-authored generic English appearance labels and class/slot/model coordinates only. No external art, item tables, combat stats or reference item IDs are redistributed. Grade labels describe appearances; actual item level requirements remain 1."
+    },
+    "armor_grades": [
+      {
+        "appearance_grade": 8,
+        "model_group": 1
+      },
+      {
+        "appearance_grade": 16,
+        "model_group": 2
+      },
+      {
+        "appearance_grade": 24,
+        "model_group": 3
+      },
+      {
+        "appearance_grade": 32,
+        "model_group": 4
+      },
+      {
+        "appearance_grade": 42,
+        "model_group": 5
+      },
+      {
+        "appearance_grade": 46,
+        "model_group": 6
+      },
+      {
+        "appearance_grade": 50,
+        "model_group": 7
+      },
+      {
+        "appearance_grade": 55,
+        "model_group": 8
+      }
+    ],
+    "reused_item_ids": [25039, 25040, 25041, 25043, 25184, 25185, 25186, 25187, 25300, 25301, 25302, 25304, 25421, 25422, 25423, 25424, 25467, 25472, 25477, 25482],
+    "new_item_range": [25487, 25770],
+    "g56_extension": {
+      "item_range": [25771, 25786],
+      "appearance_grade": 56,
+      "weapon_models": {
+        "knight": {
+          "sword": {
+            "model_group": 13,
+            "variants": [1, 2, 3, 4]
+          },
+          "sword2h": {
+            "model_group": 14,
+            "variants": [1, 2, 3, 4]
+          }
+        },
+        "magician": {
+          "wand": {
+            "model_group": 10,
+            "variants": [1, 2, 3, 4]
+          }
+        },
+        "archer": {
+          "bow": {
+            "model_group": 10,
+            "variants": [1, 2, 3, 4]
+          }
+        }
+      },
+      "review": "These sixteen appearances were initially mislabeled G59. Direct comparison with the official G56 images confirmed the correction. Existing IDs and models remain unchanged.",
+      "reference_images": [
+        "https://gameagit.com/images/kalonline/guide/wm31.gif",
+        "https://gameagit.com/images/kalonline/guide/sm25.gif"
+      ]
+    },
+    "g59_extension": {
+      "item_range": [25787, 25807],
+      "appearance_grade": 59,
+      "weapon_models": {
+        "knight": {
+          "sword": {
+            "model_group": 11,
+            "variants": [1, 2, 3, 4]
+          },
+          "sword2h": {
+            "model_group": 12,
+            "variants": [1, 2, 3, 4]
+          }
+        },
+        "magician": {
+          "wand": {
+            "model_group": 9,
+            "variants": [1, 2, 3, 4, 5, 6]
+          }
+        },
+        "archer": {
+          "bow": {
+            "model_group": 9,
+            "variants": [1, 2, 3, 4]
+          }
+        },
+        "thief": {
+          "dagger": {
+            "model_group": 8,
+            "variants": [1, 2, 3]
+          }
+        }
+      },
+      "review": "Direct comparison with official G59 equipment images establishes the appearance families. The three existing Thief appearances were already correct; eighteen missing appearances are added. All models and textures loaded and isolated front/back previews were inspected. Runtime gameplay and complete animation verification remain pending.",
+      "reference_images": [
+        "https://gameagit.com/images/kalonline/guide/wm37.gif",
+        "https://gameagit.com/images/kalonline/guide/wm40.gif",
+        "https://gameagit.com/images/kalonline/guide/sm28.gif",
+        "https://gameagit.com/images/kalonline/guide/sm29.gif",
+        "https://gameagit.com/images/kalonline/guide/sm30.gif",
+        "https://gameagit.com/images/kalonline/guide/am28.gif",
+        "https://gameagit.com/images/kalonline/guide/tm26.gif"
+      ]
+    },
+    "review": "Matching armor sets and isolated weapon/shield front/back previews were reviewed. Gameplay and complete animation review remain pending.",
+    "darkness": {
+      "armor_classes": [
+        "knight",
+        "magician",
+        "archer"
+      ],
+      "weapon_classes": [
+        "knight",
+        "archer",
+        "thief"
+      ],
+      "armor_model_group": 9,
+      "weapon_model_group": 20,
+      "deferred": [
+        "No matching Darkness armor was identified for Thief; its group 9 appearance is golden.",
+        "No Magician group 20 weapon model was present in the inspected local inventory. Other unclassified staff models are not substituted.",
+        "Alternate Knight group 9 upper/head variants show missing coverage or unrelated head geometry; only the complete 09-01 set is offered."
+      ],
+      "grade_label": "Darkness grades differ across legacy references; use the appearance family name without asserting a numeric grade."
+    }
+  },
+  "observations": {
+    "25790": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25791": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25792": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25793": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25794": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25795": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25796": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25797": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25798": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25799": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25800": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25801": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25802": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25803": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25804": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25805": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25806": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25807": {"status": "preview_reviewed", "note": "G59 family identified by comparison with official equipment images. Isolated front/back class attachment previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25771": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25772": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25773": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25774": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25775": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25776": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25777": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25778": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25779": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25780": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25781": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25782": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25783": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25784": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25785": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25786": {"status": "preview_reviewed", "note": "Grade corrected from G59 to G56 by direct comparison with official equipment images. Model and item ID preserved. Isolated front/back previews inspected; runtime gameplay and complete animation verification remain pending."},
+    "25787": {"status": "preview_reviewed", "note": "G59 weapon: isolated front/back class attachment previews inspected. Runtime gameplay and complete animation verification remain pending."},
+    "25788": {"status": "preview_reviewed", "note": "G59 weapon: isolated front/back class attachment previews inspected. Runtime gameplay and complete animation verification remain pending."},
+    "25789": {"status": "preview_reviewed", "note": "G59 weapon: isolated front/back class attachment previews inspected. Runtime gameplay and complete animation verification remain pending."},
+    "25487": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25488": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25489": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25490": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25491": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25492": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25493": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25494": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25495": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25496": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25497": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25498": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25499": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25500": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25501": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25502": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25503": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25504": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25505": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25506": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25507": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25508": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25509": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25510": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25511": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25512": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25513": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25514": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25515": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25516": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25517": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25518": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25519": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25520": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25521": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25522": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25523": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25524": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25525": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25526": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25527": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25528": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25529": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25530": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25531": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25532": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25533": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25534": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25535": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25536": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25537": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25538": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25539": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25540": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25541": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25542": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25543": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25544": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25545": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25546": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25547": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25548": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25549": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25550": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25551": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25552": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25553": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25554": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25555": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25556": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25557": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25558": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25559": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25560": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25561": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25562": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25563": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25564": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25565": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25566": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25567": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25568": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25569": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25570": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25571": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25572": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25573": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25574": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25575": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25576": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25577": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25578": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25579": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25580": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25581": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25582": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25583": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25584": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25585": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25586": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25587": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25588": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25589": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25590": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25591": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25592": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25593": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25594": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25595": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25596": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25597": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25598": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25599": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25600": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25601": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25602": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25603": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25604": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25605": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25606": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25607": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25608": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25609": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25610": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25611": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25612": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25613": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25614": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25615": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25616": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25617": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25618": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25619": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25620": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25621": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25622": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25623": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25624": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25625": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25626": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25627": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25628": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25629": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25630": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25631": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25632": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25633": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25634": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25635": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25636": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25637": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25638": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25639": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25640": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25641": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25642": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25643": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25644": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25645": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25646": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25647": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25648": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25649": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25650": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25651": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25652": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25653": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25654": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25655": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25656": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25657": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25658": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25659": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25660": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25661": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25662": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25663": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25664": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25665": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25666": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25667": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25668": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25669": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25670": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25671": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25672": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25673": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25674": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25675": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25676": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25677": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25678": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25679": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25680": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25681": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25682": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25683": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25684": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25685": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25686": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25687": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25688": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25689": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25690": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25691": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25692": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25693": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25694": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25695": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25696": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25697": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25698": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25699": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25700": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25701": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25702": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25703": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25704": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25705": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25706": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25707": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25708": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25709": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25710": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25711": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25712": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25713": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25714": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25715": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25716": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25717": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25718": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25719": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25720": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25721": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25722": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25723": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25724": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25725": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25726": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25727": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25728": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25729": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25730": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25731": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25732": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25733": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25734": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25735": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25736": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25737": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25738": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25739": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25740": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25741": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25742": {"status": "preview_reviewed", "note": "Matching class/set front/back static previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25743": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25744": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25745": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25746": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25747": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25748": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25749": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25750": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25751": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25752": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25753": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25754": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25755": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25756": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25757": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25758": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25759": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25760": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25761": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25762": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25763": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25764": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25765": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25766": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25767": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25768": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25769": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25770": {"status": "preview_reviewed", "note": "Isolated front/back class attachment previews reviewed. Runtime gameplay and complete animation verification remain pending."},
+    "25472": {
+      "status": "preview_reviewed",
+      "note": "Magician group 1 boots, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25473": {
+      "status": "preview_reviewed",
+      "note": "Magician group 14 helmet, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25474": {
+      "status": "preview_reviewed",
+      "note": "Magician group 14 upper, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25475": {
+      "status": "preview_reviewed",
+      "note": "Magician group 14 gauntlet, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25476": {
+      "status": "preview_reviewed",
+      "note": "Magician group 14 pants, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25477": {
+      "status": "preview_reviewed",
+      "note": "Archer group 1 boots, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25478": {
+      "status": "preview_reviewed",
+      "note": "Archer group 14 helmet, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25479": {
+      "status": "preview_reviewed",
+      "note": "Archer group 14 upper, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25480": {
+      "status": "preview_reviewed",
+      "note": "Archer group 14 gauntlet, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25481": {
+      "status": "preview_reviewed",
+      "note": "Archer group 14 pants, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25482": {
+      "status": "preview_reviewed",
+      "note": "Thief group 1 boots, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25483": {
+      "status": "preview_reviewed",
+      "note": "Thief group 14 helmet, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25484": {
+      "status": "preview_reviewed",
+      "note": "Thief group 14 upper, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25485": {
+      "status": "preview_reviewed",
+      "note": "Thief group 14 gauntlet, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25486": {
+      "status": "preview_reviewed",
+      "note": "Thief group 14 pants, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25467": {
+      "status": "preview_reviewed",
+      "note": "Completes the Knight group 1 individual set. Matching group 1 and 14 sets were reviewed in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25468": {
+      "status": "preview_reviewed",
+      "note": "Knight group 14 helmet, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25469": {
+      "status": "preview_reviewed",
+      "note": "Knight group 14 upper armor, reviewed with its matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25470": {
+      "status": "preview_reviewed",
+      "note": "Knight group 14 gauntlets, reviewed with their matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25471": {
+      "status": "preview_reviewed",
+      "note": "Knight group 14 pants, reviewed with their matching set in static front/back local previews. Animation and runtime gameplay verification remain pending."
+    },
+    "25003": {
+      "status": "clipping_reported",
+      "note": "Manual checks reproduced legs protruding through the skirt while standing and walking. Attack behavior remains unverified."
+    },
+    "25004": {
+      "status": "clipping_reported",
+      "note": "Manual checks reproduced legs protruding through the skirt while standing and walking. Attack behavior remains unverified."
+    },
+    "25005": {
+      "status": "manual_check_recorded",
+      "note": "After helmet-slot reclassification, recorded manual checks show correct appearance and restoration of the normal head when removed. Individual animation actions were not reported separately."
+    },
+    "25006": {
+      "status": "manual_check_recorded",
+      "note": "After the head-composition correction, recorded manual checks show correct face and hair while standing and walking, and restoration of the normal head on removal. Attack behavior was not reported separately. Additional manual checks show that equipping this body skin returns 25005/25037 to General and locks the remaining body skin slots; weapon/shield skins remain independently equippable. Subsequent manual checks show reverse replacement with 25037, unlocking body slots, and complete return through character selection without item loss/duplication."
+    },
+    "25011": {
+      "status": "manual_check_recorded",
+      "note": "After helmet-slot reclassification, recorded manual checks show correct appearance and restoration of the normal head when removed. Individual animation actions were not reported separately."
+    },
+    "25012": {
+      "status": "manual_check_recorded",
+      "note": "After helmet-slot reclassification, recorded manual checks show correct appearance and restoration of the normal head when removed. Individual animation actions were not reported separately."
+    },
+    "25037": {
+      "status": "appearance_confirmed",
+      "note": "Manual observations record the blue boots after the intentional change from the grade 8 sample to model group 14. The exact grade name is unverified. Restoration on removal was not reported separately."
+    },
+    "25038": {
+      "status": "manual_check_recorded",
+      "note": "Normal face group 0, variant 2 was reported visually correct after replacement."
+    },
+    "25042": {
+      "status": "manual_check_recorded",
+      "note": "After changing the test sample from starter shield model 01-01 to distinct model 06-01 and removing the old thirteen-entry character-selection wear cap, recorded manual checks show the shield during standing/walking/attacking, in character selection, after re-entry and on removal. Skin and inventory restoration are confirmed."
+    },
+    "25062": {
+      "status": "manual_check_recorded",
+      "note": "Manual review accepted the one-hand sword appearance and subsequently confirmed the strict weapon type restrictions in game."
+    },
+    "25063": {
+      "status": "manual_check_recorded",
+      "note": "Manual review accepted the two-hand sword appearance and subsequently confirmed the strict weapon type restrictions after the one-hand compatibility defect was corrected."
+    },
+    "25188": {
+      "status": "manual_check_recorded",
+      "note": "After oblique captures reproduced rear faces overwriting front-face texture, camera-depth triangle ordering corrected the red sphere. Recorded manual checks show the corrected sphere in game after the requested camera-rotation retest."
+    },
+    "25316": {
+      "status": "manual_check_recorded",
+      "note": "Manual review accepted the bow appearance in the focused weapon round."
+    },
+    "25432": {
+      "status": "manual_check_recorded",
+      "note": "Manual review accepted the dual-dagger appearance in the focused weapon round."
+    },
+    "25161": {
+      "status": "manual_check_recorded",
+      "note": "After the head-composition correction, recorded manual checks show the normal face with costume pigtails while standing and walking, without duplicate normal hair, and restoration of the normal head on removal."
+    },
+    "25174": {
+      "status": "manual_check_recorded",
+      "note": "After the head-composition correction, recorded manual checks show the pale costume face and dark hair while standing and walking, and restoration of the normal head on removal."
+    },
+    "25283": {
+      "status": "appearance_confirmed",
+      "note": "Recorded manual checks show this is a full-body appearance and that its hat and hair look correct. Restoration on removal was not reported separately."
+    },
+    "25418": {
+      "status": "manual_check_recorded",
+      "note": "After local runtime assets were completed, recorded manual checks show visible armor and working removal. After removing the incorrect complete-face flag and generator exception for group 189, additional manual checks show the normal face is now correct. Official costume classification remains unresolved."
+    },
+    "25135": {
+      "status": "manual_check_recorded",
+      "note": "Explicit two-hand labeling in local material metadata supports the sword2h classification for model 100-05. Sampled idle/walk/two-hand attack front/back captures rendered; subsequent manual checks show correct appearance during idle/walking/attacks and restoration of the actual weapon on removal. No official item name is assigned."
+    },
+    "25143": {
+      "status": "manual_check_recorded",
+      "note": "Explicit one-hand labeling in local material metadata supports the sword classification for model 109-01. Sampled idle/walk/one-hand attack front/back captures rendered; subsequent manual checks show correct appearance during idle/walking/attacks and restoration of the actual weapon on removal. No official item name is assigned."
+    },
+    "25048": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25049": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25051": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25052": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25054": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25055": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25056": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25057": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25058": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25059": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25060": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25061": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25073": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25077": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25080": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25091": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25092": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25093": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25096": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25097": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25109": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25115": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25117": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25118": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25128": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25130": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25131": {
+      "status": "template_verified",
+      "note": "Type assigned from a named reference with byte-identical decoded non-effect mesh positions and triangle indices. The active-pack audit checks reviewed shape fingerprints and class/slot/model guards. Idle/walking/corresponding-attack front/back samples were reviewed; no gross missing or detached weapon appeared. Not an manual gameplay check or verification of every animation/effect."
+    },
+    "25108": {
+      "status": "appearance_confirmed",
+      "note": "Manual review accepted this OpenKal compatibility representative in the requested two-item round with \"looks good\". Individual animation actions, opposite-type rejection and removal were not reported separately. Reference category remains unverified."
+    },
+    "25132": {
+      "status": "appearance_confirmed",
+      "note": "Manual review accepted this OpenKal compatibility representative in the requested two-item round with \"looks good\". Individual animation actions, opposite-type rejection and removal were not reported separately. Reference category remains unverified."
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "index": 25156,
+  "name": "Top Hat Skull Head Skin (Magician)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "helmet"
+  ],
+  "action": [12, 1],
+  "skin": {
+    "costume_mesh": true
+  },
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the helmet skin slot. No combat bonuses. OpenKal descriptive name; model magician/helmet 12-01."
+}

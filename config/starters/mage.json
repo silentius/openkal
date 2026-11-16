@@ -1,0 +1,8 @@
+{
+  "_doc": "Starter equipment for Magician (class 1). Merged with common.json. Granted once per character; all item instances are character-bound. item_id is item definition index.",
+  "class_id": 1,
+  "class_name": "Magician",
+  "items": [
+    { "item_id": 90, "prefix": 0, "count": 1, "equipped": true }
+  ]
+}

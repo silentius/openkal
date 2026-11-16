@@ -1,0 +1,9 @@
+{
+  "id": 990330,
+  "caption": "Castle Guard",
+  "lines": ["Guild and alliance leaders can register their side as attackers during the declaration period."],
+  "links": [
+    { "type": "quest", "quest": [64990, 1], "text": "Declare an attack." },
+    { "type": "close", "text": "End conversation." }
+  ]
+}

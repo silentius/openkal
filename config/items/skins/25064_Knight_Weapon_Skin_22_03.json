@@ -1,0 +1,20 @@
+{
+  "index": 25064,
+  "name": "Sovereign Stormforged Sword Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [22, 3],
+  "skin": {"weapon_type": "sword"},
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses."
+}

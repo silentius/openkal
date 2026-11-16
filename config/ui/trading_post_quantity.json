@@ -1,0 +1,308 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "trading_post_quantity",
+  "kind": "window",
+  "window": {
+    "w": 280,
+    "h": 216,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "fill",
+      "id": "quantity_panel",
+      "x": -4,
+      "y": -1,
+      "w": 280,
+      "h": 166,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_top",
+      "x": -4,
+      "y": -1,
+      "w": 280,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_bottom",
+      "x": -4,
+      "y": 164,
+      "w": 280,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_left",
+      "x": -4,
+      "y": 0,
+      "w": 1,
+      "h": 164,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_right",
+      "x": 275,
+      "y": 0,
+      "w": 1,
+      "h": 164,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field",
+      "x": 96,
+      "y": 58,
+      "w": 80,
+      "h": 30,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_top",
+      "x": 96,
+      "y": 58,
+      "w": 80,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_bottom",
+      "x": 96,
+      "y": 87,
+      "w": 80,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_left",
+      "x": 96,
+      "y": 59,
+      "w": 1,
+      "h": 28,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_right",
+      "x": 175,
+      "y": 59,
+      "w": 1,
+      "h": 28,
+      "color": "#4D4233"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${trading_post.quantity_title}",
+      "pixel_size": 13
+    },
+    {
+      "type": "image",
+      "id": "quantity_panel_texture",
+      "file": "dragon_dialog/panel_background.bmp",
+      "x": -4,
+      "y": -1,
+      "w": 280,
+      "h": 166
+    },
+    {
+      "type": "text",
+      "id": "quantity_prompt",
+      "x": 136,
+      "y": 25,
+      "align": "center",
+      "text": "${trading_post.quantity_prompt}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_decrease",
+      "x": 27,
+      "y": 58,
+      "w": 42,
+      "h": 28,
+      "label": "-",
+      "action": "trading_post.quantity.decrease",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "input",
+      "id": "quantity",
+      "x": 101,
+      "y": 64,
+      "w": 70,
+      "h": 20,
+      "align": "center",
+      "bind": "trading_post.quantity",
+      "color": "${theme.colors.value}",
+      "text": "${trading_post.quantity}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_increase",
+      "x": 203,
+      "y": 58,
+      "w": 42,
+      "h": 28,
+      "label": "+",
+      "action": "trading_post.quantity.increase",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_add10",
+      "x": 12,
+      "y": 93,
+      "w": 56,
+      "h": 22,
+      "label": "10",
+      "action": "trading_post.quantity.add10",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_add100",
+      "x": 76,
+      "y": 93,
+      "w": 56,
+      "h": 22,
+      "label": "100",
+      "action": "trading_post.quantity.add100",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_add1000",
+      "x": 140,
+      "y": 93,
+      "w": 56,
+      "h": 22,
+      "label": "1000",
+      "action": "trading_post.quantity.add1000",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_max",
+      "x": 204,
+      "y": 93,
+      "w": 56,
+      "h": 22,
+      "label": "Max",
+      "action": "trading_post.quantity.max",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_cancel",
+      "x": 26,
+      "y": 128,
+      "w": 88,
+      "h": 28,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "Cancel",
+      "action": "trading_post.quantity.cancel",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_confirm",
+      "x": 158,
+      "y": 128,
+      "w": 88,
+      "h": 28,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "Confirm",
+      "action": "trading_post.quantity.confirm",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "unit_price",
+      "x": 140,
+      "y": 172,
+      "text": "${trading_post.quantity_unit_price:geons}",
+      "pixel_size": 13,
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "total",
+      "x": 140,
+      "y": 194,
+      "text": "${trading_post.quantity_total:geons}",
+      "pixel_size": 13,
+      "align": "center"
+    }
+  ]
+}

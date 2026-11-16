@@ -1,0 +1,845 @@
+# Skin test items
+
+Project-defined cosmetic item definitions. Names use curated community annotations
+where available; eight former Game Master labels have project-authored fantasy names,
+and 737 other names are OpenKal visual descriptions. The
+three appearances with missing textures retain their technical labels. Descriptive
+names are not verified legacy item names; their model keys remain in each item
+description and in [descriptive-names.json](../config/skins/descriptive-names.json).
+See [SkinCatalogAudit.md](SkinCatalogAudit.md) for name sources and confidence.
+All items require optional compatible client assets.
+Weapon skins additionally require a matching real weapon type. The initial 101 Knight
+costume weapon models are classified; the 27 template-based assignments and their references are
+recorded in [weapon-templates.json](../config/skins/weapon-templates.json).
+Sixty OpenKal choices (23 one-hand, 37 two-hand) are recorded separately
+in [weapon-compatibility.json](../config/skins/weapon-compatibility.json). These
+OpenKal grip/pose choices do not establish the reference weapon types.
+The later grade, Darkness, G56 and G59 expansions add 53 explicitly typed Knight weapon
+appearances; see [EquipmentSkinCatalog.md](EquipmentSkinCatalog.md).
+Use `/getitemid INDEX 0 1` to grant one item, then double-click it or drag it to
+the matching skin slot. See [Skins.md](Skins.md) for whole-body replacement rules.
+
+## Knight
+
+- **25000** — Swimsuit (Knight) (`body`).
+- **25001** — New Swimsuit (Knight) (`body`).
+- **25002** — Sexy Swimsuit (Knight) (`body`).
+- **25003** — Blue Formal Costume (Knight) (`body`).
+- **25004** — Black Formal Costume (Knight) (`body`).
+- **25005** — Pumpkin Head Skin (Knight) (`helmet`, costume mesh).
+- **25006** — Halloween Formal Costume (Knight) (`body`).
+- **25007** — Midnight Masquerade Outfit Skin (Knight) (`body`).
+- **25008** — Happy Christmas Santa Costume (Knight) (`body`).
+- **25009** — Hanbok Costume (Knight) (`body`).
+- **25010** — Mong-Nyong Costume (Knight) (`body`).
+- **25011** — Top Hat Skull Head Skin (Knight) (`helmet`, costume mesh).
+- **25012** — Melon Head Skin (Knight) (`helmet`, costume mesh).
+- **25013** — Burgundy Summer Outfit Skin (Knight) (`body`).
+- **25014** — Black Summer Outfit Skin (Knight) (`body`).
+- **25015** — Azure Skin Summer Outfit Skin (Knight) (`body`).
+- **25016** — Violet Gold Tailcoat Skin (Knight) (`body`).
+- **25017** — Midnight Violet Tailcoat Skin (Knight) (`body`).
+- **25018** — Blue Plume Armor Skin (Knight) (`body`).
+- **25019** — Red Plume Armor Skin (Knight) (`body`).
+- **25020** — Dark Casual Outfit Skin (Knight) (`body`).
+- **25021** — Sky Blue Holiday Outfit Skin (Knight) (`body`).
+- **25022** — Red Scarf Traveler Outfit Skin (Knight) (`body`).
+- **25023** — Blue Scarf Traveler Outfit Skin (Knight) (`body`).
+- **25024** — Black Evening Suit Skin (Knight) (`body`).
+- **25025** — Rose Evening Suit Skin (Knight) (`body`).
+- **25026** — Cyan Holiday Outfit Skin (Knight) (`body`).
+- **25027** — Monochrome Naval Outfit Skin (Knight) (`body`).
+- **25028** — Azure Gold Naval Outfit Skin (Knight) (`body`).
+- **25029** — Pale Undead Outfit Skin (Knight) (`body`).
+- **25030** — Red Eyed Undead Outfit Skin (Knight) (`body`).
+- **25037** — Azure Silver Greaves Skin (Knight) (`boots`).
+- **25038** — Scarred Face Skin (Knight) (`face`).
+- **25039** — Leather Bracers Skin (Knight) (`gauntlet`).
+- **25040** — Iron Mail Helmet Skin (Knight) (`helmet`).
+- **25041** — Chainmail Leggings Skin (Knight) (`pants`).
+- **25042** — Golden Horn Shield Skin (Knight) (`shield`).
+- **25043** — Studded Mail Armor Skin (Knight) (`upper`).
+- **25467** — Iron Mail Boots Skin (Knight) (`boots`, completes model 01-01 set).
+- **25468** — Azure Silver Helmet Skin (Knight) (`helmet`, model 14-01 set).
+- **25469** — Azure Silver Armor Skin (Knight) (`upper`, model 14-01 set).
+- **25470** — Azure Silver Gauntlets Skin (Knight) (`gauntlet`, model 14-01 set).
+- **25471** — Azure Silver Leggings Skin (Knight) (`pants`, model 14-01 set).
+- **25044** — Amber Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25045** — Amber Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25046** — Ember Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25047** — Ember Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25048** — Azure Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25049** — Azure Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25050** — Prism Crystal Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25051** — Ivory Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25052** — Ivory Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25053** — Midnight Serrated Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25054** — Obsidian Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25055** — Obsidian Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25056** — Scarlet Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25057** — Scarlet Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25058** — Violet Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25059** — Violet Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25060** — Crimson Gold Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25061** — Ember Silver Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25062** — Stormforged Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25063** — Stormforged Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25064** — Sovereign Stormforged Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25065** — Sovereign Stormforged Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25066** — Cobalt Silver Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25067** — Violet Silver Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25068** — Azure Silver Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25069** — Azure Silver Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25070** — Teddy Bear Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25071** — Crimson Wing Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25072** — Scarlet Wing Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25073** — Panda Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25074** — Golden Sawtooth Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25075** — Bone Spine Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25076** — Skull Spine Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25077** — Violet Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25078** — Golden Flame Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25079** — Ember Fang Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25080** — Black Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25081** — Molten Stone Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25082** — Cinder Talon Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25083** — Azure Rune Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25084** — Crimson Katana Skin (Knight) (`weapon`, two-hand sword).
+- **25085** — Scarlet Katana Skin (Knight) (`weapon`, two-hand sword).
+- **25086** — Silver Longblade Skin (Knight) (`weapon`, one-hand sword).
+- **25087** — Feather Charm Katana Skin (Knight) (`weapon`, two-hand sword).
+- **25088** — Rose Crystal Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25089** — Silver Crystal Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25090** — Golden Rune Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25091** — Crimson Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25092** — Crimson Gold Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25093** — Scarlet Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25094** — Golden Rune Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25095** — Violet Wing Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25096** — Crimson Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25097** — Crimson Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25098** — Frost Jagged Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25099** — Violet Split Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25100** — White Fencing Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25101** — Ivory Forked Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25102** — Ivory Crystal Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25103** — Spiked Prism Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25104** — Fire Wrapped Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25105** — Bone Fang Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25106** — Emerald Rune Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25107** — Violet Fang Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25108** — Silver Fencing Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25109** — Violet Silver Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25110** — Violet Silver Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25111** — Ashen Fang Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25112** — Ashen Sawtooth Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25113** — Ice Compass Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25114** — Frozen Wing Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25115** — Crimson Silver Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25116** — Crimson Silver Cleaver Skin (Knight) (`weapon`, two-hand sword).
+- **25117** — Crimson Silver Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25118** — Crimson Silver Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25119** — Crimson Crescent Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25120** — Violet Crescent Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25121** — Jade Katana Skin (Knight) (`weapon`, two-hand sword).
+- **25122** — Azure Rune Fang Skin (Knight) (`weapon`, one-hand sword).
+- **25123** — Cobalt Rune Fang Skin (Knight) (`weapon`, two-hand sword).
+- **25124** — Obsidian Claw Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25125** — Bone Claw Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25126** — Silver Knight Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25127** — Jade Dragon Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25128** — Obsidian Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25129** — Ember Dragon Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25130** — Ashen Dragon Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25131** — Ashen Dragon Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25132** — Wooden Bat Skin (Knight) (`weapon`, two-hand sword).
+- **25133** — Crimson Hook Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25134** — Emerald Fang Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25135** — Black Ember Greatsword Skin (Knight) (`weapon`, two-hand sword).
+- **25136** — Golden Sun Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25137** — Violet Talon Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25138** — Emerald Shard Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25139** — Frozen Shard Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25140** — Violet Barbed Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25141** — Black Gold Blade Skin (Knight) (`weapon`, two-hand sword).
+- **25142** — Scarlet Flame Blade Skin (Knight) (`weapon`, one-hand sword).
+- **25143** — Crimson Flame Sword Skin (Knight) (`weapon`, one-hand sword).
+- **25144** — Golden Lion Blade Skin (Knight) (`weapon`, two-hand sword).
+
+
+### Grade and Darkness appearances
+
+- **25487** — G16 Helmet Skin (Knight) (`helmet`).
+- **25488** — G16 Armor Skin (Knight) (`upper`).
+- **25489** — G16 Gloves Skin (Knight) (`gauntlet`).
+- **25490** — G16 Leggings Skin (Knight) (`pants`).
+- **25491** — G16 Boots Skin (Knight) (`boots`).
+- **25492** — G24 Helmet Skin (Knight) (`helmet`).
+- **25493** — G24 Armor Skin (Knight) (`upper`).
+- **25494** — G24 Gloves Skin (Knight) (`gauntlet`).
+- **25495** — G24 Leggings Skin (Knight) (`pants`).
+- **25496** — G24 Boots Skin (Knight) (`boots`).
+- **25497** — G32 Helmet Skin (Knight) (`helmet`).
+- **25498** — G32 Armor Skin (Knight) (`upper`).
+- **25499** — G32 Gloves Skin (Knight) (`gauntlet`).
+- **25500** — G32 Leggings Skin (Knight) (`pants`).
+- **25501** — G32 Boots Skin (Knight) (`boots`).
+- **25502** — G42 Helmet Skin (Knight) (`helmet`).
+- **25503** — G42 Armor Skin (Knight) (`upper`).
+- **25504** — G42 Gloves Skin (Knight) (`gauntlet`).
+- **25505** — G42 Leggings Skin (Knight) (`pants`).
+- **25506** — G42 Boots Skin (Knight) (`boots`).
+- **25507** — G46 Helmet Skin (Knight) (`helmet`).
+- **25508** — G46 Armor Skin (Knight) (`upper`).
+- **25509** — G46 Gloves Skin (Knight) (`gauntlet`).
+- **25510** — G46 Leggings Skin (Knight) (`pants`).
+- **25511** — G46 Boots Skin (Knight) (`boots`).
+- **25512** — G50 Helmet Skin (Knight) (`helmet`).
+- **25513** — G50 Armor Skin (Knight) (`upper`).
+- **25514** — G50 Gloves Skin (Knight) (`gauntlet`).
+- **25515** — G50 Leggings Skin (Knight) (`pants`).
+- **25516** — G50 Boots Skin (Knight) (`boots`).
+- **25517** — G55 Helmet Skin (Knight) (`helmet`).
+- **25518** — G55 Armor Skin (Knight) (`upper`).
+- **25519** — G55 Gloves Skin (Knight) (`gauntlet`).
+- **25520** — G55 Leggings Skin (Knight) (`pants`).
+- **25521** — G55 Boots Skin (Knight) (`boots`).
+- **25522** — Helmet of Darkness Skin (Knight) (`helmet`).
+- **25523** — Armor of Darkness Skin (Knight) (`upper`).
+- **25524** — Gloves of Darkness Skin (Knight) (`gauntlet`).
+- **25525** — Leggings of Darkness Skin (Knight) (`pants`).
+- **25526** — Boots of Darkness Skin (Knight) (`boots`).
+- **25527** — G1 Sword 01-01 Skin (Knight) (`weapon, sword`).
+- **25528** — G5 Sword 02-01 Skin (Knight) (`weapon, sword`).
+- **25529** — G9 Sword 02-02 Skin (Knight) (`weapon, sword`).
+- **25530** — G13 Sword 03-01 Skin (Knight) (`weapon, sword`).
+- **25531** — G17 Sword 03-02 Skin (Knight) (`weapon, sword`).
+- **25532** — G21 Sword 03-03 Skin (Knight) (`weapon, sword`).
+- **25533** — G25 Sword 04-01 Skin (Knight) (`weapon, sword`).
+- **25534** — G29 Sword 04-02 Skin (Knight) (`weapon, sword`).
+- **25535** — G33 Sword 04-03 Skin (Knight) (`weapon, sword`).
+- **25536** — G37 Sword 05-01 Skin (Knight) (`weapon, sword`).
+- **25537** — G40 Sword 05-02 Skin (Knight) (`weapon, sword`).
+- **25538** — G40 Sword 05-03 Skin (Knight) (`weapon, sword`).
+- **25539** — G40 Sword 06-01 Skin (Knight) (`weapon, sword`).
+- **25540** — G45 Sword 06-02 Skin (Knight) (`weapon, sword`).
+- **25541** — G45 Sword 06-03 Skin (Knight) (`weapon, sword`).
+- **25542** — G48 Sword 06-04 Skin (Knight) (`weapon, sword`).
+- **25543** — G48 Sword 06-05 Skin (Knight) (`weapon, sword`).
+- **25544** — G50 Sword 07-01 Skin (Knight) (`weapon, sword`).
+- **25545** — G50 Sword 07-02 Skin (Knight) (`weapon, sword`).
+- **25546** — G50 Sword 07-03 Skin (Knight) (`weapon, sword`).
+- **25547** — G50 Sword 07-04 Skin (Knight) (`weapon, sword`).
+- **25548** — G50 Greatsword 08-01 Skin (Knight) (`weapon, sword2h`).
+- **25549** — G50 Greatsword 08-02 Skin (Knight) (`weapon, sword2h`).
+- **25550** — G50 Greatsword 08-03 Skin (Knight) (`weapon, sword2h`).
+- **25551** — G50 Greatsword 08-04 Skin (Knight) (`weapon, sword2h`).
+- **25552** — G53 Sword 09-01 Skin (Knight) (`weapon, sword`).
+- **25553** — G53 Sword 09-02 Skin (Knight) (`weapon, sword`).
+- **25554** — G53 Sword 09-03 Skin (Knight) (`weapon, sword`).
+- **25555** — G53 Sword 09-04 Skin (Knight) (`weapon, sword`).
+- **25556** — G53 Greatsword 10-01 Skin (Knight) (`weapon, sword2h`).
+- **25557** — G53 Greatsword 10-02 Skin (Knight) (`weapon, sword2h`).
+- **25558** — G53 Greatsword 10-03 Skin (Knight) (`weapon, sword2h`).
+- **25559** — G53 Greatsword 10-04 Skin (Knight) (`weapon, sword2h`).
+- **25560** — Sword of Darkness Skin (Knight) (`weapon, sword`).
+- **25561** — Greatsword of Darkness Skin (Knight) (`weapon, sword2h`).
+- **25562** — Treasure Sword of Darkness Skin (Knight) (`weapon, sword`).
+- **25563** — Treasure Greatsword of Darkness Skin (Knight) (`weapon, sword2h`).
+- **25564** — G10 Shield Skin (Knight) (`shield`).
+- **25565** — G17 Shield Skin (Knight) (`shield`).
+- **25566** — G25 Shield Skin (Knight) (`shield`).
+- **25567** — G30 Shield Skin (Knight) (`shield`).
+- **25568** — G35 Shield Skin (Knight) (`shield`).
+- **25569** — G40 Shield Skin (Knight) (`shield`).
+- **25570** — G53 Shield Skin (Knight) (`shield`).
+- **25571** — G44 Shield Skin (Knight) (`shield`).
+- **25572** — G48 Shield Skin (Knight) (`shield`).
+- **25573** — G52 Shield Skin (Knight) (`shield`).
+- **25574** — G55 Shield Skin (Knight) (`shield`).
+- **25575** — Shield of Darkness Skin (Knight) (`shield`).
+- **25771** — G56 Sword 13-01 Skin (Knight) (`weapon`, sword).
+- **25772** — G56 Sword 13-02 Skin (Knight) (`weapon`, sword).
+- **25773** — G56 Sword 13-03 Skin (Knight) (`weapon`, sword).
+- **25774** — G56 Sword 13-04 Skin (Knight) (`weapon`, sword).
+- **25775** — G56 Greatsword 14-01 Skin (Knight) (`weapon`, sword2h).
+- **25776** — G56 Greatsword 14-02 Skin (Knight) (`weapon`, sword2h).
+- **25777** — G56 Greatsword 14-03 Skin (Knight) (`weapon`, sword2h).
+- **25778** — G56 Greatsword 14-04 Skin (Knight) (`weapon`, sword2h).
+- **25790** — G59 Sword 11-01 Skin (Knight) (`weapon`, sword).
+- **25791** — G59 Sword 11-02 Skin (Knight) (`weapon`, sword).
+- **25792** — G59 Sword 11-03 Skin (Knight) (`weapon`, sword).
+- **25793** — G59 Sword 11-04 Skin (Knight) (`weapon`, sword).
+- **25794** — G59 Greatsword 12-01 Skin (Knight) (`weapon`, sword2h).
+- **25795** — G59 Greatsword 12-02 Skin (Knight) (`weapon`, sword2h).
+- **25796** — G59 Greatsword 12-03 Skin (Knight) (`weapon`, sword2h).
+- **25797** — G59 Greatsword 12-04 Skin (Knight) (`weapon`, sword2h).
+
+## Magician
+
+- **25145** — Swimsuit (Magician) (`body`).
+- **25146** — New Swimsuit (Magician) (`body`).
+- **25147** — Sexy Swimsuit (Magician) (`body`).
+- **25148** — Blue Formal Costume (Magician) (`body`).
+- **25149** — Black Formal Costume (Magician) (`body`).
+- **25150** — Pumpkin Head Skin (Magician) (`helmet`, costume mesh).
+- **25151** — Halloween Formal Costume (Magician) (`body`).
+- **25152** — Midnight Masquerade Outfit Skin (Magician) (`body`).
+- **25153** — Happy Christmas Santa Costume (Magician) (`body`).
+- **25154** — Hanbok Costume (Magician) (`body`).
+- **25155** — Choon-Hyang Costume (Magician) (`body`).
+- **25156** — Top Hat Skull Head Skin (Magician) (`helmet`, costume mesh).
+- **25157** — Melon Head Skin (Magician) (`helmet`, costume mesh).
+- **25158** — Burgundy Summer Outfit Skin (Magician) (`body`).
+- **25159** — Black Summer Outfit Skin (Magician) (`body`).
+- **25160** — Magician Body Skin 15-05 (`body`).
+- **25161** — Violet Layered Outfit Skin (Magician) (`body`).
+- **25162** — Midnight Layered Outfit Skin (Magician) (`body`).
+- **25163** — Blue Plume Armor Skin (Magician) (`body`).
+- **25164** — Red Plume Armor Skin (Magician) (`body`).
+- **25165** — White Blouse Outfit Skin (Magician) (`body`).
+- **25166** — Sky Blue Blouse Outfit Skin (Magician) (`body`).
+- **25167** — Azure Traveler Outfit Skin (Magician) (`body`).
+- **25168** — Crimson Traveler Outfit Skin (Magician) (`body`).
+- **25169** — Black Cat Evening Dress Skin (Magician) (`body`).
+- **25170** — Rose Cat Evening Dress Skin (Magician) (`body`).
+- **25171** — Cyan Swimwear Skin (Magician) (`body`).
+- **25172** — Monochrome Naval Outfit Skin (Magician) (`body`).
+- **25173** — Azure Gold Naval Outfit Skin (Magician) (`body`).
+- **25174** — Pale Haunted Dress Skin (Magician) (`body`).
+- **25175** — Red Eyed Haunted Dress Skin (Magician) (`body`).
+- **25182** — Azure Silver Boots Skin (Magician) (`boots`).
+- **25183** — Soft Makeup Face Skin (Magician) (`face`).
+- **25184** — Ribbon Wrist Wraps Skin (Magician) (`gauntlet`).
+- **25185** — Long Brown Braids Skin (Magician) (`helmet`).
+- **25186** — Brown Gold Trousers Skin (Magician) (`pants`).
+- **25187** — Brown Ribbon Tunic Skin (Magician) (`upper`).
+- **25472** — Brown Ribbon Shoes Skin (Magician) (`boots`, model 01-01 set).
+- **25473** — Azure Silver Crown Skin (Magician) (`helmet`, model 14-01 set).
+- **25474** — Azure Silver Armor Skin (Magician) (`upper`, model 14-01 set).
+- **25475** — Azure Silver Gauntlets Skin (Magician) (`gauntlet`, model 14-01 set).
+- **25476** — Azure Silver Leggings Skin (Magician) (`pants`, model 14-01 set).
+- **25188** — Ruby Orb Staff Skin (Magician) (`weapon`).
+- **25189** — Ruby Crown Staff Skin (Magician) (`weapon`).
+- **25190** — Golden Paddle Staff Skin (Magician) (`weapon`).
+- **25191** — Azure Orb Staff Skin (Magician) (`weapon`).
+- **25192** — Ivory Orb Staff Skin (Magician) (`weapon`).
+- **25193** — Obsidian Orb Staff Skin (Magician) (`weapon`).
+- **25194** — Scarlet Orb Staff Skin (Magician) (`weapon`).
+- **25195** — Violet Orb Staff Skin (Magician) (`weapon`).
+- **25196** — Golden Crest Staff Skin (Magician) (`weapon`).
+- **25197** — Violet Wing Staff Skin (Magician) (`weapon`).
+- **25198** — Violet Wing Crown Staff Skin (Magician) (`weapon`).
+- **25199** — Crimson Crystal Staff Skin (Magician) (`weapon`).
+- **25200** — Crimson Batwing Staff Skin (Magician) (`weapon`).
+- **25201** — Azure Crest Staff Skin (Magician) (`weapon`).
+- **25202** — Cobalt Crest Staff Skin (Magician) (`weapon`).
+- **25203** — Ivory Crest Staff Skin (Magician) (`weapon`).
+- **25204** — Azure Talisman Staff Skin (Magician) (`weapon`).
+- **25205** — Cobalt Talisman Staff Skin (Magician) (`weapon`).
+- **25206** — Ivory Talisman Staff Skin (Magician) (`weapon`).
+- **25207** — Frost Feather Staff Skin (Magician) (`weapon`).
+- **25208** — Teddy Bear Staff Skin (Magician) (`weapon`).
+- **25209** — Crimson Wing Staff Skin (Magician) (`weapon`).
+- **25210** — Scarlet Wing Staff Skin (Magician) (`weapon`).
+- **25211** — Panda Staff Skin (Magician) (`weapon`).
+- **25212** — Skull Spine Staff Skin (Magician) (`weapon`).
+- **25213** — Violet Dragon Staff Skin (Magician) (`weapon`).
+- **25214** — Silver Dragon Staff Skin (Magician) (`weapon`).
+- **25215** — Golden Flame Staff Skin (Magician) (`weapon`).
+- **25216** — Molten Stone Staff Skin (Magician) (`weapon`).
+- **25217** — Azure Rune Staff Skin (Magician) (`weapon`).
+- **25218** — Crimson Scythe Staff Skin (Magician) (`weapon`).
+- **25219** — Scarlet Crystal Staff Skin (Magician) (`weapon`).
+- **25220** — Feather Charm Staff Skin (Magician) (`weapon`).
+- **25221** — Rose Crystal Staff Skin (Magician) (`weapon`).
+- **25222** — Silver Crystal Staff Skin (Magician) (`weapon`).
+- **25223** — Golden Lotus Staff Skin (Magician) (`weapon`).
+- **25224** — Turquoise Orb Staff Skin (Magician) (`weapon`).
+- **25225** — Scarlet Dragon Staff Skin (Magician) (`weapon`).
+- **25226** — Turquoise Crown Staff Skin (Magician) (`weapon`).
+- **25227** — Turquoise Talisman Staff Skin (Magician) (`weapon`).
+- **25228** — Scarlet Orb Crown Staff Skin (Magician) (`weapon`).
+- **25229** — Golden Star Staff Skin (Magician) (`weapon`).
+- **25230** — Crimson Silver Orb Staff Skin (Magician) (`weapon`).
+- **25231** — Ivory Crescent Staff Skin (Magician) (`weapon`).
+- **25232** — Golden Prism Staff Skin (Magician) (`weapon`).
+- **25233** — Violet Prism Staff Skin (Magician) (`weapon`).
+- **25234** — Jade Wing Staff Skin (Magician) (`weapon`).
+- **25235** — Blood Wing Staff Skin (Magician) (`weapon`).
+- **25236** — Bronze Wing Staff Skin (Magician) (`weapon`).
+- **25237** — Crimson Crest Staff Skin (Magician) (`weapon`).
+- **25238** — Crimson Crest Crown Staff Skin (Magician) (`weapon`).
+- **25239** — Crimson Silver Crest Staff Skin (Magician) (`weapon`).
+- **25240** — Crimson Talisman Staff Skin (Magician) (`weapon`).
+- **25241** — Crimson Crown Talisman Staff Skin (Magician) (`weapon`).
+- **25242** — Crimson Silver Talisman Staff Skin (Magician) (`weapon`).
+- **25243** — Violet Crystal Staff Skin (Magician) (`weapon`).
+- **25244** — Azure Flame Staff Skin (Magician) (`weapon`).
+- **25245** — Silver Flame Staff Skin (Magician) (`weapon`).
+- **25246** — Ember Sun Staff Skin (Magician) (`weapon`).
+- **25247** — Ember Sun Crown Staff Skin (Magician) (`weapon`).
+- **25248** — Ember Sun Talisman Staff Skin (Magician) (`weapon`).
+- **25249** — Ashen Orb Staff Skin (Magician) (`weapon`).
+- **25250** — Crimson Crystal Scepter Skin (Magician) (`weapon`).
+- **25251** — Emerald Wing Staff Skin (Magician) (`weapon`).
+- **25252** — Crimson Crescent Staff Skin (Magician) (`weapon`).
+- **25253** — Golden Flame Scepter Skin (Magician) (`weapon`).
+- **25254** — Violet Shard Staff Skin (Magician) (`weapon`).
+- **25255** — Emerald Rose Staff Skin (Magician) (`weapon`).
+- **25256** — Frozen Shard Staff Skin (Magician) (`weapon`).
+- **25257** — Violet Claw Staff Skin (Magician) (`weapon`).
+- **25258** — Obsidian Serpent Staff Skin (Magician) (`weapon`).
+- **25259** — Crimson Shard Staff Skin (Magician) (`weapon`).
+- **25260** — Golden Wing Staff Skin (Magician) (`weapon`).
+
+
+### Grade and Darkness appearances
+
+- **25576** — G16 Helmet Skin (Magician) (`helmet`).
+- **25577** — G16 Armor Skin (Magician) (`upper`).
+- **25578** — G16 Gloves Skin (Magician) (`gauntlet`).
+- **25579** — G16 Leggings Skin (Magician) (`pants`).
+- **25580** — G16 Boots Skin (Magician) (`boots`).
+- **25581** — G24 Helmet Skin (Magician) (`helmet`).
+- **25582** — G24 Armor Skin (Magician) (`upper`).
+- **25583** — G24 Gloves Skin (Magician) (`gauntlet`).
+- **25584** — G24 Leggings Skin (Magician) (`pants`).
+- **25585** — G24 Boots Skin (Magician) (`boots`).
+- **25586** — G32 Helmet Skin (Magician) (`helmet`).
+- **25587** — G32 Armor Skin (Magician) (`upper`).
+- **25588** — G32 Gloves Skin (Magician) (`gauntlet`).
+- **25589** — G32 Leggings Skin (Magician) (`pants`).
+- **25590** — G32 Boots Skin (Magician) (`boots`).
+- **25591** — G42 Helmet Skin (Magician) (`helmet`).
+- **25592** — G42 Armor Skin (Magician) (`upper`).
+- **25593** — G42 Gloves Skin (Magician) (`gauntlet`).
+- **25594** — G42 Leggings Skin (Magician) (`pants`).
+- **25595** — G42 Boots Skin (Magician) (`boots`).
+- **25596** — G46 Helmet Skin (Magician) (`helmet`).
+- **25597** — G46 Armor Skin (Magician) (`upper`).
+- **25598** — G46 Gloves Skin (Magician) (`gauntlet`).
+- **25599** — G46 Leggings Skin (Magician) (`pants`).
+- **25600** — G46 Boots Skin (Magician) (`boots`).
+- **25601** — G50 Helmet Skin (Magician) (`helmet`).
+- **25602** — G50 Armor Skin (Magician) (`upper`).
+- **25603** — G50 Gloves Skin (Magician) (`gauntlet`).
+- **25604** — G50 Leggings Skin (Magician) (`pants`).
+- **25605** — G50 Boots Skin (Magician) (`boots`).
+- **25606** — G55 Helmet Skin (Magician) (`helmet`).
+- **25607** — G55 Armor Skin (Magician) (`upper`).
+- **25608** — G55 Gloves Skin (Magician) (`gauntlet`).
+- **25609** — G55 Leggings Skin (Magician) (`pants`).
+- **25610** — G55 Boots Skin (Magician) (`boots`).
+- **25611** — Helmet of Darkness Skin (Magician) (`helmet`).
+- **25612** — Armor of Darkness Skin (Magician) (`upper`).
+- **25613** — Gloves of Darkness Skin (Magician) (`gauntlet`).
+- **25614** — Leggings of Darkness Skin (Magician) (`pants`).
+- **25615** — Boots of Darkness Skin (Magician) (`boots`).
+- **25616** — G1 Staff 01-01 Skin (Magician) (`weapon, wand`).
+- **25617** — G5 Staff 02-01 Skin (Magician) (`weapon, wand`).
+- **25618** — G9 Staff 02-02 Skin (Magician) (`weapon, wand`).
+- **25619** — G13 Staff 03-01 Skin (Magician) (`weapon, wand`).
+- **25620** — G17 Staff 03-02 Skin (Magician) (`weapon, wand`).
+- **25621** — G21 Staff 03-03 Skin (Magician) (`weapon, wand`).
+- **25622** — G25 Staff 04-01 Skin (Magician) (`weapon, wand`).
+- **25623** — G29 Staff 04-02 Skin (Magician) (`weapon, wand`).
+- **25624** — G33 Staff 04-03 Skin (Magician) (`weapon, wand`).
+- **25625** — G37 Staff 05-01 Skin (Magician) (`weapon, wand`).
+- **25626** — G40 Staff 05-02 Skin (Magician) (`weapon, wand`).
+- **25627** — G40 Staff 05-03 Skin (Magician) (`weapon, wand`).
+- **25628** — G40 Staff 06-01 Skin (Magician) (`weapon, wand`).
+- **25629** — G45 Staff 06-02 Skin (Magician) (`weapon, wand`).
+- **25630** — G45 Staff 06-03 Skin (Magician) (`weapon, wand`).
+- **25631** — G48 Staff 06-04 Skin (Magician) (`weapon, wand`).
+- **25632** — G48 Staff 06-05 Skin (Magician) (`weapon, wand`).
+- **25633** — G50 Staff 07-01 Skin (Magician) (`weapon, wand`).
+- **25634** — G50 Staff 07-02 Skin (Magician) (`weapon, wand`).
+- **25635** — G50 Staff 07-03 Skin (Magician) (`weapon, wand`).
+- **25636** — G50 Staff 07-04 Skin (Magician) (`weapon, wand`).
+- **25637** — G53 Staff 08-01 Skin (Magician) (`weapon, wand`).
+- **25638** — G53 Staff 08-02 Skin (Magician) (`weapon, wand`).
+- **25639** — G53 Staff 08-03 Skin (Magician) (`weapon, wand`).
+- **25640** — G53 Staff 08-04 Skin (Magician) (`weapon, wand`).
+- **25779** — G56 Staff 10-01 Skin (Magician) (`weapon`, wand).
+- **25780** — G56 Staff 10-02 Skin (Magician) (`weapon`, wand).
+- **25781** — G56 Staff 10-03 Skin (Magician) (`weapon`, wand).
+- **25782** — G56 Staff 10-04 Skin (Magician) (`weapon`, wand).
+- **25798** — G59 Staff 09-01 Skin (Magician) (`weapon`, wand).
+- **25799** — G59 Staff 09-02 Skin (Magician) (`weapon`, wand).
+- **25800** — G59 Staff 09-03 Skin (Magician) (`weapon`, wand).
+- **25801** — G59 Staff 09-04 Skin (Magician) (`weapon`, wand).
+- **25802** — G59 Staff 09-05 Skin (Magician) (`weapon`, wand).
+- **25803** — G59 Staff 09-06 Skin (Magician) (`weapon`, wand).
+
+## Archer
+
+- **25261** — Swimsuit (Archer) (`body`).
+- **25262** — New Swimsuit (Archer) (`body`).
+- **25263** — Sexy Swimsuit (Archer) (`body`).
+- **25264** — Blue Formal Costume (Archer) (`body`).
+- **25265** — Black Formal Costume (Archer) (`body`).
+- **25266** — Pumpkin Head Skin (Archer) (`helmet`, costume mesh).
+- **25267** — Halloween Formal Costume (Archer) (`body`).
+- **25268** — Midnight Masquerade Outfit Skin (Archer) (`body`).
+- **25269** — Happy Christmas Santa Costume (Archer) (`body`).
+- **25270** — Hanbok Costume (Archer) (`body`).
+- **25271** — Choon-Hyang Costume (Archer) (`body`).
+- **25272** — Top Hat Skull Head Skin (Archer) (`helmet`, costume mesh).
+- **25273** — Melon Head Skin (Archer) (`helmet`, costume mesh).
+- **25274** — Burgundy Summer Outfit Skin (Archer) (`body`).
+- **25275** — Black Summer Outfit Skin (Archer) (`body`).
+- **25276** — Azure Skin Summer Outfit Skin (Archer) (`body`).
+- **25277** — Violet Layered Outfit Skin (Archer) (`body`).
+- **25278** — Midnight Layered Outfit Skin (Archer) (`body`).
+- **25279** — Blue Plume Armor Skin (Archer) (`body`).
+- **25280** — Red Plume Armor Skin (Archer) (`body`).
+- **25281** — White Blouse Outfit Skin (Archer) (`body`).
+- **25282** — Sky Blue Blouse Outfit Skin (Archer) (`body`).
+- **25283** — Azure Traveler Outfit Skin (Archer) (`body`).
+- **25284** — Crimson Traveler Outfit Skin (Archer) (`body`).
+- **25285** — Black Cat Evening Dress Skin (Archer) (`body`).
+- **25286** — Rose Cat Evening Dress Skin (Archer) (`body`).
+- **25287** — Cyan Swimwear Skin (Archer) (`body`).
+- **25288** — Monochrome Naval Outfit Skin (Archer) (`body`).
+- **25289** — Azure Gold Naval Outfit Skin (Archer) (`body`).
+- **25290** — Pale Haunted Dress Skin (Archer) (`body`).
+- **25291** — Red Eyed Haunted Dress Skin (Archer) (`body`).
+- **25298** — Azure Silver Boots Skin (Archer) (`boots`).
+- **25299** — Amber Eye Face Skin (Archer) (`face`).
+- **25300** — Leather Arm Wraps Skin (Archer) (`gauntlet`).
+- **25301** — Brown Topknot Headband Skin (Archer) (`helmet`).
+- **25302** — Crimson Leather Shorts Skin (Archer) (`pants`).
+- **25303** — Wooden Arrow Skin (Archer) (`shield`).
+- **25304** — Crimson Leather Vest Skin (Archer) (`upper`).
+- **25477** — Crimson Leather Boots Skin (Archer) (`boots`, model 01-01 set).
+- **25478** — Azure Silver Plume Helmet Skin (Archer) (`helmet`, model 14-01 set).
+- **25479** — Azure Silver Armor Skin (Archer) (`upper`, model 14-01 set).
+- **25480** — Azure Silver Gauntlets Skin (Archer) (`gauntlet`, model 14-01 set).
+- **25481** — Azure Silver Leggings Skin (Archer) (`pants`, model 14-01 set).
+- **25305** — Amber Feather Bow Skin (Archer) (`weapon`).
+- **25306** — Amber Crown Feather Bow Skin (Archer) (`weapon`).
+- **25307** — Golden Wooden Bow Skin (Archer) (`weapon`).
+- **25308** — Azure Feather Bow Skin (Archer) (`weapon`).
+- **25309** — Ivory Feather Bow Skin (Archer) (`weapon`).
+- **25310** — Obsidian Feather Bow Skin (Archer) (`weapon`).
+- **25311** — Scarlet Feather Bow Skin (Archer) (`weapon`).
+- **25312** — Violet Feather Bow Skin (Archer) (`weapon`).
+- **25313** — Archer Weapon Skin 21-11 (`weapon`).
+- **25314** — Golden Flame Bow Skin (Archer) (`weapon`).
+- **25315** — Crimson Wing Bow Skin (Archer) (`weapon`).
+- **25316** — Starfall Bow Skin (Archer) (`weapon`).
+- **25317** — Sovereign Starfall Bow Skin (Archer) (`weapon`).
+- **25318** — Ivory Thorn Bow Skin (Archer) (`weapon`).
+- **25319** — Azure Thorn Bow Skin (Archer) (`weapon`).
+- **25320** — Azure Silver Bow Skin (Archer) (`weapon`).
+- **25321** — Cobalt Silver Bow Skin (Archer) (`weapon`).
+- **25322** — Slender Wooden Bow Skin (Archer) (`weapon`).
+- **25323** — Crimson Batwing Bow Skin (Archer) (`weapon`).
+- **25324** — Silver Dragon Bow Skin (Archer) (`weapon`).
+- **25325** — Ivory Striped Bow Skin (Archer) (`weapon`).
+- **25326** — Slender Wooden Bow Skin (Archer) (`weapon`).
+- **25327** — Obsidian Wing Bow Skin (Archer) (`weapon`).
+- **25328** — Ivory Gold Bow Skin (Archer) (`weapon`).
+- **25329** — Golden Thorn Bow Skin (Archer) (`weapon`).
+- **25330** — Amber Feather Charm Bow Skin (Archer) (`weapon`).
+- **25331** — Crimson Black Wing Bow Skin (Archer) (`weapon`).
+- **25332** — Golden Feather Charm Bow Skin (Archer) (`weapon`).
+- **25333** — Bone Spine Bow Skin (Archer) (`weapon`).
+- **25334** — Silver Horn Bow Skin (Archer) (`weapon`).
+- **25335** — Silver Dragon Bow Skin (Archer) (`weapon`).
+- **25336** — Golden Talon Bow Skin (Archer) (`weapon`).
+- **25337** — Molten Stone Bow Skin (Archer) (`weapon`).
+- **25338** — Turquoise Rune Bow Skin (Archer) (`weapon`).
+- **25339** — Crimson Crystal Bow Skin (Archer) (`weapon`).
+- **25340** — Frost Crystal Bow Skin (Archer) (`weapon`).
+- **25341** — Crimson Longbow Skin (Archer) (`weapon`).
+- **25342** — Ember Longbow Skin (Archer) (`weapon`).
+- **25343** — Rose Feather Bow Skin (Archer) (`weapon`).
+- **25344** — Silver Feather Bow Skin (Archer) (`weapon`).
+- **25345** — Golden Crescent Bow Skin (Archer) (`weapon`).
+- **25346** — Emerald Gold Bow Skin (Archer) (`weapon`).
+- **25347** — Golden Crescent Bow Skin (Archer) (`weapon`).
+- **25348** — Scarlet Claw Bow Skin (Archer) (`weapon`).
+- **25349** — Violet Crystal Bow Skin (Archer) (`weapon`).
+- **25350** — Ivory Spire Bow Skin (Archer) (`weapon`).
+- **25351** — Pale Jade Bow Skin (Archer) (`weapon`).
+- **25352** — Feather Charm Longbow Skin (Archer) (`weapon`).
+- **25353** — Silver Thorn Bow Skin (Archer) (`weapon`).
+- **25354** — Rose Crystal Longbow Skin (Archer) (`weapon`).
+- **25355** — Frost Feather Bow Skin (Archer) (`weapon`).
+- **25356** — Crimson Silver Talon Bow Skin (Archer) (`weapon`).
+- **25357** — Dark Crimson Wing Bow Skin (Archer) (`weapon`).
+- **25358** — Burgundy Batwing Bow Skin (Archer) (`weapon`).
+- **25359** — Burgundy Silver Bow Skin (Archer) (`weapon`).
+- **25360** — Burgundy Silver Crown Bow Skin (Archer) (`weapon`).
+- **25361** — Violet Silver Bow Skin (Archer) (`weapon`).
+- **25362** — Cobalt Thorn Bow Skin (Archer) (`weapon`).
+- **25363** — Silver Black Thorn Bow Skin (Archer) (`weapon`).
+- **25364** — Frost Feather Bow Skin (Archer) (`weapon`).
+- **25365** — Ashen Thorn Bow Skin (Archer) (`weapon`).
+- **25366** — Ember Thorn Bow Skin (Archer) (`weapon`).
+- **25367** — Ashen Crown Thorn Bow Skin (Archer) (`weapon`).
+- **25368** — Ashen Feather Bow Skin (Archer) (`weapon`).
+- **25369** — Violet Crystal Cage Bow Skin (Archer) (`weapon`).
+- **25370** — Crimson Barbed Bow Skin (Archer) (`weapon`).
+- **25371** — Emerald Sun Bow Skin (Archer) (`weapon`).
+- **25372** — Ember Silver Talon Bow Skin (Archer) (`weapon`).
+- **25373** — Golden Flame Bow Skin (Archer) (`weapon`).
+- **25374** — Violet Talon Bow Skin (Archer) (`weapon`).
+- **25375** — Emerald Shard Bow Skin (Archer) (`weapon`).
+- **25376** — Frozen Shard Bow Skin (Archer) (`weapon`).
+- **25377** — Violet Claw Bow Skin (Archer) (`weapon`).
+- **25378** — Obsidian Claw Bow Skin (Archer) (`weapon`).
+- **25379** — Crimson Claw Bow Skin (Archer) (`weapon`).
+- **25380** — Golden Wing Bow Skin (Archer) (`weapon`).
+
+
+### Grade and Darkness appearances
+
+- **25641** — G16 Helmet Skin (Archer) (`helmet`).
+- **25642** — G16 Armor Skin (Archer) (`upper`).
+- **25643** — G16 Gloves Skin (Archer) (`gauntlet`).
+- **25644** — G16 Leggings Skin (Archer) (`pants`).
+- **25645** — G16 Boots Skin (Archer) (`boots`).
+- **25646** — G24 Helmet Skin (Archer) (`helmet`).
+- **25647** — G24 Armor Skin (Archer) (`upper`).
+- **25648** — G24 Gloves Skin (Archer) (`gauntlet`).
+- **25649** — G24 Leggings Skin (Archer) (`pants`).
+- **25650** — G24 Boots Skin (Archer) (`boots`).
+- **25651** — G32 Helmet Skin (Archer) (`helmet`).
+- **25652** — G32 Armor Skin (Archer) (`upper`).
+- **25653** — G32 Gloves Skin (Archer) (`gauntlet`).
+- **25654** — G32 Leggings Skin (Archer) (`pants`).
+- **25655** — G32 Boots Skin (Archer) (`boots`).
+- **25656** — G42 Helmet Skin (Archer) (`helmet`).
+- **25657** — G42 Armor Skin (Archer) (`upper`).
+- **25658** — G42 Gloves Skin (Archer) (`gauntlet`).
+- **25659** — G42 Leggings Skin (Archer) (`pants`).
+- **25660** — G42 Boots Skin (Archer) (`boots`).
+- **25661** — G46 Helmet Skin (Archer) (`helmet`).
+- **25662** — G46 Armor Skin (Archer) (`upper`).
+- **25663** — G46 Gloves Skin (Archer) (`gauntlet`).
+- **25664** — G46 Leggings Skin (Archer) (`pants`).
+- **25665** — G46 Boots Skin (Archer) (`boots`).
+- **25666** — G50 Helmet Skin (Archer) (`helmet`).
+- **25667** — G50 Armor Skin (Archer) (`upper`).
+- **25668** — G50 Gloves Skin (Archer) (`gauntlet`).
+- **25669** — G50 Leggings Skin (Archer) (`pants`).
+- **25670** — G50 Boots Skin (Archer) (`boots`).
+- **25671** — G55 Helmet Skin (Archer) (`helmet`).
+- **25672** — G55 Armor Skin (Archer) (`upper`).
+- **25673** — G55 Gloves Skin (Archer) (`gauntlet`).
+- **25674** — G55 Leggings Skin (Archer) (`pants`).
+- **25675** — G55 Boots Skin (Archer) (`boots`).
+- **25676** — Helmet of Darkness Skin (Archer) (`helmet`).
+- **25677** — Armor of Darkness Skin (Archer) (`upper`).
+- **25678** — Gloves of Darkness Skin (Archer) (`gauntlet`).
+- **25679** — Leggings of Darkness Skin (Archer) (`pants`).
+- **25680** — Boots of Darkness Skin (Archer) (`boots`).
+- **25681** — G1 Bow 01-01 Skin (Archer) (`weapon, bow`).
+- **25682** — G5 Bow 02-01 Skin (Archer) (`weapon, bow`).
+- **25683** — G9 Bow 02-02 Skin (Archer) (`weapon, bow`).
+- **25684** — G13 Bow 03-01 Skin (Archer) (`weapon, bow`).
+- **25685** — G17 Bow 03-02 Skin (Archer) (`weapon, bow`).
+- **25686** — G21 Bow 03-03 Skin (Archer) (`weapon, bow`).
+- **25687** — G25 Bow 04-01 Skin (Archer) (`weapon, bow`).
+- **25688** — G29 Bow 04-02 Skin (Archer) (`weapon, bow`).
+- **25689** — G33 Bow 04-03 Skin (Archer) (`weapon, bow`).
+- **25690** — G37 Bow 05-01 Skin (Archer) (`weapon, bow`).
+- **25691** — G40 Bow 05-02 Skin (Archer) (`weapon, bow`).
+- **25692** — G40 Bow 05-03 Skin (Archer) (`weapon, bow`).
+- **25693** — G40 Bow 06-01 Skin (Archer) (`weapon, bow`).
+- **25694** — G45 Bow 06-02 Skin (Archer) (`weapon, bow`).
+- **25695** — G45 Bow 06-03 Skin (Archer) (`weapon, bow`).
+- **25696** — G48 Bow 06-04 Skin (Archer) (`weapon, bow`).
+- **25697** — G48 Bow 06-05 Skin (Archer) (`weapon, bow`).
+- **25698** — G50 Bow 07-01 Skin (Archer) (`weapon, bow`).
+- **25699** — G50 Bow 07-02 Skin (Archer) (`weapon, bow`).
+- **25700** — G50 Bow 07-03 Skin (Archer) (`weapon, bow`).
+- **25701** — G50 Bow 07-04 Skin (Archer) (`weapon, bow`).
+- **25702** — G53 Bow 08-01 Skin (Archer) (`weapon, bow`).
+- **25703** — G53 Bow 08-02 Skin (Archer) (`weapon, bow`).
+- **25704** — G53 Bow 08-03 Skin (Archer) (`weapon, bow`).
+- **25705** — G53 Bow 08-04 Skin (Archer) (`weapon, bow`).
+- **25706** — Bow of Darkness Skin (Archer) (`weapon, bow`).
+- **25707** — Treasure Bow of Darkness Skin (Archer) (`weapon, bow`).
+- **25783** — G56 Bow 10-01 Skin (Archer) (`weapon`, bow).
+- **25784** — G56 Bow 10-02 Skin (Archer) (`weapon`, bow).
+- **25785** — G56 Bow 10-03 Skin (Archer) (`weapon`, bow).
+- **25786** — G56 Bow 10-04 Skin (Archer) (`weapon`, bow).
+- **25804** — G59 Bow 09-01 Skin (Archer) (`weapon`, bow).
+- **25805** — G59 Bow 09-02 Skin (Archer) (`weapon`, bow).
+- **25806** — G59 Bow 09-03 Skin (Archer) (`weapon`, bow).
+- **25807** — G59 Bow 09-04 Skin (Archer) (`weapon`, bow).
+
+## Thief
+
+- **25381** — Swimsuit (Thief) (`body`).
+- **25382** — New Swimsuit (Thief) (`body`).
+- **25383** — Sexy Swimsuit (Thief) (`body`).
+- **25384** — Blue Formal Costume (Thief) (`body`).
+- **25385** — Black Formal Costume (Thief) (`body`).
+- **25386** — Pumpkin Head Skin (Thief) (`helmet`, costume mesh).
+- **25387** — Halloween Formal Costume ] (Thief) (`body`).
+- **25388** — Midnight Masquerade Outfit Skin (Thief) (`body`).
+- **25389** — Happy Christmas Santa Costume (Thief) (`body`).
+- **25390** — Hanbok Costume (Thief) (`body`).
+- **25391** — Choon-Hyang Costume (Thief) (`body`).
+- **25392** — Top Hat Skull Head Skin (Thief) (`helmet`, costume mesh).
+- **25393** — Melon Head Skin (Thief) (`helmet`, costume mesh).
+- **25394** — Burgundy Summer Outfit Skin (Thief) (`body`).
+- **25395** — Black Summer Outfit Skin (Thief) (`body`).
+- **25396** — Thief Body Skin 15-05 (`body`).
+- **25397** — Violet Layered Outfit Skin (Thief) (`body`).
+- **25398** — Midnight Layered Outfit Skin (Thief) (`body`).
+- **25399** — Blue Plume Armor Skin (Thief) (`body`).
+- **25400** — Red Plume Armor Skin (Thief) (`body`).
+- **25401** — White Blouse Outfit Skin (Thief) (`body`).
+- **25402** — Sky Blue Blouse Outfit Skin (Thief) (`body`).
+- **25403** — Azure Traveler Outfit Skin (Thief) (`body`).
+- **25404** — Crimson Traveler Outfit Skin (Thief) (`body`).
+- **25405** — Black Cat Evening Dress Skin (Thief) (`body`).
+- **25406** — Rose Cat Evening Dress Skin (Thief) (`body`).
+- **25407** — Cyan Swimwear Skin (Thief) (`body`).
+- **25408** — Monochrome Naval Outfit Skin (Thief) (`body`).
+- **25409** — Azure Gold Naval Outfit Skin (Thief) (`body`).
+- **25410** — Pale Haunted Dress Skin (Thief) (`body`).
+- **25411** — Red Eyed Haunted Dress Skin (Thief) (`body`).
+- **25418** — Golden Armor Skin (Thief) (`body`).
+- **25419** — Azure Silver Shin Guards Skin (Thief) (`boots`).
+- **25420** — Brown Hair Face Skin (Thief) (`face`).
+- **25421** — Turquoise Wrist Wraps Skin (Thief) (`gauntlet`).
+- **25422** — Turquoise Headband Skin (Thief) (`helmet`).
+- **25423** — Azure Gold Trousers Skin (Thief) (`pants`).
+- **25424** — Bronze Turquoise Vest Skin (Thief) (`upper`).
+- **25482** — Turquoise Sandals Skin (Thief) (`boots`, model 01-01 set).
+- **25483** — Azure Silver Tiara Skin (Thief) (`helmet`, model 14-01 set).
+- **25484** — Azure Silver Armor Skin (Thief) (`upper`, model 14-01 set).
+- **25485** — Azure Silver Gauntlets Skin (Thief) (`gauntlet`, model 14-01 set).
+- **25486** — Azure Silver Leggings Skin (Thief) (`pants`, model 14-01 set).
+- **25425** — Ember Dragon Daggers Skin (Thief) (`weapon`).
+- **25426** — Amber Dragon Daggers Skin (Thief) (`weapon`).
+- **25427** — Azure Dragon Daggers Skin (Thief) (`weapon`).
+- **25428** — Ivory Dragon Daggers Skin (Thief) (`weapon`).
+- **25429** — Obsidian Dragon Daggers Skin (Thief) (`weapon`).
+- **25430** — Scarlet Dragon Daggers Skin (Thief) (`weapon`).
+- **25431** — Violet Dragon Daggers Skin (Thief) (`weapon`).
+- **25432** — Moonveil Dagger Skin (Thief) (`weapon`).
+- **25433** — Sovereign Moonveil Dagger Skin (Thief) (`weapon`).
+- **25434** — Crimson Gold Daggers Skin (Thief) (`weapon`).
+- **25435** — Azure Silver Daggers Skin (Thief) (`weapon`).
+- **25436** — Cobalt Silver Daggers Skin (Thief) (`weapon`).
+- **25437** — Teddy Bear Daggers Skin (Thief) (`weapon`).
+- **25438** — Panda Daggers Skin (Thief) (`weapon`).
+- **25439** — Bone Spine Daggers Skin (Thief) (`weapon`).
+- **25440** — Bone Fang Daggers Skin (Thief) (`weapon`).
+- **25441** — Golden Flame Daggers Skin (Thief) (`weapon`).
+- **25442** — Molten Stone Daggers Skin (Thief) (`weapon`).
+- **25443** — Turquoise Rune Daggers Skin (Thief) (`weapon`).
+- **25444** — Silver Katana Daggers Skin (Thief) (`weapon`).
+- **25445** — Feather Charm Daggers Skin (Thief) (`weapon`).
+- **25446** — Rose Crystal Daggers Skin (Thief) (`weapon`).
+- **25447** — Silver Crystal Daggers Skin (Thief) (`weapon`).
+- **25448** — Golden Rune Daggers Skin (Thief) (`weapon`).
+- **25449** — Golden Claw Daggers Skin (Thief) (`weapon`).
+- **25450** — Golden Rune Daggers Skin (Thief) (`weapon`).
+- **25451** — Crimson Dragon Daggers Skin (Thief) (`weapon`).
+- **25452** — Burgundy Silver Daggers Skin (Thief) (`weapon`).
+- **25453** — Burgundy Crown Daggers Skin (Thief) (`weapon`).
+- **25454** — Cobalt Serpent Daggers Skin (Thief) (`weapon`).
+- **25455** — Silver Claw Daggers Skin (Thief) (`weapon`).
+- **25456** — Crimson Crystal Daggers Skin (Thief) (`weapon`).
+- **25457** — Emerald Gold Daggers Skin (Thief) (`weapon`).
+- **25458** — Crimson Hook Daggers Skin (Thief) (`weapon`).
+- **25459** — Golden Sun Daggers Skin (Thief) (`weapon`).
+- **25460** — Violet Talon Daggers Skin (Thief) (`weapon`).
+- **25461** — Emerald Shard Daggers Skin (Thief) (`weapon`).
+- **25462** — Frozen Shard Daggers Skin (Thief) (`weapon`).
+- **25463** — Violet Claw Daggers Skin (Thief) (`weapon`).
+- **25464** — Obsidian Claw Daggers Skin (Thief) (`weapon`).
+- **25465** — Scarlet Flame Daggers Skin (Thief) (`weapon`).
+- **25466** — Golden Lion Daggers Skin (Thief) (`weapon`).
+
+
+### Grade and Darkness appearances
+
+- **25708** — G16 Helmet Skin (Thief) (`helmet`).
+- **25709** — G16 Armor Skin (Thief) (`upper`).
+- **25710** — G16 Gloves Skin (Thief) (`gauntlet`).
+- **25711** — G16 Leggings Skin (Thief) (`pants`).
+- **25712** — G16 Boots Skin (Thief) (`boots`).
+- **25713** — G24 Helmet Skin (Thief) (`helmet`).
+- **25714** — G24 Armor Skin (Thief) (`upper`).
+- **25715** — G24 Gloves Skin (Thief) (`gauntlet`).
+- **25716** — G24 Leggings Skin (Thief) (`pants`).
+- **25717** — G24 Boots Skin (Thief) (`boots`).
+- **25718** — G32 Helmet Skin (Thief) (`helmet`).
+- **25719** — G32 Armor Skin (Thief) (`upper`).
+- **25720** — G32 Gloves Skin (Thief) (`gauntlet`).
+- **25721** — G32 Leggings Skin (Thief) (`pants`).
+- **25722** — G32 Boots Skin (Thief) (`boots`).
+- **25723** — G42 Helmet Skin (Thief) (`helmet`).
+- **25724** — G42 Armor Skin (Thief) (`upper`).
+- **25725** — G42 Gloves Skin (Thief) (`gauntlet`).
+- **25726** — G42 Leggings Skin (Thief) (`pants`).
+- **25727** — G42 Boots Skin (Thief) (`boots`).
+- **25728** — G46 Helmet Skin (Thief) (`helmet`).
+- **25729** — G46 Armor Skin (Thief) (`upper`).
+- **25730** — G46 Gloves Skin (Thief) (`gauntlet`).
+- **25731** — G46 Leggings Skin (Thief) (`pants`).
+- **25732** — G46 Boots Skin (Thief) (`boots`).
+- **25733** — G50 Helmet Skin (Thief) (`helmet`).
+- **25734** — G50 Armor Skin (Thief) (`upper`).
+- **25735** — G50 Gloves Skin (Thief) (`gauntlet`).
+- **25736** — G50 Leggings Skin (Thief) (`pants`).
+- **25737** — G50 Boots Skin (Thief) (`boots`).
+- **25738** — G55 Helmet Skin (Thief) (`helmet`).
+- **25739** — G55 Armor Skin (Thief) (`upper`).
+- **25740** — G55 Gloves Skin (Thief) (`gauntlet`).
+- **25741** — G55 Leggings Skin (Thief) (`pants`).
+- **25742** — G55 Boots Skin (Thief) (`boots`).
+- **25743** — G1 Daggers 01-01 Skin (Thief) (`weapon, dagger`).
+- **25744** — G5 Daggers 02-01 Skin (Thief) (`weapon, dagger`).
+- **25745** — G9 Daggers 02-02 Skin (Thief) (`weapon, dagger`).
+- **25746** — G13 Daggers 03-01 Skin (Thief) (`weapon, dagger`).
+- **25747** — G17 Daggers 03-02 Skin (Thief) (`weapon, dagger`).
+- **25748** — G21 Daggers 03-03 Skin (Thief) (`weapon, dagger`).
+- **25749** — G25 Daggers 04-01 Skin (Thief) (`weapon, dagger`).
+- **25750** — G33 Daggers 04-02 Skin (Thief) (`weapon, dagger`).
+- **25751** — G37 Daggers 05-01 Skin (Thief) (`weapon, dagger`).
+- **25752** — G40 Daggers 05-02 Skin (Thief) (`weapon, dagger`).
+- **25753** — G40 Daggers 05-03 Skin (Thief) (`weapon, dagger`).
+- **25754** — G45 Daggers 05-04 Skin (Thief) (`weapon, dagger`).
+- **25755** — G45 Daggers 06-01 Skin (Thief) (`weapon, dagger`).
+- **25756** — G48 Daggers 06-02 Skin (Thief) (`weapon, dagger`).
+- **25757** — G48 Daggers 06-03 Skin (Thief) (`weapon, dagger`).
+- **25758** — G48 Daggers 06-04 Skin (Thief) (`weapon, dagger`).
+- **25759** — G50 Daggers 06-05 Skin (Thief) (`weapon, dagger`).
+- **25760** — G50 Daggers 06-06 Skin (Thief) (`weapon, dagger`).
+- **25761** — G50 Daggers 06-07 Skin (Thief) (`weapon, dagger`).
+- **25762** — G45 Daggers 06-08 Skin (Thief) (`weapon, dagger`).
+- **25763** — G48 Daggers 06-09 Skin (Thief) (`weapon, dagger`).
+- **25764** — G50 Daggers 06-10 Skin (Thief) (`weapon, dagger`).
+- **25765** — G53 Daggers 07-01 Skin (Thief) (`weapon, dagger`).
+- **25766** — G53 Daggers 07-02 Skin (Thief) (`weapon, dagger`).
+- **25767** — G53 Daggers 07-03 Skin (Thief) (`weapon, dagger`).
+- **25768** — G53 Daggers 07-07 Skin (Thief) (`weapon, dagger`).
+- **25769** — Daggers of Darkness Skin (Thief) (`weapon, dagger`).
+- **25770** — Treasure Daggers of Darkness Skin (Thief) (`weapon, dagger`).
+- **25787** — G59 Daggers 08-01 Skin (Thief) (`weapon`, dagger).
+- **25788** — G59 Daggers 08-02 Skin (Thief) (`weapon`, dagger).
+- **25789** — G59 Daggers 08-03 Skin (Thief) (`weapon`, dagger).
+
+## Withdrawn IDs
+
+These IDs remain reserved. They are not active costume definitions:
+
+- Knight: **25031–25036**.
+- Magician: **25176–25181**.
+- Archer: **25292–25297**.
+- Thief: **25412–25417**.
+
+Model groups 31 and 32 were reported as ordinary armor. Groups 79 and 89 use
+ordinary armor part textures. Groups 33 and 34 are withheld pending visual
+confirmation. Later item IDs retain their previous allocation.

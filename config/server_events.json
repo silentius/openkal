@@ -1,0 +1,17 @@
+{
+  "clock_events": [],
+  "events": [
+    {
+      "id": "exp_event",
+      "managerNpcIndex": 5037,
+      "donateQuest": { "index": 9501, "flag": 1 },
+      "donateHundredQuest": { "index": 9502, "flag": 1 },
+      "donationItem": 23016,
+      "durationSeconds": 3600,
+      "extensionSeconds": 900,
+      "requiredItems": 500,
+      "bonusStepPercent": 10,
+      "maxBonusPercent": 50
+    }
+  ]
+}

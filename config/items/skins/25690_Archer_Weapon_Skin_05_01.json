@@ -1,0 +1,22 @@
+{
+  "index": 25690,
+  "name": "G37 Bow 05-01 Skin (Archer)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [5, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model archer/weapon 05-01.",
+  "skin": {
+    "weapon_type": "bow"
+  }
+}

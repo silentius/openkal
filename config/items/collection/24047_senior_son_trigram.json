@@ -1,0 +1,19 @@
+{
+  "index": 24047,
+  "name": "Senior Son Trigram",
+  "description": "Equip with the other seven trigrams of the same grade.",
+  "image": "item721",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 75,
+  "limit": {
+    "class": "all",
+    "level": 75
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

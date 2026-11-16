@@ -1,0 +1,86 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "trade_invitation",
+  "kind": "window",
+  "window": {
+    "w": 560,
+    "h": 164,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${trade.title}",
+      "pixel_size": 18
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "x": 96,
+      "y": 35,
+      "text": "${trade.invitation}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "lock",
+      "x": 0,
+      "y": 65,
+      "text": "Both players are locked. Escape or Reject ends the trade.",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "accept",
+      "x": 0,
+      "y": 115,
+      "w": 260,
+      "h": 24,
+      "label": "Accept",
+      "action": "trade.accept",
+      "pixel_size": 12,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "align": "center"
+    },
+    {
+      "type": "button",
+      "id": "reject",
+      "x": 280,
+      "y": 115,
+      "w": 260,
+      "h": 24,
+      "label": "Reject",
+      "action": "trade.reject",
+      "pixel_size": 12,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "align": "center"
+    }
+  ]
+}

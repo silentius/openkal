@@ -1,0 +1,19 @@
+{
+  "index": 25397,
+  "name": "Violet Layered Outfit Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [16, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins. OpenKal descriptive name; model thief/body 16-01."
+}

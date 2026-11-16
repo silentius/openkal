@@ -1,0 +1,281 @@
+{
+  "_doc": "Annotated openkal.ui/v1 skeleton. Not loaded by the client (UiLayoutStore preload is a name list). Mixes Character Info stats text with Inventory icon_slot/icon_grid so both patterns live in one reference file. See docs/ui/TEMPLATE.md and docs/ui/VARIABLES.md.",
+  "schema": "openkal.ui/v1",
+  "id": "_template",
+  "kind": "window",
+  "window": {
+    "w": 245,
+    "h": 417,
+    "draggable": true,
+    "title_drag_h": 44
+  },
+  "theme": {
+    "font_pixel_size": 10,
+    "colors": {
+      "label": "#E8DCC0",
+      "value": "#FFFAEB",
+      "pending": "#C8E090",
+      "title": "#F2F0C0"
+    }
+  },
+  "chrome": {
+    "_doc": "Auto 9-slice. Changing window.w/h retiles rails. Do not stack info-menu-left.bmp by hand.",
+    "kind": "nine_slice",
+    "preset": "info_character",
+    "close": true,
+    "edges": "tile",
+    "pad_left": 26.5,
+    "pad_top": 45.1,
+    "pad_right": 19.1,
+    "pad_bottom": 36.1
+  },
+  "close": {
+    "_doc": "Hitbox relative to client top-right.",
+    "ox": -25,
+    "oy": -32,
+    "w": 22,
+    "h": 22
+  },
+  "widgets": [
+    {
+      "_doc": "Inner panel art. Not part of the 9-slice.",
+      "type": "image",
+      "id": "inner",
+      "file": "info-character-image(addmi).bmp",
+      "x": 0,
+      "y": 0,
+      "w": 245,
+      "h": 416
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 50,
+      "y": -27,
+      "text": "${ui.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 12,
+      "bold": true
+    },
+    {
+      "type": "button",
+      "id": "close_x",
+      "action": "window.close"
+    },
+    {
+      "_doc": "Identity. Character Info interpolates these from CharInfoStats.",
+      "type": "text",
+      "id": "name_label",
+      "x": 2,
+      "y": 6,
+      "text": "${player.name_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "x": 38,
+      "y": 6,
+      "text": "${player.name}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "level_label",
+      "x": 2,
+      "y": 63,
+      "text": "${player.level_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "level",
+      "x": 38,
+      "y": 63,
+      "text": "${player.level}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "hp_label",
+      "x": 2,
+      "y": 82,
+      "text": "${vital.hp_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "hp",
+      "x": 38,
+      "y": 82,
+      "text": "${vital.hp_text}",
+      "color": "${theme.colors.value}",
+      "pending": true
+    },
+    {
+      "_doc": "Primary HTH row. Same pattern for str / intl / wis / dex.",
+      "type": "text",
+      "id": "hth_label",
+      "x": 2,
+      "y": 129,
+      "text": "${stats.hth_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "hth",
+      "x": 35,
+      "y": 129,
+      "text": "${stats.hth}",
+      "color": "${theme.colors.value}",
+      "pending": true
+    },
+    {
+      "type": "button",
+      "id": "hth_plus",
+      "x": 90,
+      "y": 126,
+      "w": 16,
+      "h": 16,
+      "bind": "stats.hth",
+      "action": "stats.spend"
+    },
+    {
+      "type": "button",
+      "id": "hth_minus",
+      "x": 105,
+      "y": 126,
+      "w": 16,
+      "h": 16,
+      "bind": "stats.hth",
+      "action": "stats.unspend"
+    },
+    {
+      "type": "text",
+      "id": "point_label",
+      "x": 2,
+      "y": 205,
+      "text": "${stats.pu_point_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "point",
+      "x": 35,
+      "y": 205,
+      "text": "${stats.pu_remaining}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "button",
+      "id": "ok",
+      "x": 90,
+      "y": 201,
+      "w": 0,
+      "h": 0,
+      "label": "${ui.ok}",
+      "label_ox": 0,
+      "label_oy": 3,
+      "file_default": "I-mini-default.bmp",
+      "action": "stats.apply"
+    },
+    {
+      "type": "text",
+      "id": "attack_label",
+      "x": 128,
+      "y": 110,
+      "text": "${combat.attack_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "attack",
+      "x": 185,
+      "y": 110,
+      "text": "${combat.attack}",
+      "color": "${theme.colors.value}",
+      "pending": true
+    },
+    {
+      "type": "text",
+      "id": "fire_label",
+      "x": 2,
+      "y": 232,
+      "text": "${resist.fire_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "fire",
+      "x": 66,
+      "y": 232,
+      "text": "${resist.fire}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "_doc": "Inventory bag. page/filter read inventory.register and inventory.tab.",
+      "type": "icon_grid",
+      "id": "bag",
+      "x": 10,
+      "y": 40,
+      "cols": 6,
+      "rows": 6,
+      "cell": { "w": 32, "h": 32 },
+      "pitch": { "x": 36, "y": 36 },
+      "bind": "inventory.bag",
+      "page": "${inventory.register}",
+      "filter": "${inventory.tab}",
+      "empty": { "file": "slot.bmp" },
+      "select_color": "#F0D020",
+      "tooltip": true,
+      "drag": true,
+      "badge": { "text": "${slot.count}", "visible_when": "slot.count > 1" }
+    },
+    {
+      "_doc": "Wear column example. Repeat per inventory.wear.* id.",
+      "type": "icon_slot",
+      "id": "wear.helmet",
+      "x": -47,
+      "y": 54,
+      "w": 32,
+      "h": 32,
+      "bind": "inventory.wear.helmet",
+      "frame": { "file": "slot.bmp", "w": 42, "h": 42 },
+      "empty": { "file": "slot back-helmet.bmp" },
+      "accept": ["item.helmet"],
+      "tooltip": true,
+      "drag": true
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.weapon",
+      "x": -47,
+      "y": 254,
+      "w": 32,
+      "h": 32,
+      "bind": "inventory.wear.weapon",
+      "frame": { "file": "slot.bmp", "w": 42, "h": 42 },
+      "empty": { "file": "slot back-weapon1.bmp" },
+      "accept": ["item.weapon"],
+      "tooltip": true,
+      "drag": true
+    },
+    {
+      "type": "text",
+      "id": "bag_count",
+      "x": 174,
+      "y": 12,
+      "text": "${inventory.count_text}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "money",
+      "x": 180,
+      "y": 345,
+      "text": "${inventory.money:geons}",
+      "color": "#D5BD99",
+      "align": "right"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "index": 23008,
+  "rarity": 0,
+  "name": "Small Auto Medicine",
+  "image": "medicineAutoHpSmall",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 20,
+  "sell": 4,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 33],
+  "description": "Recovers Health point by 100. Place in the Auto HP slot; double-click the slot to change the HP threshold.",
+  "effect": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "hp",
+      "amount": 100,
+      "auto_hp": true
+    }
+  }
+}

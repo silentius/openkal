@@ -1,0 +1,128 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  cpp-style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install formatter
+        run: python -m pip install clang-format==18.1.8
+      - name: Check project C++ formatting and braces
+        run: >-
+          git ls-files -z -- '*.c' '*.cc' '*.cpp' '*.cxx' '*.h' '*.hh' '*.hpp' '*.hxx'
+          ':(exclude)third_party/**' |
+          xargs -0 -r clang-format --dry-run --Werror
+  build-null:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install deps
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ clang-tidy libfreetype-dev libssl-dev libpng-dev libsqlite3-dev openssl python3-pil
+      - name: Validate and export project source without history
+        run: |
+          python3 tools/package_source.py --check-tracked --output source.tar.gz
+          python3 tools/check_image_inventory.py
+          mkdir exported
+          tar -xzf source.tar.gz -C exported
+      - name: Configure (null engine)
+        run: >-
+          cmake -S exported/openkal-0.1.0 -B build
+          -DOPENKAL_ENGINE=null
+          -DOPENKAL_DATA_ROOT=
+          -DOPENKAL_RUN_USER_DATA_TESTS=OFF
+          -DOPENKAL_BUILD_AREA_EDITOR=OFF
+          -DOPENKAL_BUILD_PROFILE_CLIENT=OFF
+          -DOPENKAL_BUILD_TOOLS=ON
+          -DCMAKE_CXX_CLANG_TIDY=clang-tidy
+      - name: Build
+        run: cmake --build build --parallel 2
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+  release-client:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install core release dependencies
+        run: >-
+          sudo apt-get update && sudo apt-get install -y cmake ninja-build g++
+          libfreetype-dev libssl-dev libpng-dev libsqlite3-dev libglew-dev
+          libglfw3-dev libopengl-dev python3-pil dpkg-dev xvfb xauth
+          zenity fonts-dejavu-core
+      - name: Build project-only client package
+        run: |
+          python3 tools/package_source.py --check-tracked --output source.tar.gz
+          mkdir exported
+          tar -xzf source.tar.gz -C exported
+          cmake -S exported/openkal-0.1.0 -B build-release -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DOPENKAL_RELEASE_BUILD=ON -DOPENKAL_ENGINE=gl -DOPENKAL_DATA_ROOT= \
+            -DOPENKAL_INCLUDE_USER_AUDIO=OFF -DOPENKAL_BUILD_TESTS=OFF \
+            -DOPENKAL_BUILD_TOOLS=OFF -DOPENKAL_BUILD_AREA_EDITOR=OFF \
+            -DOPENKAL_BUILD_PROFILE_CLIENT=OFF
+          cmake --build build-release --target package openkal_source_archive --parallel 2
+          python3 exported/openkal-0.1.0/tools/check_release_package.py build-release/openkal-client_0.1.0_amd64.deb
+      - name: Run actual OpenGL and launcher regressions
+        run: |
+          cmake -S exported/openkal-0.1.0 -B build-release -DOPENKAL_BUILD_TESTS=ON -DOPENKAL_RUN_USER_DATA_TESTS=OFF
+          cmake --build build-release --parallel 2 --target \
+            openkal_test_mesh_specular openkal_test_text_edit_input \
+            openkal_test_hit_feedback openkal_test_world_label_depth openkal_test_shadow_mask
+          xvfb-run -a ctest --test-dir build-release \
+            -R '^(mesh_specular|text_edit_input|hit_feedback|world_label_depth|shadow_mask)$' \
+            --output-on-failure --output-junit graphics.xml
+          python3 -c 'import xml.etree.ElementTree as E; r=E.parse("build-release/graphics.xml").getroot(); assert len(r.findall("testcase")) == 5; assert not r.findall(".//skipped")'
+          python3 exported/openkal-0.1.0/tests/test_installed_launcher.py
+  postgres:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: openkal_test
+          POSTGRES_USER: openkal_test
+          POSTGRES_PASSWORD: synthetic-ci-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U openkal_test -d openkal_test"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      OPENKAL_TEST_POSTGRES_DSN: host=127.0.0.1 port=5432 dbname=openkal_test user=openkal_test password=synthetic-ci-password
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install server build dependencies
+        run: >-
+          sudo apt-get update && sudo apt-get install -y cmake ninja-build g++
+          libfreetype-dev libssl-dev libpng-dev libsqlite3-dev libpq-dev openssl python3-pil
+      - name: Build experimental PostgreSQL server and owned tests
+        run: |
+          cmake -S . -B build-pg -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DOPENKAL_ENGINE=null -DOPENKAL_DATA_ROOT= -DOPENKAL_WITH_POSTGRES=ON \
+            -DOPENKAL_RUN_USER_DATA_TESTS=OFF -DOPENKAL_BUILD_AREA_EDITOR=OFF \
+            -DOPENKAL_BUILD_TOOLS=OFF -DOPENKAL_BUILD_PROFILE_CLIENT=OFF
+          cmake --build build-pg --parallel 2 --target openkal_mainsvr \
+            openkal_test_guild_postgres openkal_test_postgres_multiplayer \
+            openkal_test_castle_war_server openkal_multiplayer_load_test
+      - name: Run PostgreSQL integration without accepting skips
+        run: |
+          ctest --test-dir build-pg --output-on-failure --output-junit postgres.xml \
+            -R '^(castle_war_server|guild_postgres|postgres_multiplayer|guild_server|multiplayer_load_postgres)$'
+          python3 -c 'import xml.etree.ElementTree as E; r=E.parse("build-pg/postgres.xml").getroot(); assert len(r.findall("testcase")) == 5; assert not r.findall(".//skipped")'

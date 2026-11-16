@@ -1,0 +1,19 @@
+{
+  "index": 24036,
+  "name": "Novice Tae Trigram",
+  "description": "Equip with the other seven trigrams of the same grade.",
+  "image": "item710",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 50,
+  "limit": {
+    "class": "all",
+    "level": 50
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

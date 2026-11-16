@@ -1,0 +1,19 @@
+{
+  "index": 24053,
+  "name": "Senior Taegeuk",
+  "description": "Absorption requires eight worn trigrams at +5 or higher.",
+  "image": "item735",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 75,
+  "limit": {
+    "class": "all",
+    "level": 75
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

@@ -1,0 +1,331 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "multiplayer_login",
+  "kind": "window",
+  "window": {
+    "w": 460,
+    "h": 570,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 16,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/system.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${online.title}",
+      "pixel_size": 22,
+      "align": "left",
+      "bold": true,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "username_label",
+      "x": 25,
+      "y": 65,
+      "text": "${online.username_label}",
+      "pixel_size": 16,
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "fill",
+      "id": "username_background",
+      "x": 20,
+      "y": 90,
+      "w": 420,
+      "h": 38,
+      "color": "${online.username_background}",
+      "alpha": 0.9,
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "input",
+      "id": "username",
+      "x": 30,
+      "y": 97,
+      "w": 400,
+      "h": 26,
+      "bind": "online.username",
+      "text": "${online.username}",
+      "pixel_size": 16,
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "x": 25,
+      "y": 150,
+      "text": "${online.email_label}",
+      "pixel_size": 16,
+      "visible_when": "online.registering"
+    },
+    {
+      "type": "fill",
+      "id": "email_background",
+      "x": 20,
+      "y": 175,
+      "w": 420,
+      "h": 38,
+      "color": "${online.email_background}",
+      "alpha": 0.9,
+      "visible_when": "online.registering"
+    },
+    {
+      "type": "input",
+      "id": "email",
+      "x": 30,
+      "y": 182,
+      "w": 400,
+      "h": 26,
+      "bind": "online.email",
+      "text": "${online.email}",
+      "pixel_size": 16,
+      "visible_when": "online.registering"
+    },
+    {
+      "type": "text",
+      "id": "password_label",
+      "x": 25,
+      "y": 245,
+      "text": "${online.password_label}",
+      "pixel_size": 16,
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "fill",
+      "id": "password_background",
+      "x": 20,
+      "y": 270,
+      "w": 420,
+      "h": 38,
+      "color": "${online.password_background}",
+      "alpha": 0.9,
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "input",
+      "id": "password",
+      "x": 30,
+      "y": 277,
+      "w": 400,
+      "h": 26,
+      "bind": "online.password",
+      "text": "${online.password}",
+      "pixel_size": 16,
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "button",
+      "id": "toggle_passwords",
+      "x": 265,
+      "y": 234,
+      "w": 170,
+      "h": 30,
+      "label": "${online.toggle_passwords}",
+      "align": "center",
+      "pixel_size": 14,
+      "action": "online.toggle_passwords",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "text",
+      "id": "password_feedback",
+      "x": 25,
+      "y": 311,
+      "text": "${online.password_feedback}",
+      "pixel_size": 13,
+      "color": "${online.password_color}",
+      "visible_when": "online.account_fields"
+    },
+    {
+      "type": "text",
+      "id": "confirmation_label",
+      "x": 25,
+      "y": 330,
+      "text": "${online.confirmation_label}",
+      "pixel_size": 16,
+      "visible_when": "online.registering"
+    },
+    {
+      "type": "fill",
+      "id": "confirmation_background",
+      "x": 20,
+      "y": 355,
+      "w": 420,
+      "h": 38,
+      "color": "${online.confirmation_background}",
+      "alpha": 0.9,
+      "visible_when": "online.registering"
+    },
+    {
+      "type": "input",
+      "id": "confirmation",
+      "x": 30,
+      "y": 362,
+      "w": 400,
+      "h": 26,
+      "bind": "online.confirmation",
+      "text": "${online.confirmation}",
+      "pixel_size": 16,
+      "visible_when": "online.registering"
+    },
+    {
+      "type": "text",
+      "id": "confirmation_feedback",
+      "x": 25,
+      "y": 396,
+      "text": "${online.confirmation_feedback}",
+      "pixel_size": 13,
+      "color": "${online.confirmation_color}",
+      "visible_when": "online.registering"
+    },
+    {
+      "type": "button",
+      "id": "connect",
+      "x": 25,
+      "y": 500,
+      "w": 190,
+      "h": 38,
+      "label": "${online.connect}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "online.connect",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "online.connect_visible"
+    },
+    {
+      "type": "button",
+      "id": "login",
+      "x": 25,
+      "y": 500,
+      "w": 190,
+      "h": 38,
+      "label": "${online.login}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "online.login",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "online.login_visible"
+    },
+    {
+      "type": "button",
+      "id": "register",
+      "x": 25,
+      "y": 385,
+      "w": 190,
+      "h": 38,
+      "label": "${online.register}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "online.register",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "online.registration_allowed"
+    },
+    {
+      "type": "button",
+      "id": "submit_registration",
+      "x": 25,
+      "y": 500,
+      "w": 190,
+      "h": 38,
+      "label": "${online.register}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "online.submit_registration",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "online.create_visible"
+    },
+    {
+      "type": "button",
+      "id": "back",
+      "x": 245,
+      "y": 500,
+      "w": 190,
+      "h": 38,
+      "label": "${online.back}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "online.back",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "status_line0",
+      "x": 25,
+      "y": 432,
+      "text": "${online.status_line0}",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "status_line1",
+      "x": 25,
+      "y": 450,
+      "text": "${online.status_line1}",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "status_line2",
+      "x": 25,
+      "y": 468,
+      "text": "${online.status_line2}",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "controls",
+      "x": 25,
+      "y": 550,
+      "text": "${online.controls}",
+      "pixel_size": 13
+    }
+  ]
+}

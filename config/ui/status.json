@@ -1,0 +1,152 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "status",
+  "kind": "hud",
+  "_doc": "Top-left Dragon identity emblem and level. The framed name appears only while hovering the class icon.",
+  "window": {
+    "w": 204,
+    "h": 92,
+    "draggable": true,
+    "title_drag_h": 92
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "title": "#F2E7CC",
+      "label": "#C0A064"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "name_plate",
+      "file": "dragon_hud/bar_backing.bmp",
+      "x": 63,
+      "y": 31,
+      "w": 130,
+      "h": 36,
+      "visible_when": "hud.class_hovered"
+    },
+    {
+      "type": "image",
+      "id": "name_top_rail",
+      "file": "dragon_hud/top_rail.bmp",
+      "x": 63,
+      "y": 31,
+      "w": 130,
+      "h": 5,
+      "source": {
+        "x": 0,
+        "y": 0,
+        "w": 260,
+        "h": 10
+      },
+      "visible_when": "hud.class_hovered"
+    },
+    {
+      "type": "image",
+      "id": "name_left_rail",
+      "file": "dragon_hud/auxiliary_divider.bmp",
+      "x": 63,
+      "y": 34,
+      "w": 5,
+      "h": 30,
+      "visible_when": "hud.class_hovered"
+    },
+    {
+      "type": "image",
+      "id": "name_right_rail",
+      "file": "dragon_hud/auxiliary_divider.bmp",
+      "x": 188,
+      "y": 34,
+      "w": 5,
+      "h": 30,
+      "visible_when": "hud.class_hovered"
+    },
+    {
+      "type": "image",
+      "id": "name_bottom_rail",
+      "file": "dragon_hud/top_rail.bmp",
+      "x": 63,
+      "y": 62,
+      "w": 130,
+      "h": 5,
+      "source": {
+        "x": 0,
+        "y": 0,
+        "w": 260,
+        "h": 10
+      },
+      "visible_when": "hud.class_hovered"
+    },
+    {
+      "type": "image",
+      "id": "class_backing",
+      "file": "dragon_hud/orb_empty.bmp",
+      "x": 23,
+      "y": 30.5,
+      "w": 42,
+      "h": 42
+    },
+    {
+      "type": "icon_slot",
+      "id": "class_icon",
+      "bind": "hud.class",
+      "x": 24,
+      "y": 31.5,
+      "w": 40,
+      "h": 40,
+      "drag": false
+    },
+    {
+      "type": "image",
+      "id": "dragon_frame",
+      "file": "dragon_hud/dragon_left.bmp",
+      "x": 4,
+      "y": 4,
+      "w": 68,
+      "h": 84
+    },
+    {
+      "type": "image",
+      "id": "level_frame",
+      "file": "dragon_hud/dragon_left.bmp",
+      "x": 29,
+      "y": 69,
+      "w": 30,
+      "h": 14,
+      "source": {
+        "x": 56,
+        "y": 131,
+        "w": 45,
+        "h": 21
+      }
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "text": "${player.name}",
+      "x": 128,
+      "y": 42,
+      "pixel_size": 12,
+      "bold": false,
+      "color": "${theme.colors.title}",
+      "align": "center",
+      "visible_when": "hud.class_hovered"
+    },
+    {
+      "type": "text",
+      "id": "level_orb",
+      "text": "${player.level}",
+      "x": 44,
+      "y": 70,
+      "pixel_size": 9,
+      "color": "${theme.colors.title}",
+      "align": "center"
+    }
+  ]
+}

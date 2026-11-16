@@ -1,0 +1,19 @@
+{
+  "index": 25710,
+  "name": "G16 Gloves Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "gauntlet"
+  ],
+  "action": [2, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the gauntlet skin slot. No combat bonuses. OpenKal descriptive name; model thief/gauntlet 02-01."
+}

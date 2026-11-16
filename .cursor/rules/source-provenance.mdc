@@ -1,0 +1,11 @@
+---
+description: Require independent, documented implementations
+alwaysApply: true
+---
+
+# Source provenance policy
+
+Do not consult or copy proprietary source code while implementing OpenKal.
+Implement behavior from public documentation, independently written format
+specifications, and black-box observations that may lawfully be made. Record the
+source and license of imported material in the repository's provenance records.

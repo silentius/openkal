@@ -1,0 +1,16 @@
+---
+description: Keep UI overlays visually consistent with inventory item tooltips
+globs: client/{src/ui,include/openkal/client}/**/*.{cpp,h}
+alwaysApply: false
+---
+
+# UI overlay scaling
+
+For new or changed UI overlays, use the inventory item tooltip as the visual reference:
+
+- Build tooltip-like overlays with `ItemTooltip::draw` whenever the content can be represented as `TipLine` entries.
+- This preserves the established FreeType text size, overlay border, padding, centered line layout, and cursor placement.
+- Do not apply a window or HUD scale independently to a tooltip-style overlay unless the inventory item tooltip behavior is intentionally changed as well.
+- If a non-tooltip overlay needs custom drawing, match `ItemTooltip::draw` for its scale, border thickness, padding, and `ItemTooltip::place_near_cursor` placement.
+
+The inventory register unlock duration overlay in `Inventory.cpp` is an example of the required approach.

@@ -1,0 +1,64 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "party",
+  "kind": "window",
+  "window": {
+    "w": 150,
+    "h": 22,
+    "draggable": true
+  },
+  "theme": {
+    "font_pixel_size": 11,
+    "colors": {
+      "value": "#EEE7D6",
+      "title": "#E1C89B"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "fill",
+      "id": "panel_fill",
+      "x": 0,
+      "y": 0,
+      "w": 150,
+      "h": 22,
+      "color": "#080706",
+      "alpha": 0.64
+    },
+    {
+      "type": "image",
+      "id": "heading_back",
+      "x": 3,
+      "y": 3,
+      "w": 144,
+      "h": 16,
+      "file": "dragon_hud/party_heading.bmp"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 8,
+      "y": 4,
+      "text": "${party.title}",
+      "pixel_size": 11,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "border",
+      "id": "frame",
+      "x": 0,
+      "y": 0,
+      "w": 150,
+      "h": 22,
+      "thickness": 3,
+      "border_top": "chatting-box-top.bmp",
+      "border_bottom": "chatting-box-bottom.bmp",
+      "border_left": "chatting-box-left.bmp",
+      "border_right": "chatting-box-right.bmp"
+    }
+  ]
+}

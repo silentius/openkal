@@ -1,0 +1,31 @@
+{
+  "maps": [
+    {"mapname": "tomb", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb_01", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb1", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb2", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb3", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb4", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb5", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb6", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb7", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb8", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "tomb9", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "d03_tomb_01", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "d03_tomb_02", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "d03_tomb_03", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "d03_tomb_04", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "d03_tomb_05", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "d03_tomb_06", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa01", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa02", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa03", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa04", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa05", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa06", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa07", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa08", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa09", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0},
+    {"mapname": "jsa10", "sizeX": 512, "sizeY": 512, "tileWidth": 256, "tileHeight": 256, "mapLeft": 0, "mapBottom": 0, "correction": 0}
+  ]
+}

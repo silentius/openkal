@@ -1,0 +1,22 @@
+{
+  "index": 25047,
+  "name": "Imperial Blood Dragon's Giant Sword",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [21, 4],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses.",
+  "skin": {
+    "weapon_type": "sword2h"
+  }
+}

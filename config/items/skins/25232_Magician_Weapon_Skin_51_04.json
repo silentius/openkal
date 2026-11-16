@@ -1,0 +1,19 @@
+{
+  "index": 25232,
+  "name": "Golden Prism Staff Skin (Magician)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [51, 4],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model magician/weapon 51-04."
+}

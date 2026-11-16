@@ -1,0 +1,34 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "release",
+      "displayName": "Release package",
+      "description": "Build an installable Debian package with /usr/share/openkal as its resource root.",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPENKAL_RELEASE_BUILD": "ON",
+        "OPENKAL_BUILD_TESTS": "OFF",
+        "OPENKAL_BUILD_TOOLS": "OFF",
+        "OPENKAL_BUILD_AREA_EDITOR": "OFF",
+        "OPENKAL_BUILD_PROFILE_CLIENT": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "release-package",
+      "configurePreset": "release",
+      "targets": [
+        "package"
+      ]
+    }
+  ]
+}

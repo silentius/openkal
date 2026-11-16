@@ -1,0 +1,11 @@
+{
+  "index": 23021,
+  "rarity": 0,
+  "name": "Revision Hammer",
+  "image": "revisionHammer",
+  "class": ["general", "etc"],
+  "buy": 750,
+  "sell": 400,
+  "stackable": 1,
+  "description": "Drag onto a single unequipped weapon, ring, trinket or armor item to convert it into Stones of Revision.#nWeapons give 4 + X stones, armor gives 2 + X; X is random from 0 to grade/10.#nRings and trinkets give exactly one stone.#nConsumes one hammer and destroys the selected equipment."
+}

@@ -1,0 +1,22 @@
+{
+  "index": 25770,
+  "name": "Treasure Daggers of Darkness Skin (Thief)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [20, 2],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model thief/weapon 20-02.",
+  "skin": {
+    "weapon_type": "dagger"
+  }
+}

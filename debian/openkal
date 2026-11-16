@@ -1,0 +1,83 @@
+#!/bin/sh
+set -eu
+
+fail() {
+    printf 'OpenKal: %s\n' "$*" >&2
+    exit 1
+}
+
+config_home="${XDG_CONFIG_HOME:-$HOME/.config}/openkal"
+profile="${OPENKAL_PROFILE:-$config_home/openkal.profile}"
+
+if [ ! -f "$profile" ]; then
+    mkdir -p "$(dirname "$profile")" || fail "Cannot create profile directory: $profile"
+    cp /usr/share/openkal/openkal.profile.example "$profile" || fail "Cannot create profile: $profile"
+fi
+[ -r "$profile" ] || fail "Cannot read profile: $profile"
+
+profile_value() {
+    sed -n "s/^[[:space:]]*$1[[:space:]]*=[[:space:]]*//p" "$profile" | tail -n 1
+}
+
+has_required_assets() {
+    data_root=$(profile_value data_root)
+    map_root=$(profile_value map_root)
+
+    [ -d "$data_root/Model/Clothes" ] &&
+        [ -d "$data_root/Model/Motion" ] &&
+        [ -d "$data_root/Item/Weapon" ] &&
+        [ -f "$map_root/login_map/login_maxl.gb" ]
+}
+
+escape_sed_replacement() {
+    printf '%s' "$1" | sed 's/[\\&|]/\\&/g'
+}
+
+set_profile_value() {
+    key=$1
+    value=$(escape_sed_replacement "$2")
+    if grep -q "^[[:space:]]*$key[[:space:]]*=" "$profile"; then
+        sed -i "s|^[[:space:]]*$key[[:space:]]*=.*|$key=$value|" "$profile" ||
+            fail "Cannot update profile: $profile"
+    else
+        printf '\n%s=%s\n' "$key" "$value" >> "$profile" ||
+            fail "Cannot update profile: $profile"
+    fi
+}
+
+select_client_root() {
+    zenity --file-selection --directory \
+        --title="Select KalOnline client directory" \
+        --text="Select the KalOnline directory that contains data and map."
+}
+
+if ! has_required_assets; then
+    command -v zenity >/dev/null 2>&1 || fail "The asset-folder picker requires zenity."
+    zenity --error \
+        --title="KalOnline assets not found" \
+        --text="OpenKal needs a KalOnline client directory containing data and map."
+    while :; do
+        if ! client_root=$(select_client_root); then
+            exit 1
+        fi
+        if [ -d "$client_root/data/Model/Clothes" ] &&
+            [ -d "$client_root/data/Model/Motion" ] &&
+            [ -d "$client_root/data/Item/Weapon" ] &&
+            [ -f "$client_root/map/login_map/login_maxl.gb" ]; then
+            set_profile_value data_root "$client_root/data"
+            set_profile_value map_root "$client_root/map"
+            break
+        fi
+        zenity --error \
+            --title="Invalid KalOnline client directory" \
+            --text="The selected directory does not contain the required KalOnline assets."
+    done
+fi
+
+save_home="${XDG_DATA_HOME:-$HOME/.local/share}/openkal"
+mkdir -p "$save_home" || fail "Cannot create save directory: $save_home"
+[ -w "$save_home" ] || fail "Cannot write to save directory: $save_home"
+export OPENKAL_SAVE_DIR="$save_home"
+
+cd /usr/share/openkal || fail "Installed resources are missing."
+exec /usr/lib/openkal/openkal_client "$profile" "$@"

@@ -1,0 +1,19 @@
+{
+  "index": 25571,
+  "name": "G44 Shield Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "shield"
+  ],
+  "action": [4, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the shield skin slot. No combat bonuses. OpenKal descriptive name; model knight/shield 04-01."
+}

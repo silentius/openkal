@@ -1,0 +1,173 @@
+{
+  "recipes": [
+    {
+      "id": "make_g40",
+      "mode": 1,
+      "note": "Charged 70000 gold (MONEY_MADENEW). Set gold to enable.",
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 40 },
+      "extra_weapon": { "required": true, "grade": 40 },
+      "armor": { "required": true, "grade": 42, "slot": "any" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 769 },
+          { "class": "archer", "kind": "bow", "index": 770 },
+          { "class": "mage", "kind": "wand", "index": 771 },
+          { "class": "thief", "kind": "dagger", "index": 1433 }
+        ]
+      }
+    },
+    {
+      "id": "make_g45",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 45 },
+      "extra_weapon": { "required": true, "grade": 45 },
+      "armor": { "required": true, "grade": 42, "slot": "upperarmor" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 772 },
+          { "class": "archer", "kind": "bow", "index": 773 },
+          { "class": "mage", "kind": "wand", "index": 774 },
+          { "class": "thief", "kind": "dagger", "index": 1434 }
+        ]
+      }
+    },
+    {
+      "id": "make_g48",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 48 },
+      "extra_weapon": { "required": true, "grade": 48 },
+      "armor": { "required": true, "grade": 46, "slot": "any" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 775 },
+          { "class": "archer", "kind": "bow", "index": 776 },
+          { "class": "mage", "kind": "wand", "index": 777 },
+          { "class": "thief", "kind": "dagger", "index": 1435 }
+        ]
+      }
+    },
+    {
+      "id": "make_g50",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 50 },
+      "extra_weapon": { "required": true, "grade": 50 },
+      "armor": { "required": true, "grade": 46, "slot": "upperarmor" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 778 },
+          { "class": "knight", "kind": "sword2h", "index": 779 },
+          { "class": "archer", "kind": "bow", "index": 780 },
+          { "class": "mage", "kind": "wand", "index": 781 },
+          { "class": "thief", "kind": "dagger", "index": 1436 }
+        ]
+      }
+    },
+    {
+      "id": "make_g53",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 53 },
+      "extra_weapon": { "required": true, "grade": 50 },
+      "armor": { "required": true, "grade": 50, "slot": "any" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 782 },
+          { "class": "knight", "kind": "sword2h", "index": 783 },
+          { "class": "archer", "kind": "bow", "index": 784 },
+          { "class": "mage", "kind": "wand", "index": 785 },
+          { "class": "thief", "kind": "dagger", "index": 1437 }
+        ]
+      }
+    },
+    {
+      "id": "make_g56",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 56 },
+      "extra_weapon": { "required": true, "grade": 53 },
+      "armor": { "required": true, "grade": 50, "slot": "any" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 786 },
+          { "class": "knight", "kind": "sword2h", "index": 787 },
+          { "class": "archer", "kind": "bow", "index": 788 },
+          { "class": "mage", "kind": "wand", "index": 789 },
+          { "class": "thief", "kind": "dagger", "index": 1438 }
+        ]
+      }
+    },
+    {
+      "id": "make_g59",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 59 },
+      "extra_weapon": { "required": true, "grade": 53 },
+      "armor": { "required": true, "grade": 50, "slot": "any" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 790 },
+          { "class": "knight", "kind": "sword2h", "index": 791 },
+          { "class": "archer", "kind": "bow", "index": 792 },
+          { "class": "mage", "kind": "wand", "index": 793 },
+          { "class": "thief", "kind": "dagger", "index": 1439 }
+        ]
+      }
+    },
+    {
+      "id": "make_g62",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 62 },
+      "extra_weapon": { "required": true, "grade": 56 },
+      "armor": { "required": true, "grade": 50, "slot": "upperarmor" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 794 },
+          { "class": "knight", "kind": "sword2h", "index": 795 },
+          { "class": "archer", "kind": "bow", "index": 796 },
+          { "class": "mage", "kind": "wand", "index": 797 },
+          { "class": "thief", "kind": "dagger", "index": 1440 }
+        ]
+      }
+    },
+    {
+      "id": "make_g65",
+      "mode": 1,
+      "gold": 0,
+      "center": { "kind": "weapon", "wearable": true, "grade": 65 },
+      "extra_weapon": { "required": true, "grade": 59 },
+      "armor": { "required": true, "grade": 50, "slot": "upperarmor" },
+      "stones": { "count": 2, "same_type": true },
+      "result": {
+        "action": "replace_weapon",
+        "replace": [
+          { "class": "knight", "kind": "sword", "index": 798 },
+          { "class": "knight", "kind": "sword2h", "index": 799 },
+          { "class": "archer", "kind": "bow", "index": 800 },
+          { "class": "mage", "kind": "wand", "index": 801 },
+          { "class": "thief", "kind": "dagger", "index": 1441 }
+        ]
+      }
+    }
+  ]
+}

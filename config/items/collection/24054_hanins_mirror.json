@@ -1,0 +1,19 @@
+{
+  "index": 24054,
+  "name": "Hanin's Mirror",
+  "description": "Amplifies the abilities of up to five equipped essences.",
+  "image": "item786",
+  "class": [
+    "gather",
+    "collection"
+  ],
+  "level": 1,
+  "limit": {
+    "class": "all",
+    "level": 1
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 100000,
+  "sell": 0
+}

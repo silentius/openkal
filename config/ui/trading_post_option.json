@@ -1,0 +1,48 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "trading_post_option",
+  "kind": "hud",
+  "window": {
+    "w": 222,
+    "h": 26
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "fill",
+      "id": "back",
+      "x": 0,
+      "y": 0,
+      "w": 222,
+      "h": 26,
+      "color": "#171511"
+    },
+    {
+      "type": "button",
+      "id": "option",
+      "x": 0,
+      "y": 0,
+      "w": 222,
+      "h": 26,
+      "label": "${trading_post.option}",
+      "action": "trading_post.option",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    }
+  ]
+}

@@ -1,0 +1,1058 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "guild_ranks",
+  "kind": "window",
+  "window": {
+    "w": 780,
+    "h": 540,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/community.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${guild_ranks.title}",
+      "pixel_size": 18,
+      "color": "#E5CF9E",
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "context",
+      "x": 100,
+      "y": 10,
+      "text": "${guild_ranks.context}",
+      "pixel_size": 13,
+      "color": "#EAE3D4"
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "x": 100,
+      "y": 34,
+      "text": "${guild_ranks.hint}",
+      "pixel_size": 12,
+      "color": "#B6AA94"
+    },
+    {
+      "type": "fill",
+      "id": "table",
+      "x": 0,
+      "y": 72,
+      "w": 780,
+      "h": 188,
+      "color": "#111512",
+      "alpha": 0.9
+    },
+    {
+      "type": "fill",
+      "id": "table_header",
+      "x": 0,
+      "y": 72,
+      "w": 780,
+      "h": 28,
+      "color": "#58452D",
+      "alpha": 0.8
+    },
+    {
+      "type": "text",
+      "id": "rank_heading",
+      "x": 12,
+      "y": 79,
+      "text": "${guild_ranks.rank_heading}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "heading0",
+      "x": 230,
+      "y": 79,
+      "text": "${guild_ranks.heading.0}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "heading1",
+      "x": 300,
+      "y": 79,
+      "text": "${guild_ranks.heading.1}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "heading2",
+      "x": 370,
+      "y": 79,
+      "text": "${guild_ranks.heading.2}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "heading3",
+      "x": 440,
+      "y": 79,
+      "text": "${guild_ranks.heading.3}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "heading4",
+      "x": 510,
+      "y": 79,
+      "text": "${guild_ranks.heading.4}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "availability_heading",
+      "x": 590,
+      "y": 79,
+      "text": "${guild_ranks.availability_heading}",
+      "pixel_size": 12,
+      "color": "#E5CF9E",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "fill",
+      "id": "row1",
+      "x": 0,
+      "y": 100,
+      "w": 780,
+      "h": 32,
+      "color": "#8B7958",
+      "alpha": 0.08
+    },
+    {
+      "type": "fill",
+      "id": "row1_selected",
+      "x": 0,
+      "y": 100,
+      "w": 780,
+      "h": 32,
+      "color": "#9C7942",
+      "alpha": 0.5,
+      "visible_when": "guild_ranks.row.1.selected"
+    },
+    {
+      "type": "fill",
+      "id": "row1_line",
+      "x": 0,
+      "y": 131,
+      "w": 780,
+      "h": 1,
+      "color": "#68583E",
+      "alpha": 0.6
+    },
+    {
+      "type": "button",
+      "id": "select1",
+      "x": 0,
+      "y": 100,
+      "w": 780,
+      "h": 32,
+      "action": "guild_ranks.select.1"
+    },
+    {
+      "type": "text",
+      "id": "row1_title",
+      "x": 12,
+      "y": 108,
+      "text": "${guild_ranks.row.1.title}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.1.color}"
+    },
+    {
+      "type": "text",
+      "id": "row1_permission0",
+      "x": 230,
+      "y": 108,
+      "text": "${guild_ranks.row.1.permission.0}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.1.color}"
+    },
+    {
+      "type": "text",
+      "id": "row1_permission1",
+      "x": 300,
+      "y": 108,
+      "text": "${guild_ranks.row.1.permission.1}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.1.color}"
+    },
+    {
+      "type": "text",
+      "id": "row1_permission2",
+      "x": 370,
+      "y": 108,
+      "text": "${guild_ranks.row.1.permission.2}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.1.color}"
+    },
+    {
+      "type": "text",
+      "id": "row1_permission3",
+      "x": 440,
+      "y": 108,
+      "text": "${guild_ranks.row.1.permission.3}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.1.color}"
+    },
+    {
+      "type": "text",
+      "id": "row1_permission4",
+      "x": 510,
+      "y": 108,
+      "text": "${guild_ranks.row.1.permission.4}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.1.color}"
+    },
+    {
+      "type": "text",
+      "id": "row1_availability",
+      "x": 590,
+      "y": 108,
+      "text": "${guild_ranks.row.1.availability}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.1.color}",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "fill",
+      "id": "row2",
+      "x": 0,
+      "y": 132,
+      "w": 780,
+      "h": 32,
+      "color": "#8B7958",
+      "alpha": 0.16
+    },
+    {
+      "type": "fill",
+      "id": "row2_selected",
+      "x": 0,
+      "y": 132,
+      "w": 780,
+      "h": 32,
+      "color": "#9C7942",
+      "alpha": 0.5,
+      "visible_when": "guild_ranks.row.2.selected"
+    },
+    {
+      "type": "fill",
+      "id": "row2_line",
+      "x": 0,
+      "y": 163,
+      "w": 780,
+      "h": 1,
+      "color": "#68583E",
+      "alpha": 0.6
+    },
+    {
+      "type": "button",
+      "id": "select2",
+      "x": 0,
+      "y": 132,
+      "w": 780,
+      "h": 32,
+      "action": "guild_ranks.select.2"
+    },
+    {
+      "type": "text",
+      "id": "row2_title",
+      "x": 12,
+      "y": 140,
+      "text": "${guild_ranks.row.2.title}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.2.color}"
+    },
+    {
+      "type": "text",
+      "id": "row2_permission0",
+      "x": 230,
+      "y": 140,
+      "text": "${guild_ranks.row.2.permission.0}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.2.color}"
+    },
+    {
+      "type": "text",
+      "id": "row2_permission1",
+      "x": 300,
+      "y": 140,
+      "text": "${guild_ranks.row.2.permission.1}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.2.color}"
+    },
+    {
+      "type": "text",
+      "id": "row2_permission2",
+      "x": 370,
+      "y": 140,
+      "text": "${guild_ranks.row.2.permission.2}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.2.color}"
+    },
+    {
+      "type": "text",
+      "id": "row2_permission3",
+      "x": 440,
+      "y": 140,
+      "text": "${guild_ranks.row.2.permission.3}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.2.color}"
+    },
+    {
+      "type": "text",
+      "id": "row2_permission4",
+      "x": 510,
+      "y": 140,
+      "text": "${guild_ranks.row.2.permission.4}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.2.color}"
+    },
+    {
+      "type": "text",
+      "id": "row2_availability",
+      "x": 590,
+      "y": 140,
+      "text": "${guild_ranks.row.2.availability}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.2.color}",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "fill",
+      "id": "row3",
+      "x": 0,
+      "y": 164,
+      "w": 780,
+      "h": 32,
+      "color": "#8B7958",
+      "alpha": 0.08
+    },
+    {
+      "type": "fill",
+      "id": "row3_selected",
+      "x": 0,
+      "y": 164,
+      "w": 780,
+      "h": 32,
+      "color": "#9C7942",
+      "alpha": 0.5,
+      "visible_when": "guild_ranks.row.3.selected"
+    },
+    {
+      "type": "fill",
+      "id": "row3_line",
+      "x": 0,
+      "y": 195,
+      "w": 780,
+      "h": 1,
+      "color": "#68583E",
+      "alpha": 0.6
+    },
+    {
+      "type": "button",
+      "id": "select3",
+      "x": 0,
+      "y": 164,
+      "w": 780,
+      "h": 32,
+      "action": "guild_ranks.select.3"
+    },
+    {
+      "type": "text",
+      "id": "row3_title",
+      "x": 12,
+      "y": 172,
+      "text": "${guild_ranks.row.3.title}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.3.color}"
+    },
+    {
+      "type": "text",
+      "id": "row3_permission0",
+      "x": 230,
+      "y": 172,
+      "text": "${guild_ranks.row.3.permission.0}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.3.color}"
+    },
+    {
+      "type": "text",
+      "id": "row3_permission1",
+      "x": 300,
+      "y": 172,
+      "text": "${guild_ranks.row.3.permission.1}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.3.color}"
+    },
+    {
+      "type": "text",
+      "id": "row3_permission2",
+      "x": 370,
+      "y": 172,
+      "text": "${guild_ranks.row.3.permission.2}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.3.color}"
+    },
+    {
+      "type": "text",
+      "id": "row3_permission3",
+      "x": 440,
+      "y": 172,
+      "text": "${guild_ranks.row.3.permission.3}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.3.color}"
+    },
+    {
+      "type": "text",
+      "id": "row3_permission4",
+      "x": 510,
+      "y": 172,
+      "text": "${guild_ranks.row.3.permission.4}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.3.color}"
+    },
+    {
+      "type": "text",
+      "id": "row3_availability",
+      "x": 590,
+      "y": 172,
+      "text": "${guild_ranks.row.3.availability}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.3.color}",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "fill",
+      "id": "row4",
+      "x": 0,
+      "y": 196,
+      "w": 780,
+      "h": 32,
+      "color": "#8B7958",
+      "alpha": 0.16
+    },
+    {
+      "type": "fill",
+      "id": "row4_selected",
+      "x": 0,
+      "y": 196,
+      "w": 780,
+      "h": 32,
+      "color": "#9C7942",
+      "alpha": 0.5,
+      "visible_when": "guild_ranks.row.4.selected"
+    },
+    {
+      "type": "fill",
+      "id": "row4_line",
+      "x": 0,
+      "y": 227,
+      "w": 780,
+      "h": 1,
+      "color": "#68583E",
+      "alpha": 0.6
+    },
+    {
+      "type": "button",
+      "id": "select4",
+      "x": 0,
+      "y": 196,
+      "w": 780,
+      "h": 32,
+      "action": "guild_ranks.select.4"
+    },
+    {
+      "type": "text",
+      "id": "row4_title",
+      "x": 12,
+      "y": 204,
+      "text": "${guild_ranks.row.4.title}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.4.color}"
+    },
+    {
+      "type": "text",
+      "id": "row4_permission0",
+      "x": 230,
+      "y": 204,
+      "text": "${guild_ranks.row.4.permission.0}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.4.color}"
+    },
+    {
+      "type": "text",
+      "id": "row4_permission1",
+      "x": 300,
+      "y": 204,
+      "text": "${guild_ranks.row.4.permission.1}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.4.color}"
+    },
+    {
+      "type": "text",
+      "id": "row4_permission2",
+      "x": 370,
+      "y": 204,
+      "text": "${guild_ranks.row.4.permission.2}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.4.color}"
+    },
+    {
+      "type": "text",
+      "id": "row4_permission3",
+      "x": 440,
+      "y": 204,
+      "text": "${guild_ranks.row.4.permission.3}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.4.color}"
+    },
+    {
+      "type": "text",
+      "id": "row4_permission4",
+      "x": 510,
+      "y": 204,
+      "text": "${guild_ranks.row.4.permission.4}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.4.color}"
+    },
+    {
+      "type": "text",
+      "id": "row4_availability",
+      "x": 590,
+      "y": 204,
+      "text": "${guild_ranks.row.4.availability}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.4.color}",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "fill",
+      "id": "row5",
+      "x": 0,
+      "y": 228,
+      "w": 780,
+      "h": 32,
+      "color": "#8B7958",
+      "alpha": 0.08
+    },
+    {
+      "type": "fill",
+      "id": "row5_selected",
+      "x": 0,
+      "y": 228,
+      "w": 780,
+      "h": 32,
+      "color": "#9C7942",
+      "alpha": 0.5,
+      "visible_when": "guild_ranks.row.5.selected"
+    },
+    {
+      "type": "fill",
+      "id": "row5_line",
+      "x": 0,
+      "y": 259,
+      "w": 780,
+      "h": 1,
+      "color": "#68583E",
+      "alpha": 0.6
+    },
+    {
+      "type": "button",
+      "id": "select5",
+      "x": 0,
+      "y": 228,
+      "w": 780,
+      "h": 32,
+      "action": "guild_ranks.select.5"
+    },
+    {
+      "type": "text",
+      "id": "row5_title",
+      "x": 12,
+      "y": 236,
+      "text": "${guild_ranks.row.5.title}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.5.color}"
+    },
+    {
+      "type": "text",
+      "id": "row5_permission0",
+      "x": 230,
+      "y": 236,
+      "text": "${guild_ranks.row.5.permission.0}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.5.color}"
+    },
+    {
+      "type": "text",
+      "id": "row5_permission1",
+      "x": 300,
+      "y": 236,
+      "text": "${guild_ranks.row.5.permission.1}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.5.color}"
+    },
+    {
+      "type": "text",
+      "id": "row5_permission2",
+      "x": 370,
+      "y": 236,
+      "text": "${guild_ranks.row.5.permission.2}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.5.color}"
+    },
+    {
+      "type": "text",
+      "id": "row5_permission3",
+      "x": 440,
+      "y": 236,
+      "text": "${guild_ranks.row.5.permission.3}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.5.color}"
+    },
+    {
+      "type": "text",
+      "id": "row5_permission4",
+      "x": 510,
+      "y": 236,
+      "text": "${guild_ranks.row.5.permission.4}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.5.color}"
+    },
+    {
+      "type": "text",
+      "id": "row5_availability",
+      "x": 590,
+      "y": 236,
+      "text": "${guild_ranks.row.5.availability}",
+      "pixel_size": 12,
+      "color": "${guild_ranks.row.5.color}",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "text",
+      "id": "selected",
+      "x": 12,
+      "y": 278,
+      "text": "${guild_ranks.selected}",
+      "pixel_size": 13,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "availability",
+      "x": 12,
+      "y": 306,
+      "text": "${guild_ranks.availability}",
+      "pixel_size": 12,
+      "color": "#B6AA94",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "x": 12,
+      "y": 304,
+      "text": "${guild_ranks.name_label}",
+      "pixel_size": 12,
+      "color": "#EAE3D4",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "fill",
+      "id": "name_background",
+      "x": 12,
+      "y": 326,
+      "w": 540,
+      "h": 28,
+      "color": "#000000",
+      "alpha": 0.5,
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "input",
+      "id": "rank_title",
+      "x": 20,
+      "y": 326,
+      "w": 524,
+      "h": 28,
+      "bind": "guild_ranks.input",
+      "text": "${guild_ranks.input}",
+      "pixel_size": 13,
+      "color": "#EAE3D4",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "button",
+      "id": "save_title",
+      "x": 566,
+      "y": 326,
+      "w": 200,
+      "h": 28,
+      "label": "${guild_ranks.save_title}",
+      "action": "guild_ranks.save_title",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "text",
+      "id": "permissions_label",
+      "x": 12,
+      "y": 344,
+      "text": "${guild_ranks.permissions_label}",
+      "pixel_size": 12,
+      "color": "#EAE3D4",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "fill",
+      "id": "option0_background",
+      "x": 12,
+      "y": 366,
+      "w": 360,
+      "h": 28,
+      "color": "#151916",
+      "alpha": 0.75
+    },
+    {
+      "type": "image",
+      "id": "option0_unchecked",
+      "x": 18,
+      "y": 370,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_inactive.bmp"
+    },
+    {
+      "type": "image",
+      "id": "option0_checked",
+      "x": 18,
+      "y": 370,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_active.bmp",
+      "visible_when": "guild_ranks.option.0.checked"
+    },
+    {
+      "type": "text",
+      "id": "option0_label",
+      "x": 46,
+      "y": 372,
+      "text": "${guild_ranks.option.0.label}",
+      "pixel_size": 13,
+      "color": "${guild_ranks.option.0.color}"
+    },
+    {
+      "type": "button",
+      "id": "option0",
+      "x": 12,
+      "y": 366,
+      "w": 360,
+      "h": 28,
+      "action": "guild_ranks.option.0",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "fill",
+      "id": "option1_background",
+      "x": 406,
+      "y": 366,
+      "w": 360,
+      "h": 28,
+      "color": "#151916",
+      "alpha": 0.75
+    },
+    {
+      "type": "image",
+      "id": "option1_unchecked",
+      "x": 412,
+      "y": 370,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_inactive.bmp"
+    },
+    {
+      "type": "image",
+      "id": "option1_checked",
+      "x": 412,
+      "y": 370,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_active.bmp",
+      "visible_when": "guild_ranks.option.1.checked"
+    },
+    {
+      "type": "text",
+      "id": "option1_label",
+      "x": 440,
+      "y": 372,
+      "text": "${guild_ranks.option.1.label}",
+      "pixel_size": 13,
+      "color": "${guild_ranks.option.1.color}"
+    },
+    {
+      "type": "button",
+      "id": "option1",
+      "x": 406,
+      "y": 366,
+      "w": 360,
+      "h": 28,
+      "action": "guild_ranks.option.1",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "fill",
+      "id": "option2_background",
+      "x": 12,
+      "y": 402,
+      "w": 360,
+      "h": 28,
+      "color": "#151916",
+      "alpha": 0.75
+    },
+    {
+      "type": "image",
+      "id": "option2_unchecked",
+      "x": 18,
+      "y": 406,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_inactive.bmp"
+    },
+    {
+      "type": "image",
+      "id": "option2_checked",
+      "x": 18,
+      "y": 406,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_active.bmp",
+      "visible_when": "guild_ranks.option.2.checked"
+    },
+    {
+      "type": "text",
+      "id": "option2_label",
+      "x": 46,
+      "y": 408,
+      "text": "${guild_ranks.option.2.label}",
+      "pixel_size": 13,
+      "color": "${guild_ranks.option.2.color}"
+    },
+    {
+      "type": "button",
+      "id": "option2",
+      "x": 12,
+      "y": 402,
+      "w": 360,
+      "h": 28,
+      "action": "guild_ranks.option.2",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "fill",
+      "id": "option3_background",
+      "x": 406,
+      "y": 402,
+      "w": 360,
+      "h": 28,
+      "color": "#151916",
+      "alpha": 0.75
+    },
+    {
+      "type": "image",
+      "id": "option3_unchecked",
+      "x": 412,
+      "y": 406,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_inactive.bmp"
+    },
+    {
+      "type": "image",
+      "id": "option3_checked",
+      "x": 412,
+      "y": 406,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_active.bmp",
+      "visible_when": "guild_ranks.option.3.checked"
+    },
+    {
+      "type": "text",
+      "id": "option3_label",
+      "x": 440,
+      "y": 408,
+      "text": "${guild_ranks.option.3.label}",
+      "pixel_size": 13,
+      "color": "${guild_ranks.option.3.color}"
+    },
+    {
+      "type": "button",
+      "id": "option3",
+      "x": 406,
+      "y": 402,
+      "w": 360,
+      "h": 28,
+      "action": "guild_ranks.option.3",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "fill",
+      "id": "option4_background",
+      "x": 12,
+      "y": 438,
+      "w": 360,
+      "h": 28,
+      "color": "#151916",
+      "alpha": 0.75
+    },
+    {
+      "type": "image",
+      "id": "option4_unchecked",
+      "x": 18,
+      "y": 442,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_inactive.bmp"
+    },
+    {
+      "type": "image",
+      "id": "option4_checked",
+      "x": 18,
+      "y": 442,
+      "w": 20,
+      "h": 20,
+      "file": "dragon_dialog/toggle_active.bmp",
+      "visible_when": "guild_ranks.option.4.checked"
+    },
+    {
+      "type": "text",
+      "id": "option4_label",
+      "x": 46,
+      "y": 444,
+      "text": "${guild_ranks.option.4.label}",
+      "pixel_size": 13,
+      "color": "${guild_ranks.option.4.color}"
+    },
+    {
+      "type": "button",
+      "id": "option4",
+      "x": 12,
+      "y": 438,
+      "w": 360,
+      "h": 28,
+      "action": "guild_ranks.option.4",
+      "visible_when": "guild_ranks.edit"
+    },
+    {
+      "type": "text",
+      "id": "status",
+      "x": 12,
+      "y": 474,
+      "text": "${guild_ranks.status}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "text",
+      "id": "status_more",
+      "x": 12,
+      "y": 490,
+      "text": "${guild_ranks.status_more}",
+      "pixel_size": 12,
+      "color": "#E5CF9E"
+    },
+    {
+      "type": "button",
+      "id": "cancel",
+      "x": 398,
+      "y": 510,
+      "w": 156,
+      "h": 28,
+      "label": "${guild_ranks.cancel}",
+      "action": "guild_ranks.cancel",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "confirm",
+      "x": 566,
+      "y": 510,
+      "w": 200,
+      "h": 28,
+      "label": "${guild_ranks.confirm}",
+      "action": "guild_ranks.confirm",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "guild_ranks.assign"
+    },
+    {
+      "type": "button",
+      "id": "save_permissions",
+      "x": 566,
+      "y": 510,
+      "w": 200,
+      "h": 28,
+      "label": "${guild_ranks.save_permissions}",
+      "action": "guild_ranks.save_permissions",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "guild_ranks.edit"
+    }
+  ]
+}

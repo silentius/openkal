@@ -1,0 +1,14 @@
+{
+  "index": 23029,
+  "rarity": 0,
+  "name": "Ginseng Root",
+  "image": "ginsengRoot",
+  "class": [
+    "general",
+    "etc"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "stackable": 1,
+  "description": "A ginseng root gathered in the wild. Combine with normal Medicine at the Medicine Alchemist to make Auto-HP Medicine of the same size."
+}

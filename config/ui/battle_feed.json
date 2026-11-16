@@ -1,0 +1,35 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "battle_feed",
+  "kind": "hud",
+  "_doc": "Single-player event feed. ChatWidget fades rows after eight seconds over a procedural soft version of panel_fill. Enter opens commands; wheel opens history. GameHud docks beside the Dragon HUD when space permits, otherwise above it.",
+  "window": { "w": 420, "h": 132, "draggable": false },
+  "theme": {
+    "font_pixel_size": 14,
+    "colors": { "label": "#F2E7CC", "value": "#F2E7CC" }
+  },
+  "chrome": { "kind": "pieces", "pieces": [] },
+  "widgets": [
+    {
+      "type": "fill", "id": "panel_fill",
+      "x": -20, "y": 0, "w": 440, "h": 132,
+      "color": "#0D1310", "alpha": 0.48
+    },
+    {
+      "type": "list", "id": "messages",
+      "x": 8, "y": 8, "w": 404, "h": 100,
+      "bind": "chat.messages", "line_height": 20
+    },
+    {
+      "type": "text", "id": "history_hint",
+      "x": 8, "y": 8, "pixel_size": 12,
+      "text": "${chat.history_hint}", "color": "#B8B099",
+      "visible_when": "chat.history_open"
+    },
+    {
+      "type": "input", "id": "input",
+      "x": 8, "y_from_bottom": 30, "w": 404, "h": 22,
+      "bind": "chat.input", "visible_when": "chat.focused"
+    }
+  ]
+}

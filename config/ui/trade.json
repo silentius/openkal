@@ -1,0 +1,297 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "trade",
+  "kind": "window",
+  "window": {
+    "w": 660,
+    "h": 568,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${trade.title}",
+      "pixel_size": 18
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "x": 96,
+      "y": 20,
+      "text": "Double-click or drag an item into your offer.",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "inventory_label",
+      "x": 8,
+      "y": 70,
+      "text": "${trade.inventory_label}",
+      "pixel_size": 15
+    },
+    {
+      "type": "text",
+      "id": "other_label",
+      "x": 350,
+      "y": 70,
+      "text": "${trade.other_label}",
+      "pixel_size": 15
+    },
+    {
+      "type": "fill",
+      "id": "inventory_viewport",
+      "x": 8,
+      "y": 102,
+      "w": 288,
+      "h": 384,
+      "color": "#181713"
+    },
+    {
+      "type": "icon_grid",
+      "id": "inventory_grid",
+      "x": 14,
+      "y": 108,
+      "cols": 6,
+      "rows": 36,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 48,
+        "y": 48
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trade.inventory",
+      "drag": true,
+      "tooltip": true,
+      "viewport": "inventory_viewport",
+      "scroll_bind": "trade.inventory_scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "other_grid",
+      "x": 358,
+      "y": 110,
+      "cols": 6,
+      "rows": 2,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 48,
+        "y": 48
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trade.other",
+      "drag": false,
+      "tooltip": true
+    },
+    {
+      "type": "text",
+      "id": "other_geons_label",
+      "x": 350,
+      "y": 213,
+      "text": "Geons:",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "partner_money",
+      "x": 434,
+      "y": 204,
+      "w": 198,
+      "h": 30,
+      "label": "${trade.partner_money:geons}",
+      "action": "trade.read_money",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "other_status",
+      "x": 350,
+      "y": 244,
+      "text": "${trade.other_status}",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "own_label",
+      "x": 350,
+      "y": 274,
+      "text": "${trade.own_label}",
+      "pixel_size": 15
+    },
+    {
+      "type": "icon_grid",
+      "id": "own_grid",
+      "x": 358,
+      "y": 308,
+      "cols": 6,
+      "rows": 2,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 48,
+        "y": 48
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trade.own",
+      "drag": true,
+      "tooltip": true
+    },
+    {
+      "type": "text",
+      "id": "geons_label",
+      "x": 350,
+      "y": 411,
+      "text": "Geons:",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "money",
+      "x": 434,
+      "y": 402,
+      "w": 198,
+      "h": 30,
+      "label": "${trade.money:geons}",
+      "action": "trade.money",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "own_status",
+      "x": 350,
+      "y": 441,
+      "text": "${trade.own_status}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "confirm",
+      "x": 350,
+      "y": 479,
+      "w": 132,
+      "h": 30,
+      "label": "Accept",
+      "action": "trade.confirm",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "reject",
+      "x": 500,
+      "y": 479,
+      "w": 132,
+      "h": 30,
+      "label": "Reject",
+      "action": "trade.reject",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "scroll_up",
+      "x": 8,
+      "y": 497,
+      "w": 80,
+      "h": 30,
+      "label": "Up",
+      "action": "trade.scroll_up",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "scroll",
+      "x": 103,
+      "y": 505,
+      "text": "${trade.scroll}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "scroll_down",
+      "x": 216,
+      "y": 497,
+      "w": 80,
+      "h": 30,
+      "label": "Down",
+      "action": "trade.scroll_down",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "status",
+      "x": 8,
+      "y": 543,
+      "text": "${trade.status}",
+      "pixel_size": 11
+    }
+  ]
+}

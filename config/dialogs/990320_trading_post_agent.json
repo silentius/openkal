@@ -1,0 +1,10 @@
+{
+  "_doc": "OpenKal dialogue for character-owned trading-post collection.",
+  "id": 990320,
+  "caption": "Trading Post Agent",
+  "lines": ["Your purchases, withdrawn items and sale proceeds are ready for collection. Choose a delivery in Collection to pick it up. Items need a free inventory slot; Geons need room in your wallet."],
+  "links": [
+    { "type": "trading_post_collection", "text": "Collect items and sale proceeds." },
+    { "type": "close", "text": "End conversation." }
+  ]
+}

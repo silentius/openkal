@@ -1,0 +1,5670 @@
+{
+  "schema": "openkal.skin-descriptive-names/v1",
+  "source": {
+    "author": "OpenKal contributors",
+    "origin": "Visual descriptions of optional local model previews",
+    "license": "GPL-3.0-or-later",
+    "created_on": "2026-10-30",
+    "naming_policy": "Use project-authored descriptive English names for appearances without a resolved community name; preserve existing community names.",
+    "scope": "Names describe visible shape, color or clothing themes. They are not official item names, do not establish weapon categories and do not import external art or item tables."
+  },
+  "deferred_ids": [25160, 25313, 25396],
+  "entries": [
+    {
+      "index": 25005,
+      "class": "knight",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "Pumpkin Head Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25007,
+      "class": "knight",
+      "part": "body",
+      "action": [8, 1],
+      "name": "Midnight Masquerade Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25011,
+      "class": "knight",
+      "part": "helmet",
+      "action": [12, 1],
+      "name": "Top Hat Skull Head Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25012,
+      "class": "knight",
+      "part": "helmet",
+      "action": [13, 1],
+      "name": "Melon Head Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25013,
+      "class": "knight",
+      "part": "body",
+      "action": [14, 1],
+      "name": "Burgundy Summer Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25014,
+      "class": "knight",
+      "part": "body",
+      "action": [15, 1],
+      "name": "Black Summer Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25015,
+      "class": "knight",
+      "part": "body",
+      "action": [15, 5],
+      "name": "Azure Skin Summer Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25016,
+      "class": "knight",
+      "part": "body",
+      "action": [16, 1],
+      "name": "Violet Gold Tailcoat Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25017,
+      "class": "knight",
+      "part": "body",
+      "action": [17, 1],
+      "name": "Midnight Violet Tailcoat Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25018,
+      "class": "knight",
+      "part": "body",
+      "action": [18, 1],
+      "name": "Blue Plume Armor Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25019,
+      "class": "knight",
+      "part": "body",
+      "action": [19, 1],
+      "name": "Red Plume Armor Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25020,
+      "class": "knight",
+      "part": "body",
+      "action": [20, 1],
+      "name": "Dark Casual Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25021,
+      "class": "knight",
+      "part": "body",
+      "action": [21, 1],
+      "name": "Sky Blue Holiday Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25022,
+      "class": "knight",
+      "part": "body",
+      "action": [22, 1],
+      "name": "Red Scarf Traveler Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25023,
+      "class": "knight",
+      "part": "body",
+      "action": [23, 1],
+      "name": "Blue Scarf Traveler Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25024,
+      "class": "knight",
+      "part": "body",
+      "action": [24, 1],
+      "name": "Black Evening Suit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25025,
+      "class": "knight",
+      "part": "body",
+      "action": [25, 1],
+      "name": "Rose Evening Suit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25026,
+      "class": "knight",
+      "part": "body",
+      "action": [26, 1],
+      "name": "Cyan Holiday Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25027,
+      "class": "knight",
+      "part": "body",
+      "action": [27, 1],
+      "name": "Monochrome Naval Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25028,
+      "class": "knight",
+      "part": "body",
+      "action": [28, 1],
+      "name": "Azure Gold Naval Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25029,
+      "class": "knight",
+      "part": "body",
+      "action": [29, 1],
+      "name": "Pale Undead Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25030,
+      "class": "knight",
+      "part": "body",
+      "action": [30, 1],
+      "name": "Red Eyed Undead Outfit Skin (Knight)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25037,
+      "class": "knight",
+      "part": "boots",
+      "action": [14, 1],
+      "name": "Azure Silver Greaves Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25038,
+      "class": "knight",
+      "part": "face",
+      "action": [0, 2],
+      "name": "Scarred Face Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25039,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [1, 1],
+      "name": "Leather Bracers Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25040,
+      "class": "knight",
+      "part": "helmet",
+      "action": [1, 1],
+      "name": "Iron Mail Helmet Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25041,
+      "class": "knight",
+      "part": "pants",
+      "action": [1, 1],
+      "name": "Chainmail Leggings Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25042,
+      "class": "knight",
+      "part": "shield",
+      "action": [6, 1],
+      "name": "Golden Horn Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25043,
+      "class": "knight",
+      "part": "upper",
+      "action": [1, 1],
+      "name": "Studded Mail Armor Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25048,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 5],
+      "name": "Azure Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25049,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 6],
+      "name": "Azure Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25050,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 7],
+      "name": "Prism Crystal Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25051,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 8],
+      "name": "Ivory Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25052,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 9],
+      "name": "Ivory Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25053,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 10],
+      "name": "Midnight Serrated Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25054,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 11],
+      "name": "Obsidian Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25055,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 12],
+      "name": "Obsidian Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25056,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 13],
+      "name": "Scarlet Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25057,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 14],
+      "name": "Scarlet Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25058,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 15],
+      "name": "Violet Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25059,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 16],
+      "name": "Violet Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25060,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 17],
+      "name": "Crimson Gold Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25061,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 18],
+      "name": "Ember Silver Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25071,
+      "class": "knight",
+      "part": "weapon",
+      "action": [40, 8],
+      "name": "Crimson Wing Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25072,
+      "class": "knight",
+      "part": "weapon",
+      "action": [40, 9],
+      "name": "Scarlet Wing Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25073,
+      "class": "knight",
+      "part": "weapon",
+      "action": [41, 1],
+      "name": "Panda Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25074,
+      "class": "knight",
+      "part": "weapon",
+      "action": [41, 2],
+      "name": "Golden Sawtooth Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25075,
+      "class": "knight",
+      "part": "weapon",
+      "action": [42, 1],
+      "name": "Bone Spine Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25076,
+      "class": "knight",
+      "part": "weapon",
+      "action": [42, 2],
+      "name": "Skull Spine Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25077,
+      "class": "knight",
+      "part": "weapon",
+      "action": [42, 4],
+      "name": "Violet Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25078,
+      "class": "knight",
+      "part": "weapon",
+      "action": [43, 1],
+      "name": "Golden Flame Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25079,
+      "class": "knight",
+      "part": "weapon",
+      "action": [43, 2],
+      "name": "Ember Fang Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25080,
+      "class": "knight",
+      "part": "weapon",
+      "action": [43, 4],
+      "name": "Black Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25081,
+      "class": "knight",
+      "part": "weapon",
+      "action": [44, 1],
+      "name": "Molten Stone Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25082,
+      "class": "knight",
+      "part": "weapon",
+      "action": [44, 3],
+      "name": "Cinder Talon Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25083,
+      "class": "knight",
+      "part": "weapon",
+      "action": [45, 1],
+      "name": "Azure Rune Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25084,
+      "class": "knight",
+      "part": "weapon",
+      "action": [45, 2],
+      "name": "Crimson Katana Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25085,
+      "class": "knight",
+      "part": "weapon",
+      "action": [45, 3],
+      "name": "Scarlet Katana Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25086,
+      "class": "knight",
+      "part": "weapon",
+      "action": [46, 1],
+      "name": "Silver Longblade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25087,
+      "class": "knight",
+      "part": "weapon",
+      "action": [47, 1],
+      "name": "Feather Charm Katana Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25088,
+      "class": "knight",
+      "part": "weapon",
+      "action": [48, 1],
+      "name": "Rose Crystal Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25089,
+      "class": "knight",
+      "part": "weapon",
+      "action": [49, 1],
+      "name": "Silver Crystal Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25090,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 1],
+      "name": "Golden Rune Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25091,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 2],
+      "name": "Crimson Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25092,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 3],
+      "name": "Crimson Gold Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25093,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 4],
+      "name": "Scarlet Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25094,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 1],
+      "name": "Golden Rune Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25095,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 2],
+      "name": "Violet Wing Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25096,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 3],
+      "name": "Crimson Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25097,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 4],
+      "name": "Crimson Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25098,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 6],
+      "name": "Frost Jagged Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25099,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 12],
+      "name": "Violet Split Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25100,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 15],
+      "name": "White Fencing Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25101,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 16],
+      "name": "Ivory Forked Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25102,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 17],
+      "name": "Ivory Crystal Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25103,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 18],
+      "name": "Spiked Prism Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25104,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 19],
+      "name": "Fire Wrapped Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25105,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 20],
+      "name": "Bone Fang Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25106,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 21],
+      "name": "Emerald Rune Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25107,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 22],
+      "name": "Violet Fang Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25108,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 23],
+      "name": "Silver Fencing Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25109,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 1],
+      "name": "Violet Silver Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25110,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 2],
+      "name": "Violet Silver Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25111,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 10],
+      "name": "Ashen Fang Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25112,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 15],
+      "name": "Ashen Sawtooth Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25113,
+      "class": "knight",
+      "part": "weapon",
+      "action": [57, 4],
+      "name": "Ice Compass Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25114,
+      "class": "knight",
+      "part": "weapon",
+      "action": [58, 2],
+      "name": "Frozen Wing Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25115,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 1],
+      "name": "Crimson Silver Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25116,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 2],
+      "name": "Crimson Silver Cleaver Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25117,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 3],
+      "name": "Crimson Silver Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25118,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 4],
+      "name": "Crimson Silver Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25119,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 7],
+      "name": "Crimson Crescent Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25120,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 8],
+      "name": "Violet Crescent Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25121,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 9],
+      "name": "Jade Katana Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25122,
+      "class": "knight",
+      "part": "weapon",
+      "action": [61, 3],
+      "name": "Azure Rune Fang Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25123,
+      "class": "knight",
+      "part": "weapon",
+      "action": [61, 4],
+      "name": "Cobalt Rune Fang Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25124,
+      "class": "knight",
+      "part": "weapon",
+      "action": [68, 1],
+      "name": "Obsidian Claw Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25125,
+      "class": "knight",
+      "part": "weapon",
+      "action": [68, 2],
+      "name": "Bone Claw Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25126,
+      "class": "knight",
+      "part": "weapon",
+      "action": [70, 1],
+      "name": "Silver Knight Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25127,
+      "class": "knight",
+      "part": "weapon",
+      "action": [87, 3],
+      "name": "Jade Dragon Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25128,
+      "class": "knight",
+      "part": "weapon",
+      "action": [88, 1],
+      "name": "Obsidian Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25129,
+      "class": "knight",
+      "part": "weapon",
+      "action": [88, 3],
+      "name": "Ember Dragon Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25130,
+      "class": "knight",
+      "part": "weapon",
+      "action": [89, 3],
+      "name": "Ashen Dragon Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25131,
+      "class": "knight",
+      "part": "weapon",
+      "action": [89, 4],
+      "name": "Ashen Dragon Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25132,
+      "class": "knight",
+      "part": "weapon",
+      "action": [90, 1],
+      "name": "Wooden Bat Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25133,
+      "class": "knight",
+      "part": "weapon",
+      "action": [100, 1],
+      "name": "Crimson Hook Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25134,
+      "class": "knight",
+      "part": "weapon",
+      "action": [100, 2],
+      "name": "Emerald Fang Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25135,
+      "class": "knight",
+      "part": "weapon",
+      "action": [100, 5],
+      "name": "Black Ember Greatsword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25136,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 1],
+      "name": "Golden Sun Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25137,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 2],
+      "name": "Violet Talon Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25138,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 3],
+      "name": "Emerald Shard Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25139,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 5],
+      "name": "Frozen Shard Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25140,
+      "class": "knight",
+      "part": "weapon",
+      "action": [106, 1],
+      "name": "Violet Barbed Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25141,
+      "class": "knight",
+      "part": "weapon",
+      "action": [106, 2],
+      "name": "Black Gold Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25142,
+      "class": "knight",
+      "part": "weapon",
+      "action": [108, 1],
+      "name": "Scarlet Flame Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25143,
+      "class": "knight",
+      "part": "weapon",
+      "action": [109, 1],
+      "name": "Crimson Flame Sword Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25144,
+      "class": "knight",
+      "part": "weapon",
+      "action": [140, 1],
+      "name": "Golden Lion Blade Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25150,
+      "class": "magician",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "Pumpkin Head Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25152,
+      "class": "magician",
+      "part": "body",
+      "action": [8, 1],
+      "name": "Midnight Masquerade Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25156,
+      "class": "magician",
+      "part": "helmet",
+      "action": [12, 1],
+      "name": "Top Hat Skull Head Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25157,
+      "class": "magician",
+      "part": "helmet",
+      "action": [13, 1],
+      "name": "Melon Head Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25158,
+      "class": "magician",
+      "part": "body",
+      "action": [14, 1],
+      "name": "Burgundy Summer Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25159,
+      "class": "magician",
+      "part": "body",
+      "action": [15, 1],
+      "name": "Black Summer Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25161,
+      "class": "magician",
+      "part": "body",
+      "action": [16, 1],
+      "name": "Violet Layered Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25162,
+      "class": "magician",
+      "part": "body",
+      "action": [17, 1],
+      "name": "Midnight Layered Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25163,
+      "class": "magician",
+      "part": "body",
+      "action": [18, 1],
+      "name": "Blue Plume Armor Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25164,
+      "class": "magician",
+      "part": "body",
+      "action": [19, 1],
+      "name": "Red Plume Armor Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25165,
+      "class": "magician",
+      "part": "body",
+      "action": [20, 1],
+      "name": "White Blouse Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25166,
+      "class": "magician",
+      "part": "body",
+      "action": [21, 1],
+      "name": "Sky Blue Blouse Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25167,
+      "class": "magician",
+      "part": "body",
+      "action": [22, 1],
+      "name": "Azure Traveler Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25168,
+      "class": "magician",
+      "part": "body",
+      "action": [23, 1],
+      "name": "Crimson Traveler Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25169,
+      "class": "magician",
+      "part": "body",
+      "action": [24, 1],
+      "name": "Black Cat Evening Dress Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25170,
+      "class": "magician",
+      "part": "body",
+      "action": [25, 1],
+      "name": "Rose Cat Evening Dress Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25171,
+      "class": "magician",
+      "part": "body",
+      "action": [26, 1],
+      "name": "Cyan Swimwear Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25172,
+      "class": "magician",
+      "part": "body",
+      "action": [27, 1],
+      "name": "Monochrome Naval Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25173,
+      "class": "magician",
+      "part": "body",
+      "action": [28, 1],
+      "name": "Azure Gold Naval Outfit Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25174,
+      "class": "magician",
+      "part": "body",
+      "action": [29, 1],
+      "name": "Pale Haunted Dress Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25175,
+      "class": "magician",
+      "part": "body",
+      "action": [30, 1],
+      "name": "Red Eyed Haunted Dress Skin (Magician)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25182,
+      "class": "magician",
+      "part": "boots",
+      "action": [14, 1],
+      "name": "Azure Silver Boots Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25183,
+      "class": "magician",
+      "part": "face",
+      "action": [0, 2],
+      "name": "Soft Makeup Face Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25184,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [1, 1],
+      "name": "Ribbon Wrist Wraps Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25185,
+      "class": "magician",
+      "part": "helmet",
+      "action": [1, 1],
+      "name": "Long Brown Braids Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25186,
+      "class": "magician",
+      "part": "pants",
+      "action": [1, 1],
+      "name": "Brown Gold Trousers Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25187,
+      "class": "magician",
+      "part": "upper",
+      "action": [1, 1],
+      "name": "Brown Ribbon Tunic Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25190,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 3],
+      "name": "Golden Paddle Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25191,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 4],
+      "name": "Azure Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25192,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 5],
+      "name": "Ivory Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25193,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 6],
+      "name": "Obsidian Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25194,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 7],
+      "name": "Scarlet Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25195,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 8],
+      "name": "Violet Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25196,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 20],
+      "name": "Golden Crest Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25199,
+      "class": "magician",
+      "part": "weapon",
+      "action": [22, 3],
+      "name": "Crimson Crystal Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25200,
+      "class": "magician",
+      "part": "weapon",
+      "action": [22, 4],
+      "name": "Crimson Batwing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25207,
+      "class": "magician",
+      "part": "weapon",
+      "action": [23, 9],
+      "name": "Frost Feather Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25209,
+      "class": "magician",
+      "part": "weapon",
+      "action": [40, 6],
+      "name": "Crimson Wing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25210,
+      "class": "magician",
+      "part": "weapon",
+      "action": [40, 7],
+      "name": "Scarlet Wing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25211,
+      "class": "magician",
+      "part": "weapon",
+      "action": [41, 1],
+      "name": "Panda Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25212,
+      "class": "magician",
+      "part": "weapon",
+      "action": [42, 1],
+      "name": "Skull Spine Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25213,
+      "class": "magician",
+      "part": "weapon",
+      "action": [42, 2],
+      "name": "Violet Dragon Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25214,
+      "class": "magician",
+      "part": "weapon",
+      "action": [42, 4],
+      "name": "Silver Dragon Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25215,
+      "class": "magician",
+      "part": "weapon",
+      "action": [43, 1],
+      "name": "Golden Flame Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25216,
+      "class": "magician",
+      "part": "weapon",
+      "action": [44, 1],
+      "name": "Molten Stone Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25217,
+      "class": "magician",
+      "part": "weapon",
+      "action": [45, 1],
+      "name": "Azure Rune Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25218,
+      "class": "magician",
+      "part": "weapon",
+      "action": [45, 2],
+      "name": "Crimson Scythe Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25219,
+      "class": "magician",
+      "part": "weapon",
+      "action": [46, 1],
+      "name": "Scarlet Crystal Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25220,
+      "class": "magician",
+      "part": "weapon",
+      "action": [47, 1],
+      "name": "Feather Charm Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25221,
+      "class": "magician",
+      "part": "weapon",
+      "action": [48, 1],
+      "name": "Rose Crystal Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25222,
+      "class": "magician",
+      "part": "weapon",
+      "action": [49, 1],
+      "name": "Silver Crystal Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25223,
+      "class": "magician",
+      "part": "weapon",
+      "action": [50, 1],
+      "name": "Golden Lotus Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25224,
+      "class": "magician",
+      "part": "weapon",
+      "action": [50, 2],
+      "name": "Turquoise Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25225,
+      "class": "magician",
+      "part": "weapon",
+      "action": [50, 3],
+      "name": "Scarlet Dragon Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25226,
+      "class": "magician",
+      "part": "weapon",
+      "action": [50, 4],
+      "name": "Turquoise Crown Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25227,
+      "class": "magician",
+      "part": "weapon",
+      "action": [50, 5],
+      "name": "Turquoise Talisman Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25228,
+      "class": "magician",
+      "part": "weapon",
+      "action": [50, 6],
+      "name": "Scarlet Orb Crown Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25229,
+      "class": "magician",
+      "part": "weapon",
+      "action": [51, 1],
+      "name": "Golden Star Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25230,
+      "class": "magician",
+      "part": "weapon",
+      "action": [51, 2],
+      "name": "Crimson Silver Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25231,
+      "class": "magician",
+      "part": "weapon",
+      "action": [51, 3],
+      "name": "Ivory Crescent Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25232,
+      "class": "magician",
+      "part": "weapon",
+      "action": [51, 4],
+      "name": "Golden Prism Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25233,
+      "class": "magician",
+      "part": "weapon",
+      "action": [51, 5],
+      "name": "Violet Prism Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25234,
+      "class": "magician",
+      "part": "weapon",
+      "action": [52, 1],
+      "name": "Jade Wing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25235,
+      "class": "magician",
+      "part": "weapon",
+      "action": [52, 2],
+      "name": "Blood Wing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25236,
+      "class": "magician",
+      "part": "weapon",
+      "action": [52, 4],
+      "name": "Bronze Wing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25237,
+      "class": "magician",
+      "part": "weapon",
+      "action": [60, 1],
+      "name": "Crimson Crest Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25238,
+      "class": "magician",
+      "part": "weapon",
+      "action": [60, 2],
+      "name": "Crimson Crest Crown Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25239,
+      "class": "magician",
+      "part": "weapon",
+      "action": [60, 3],
+      "name": "Crimson Silver Crest Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25240,
+      "class": "magician",
+      "part": "weapon",
+      "action": [60, 4],
+      "name": "Crimson Talisman Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25241,
+      "class": "magician",
+      "part": "weapon",
+      "action": [60, 5],
+      "name": "Crimson Crown Talisman Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25242,
+      "class": "magician",
+      "part": "weapon",
+      "action": [60, 6],
+      "name": "Crimson Silver Talisman Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25243,
+      "class": "magician",
+      "part": "weapon",
+      "action": [60, 9],
+      "name": "Violet Crystal Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25244,
+      "class": "magician",
+      "part": "weapon",
+      "action": [61, 2],
+      "name": "Azure Flame Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25245,
+      "class": "magician",
+      "part": "weapon",
+      "action": [68, 1],
+      "name": "Silver Flame Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25246,
+      "class": "magician",
+      "part": "weapon",
+      "action": [82, 1],
+      "name": "Ember Sun Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25247,
+      "class": "magician",
+      "part": "weapon",
+      "action": [82, 2],
+      "name": "Ember Sun Crown Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25248,
+      "class": "magician",
+      "part": "weapon",
+      "action": [82, 3],
+      "name": "Ember Sun Talisman Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25249,
+      "class": "magician",
+      "part": "weapon",
+      "action": [89, 2],
+      "name": "Ashen Orb Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25250,
+      "class": "magician",
+      "part": "weapon",
+      "action": [100, 1],
+      "name": "Crimson Crystal Scepter Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25251,
+      "class": "magician",
+      "part": "weapon",
+      "action": [100, 2],
+      "name": "Emerald Wing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25252,
+      "class": "magician",
+      "part": "weapon",
+      "action": [100, 5],
+      "name": "Crimson Crescent Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25253,
+      "class": "magician",
+      "part": "weapon",
+      "action": [104, 1],
+      "name": "Golden Flame Scepter Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25254,
+      "class": "magician",
+      "part": "weapon",
+      "action": [104, 2],
+      "name": "Violet Shard Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25255,
+      "class": "magician",
+      "part": "weapon",
+      "action": [104, 3],
+      "name": "Emerald Rose Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25256,
+      "class": "magician",
+      "part": "weapon",
+      "action": [104, 5],
+      "name": "Frozen Shard Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25257,
+      "class": "magician",
+      "part": "weapon",
+      "action": [106, 1],
+      "name": "Violet Claw Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25258,
+      "class": "magician",
+      "part": "weapon",
+      "action": [106, 2],
+      "name": "Obsidian Serpent Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25259,
+      "class": "magician",
+      "part": "weapon",
+      "action": [108, 1],
+      "name": "Crimson Shard Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25260,
+      "class": "magician",
+      "part": "weapon",
+      "action": [140, 1],
+      "name": "Golden Wing Staff Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25266,
+      "class": "archer",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "Pumpkin Head Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25268,
+      "class": "archer",
+      "part": "body",
+      "action": [8, 1],
+      "name": "Midnight Masquerade Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25272,
+      "class": "archer",
+      "part": "helmet",
+      "action": [12, 1],
+      "name": "Top Hat Skull Head Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25273,
+      "class": "archer",
+      "part": "helmet",
+      "action": [13, 1],
+      "name": "Melon Head Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25274,
+      "class": "archer",
+      "part": "body",
+      "action": [14, 1],
+      "name": "Burgundy Summer Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25275,
+      "class": "archer",
+      "part": "body",
+      "action": [15, 1],
+      "name": "Black Summer Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25276,
+      "class": "archer",
+      "part": "body",
+      "action": [15, 5],
+      "name": "Azure Skin Summer Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25277,
+      "class": "archer",
+      "part": "body",
+      "action": [16, 1],
+      "name": "Violet Layered Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25278,
+      "class": "archer",
+      "part": "body",
+      "action": [17, 1],
+      "name": "Midnight Layered Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25279,
+      "class": "archer",
+      "part": "body",
+      "action": [18, 1],
+      "name": "Blue Plume Armor Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25280,
+      "class": "archer",
+      "part": "body",
+      "action": [19, 1],
+      "name": "Red Plume Armor Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25281,
+      "class": "archer",
+      "part": "body",
+      "action": [20, 1],
+      "name": "White Blouse Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25282,
+      "class": "archer",
+      "part": "body",
+      "action": [21, 1],
+      "name": "Sky Blue Blouse Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25283,
+      "class": "archer",
+      "part": "body",
+      "action": [22, 1],
+      "name": "Azure Traveler Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25284,
+      "class": "archer",
+      "part": "body",
+      "action": [23, 1],
+      "name": "Crimson Traveler Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25285,
+      "class": "archer",
+      "part": "body",
+      "action": [24, 1],
+      "name": "Black Cat Evening Dress Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25286,
+      "class": "archer",
+      "part": "body",
+      "action": [25, 1],
+      "name": "Rose Cat Evening Dress Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25287,
+      "class": "archer",
+      "part": "body",
+      "action": [26, 1],
+      "name": "Cyan Swimwear Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25288,
+      "class": "archer",
+      "part": "body",
+      "action": [27, 1],
+      "name": "Monochrome Naval Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25289,
+      "class": "archer",
+      "part": "body",
+      "action": [28, 1],
+      "name": "Azure Gold Naval Outfit Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25290,
+      "class": "archer",
+      "part": "body",
+      "action": [29, 1],
+      "name": "Pale Haunted Dress Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25291,
+      "class": "archer",
+      "part": "body",
+      "action": [30, 1],
+      "name": "Red Eyed Haunted Dress Skin (Archer)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25298,
+      "class": "archer",
+      "part": "boots",
+      "action": [14, 1],
+      "name": "Azure Silver Boots Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25299,
+      "class": "archer",
+      "part": "face",
+      "action": [0, 2],
+      "name": "Amber Eye Face Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25300,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [1, 1],
+      "name": "Leather Arm Wraps Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25301,
+      "class": "archer",
+      "part": "helmet",
+      "action": [1, 1],
+      "name": "Brown Topknot Headband Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25302,
+      "class": "archer",
+      "part": "pants",
+      "action": [1, 1],
+      "name": "Crimson Leather Shorts Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25303,
+      "class": "archer",
+      "part": "shield",
+      "action": [1, 1],
+      "name": "Wooden Arrow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25304,
+      "class": "archer",
+      "part": "upper",
+      "action": [1, 1],
+      "name": "Crimson Leather Vest Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25307,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 3],
+      "name": "Golden Wooden Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25308,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 4],
+      "name": "Azure Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25309,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 5],
+      "name": "Ivory Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25310,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 6],
+      "name": "Obsidian Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25311,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 7],
+      "name": "Scarlet Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25312,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 8],
+      "name": "Violet Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25314,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 19],
+      "name": "Golden Flame Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25315,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 27],
+      "name": "Crimson Wing Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25318,
+      "class": "archer",
+      "part": "weapon",
+      "action": [22, 3],
+      "name": "Ivory Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25319,
+      "class": "archer",
+      "part": "weapon",
+      "action": [22, 17],
+      "name": "Azure Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25322,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 3],
+      "name": "Slender Wooden Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25323,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 4],
+      "name": "Crimson Batwing Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25324,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 5],
+      "name": "Silver Dragon Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25325,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 6],
+      "name": "Ivory Striped Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25326,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 8],
+      "name": "Slender Wooden Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25327,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 9],
+      "name": "Obsidian Wing Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25328,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 21],
+      "name": "Ivory Gold Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25329,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 22],
+      "name": "Golden Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25331,
+      "class": "archer",
+      "part": "weapon",
+      "action": [40, 17],
+      "name": "Crimson Black Wing Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25332,
+      "class": "archer",
+      "part": "weapon",
+      "action": [41, 1],
+      "name": "Golden Feather Charm Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25333,
+      "class": "archer",
+      "part": "weapon",
+      "action": [42, 1],
+      "name": "Bone Spine Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25334,
+      "class": "archer",
+      "part": "weapon",
+      "action": [42, 2],
+      "name": "Silver Horn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25335,
+      "class": "archer",
+      "part": "weapon",
+      "action": [42, 4],
+      "name": "Silver Dragon Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25336,
+      "class": "archer",
+      "part": "weapon",
+      "action": [43, 1],
+      "name": "Golden Talon Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25337,
+      "class": "archer",
+      "part": "weapon",
+      "action": [44, 1],
+      "name": "Molten Stone Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25338,
+      "class": "archer",
+      "part": "weapon",
+      "action": [45, 1],
+      "name": "Turquoise Rune Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25339,
+      "class": "archer",
+      "part": "weapon",
+      "action": [45, 2],
+      "name": "Crimson Crystal Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25340,
+      "class": "archer",
+      "part": "weapon",
+      "action": [45, 3],
+      "name": "Frost Crystal Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25341,
+      "class": "archer",
+      "part": "weapon",
+      "action": [46, 1],
+      "name": "Crimson Longbow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25342,
+      "class": "archer",
+      "part": "weapon",
+      "action": [47, 1],
+      "name": "Ember Longbow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25343,
+      "class": "archer",
+      "part": "weapon",
+      "action": [48, 1],
+      "name": "Rose Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25344,
+      "class": "archer",
+      "part": "weapon",
+      "action": [49, 1],
+      "name": "Silver Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25345,
+      "class": "archer",
+      "part": "weapon",
+      "action": [50, 1],
+      "name": "Golden Crescent Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25346,
+      "class": "archer",
+      "part": "weapon",
+      "action": [50, 2],
+      "name": "Emerald Gold Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25347,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 1],
+      "name": "Golden Crescent Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25348,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 2],
+      "name": "Scarlet Claw Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25349,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 4],
+      "name": "Violet Crystal Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25350,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 5],
+      "name": "Ivory Spire Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25351,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 6],
+      "name": "Pale Jade Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25352,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 7],
+      "name": "Feather Charm Longbow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25353,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 8],
+      "name": "Silver Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25354,
+      "class": "archer",
+      "part": "weapon",
+      "action": [51, 10],
+      "name": "Rose Crystal Longbow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25355,
+      "class": "archer",
+      "part": "weapon",
+      "action": [52, 4],
+      "name": "Frost Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25356,
+      "class": "archer",
+      "part": "weapon",
+      "action": [52, 5],
+      "name": "Crimson Silver Talon Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25357,
+      "class": "archer",
+      "part": "weapon",
+      "action": [53, 1],
+      "name": "Dark Crimson Wing Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25358,
+      "class": "archer",
+      "part": "weapon",
+      "action": [53, 2],
+      "name": "Burgundy Batwing Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25359,
+      "class": "archer",
+      "part": "weapon",
+      "action": [60, 1],
+      "name": "Burgundy Silver Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25360,
+      "class": "archer",
+      "part": "weapon",
+      "action": [60, 2],
+      "name": "Burgundy Silver Crown Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25361,
+      "class": "archer",
+      "part": "weapon",
+      "action": [60, 9],
+      "name": "Violet Silver Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25362,
+      "class": "archer",
+      "part": "weapon",
+      "action": [61, 2],
+      "name": "Cobalt Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25363,
+      "class": "archer",
+      "part": "weapon",
+      "action": [68, 1],
+      "name": "Silver Black Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25364,
+      "class": "archer",
+      "part": "weapon",
+      "action": [75, 4],
+      "name": "Frost Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25365,
+      "class": "archer",
+      "part": "weapon",
+      "action": [82, 1],
+      "name": "Ashen Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25366,
+      "class": "archer",
+      "part": "weapon",
+      "action": [82, 2],
+      "name": "Ember Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25367,
+      "class": "archer",
+      "part": "weapon",
+      "action": [82, 3],
+      "name": "Ashen Crown Thorn Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25368,
+      "class": "archer",
+      "part": "weapon",
+      "action": [89, 2],
+      "name": "Ashen Feather Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25369,
+      "class": "archer",
+      "part": "weapon",
+      "action": [99, 1],
+      "name": "Violet Crystal Cage Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25370,
+      "class": "archer",
+      "part": "weapon",
+      "action": [100, 1],
+      "name": "Crimson Barbed Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25371,
+      "class": "archer",
+      "part": "weapon",
+      "action": [100, 2],
+      "name": "Emerald Sun Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25372,
+      "class": "archer",
+      "part": "weapon",
+      "action": [100, 5],
+      "name": "Ember Silver Talon Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25373,
+      "class": "archer",
+      "part": "weapon",
+      "action": [104, 1],
+      "name": "Golden Flame Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25374,
+      "class": "archer",
+      "part": "weapon",
+      "action": [104, 2],
+      "name": "Violet Talon Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25375,
+      "class": "archer",
+      "part": "weapon",
+      "action": [104, 3],
+      "name": "Emerald Shard Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25376,
+      "class": "archer",
+      "part": "weapon",
+      "action": [104, 5],
+      "name": "Frozen Shard Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25377,
+      "class": "archer",
+      "part": "weapon",
+      "action": [106, 1],
+      "name": "Violet Claw Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25378,
+      "class": "archer",
+      "part": "weapon",
+      "action": [106, 2],
+      "name": "Obsidian Claw Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25379,
+      "class": "archer",
+      "part": "weapon",
+      "action": [108, 1],
+      "name": "Crimson Claw Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25380,
+      "class": "archer",
+      "part": "weapon",
+      "action": [140, 1],
+      "name": "Golden Wing Bow Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25386,
+      "class": "thief",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "Pumpkin Head Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25388,
+      "class": "thief",
+      "part": "body",
+      "action": [8, 1],
+      "name": "Midnight Masquerade Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25392,
+      "class": "thief",
+      "part": "helmet",
+      "action": [12, 1],
+      "name": "Top Hat Skull Head Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25393,
+      "class": "thief",
+      "part": "helmet",
+      "action": [13, 1],
+      "name": "Melon Head Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25394,
+      "class": "thief",
+      "part": "body",
+      "action": [14, 1],
+      "name": "Burgundy Summer Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25395,
+      "class": "thief",
+      "part": "body",
+      "action": [15, 1],
+      "name": "Black Summer Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25397,
+      "class": "thief",
+      "part": "body",
+      "action": [16, 1],
+      "name": "Violet Layered Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25398,
+      "class": "thief",
+      "part": "body",
+      "action": [17, 1],
+      "name": "Midnight Layered Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25399,
+      "class": "thief",
+      "part": "body",
+      "action": [18, 1],
+      "name": "Blue Plume Armor Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25400,
+      "class": "thief",
+      "part": "body",
+      "action": [19, 1],
+      "name": "Red Plume Armor Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25401,
+      "class": "thief",
+      "part": "body",
+      "action": [20, 1],
+      "name": "White Blouse Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25402,
+      "class": "thief",
+      "part": "body",
+      "action": [21, 1],
+      "name": "Sky Blue Blouse Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25403,
+      "class": "thief",
+      "part": "body",
+      "action": [22, 1],
+      "name": "Azure Traveler Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25404,
+      "class": "thief",
+      "part": "body",
+      "action": [23, 1],
+      "name": "Crimson Traveler Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25405,
+      "class": "thief",
+      "part": "body",
+      "action": [24, 1],
+      "name": "Black Cat Evening Dress Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25406,
+      "class": "thief",
+      "part": "body",
+      "action": [25, 1],
+      "name": "Rose Cat Evening Dress Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25407,
+      "class": "thief",
+      "part": "body",
+      "action": [26, 1],
+      "name": "Cyan Swimwear Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25408,
+      "class": "thief",
+      "part": "body",
+      "action": [27, 1],
+      "name": "Monochrome Naval Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25409,
+      "class": "thief",
+      "part": "body",
+      "action": [28, 1],
+      "name": "Azure Gold Naval Outfit Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25410,
+      "class": "thief",
+      "part": "body",
+      "action": [29, 1],
+      "name": "Pale Haunted Dress Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25411,
+      "class": "thief",
+      "part": "body",
+      "action": [30, 1],
+      "name": "Red Eyed Haunted Dress Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25418,
+      "class": "thief",
+      "part": "body",
+      "action": [189, 1],
+      "name": "Golden Armor Skin (Thief)",
+      "review_basis": "costume_family_front_back_review"
+    },
+    {
+      "index": 25419,
+      "class": "thief",
+      "part": "boots",
+      "action": [14, 1],
+      "name": "Azure Silver Shin Guards Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25420,
+      "class": "thief",
+      "part": "face",
+      "action": [0, 2],
+      "name": "Brown Hair Face Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25421,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [1, 1],
+      "name": "Turquoise Wrist Wraps Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25422,
+      "class": "thief",
+      "part": "helmet",
+      "action": [1, 1],
+      "name": "Turquoise Headband Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25423,
+      "class": "thief",
+      "part": "pants",
+      "action": [1, 1],
+      "name": "Azure Gold Trousers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25424,
+      "class": "thief",
+      "part": "upper",
+      "action": [1, 1],
+      "name": "Bronze Turquoise Vest Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25427,
+      "class": "thief",
+      "part": "weapon",
+      "action": [21, 4],
+      "name": "Azure Dragon Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25428,
+      "class": "thief",
+      "part": "weapon",
+      "action": [21, 5],
+      "name": "Ivory Dragon Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25429,
+      "class": "thief",
+      "part": "weapon",
+      "action": [21, 6],
+      "name": "Obsidian Dragon Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25430,
+      "class": "thief",
+      "part": "weapon",
+      "action": [21, 7],
+      "name": "Scarlet Dragon Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25431,
+      "class": "thief",
+      "part": "weapon",
+      "action": [21, 8],
+      "name": "Violet Dragon Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25434,
+      "class": "thief",
+      "part": "weapon",
+      "action": [22, 5],
+      "name": "Crimson Gold Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25438,
+      "class": "thief",
+      "part": "weapon",
+      "action": [41, 1],
+      "name": "Panda Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25439,
+      "class": "thief",
+      "part": "weapon",
+      "action": [42, 1],
+      "name": "Bone Spine Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25440,
+      "class": "thief",
+      "part": "weapon",
+      "action": [42, 2],
+      "name": "Bone Fang Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25441,
+      "class": "thief",
+      "part": "weapon",
+      "action": [43, 1],
+      "name": "Golden Flame Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25442,
+      "class": "thief",
+      "part": "weapon",
+      "action": [44, 1],
+      "name": "Molten Stone Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25443,
+      "class": "thief",
+      "part": "weapon",
+      "action": [45, 1],
+      "name": "Turquoise Rune Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25444,
+      "class": "thief",
+      "part": "weapon",
+      "action": [46, 1],
+      "name": "Silver Katana Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25445,
+      "class": "thief",
+      "part": "weapon",
+      "action": [47, 1],
+      "name": "Feather Charm Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25446,
+      "class": "thief",
+      "part": "weapon",
+      "action": [48, 1],
+      "name": "Rose Crystal Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25447,
+      "class": "thief",
+      "part": "weapon",
+      "action": [49, 1],
+      "name": "Silver Crystal Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25448,
+      "class": "thief",
+      "part": "weapon",
+      "action": [50, 1],
+      "name": "Golden Rune Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25449,
+      "class": "thief",
+      "part": "weapon",
+      "action": [50, 2],
+      "name": "Golden Claw Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25450,
+      "class": "thief",
+      "part": "weapon",
+      "action": [51, 1],
+      "name": "Golden Rune Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25451,
+      "class": "thief",
+      "part": "weapon",
+      "action": [51, 2],
+      "name": "Crimson Dragon Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25452,
+      "class": "thief",
+      "part": "weapon",
+      "action": [60, 1],
+      "name": "Burgundy Silver Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25453,
+      "class": "thief",
+      "part": "weapon",
+      "action": [60, 2],
+      "name": "Burgundy Crown Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25454,
+      "class": "thief",
+      "part": "weapon",
+      "action": [61, 2],
+      "name": "Cobalt Serpent Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25455,
+      "class": "thief",
+      "part": "weapon",
+      "action": [68, 1],
+      "name": "Silver Claw Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25456,
+      "class": "thief",
+      "part": "weapon",
+      "action": [100, 1],
+      "name": "Crimson Crystal Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25457,
+      "class": "thief",
+      "part": "weapon",
+      "action": [100, 2],
+      "name": "Emerald Gold Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25458,
+      "class": "thief",
+      "part": "weapon",
+      "action": [100, 5],
+      "name": "Crimson Hook Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25459,
+      "class": "thief",
+      "part": "weapon",
+      "action": [104, 1],
+      "name": "Golden Sun Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25460,
+      "class": "thief",
+      "part": "weapon",
+      "action": [104, 2],
+      "name": "Violet Talon Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25461,
+      "class": "thief",
+      "part": "weapon",
+      "action": [104, 3],
+      "name": "Emerald Shard Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25462,
+      "class": "thief",
+      "part": "weapon",
+      "action": [104, 5],
+      "name": "Frozen Shard Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25463,
+      "class": "thief",
+      "part": "weapon",
+      "action": [106, 1],
+      "name": "Violet Claw Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25464,
+      "class": "thief",
+      "part": "weapon",
+      "action": [106, 2],
+      "name": "Obsidian Claw Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25465,
+      "class": "thief",
+      "part": "weapon",
+      "action": [108, 1],
+      "name": "Scarlet Flame Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25466,
+      "class": "thief",
+      "part": "weapon",
+      "action": [140, 1],
+      "name": "Golden Lion Daggers Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25467,
+      "class": "knight",
+      "part": "boots",
+      "action": [1, 1],
+      "name": "Iron Mail Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25468,
+      "class": "knight",
+      "part": "helmet",
+      "action": [14, 1],
+      "name": "Azure Silver Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25469,
+      "class": "knight",
+      "part": "upper",
+      "action": [14, 1],
+      "name": "Azure Silver Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25470,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [14, 1],
+      "name": "Azure Silver Gauntlets Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25471,
+      "class": "knight",
+      "part": "pants",
+      "action": [14, 1],
+      "name": "Azure Silver Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25472,
+      "class": "magician",
+      "part": "boots",
+      "action": [1, 1],
+      "name": "Brown Ribbon Shoes Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25473,
+      "class": "magician",
+      "part": "helmet",
+      "action": [14, 1],
+      "name": "Azure Silver Crown Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25474,
+      "class": "magician",
+      "part": "upper",
+      "action": [14, 1],
+      "name": "Azure Silver Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25475,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [14, 1],
+      "name": "Azure Silver Gauntlets Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25476,
+      "class": "magician",
+      "part": "pants",
+      "action": [14, 1],
+      "name": "Azure Silver Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25477,
+      "class": "archer",
+      "part": "boots",
+      "action": [1, 1],
+      "name": "Crimson Leather Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25478,
+      "class": "archer",
+      "part": "helmet",
+      "action": [14, 1],
+      "name": "Azure Silver Plume Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25479,
+      "class": "archer",
+      "part": "upper",
+      "action": [14, 1],
+      "name": "Azure Silver Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25480,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [14, 1],
+      "name": "Azure Silver Gauntlets Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25481,
+      "class": "archer",
+      "part": "pants",
+      "action": [14, 1],
+      "name": "Azure Silver Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25482,
+      "class": "thief",
+      "part": "boots",
+      "action": [1, 1],
+      "name": "Turquoise Sandals Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25483,
+      "class": "thief",
+      "part": "helmet",
+      "action": [14, 1],
+      "name": "Azure Silver Tiara Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25484,
+      "class": "thief",
+      "part": "upper",
+      "action": [14, 1],
+      "name": "Azure Silver Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25485,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [14, 1],
+      "name": "Azure Silver Gauntlets Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25486,
+      "class": "thief",
+      "part": "pants",
+      "action": [14, 1],
+      "name": "Azure Silver Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25487,
+      "class": "knight",
+      "part": "helmet",
+      "action": [2, 1],
+      "name": "G16 Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25488,
+      "class": "knight",
+      "part": "upper",
+      "action": [2, 1],
+      "name": "G16 Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25489,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [2, 1],
+      "name": "G16 Gloves Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25490,
+      "class": "knight",
+      "part": "pants",
+      "action": [2, 1],
+      "name": "G16 Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25491,
+      "class": "knight",
+      "part": "boots",
+      "action": [2, 1],
+      "name": "G16 Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25492,
+      "class": "knight",
+      "part": "helmet",
+      "action": [3, 1],
+      "name": "G24 Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25493,
+      "class": "knight",
+      "part": "upper",
+      "action": [3, 1],
+      "name": "G24 Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25494,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [3, 1],
+      "name": "G24 Gloves Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25495,
+      "class": "knight",
+      "part": "pants",
+      "action": [3, 1],
+      "name": "G24 Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25496,
+      "class": "knight",
+      "part": "boots",
+      "action": [3, 1],
+      "name": "G24 Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25497,
+      "class": "knight",
+      "part": "helmet",
+      "action": [4, 1],
+      "name": "G32 Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25498,
+      "class": "knight",
+      "part": "upper",
+      "action": [4, 1],
+      "name": "G32 Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25499,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [4, 1],
+      "name": "G32 Gloves Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25500,
+      "class": "knight",
+      "part": "pants",
+      "action": [4, 1],
+      "name": "G32 Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25501,
+      "class": "knight",
+      "part": "boots",
+      "action": [4, 1],
+      "name": "G32 Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25502,
+      "class": "knight",
+      "part": "helmet",
+      "action": [5, 1],
+      "name": "G42 Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25503,
+      "class": "knight",
+      "part": "upper",
+      "action": [5, 1],
+      "name": "G42 Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25504,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [5, 1],
+      "name": "G42 Gloves Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25505,
+      "class": "knight",
+      "part": "pants",
+      "action": [5, 1],
+      "name": "G42 Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25506,
+      "class": "knight",
+      "part": "boots",
+      "action": [5, 1],
+      "name": "G42 Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25507,
+      "class": "knight",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "G46 Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25508,
+      "class": "knight",
+      "part": "upper",
+      "action": [6, 1],
+      "name": "G46 Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25509,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [6, 1],
+      "name": "G46 Gloves Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25510,
+      "class": "knight",
+      "part": "pants",
+      "action": [6, 1],
+      "name": "G46 Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25511,
+      "class": "knight",
+      "part": "boots",
+      "action": [6, 1],
+      "name": "G46 Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25512,
+      "class": "knight",
+      "part": "helmet",
+      "action": [7, 1],
+      "name": "G50 Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25513,
+      "class": "knight",
+      "part": "upper",
+      "action": [7, 1],
+      "name": "G50 Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25514,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [7, 1],
+      "name": "G50 Gloves Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25515,
+      "class": "knight",
+      "part": "pants",
+      "action": [7, 1],
+      "name": "G50 Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25516,
+      "class": "knight",
+      "part": "boots",
+      "action": [7, 1],
+      "name": "G50 Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25517,
+      "class": "knight",
+      "part": "helmet",
+      "action": [8, 1],
+      "name": "G55 Helmet Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25518,
+      "class": "knight",
+      "part": "upper",
+      "action": [8, 1],
+      "name": "G55 Armor Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25519,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [8, 1],
+      "name": "G55 Gloves Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25520,
+      "class": "knight",
+      "part": "pants",
+      "action": [8, 1],
+      "name": "G55 Leggings Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25521,
+      "class": "knight",
+      "part": "boots",
+      "action": [8, 1],
+      "name": "G55 Boots Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25522,
+      "class": "knight",
+      "part": "helmet",
+      "action": [9, 1],
+      "name": "Helmet of Darkness Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25523,
+      "class": "knight",
+      "part": "upper",
+      "action": [9, 1],
+      "name": "Armor of Darkness Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25524,
+      "class": "knight",
+      "part": "gauntlet",
+      "action": [9, 1],
+      "name": "Gloves of Darkness Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25525,
+      "class": "knight",
+      "part": "pants",
+      "action": [9, 1],
+      "name": "Leggings of Darkness Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25526,
+      "class": "knight",
+      "part": "boots",
+      "action": [9, 1],
+      "name": "Boots of Darkness Skin (Knight)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25527,
+      "class": "knight",
+      "part": "weapon",
+      "action": [1, 1],
+      "name": "G1 Sword 01-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25528,
+      "class": "knight",
+      "part": "weapon",
+      "action": [2, 1],
+      "name": "G5 Sword 02-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25529,
+      "class": "knight",
+      "part": "weapon",
+      "action": [2, 2],
+      "name": "G9 Sword 02-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25530,
+      "class": "knight",
+      "part": "weapon",
+      "action": [3, 1],
+      "name": "G13 Sword 03-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25531,
+      "class": "knight",
+      "part": "weapon",
+      "action": [3, 2],
+      "name": "G17 Sword 03-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25532,
+      "class": "knight",
+      "part": "weapon",
+      "action": [3, 3],
+      "name": "G21 Sword 03-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25533,
+      "class": "knight",
+      "part": "weapon",
+      "action": [4, 1],
+      "name": "G25 Sword 04-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25534,
+      "class": "knight",
+      "part": "weapon",
+      "action": [4, 2],
+      "name": "G29 Sword 04-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25535,
+      "class": "knight",
+      "part": "weapon",
+      "action": [4, 3],
+      "name": "G33 Sword 04-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25536,
+      "class": "knight",
+      "part": "weapon",
+      "action": [5, 1],
+      "name": "G37 Sword 05-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25537,
+      "class": "knight",
+      "part": "weapon",
+      "action": [5, 2],
+      "name": "G40 Sword 05-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25538,
+      "class": "knight",
+      "part": "weapon",
+      "action": [5, 3],
+      "name": "G40 Sword 05-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25539,
+      "class": "knight",
+      "part": "weapon",
+      "action": [6, 1],
+      "name": "G40 Sword 06-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25540,
+      "class": "knight",
+      "part": "weapon",
+      "action": [6, 2],
+      "name": "G45 Sword 06-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25541,
+      "class": "knight",
+      "part": "weapon",
+      "action": [6, 3],
+      "name": "G45 Sword 06-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25542,
+      "class": "knight",
+      "part": "weapon",
+      "action": [6, 4],
+      "name": "G48 Sword 06-04 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25543,
+      "class": "knight",
+      "part": "weapon",
+      "action": [6, 5],
+      "name": "G48 Sword 06-05 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25544,
+      "class": "knight",
+      "part": "weapon",
+      "action": [7, 1],
+      "name": "G50 Sword 07-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25545,
+      "class": "knight",
+      "part": "weapon",
+      "action": [7, 2],
+      "name": "G50 Sword 07-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25546,
+      "class": "knight",
+      "part": "weapon",
+      "action": [7, 3],
+      "name": "G50 Sword 07-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25547,
+      "class": "knight",
+      "part": "weapon",
+      "action": [7, 4],
+      "name": "G50 Sword 07-04 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25548,
+      "class": "knight",
+      "part": "weapon",
+      "action": [8, 1],
+      "name": "G50 Greatsword 08-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25549,
+      "class": "knight",
+      "part": "weapon",
+      "action": [8, 2],
+      "name": "G50 Greatsword 08-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25550,
+      "class": "knight",
+      "part": "weapon",
+      "action": [8, 3],
+      "name": "G50 Greatsword 08-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25551,
+      "class": "knight",
+      "part": "weapon",
+      "action": [8, 4],
+      "name": "G50 Greatsword 08-04 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25552,
+      "class": "knight",
+      "part": "weapon",
+      "action": [9, 1],
+      "name": "G53 Sword 09-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25553,
+      "class": "knight",
+      "part": "weapon",
+      "action": [9, 2],
+      "name": "G53 Sword 09-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25554,
+      "class": "knight",
+      "part": "weapon",
+      "action": [9, 3],
+      "name": "G53 Sword 09-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25555,
+      "class": "knight",
+      "part": "weapon",
+      "action": [9, 4],
+      "name": "G53 Sword 09-04 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25556,
+      "class": "knight",
+      "part": "weapon",
+      "action": [10, 1],
+      "name": "G53 Greatsword 10-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25557,
+      "class": "knight",
+      "part": "weapon",
+      "action": [10, 2],
+      "name": "G53 Greatsword 10-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25558,
+      "class": "knight",
+      "part": "weapon",
+      "action": [10, 3],
+      "name": "G53 Greatsword 10-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25559,
+      "class": "knight",
+      "part": "weapon",
+      "action": [10, 4],
+      "name": "G53 Greatsword 10-04 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25560,
+      "class": "knight",
+      "part": "weapon",
+      "action": [20, 1],
+      "name": "Sword of Darkness Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25561,
+      "class": "knight",
+      "part": "weapon",
+      "action": [20, 2],
+      "name": "Greatsword of Darkness Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25562,
+      "class": "knight",
+      "part": "weapon",
+      "action": [20, 3],
+      "name": "Treasure Sword of Darkness Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25563,
+      "class": "knight",
+      "part": "weapon",
+      "action": [20, 4],
+      "name": "Treasure Greatsword of Darkness Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25564,
+      "class": "knight",
+      "part": "shield",
+      "action": [1, 1],
+      "name": "G10 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25565,
+      "class": "knight",
+      "part": "shield",
+      "action": [1, 2],
+      "name": "G17 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25566,
+      "class": "knight",
+      "part": "shield",
+      "action": [2, 1],
+      "name": "G25 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25567,
+      "class": "knight",
+      "part": "shield",
+      "action": [2, 2],
+      "name": "G30 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25568,
+      "class": "knight",
+      "part": "shield",
+      "action": [2, 3],
+      "name": "G35 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25569,
+      "class": "knight",
+      "part": "shield",
+      "action": [3, 1],
+      "name": "G40 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25570,
+      "class": "knight",
+      "part": "shield",
+      "action": [3, 2],
+      "name": "G53 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25571,
+      "class": "knight",
+      "part": "shield",
+      "action": [4, 1],
+      "name": "G44 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25572,
+      "class": "knight",
+      "part": "shield",
+      "action": [4, 2],
+      "name": "G48 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25573,
+      "class": "knight",
+      "part": "shield",
+      "action": [4, 3],
+      "name": "G52 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25574,
+      "class": "knight",
+      "part": "shield",
+      "action": [4, 4],
+      "name": "G55 Shield Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25575,
+      "class": "knight",
+      "part": "shield",
+      "action": [5, 1],
+      "name": "Shield of Darkness Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25576,
+      "class": "magician",
+      "part": "helmet",
+      "action": [2, 1],
+      "name": "G16 Helmet Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25577,
+      "class": "magician",
+      "part": "upper",
+      "action": [2, 1],
+      "name": "G16 Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25578,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [2, 1],
+      "name": "G16 Gloves Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25579,
+      "class": "magician",
+      "part": "pants",
+      "action": [2, 1],
+      "name": "G16 Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25580,
+      "class": "magician",
+      "part": "boots",
+      "action": [2, 1],
+      "name": "G16 Boots Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25581,
+      "class": "magician",
+      "part": "helmet",
+      "action": [3, 1],
+      "name": "G24 Helmet Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25582,
+      "class": "magician",
+      "part": "upper",
+      "action": [3, 1],
+      "name": "G24 Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25583,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [3, 1],
+      "name": "G24 Gloves Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25584,
+      "class": "magician",
+      "part": "pants",
+      "action": [3, 1],
+      "name": "G24 Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25585,
+      "class": "magician",
+      "part": "boots",
+      "action": [3, 1],
+      "name": "G24 Boots Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25586,
+      "class": "magician",
+      "part": "helmet",
+      "action": [4, 1],
+      "name": "G32 Helmet Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25587,
+      "class": "magician",
+      "part": "upper",
+      "action": [4, 1],
+      "name": "G32 Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25588,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [4, 1],
+      "name": "G32 Gloves Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25589,
+      "class": "magician",
+      "part": "pants",
+      "action": [4, 1],
+      "name": "G32 Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25590,
+      "class": "magician",
+      "part": "boots",
+      "action": [4, 1],
+      "name": "G32 Boots Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25591,
+      "class": "magician",
+      "part": "helmet",
+      "action": [5, 1],
+      "name": "G42 Helmet Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25592,
+      "class": "magician",
+      "part": "upper",
+      "action": [5, 1],
+      "name": "G42 Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25593,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [5, 1],
+      "name": "G42 Gloves Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25594,
+      "class": "magician",
+      "part": "pants",
+      "action": [5, 1],
+      "name": "G42 Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25595,
+      "class": "magician",
+      "part": "boots",
+      "action": [5, 1],
+      "name": "G42 Boots Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25596,
+      "class": "magician",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "G46 Helmet Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25597,
+      "class": "magician",
+      "part": "upper",
+      "action": [6, 1],
+      "name": "G46 Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25598,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [6, 1],
+      "name": "G46 Gloves Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25599,
+      "class": "magician",
+      "part": "pants",
+      "action": [6, 1],
+      "name": "G46 Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25600,
+      "class": "magician",
+      "part": "boots",
+      "action": [6, 1],
+      "name": "G46 Boots Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25601,
+      "class": "magician",
+      "part": "helmet",
+      "action": [7, 1],
+      "name": "G50 Helmet Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25602,
+      "class": "magician",
+      "part": "upper",
+      "action": [7, 1],
+      "name": "G50 Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25603,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [7, 1],
+      "name": "G50 Gloves Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25604,
+      "class": "magician",
+      "part": "pants",
+      "action": [7, 1],
+      "name": "G50 Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25605,
+      "class": "magician",
+      "part": "boots",
+      "action": [7, 1],
+      "name": "G50 Boots Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25606,
+      "class": "magician",
+      "part": "helmet",
+      "action": [8, 1],
+      "name": "G55 Helmet Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25607,
+      "class": "magician",
+      "part": "upper",
+      "action": [8, 1],
+      "name": "G55 Armor Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25608,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [8, 1],
+      "name": "G55 Gloves Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25609,
+      "class": "magician",
+      "part": "pants",
+      "action": [8, 1],
+      "name": "G55 Leggings Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25610,
+      "class": "magician",
+      "part": "boots",
+      "action": [8, 1],
+      "name": "G55 Boots Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25611,
+      "class": "magician",
+      "part": "helmet",
+      "action": [9, 1],
+      "name": "Helmet of Darkness Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25612,
+      "class": "magician",
+      "part": "upper",
+      "action": [9, 1],
+      "name": "Armor of Darkness Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25613,
+      "class": "magician",
+      "part": "gauntlet",
+      "action": [9, 1],
+      "name": "Gloves of Darkness Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25614,
+      "class": "magician",
+      "part": "pants",
+      "action": [9, 1],
+      "name": "Leggings of Darkness Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25615,
+      "class": "magician",
+      "part": "boots",
+      "action": [9, 1],
+      "name": "Boots of Darkness Skin (Magician)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25616,
+      "class": "magician",
+      "part": "weapon",
+      "action": [1, 1],
+      "name": "G1 Staff 01-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25617,
+      "class": "magician",
+      "part": "weapon",
+      "action": [2, 1],
+      "name": "G5 Staff 02-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25618,
+      "class": "magician",
+      "part": "weapon",
+      "action": [2, 2],
+      "name": "G9 Staff 02-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25619,
+      "class": "magician",
+      "part": "weapon",
+      "action": [3, 1],
+      "name": "G13 Staff 03-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25620,
+      "class": "magician",
+      "part": "weapon",
+      "action": [3, 2],
+      "name": "G17 Staff 03-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25621,
+      "class": "magician",
+      "part": "weapon",
+      "action": [3, 3],
+      "name": "G21 Staff 03-03 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25622,
+      "class": "magician",
+      "part": "weapon",
+      "action": [4, 1],
+      "name": "G25 Staff 04-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25623,
+      "class": "magician",
+      "part": "weapon",
+      "action": [4, 2],
+      "name": "G29 Staff 04-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25624,
+      "class": "magician",
+      "part": "weapon",
+      "action": [4, 3],
+      "name": "G33 Staff 04-03 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25625,
+      "class": "magician",
+      "part": "weapon",
+      "action": [5, 1],
+      "name": "G37 Staff 05-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25626,
+      "class": "magician",
+      "part": "weapon",
+      "action": [5, 2],
+      "name": "G40 Staff 05-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25627,
+      "class": "magician",
+      "part": "weapon",
+      "action": [5, 3],
+      "name": "G40 Staff 05-03 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25628,
+      "class": "magician",
+      "part": "weapon",
+      "action": [6, 1],
+      "name": "G40 Staff 06-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25629,
+      "class": "magician",
+      "part": "weapon",
+      "action": [6, 2],
+      "name": "G45 Staff 06-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25630,
+      "class": "magician",
+      "part": "weapon",
+      "action": [6, 3],
+      "name": "G45 Staff 06-03 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25631,
+      "class": "magician",
+      "part": "weapon",
+      "action": [6, 4],
+      "name": "G48 Staff 06-04 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25632,
+      "class": "magician",
+      "part": "weapon",
+      "action": [6, 5],
+      "name": "G48 Staff 06-05 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25633,
+      "class": "magician",
+      "part": "weapon",
+      "action": [7, 1],
+      "name": "G50 Staff 07-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25634,
+      "class": "magician",
+      "part": "weapon",
+      "action": [7, 2],
+      "name": "G50 Staff 07-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25635,
+      "class": "magician",
+      "part": "weapon",
+      "action": [7, 3],
+      "name": "G50 Staff 07-03 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25636,
+      "class": "magician",
+      "part": "weapon",
+      "action": [7, 4],
+      "name": "G50 Staff 07-04 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25637,
+      "class": "magician",
+      "part": "weapon",
+      "action": [8, 1],
+      "name": "G53 Staff 08-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25638,
+      "class": "magician",
+      "part": "weapon",
+      "action": [8, 2],
+      "name": "G53 Staff 08-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25639,
+      "class": "magician",
+      "part": "weapon",
+      "action": [8, 3],
+      "name": "G53 Staff 08-03 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25640,
+      "class": "magician",
+      "part": "weapon",
+      "action": [8, 4],
+      "name": "G53 Staff 08-04 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25641,
+      "class": "archer",
+      "part": "helmet",
+      "action": [2, 1],
+      "name": "G16 Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25642,
+      "class": "archer",
+      "part": "upper",
+      "action": [2, 1],
+      "name": "G16 Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25643,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [2, 1],
+      "name": "G16 Gloves Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25644,
+      "class": "archer",
+      "part": "pants",
+      "action": [2, 1],
+      "name": "G16 Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25645,
+      "class": "archer",
+      "part": "boots",
+      "action": [2, 1],
+      "name": "G16 Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25646,
+      "class": "archer",
+      "part": "helmet",
+      "action": [3, 1],
+      "name": "G24 Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25647,
+      "class": "archer",
+      "part": "upper",
+      "action": [3, 1],
+      "name": "G24 Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25648,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [3, 1],
+      "name": "G24 Gloves Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25649,
+      "class": "archer",
+      "part": "pants",
+      "action": [3, 1],
+      "name": "G24 Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25650,
+      "class": "archer",
+      "part": "boots",
+      "action": [3, 1],
+      "name": "G24 Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25651,
+      "class": "archer",
+      "part": "helmet",
+      "action": [4, 1],
+      "name": "G32 Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25652,
+      "class": "archer",
+      "part": "upper",
+      "action": [4, 1],
+      "name": "G32 Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25653,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [4, 1],
+      "name": "G32 Gloves Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25654,
+      "class": "archer",
+      "part": "pants",
+      "action": [4, 1],
+      "name": "G32 Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25655,
+      "class": "archer",
+      "part": "boots",
+      "action": [4, 1],
+      "name": "G32 Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25656,
+      "class": "archer",
+      "part": "helmet",
+      "action": [5, 1],
+      "name": "G42 Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25657,
+      "class": "archer",
+      "part": "upper",
+      "action": [5, 1],
+      "name": "G42 Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25658,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [5, 1],
+      "name": "G42 Gloves Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25659,
+      "class": "archer",
+      "part": "pants",
+      "action": [5, 1],
+      "name": "G42 Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25660,
+      "class": "archer",
+      "part": "boots",
+      "action": [5, 1],
+      "name": "G42 Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25661,
+      "class": "archer",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "G46 Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25662,
+      "class": "archer",
+      "part": "upper",
+      "action": [6, 1],
+      "name": "G46 Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25663,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [6, 1],
+      "name": "G46 Gloves Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25664,
+      "class": "archer",
+      "part": "pants",
+      "action": [6, 1],
+      "name": "G46 Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25665,
+      "class": "archer",
+      "part": "boots",
+      "action": [6, 1],
+      "name": "G46 Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25666,
+      "class": "archer",
+      "part": "helmet",
+      "action": [7, 1],
+      "name": "G50 Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25667,
+      "class": "archer",
+      "part": "upper",
+      "action": [7, 1],
+      "name": "G50 Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25668,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [7, 1],
+      "name": "G50 Gloves Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25669,
+      "class": "archer",
+      "part": "pants",
+      "action": [7, 1],
+      "name": "G50 Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25670,
+      "class": "archer",
+      "part": "boots",
+      "action": [7, 1],
+      "name": "G50 Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25671,
+      "class": "archer",
+      "part": "helmet",
+      "action": [8, 1],
+      "name": "G55 Helmet Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25672,
+      "class": "archer",
+      "part": "upper",
+      "action": [8, 1],
+      "name": "G55 Armor Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25673,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [8, 1],
+      "name": "G55 Gloves Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25674,
+      "class": "archer",
+      "part": "pants",
+      "action": [8, 1],
+      "name": "G55 Leggings Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25675,
+      "class": "archer",
+      "part": "boots",
+      "action": [8, 1],
+      "name": "G55 Boots Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25676,
+      "class": "archer",
+      "part": "helmet",
+      "action": [9, 1],
+      "name": "Helmet of Darkness Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25677,
+      "class": "archer",
+      "part": "upper",
+      "action": [9, 1],
+      "name": "Armor of Darkness Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25678,
+      "class": "archer",
+      "part": "gauntlet",
+      "action": [9, 1],
+      "name": "Gloves of Darkness Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25679,
+      "class": "archer",
+      "part": "pants",
+      "action": [9, 1],
+      "name": "Leggings of Darkness Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25680,
+      "class": "archer",
+      "part": "boots",
+      "action": [9, 1],
+      "name": "Boots of Darkness Skin (Archer)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25681,
+      "class": "archer",
+      "part": "weapon",
+      "action": [1, 1],
+      "name": "G1 Bow 01-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25682,
+      "class": "archer",
+      "part": "weapon",
+      "action": [2, 1],
+      "name": "G5 Bow 02-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25683,
+      "class": "archer",
+      "part": "weapon",
+      "action": [2, 2],
+      "name": "G9 Bow 02-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25684,
+      "class": "archer",
+      "part": "weapon",
+      "action": [3, 1],
+      "name": "G13 Bow 03-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25685,
+      "class": "archer",
+      "part": "weapon",
+      "action": [3, 2],
+      "name": "G17 Bow 03-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25686,
+      "class": "archer",
+      "part": "weapon",
+      "action": [3, 3],
+      "name": "G21 Bow 03-03 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25687,
+      "class": "archer",
+      "part": "weapon",
+      "action": [4, 1],
+      "name": "G25 Bow 04-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25688,
+      "class": "archer",
+      "part": "weapon",
+      "action": [4, 2],
+      "name": "G29 Bow 04-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25689,
+      "class": "archer",
+      "part": "weapon",
+      "action": [4, 3],
+      "name": "G33 Bow 04-03 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25690,
+      "class": "archer",
+      "part": "weapon",
+      "action": [5, 1],
+      "name": "G37 Bow 05-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25691,
+      "class": "archer",
+      "part": "weapon",
+      "action": [5, 2],
+      "name": "G40 Bow 05-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25692,
+      "class": "archer",
+      "part": "weapon",
+      "action": [5, 3],
+      "name": "G40 Bow 05-03 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25693,
+      "class": "archer",
+      "part": "weapon",
+      "action": [6, 1],
+      "name": "G40 Bow 06-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25694,
+      "class": "archer",
+      "part": "weapon",
+      "action": [6, 2],
+      "name": "G45 Bow 06-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25695,
+      "class": "archer",
+      "part": "weapon",
+      "action": [6, 3],
+      "name": "G45 Bow 06-03 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25696,
+      "class": "archer",
+      "part": "weapon",
+      "action": [6, 4],
+      "name": "G48 Bow 06-04 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25697,
+      "class": "archer",
+      "part": "weapon",
+      "action": [6, 5],
+      "name": "G48 Bow 06-05 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25698,
+      "class": "archer",
+      "part": "weapon",
+      "action": [7, 1],
+      "name": "G50 Bow 07-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25699,
+      "class": "archer",
+      "part": "weapon",
+      "action": [7, 2],
+      "name": "G50 Bow 07-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25700,
+      "class": "archer",
+      "part": "weapon",
+      "action": [7, 3],
+      "name": "G50 Bow 07-03 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25701,
+      "class": "archer",
+      "part": "weapon",
+      "action": [7, 4],
+      "name": "G50 Bow 07-04 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25702,
+      "class": "archer",
+      "part": "weapon",
+      "action": [8, 1],
+      "name": "G53 Bow 08-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25703,
+      "class": "archer",
+      "part": "weapon",
+      "action": [8, 2],
+      "name": "G53 Bow 08-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25704,
+      "class": "archer",
+      "part": "weapon",
+      "action": [8, 3],
+      "name": "G53 Bow 08-03 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25705,
+      "class": "archer",
+      "part": "weapon",
+      "action": [8, 4],
+      "name": "G53 Bow 08-04 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25706,
+      "class": "archer",
+      "part": "weapon",
+      "action": [20, 1],
+      "name": "Bow of Darkness Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25707,
+      "class": "archer",
+      "part": "weapon",
+      "action": [20, 2],
+      "name": "Treasure Bow of Darkness Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25708,
+      "class": "thief",
+      "part": "helmet",
+      "action": [2, 1],
+      "name": "G16 Helmet Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25709,
+      "class": "thief",
+      "part": "upper",
+      "action": [2, 1],
+      "name": "G16 Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25710,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [2, 1],
+      "name": "G16 Gloves Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25711,
+      "class": "thief",
+      "part": "pants",
+      "action": [2, 1],
+      "name": "G16 Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25712,
+      "class": "thief",
+      "part": "boots",
+      "action": [2, 1],
+      "name": "G16 Boots Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25713,
+      "class": "thief",
+      "part": "helmet",
+      "action": [3, 1],
+      "name": "G24 Helmet Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25714,
+      "class": "thief",
+      "part": "upper",
+      "action": [3, 1],
+      "name": "G24 Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25715,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [3, 1],
+      "name": "G24 Gloves Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25716,
+      "class": "thief",
+      "part": "pants",
+      "action": [3, 1],
+      "name": "G24 Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25717,
+      "class": "thief",
+      "part": "boots",
+      "action": [3, 1],
+      "name": "G24 Boots Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25718,
+      "class": "thief",
+      "part": "helmet",
+      "action": [4, 1],
+      "name": "G32 Helmet Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25719,
+      "class": "thief",
+      "part": "upper",
+      "action": [4, 1],
+      "name": "G32 Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25720,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [4, 1],
+      "name": "G32 Gloves Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25721,
+      "class": "thief",
+      "part": "pants",
+      "action": [4, 1],
+      "name": "G32 Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25722,
+      "class": "thief",
+      "part": "boots",
+      "action": [4, 1],
+      "name": "G32 Boots Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25723,
+      "class": "thief",
+      "part": "helmet",
+      "action": [5, 1],
+      "name": "G42 Helmet Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25724,
+      "class": "thief",
+      "part": "upper",
+      "action": [5, 1],
+      "name": "G42 Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25725,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [5, 1],
+      "name": "G42 Gloves Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25726,
+      "class": "thief",
+      "part": "pants",
+      "action": [5, 1],
+      "name": "G42 Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25727,
+      "class": "thief",
+      "part": "boots",
+      "action": [5, 1],
+      "name": "G42 Boots Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25728,
+      "class": "thief",
+      "part": "helmet",
+      "action": [6, 1],
+      "name": "G46 Helmet Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25729,
+      "class": "thief",
+      "part": "upper",
+      "action": [6, 1],
+      "name": "G46 Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25730,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [6, 1],
+      "name": "G46 Gloves Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25731,
+      "class": "thief",
+      "part": "pants",
+      "action": [6, 1],
+      "name": "G46 Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25732,
+      "class": "thief",
+      "part": "boots",
+      "action": [6, 1],
+      "name": "G46 Boots Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25733,
+      "class": "thief",
+      "part": "helmet",
+      "action": [7, 1],
+      "name": "G50 Helmet Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25734,
+      "class": "thief",
+      "part": "upper",
+      "action": [7, 1],
+      "name": "G50 Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25735,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [7, 1],
+      "name": "G50 Gloves Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25736,
+      "class": "thief",
+      "part": "pants",
+      "action": [7, 1],
+      "name": "G50 Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25737,
+      "class": "thief",
+      "part": "boots",
+      "action": [7, 1],
+      "name": "G50 Boots Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25738,
+      "class": "thief",
+      "part": "helmet",
+      "action": [8, 1],
+      "name": "G55 Helmet Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25739,
+      "class": "thief",
+      "part": "upper",
+      "action": [8, 1],
+      "name": "G55 Armor Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25740,
+      "class": "thief",
+      "part": "gauntlet",
+      "action": [8, 1],
+      "name": "G55 Gloves Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25741,
+      "class": "thief",
+      "part": "pants",
+      "action": [8, 1],
+      "name": "G55 Leggings Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25742,
+      "class": "thief",
+      "part": "boots",
+      "action": [8, 1],
+      "name": "G55 Boots Skin (Thief)",
+      "review_basis": "matching_set_front_back_review"
+    },
+    {
+      "index": 25743,
+      "class": "thief",
+      "part": "weapon",
+      "action": [1, 1],
+      "name": "G1 Daggers 01-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25744,
+      "class": "thief",
+      "part": "weapon",
+      "action": [2, 1],
+      "name": "G5 Daggers 02-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25745,
+      "class": "thief",
+      "part": "weapon",
+      "action": [2, 2],
+      "name": "G9 Daggers 02-02 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25746,
+      "class": "thief",
+      "part": "weapon",
+      "action": [3, 1],
+      "name": "G13 Daggers 03-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25747,
+      "class": "thief",
+      "part": "weapon",
+      "action": [3, 2],
+      "name": "G17 Daggers 03-02 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25748,
+      "class": "thief",
+      "part": "weapon",
+      "action": [3, 3],
+      "name": "G21 Daggers 03-03 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25749,
+      "class": "thief",
+      "part": "weapon",
+      "action": [4, 1],
+      "name": "G25 Daggers 04-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25750,
+      "class": "thief",
+      "part": "weapon",
+      "action": [4, 2],
+      "name": "G33 Daggers 04-02 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25751,
+      "class": "thief",
+      "part": "weapon",
+      "action": [5, 1],
+      "name": "G37 Daggers 05-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25752,
+      "class": "thief",
+      "part": "weapon",
+      "action": [5, 2],
+      "name": "G40 Daggers 05-02 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25753,
+      "class": "thief",
+      "part": "weapon",
+      "action": [5, 3],
+      "name": "G40 Daggers 05-03 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25754,
+      "class": "thief",
+      "part": "weapon",
+      "action": [5, 4],
+      "name": "G45 Daggers 05-04 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25755,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 1],
+      "name": "G45 Daggers 06-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25756,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 2],
+      "name": "G48 Daggers 06-02 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25757,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 3],
+      "name": "G48 Daggers 06-03 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25758,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 4],
+      "name": "G48 Daggers 06-04 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25759,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 5],
+      "name": "G50 Daggers 06-05 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25760,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 6],
+      "name": "G50 Daggers 06-06 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25761,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 7],
+      "name": "G50 Daggers 06-07 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25762,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 8],
+      "name": "G45 Daggers 06-08 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25763,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 9],
+      "name": "G48 Daggers 06-09 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25764,
+      "class": "thief",
+      "part": "weapon",
+      "action": [6, 10],
+      "name": "G50 Daggers 06-10 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25765,
+      "class": "thief",
+      "part": "weapon",
+      "action": [7, 1],
+      "name": "G53 Daggers 07-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25766,
+      "class": "thief",
+      "part": "weapon",
+      "action": [7, 2],
+      "name": "G53 Daggers 07-02 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25767,
+      "class": "thief",
+      "part": "weapon",
+      "action": [7, 3],
+      "name": "G53 Daggers 07-03 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25768,
+      "class": "thief",
+      "part": "weapon",
+      "action": [7, 7],
+      "name": "G53 Daggers 07-07 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25769,
+      "class": "thief",
+      "part": "weapon",
+      "action": [20, 1],
+      "name": "Daggers of Darkness Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25770,
+      "class": "thief",
+      "part": "weapon",
+      "action": [20, 2],
+      "name": "Treasure Daggers of Darkness Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25771,
+      "class": "knight",
+      "part": "weapon",
+      "action": [13, 1],
+      "name": "G56 Sword 13-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25772,
+      "class": "knight",
+      "part": "weapon",
+      "action": [13, 2],
+      "name": "G56 Sword 13-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25773,
+      "class": "knight",
+      "part": "weapon",
+      "action": [13, 3],
+      "name": "G56 Sword 13-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25774,
+      "class": "knight",
+      "part": "weapon",
+      "action": [13, 4],
+      "name": "G56 Sword 13-04 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25775,
+      "class": "knight",
+      "part": "weapon",
+      "action": [14, 1],
+      "name": "G56 Greatsword 14-01 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25776,
+      "class": "knight",
+      "part": "weapon",
+      "action": [14, 2],
+      "name": "G56 Greatsword 14-02 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25777,
+      "class": "knight",
+      "part": "weapon",
+      "action": [14, 3],
+      "name": "G56 Greatsword 14-03 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25778,
+      "class": "knight",
+      "part": "weapon",
+      "action": [14, 4],
+      "name": "G56 Greatsword 14-04 Skin (Knight)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25779,
+      "class": "magician",
+      "part": "weapon",
+      "action": [10, 1],
+      "name": "G56 Staff 10-01 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25780,
+      "class": "magician",
+      "part": "weapon",
+      "action": [10, 2],
+      "name": "G56 Staff 10-02 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25781,
+      "class": "magician",
+      "part": "weapon",
+      "action": [10, 3],
+      "name": "G56 Staff 10-03 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25782,
+      "class": "magician",
+      "part": "weapon",
+      "action": [10, 4],
+      "name": "G56 Staff 10-04 Skin (Magician)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25783,
+      "class": "archer",
+      "part": "weapon",
+      "action": [10, 1],
+      "name": "G56 Bow 10-01 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25784,
+      "class": "archer",
+      "part": "weapon",
+      "action": [10, 2],
+      "name": "G56 Bow 10-02 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25785,
+      "class": "archer",
+      "part": "weapon",
+      "action": [10, 3],
+      "name": "G56 Bow 10-03 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25786,
+      "class": "archer",
+      "part": "weapon",
+      "action": [10, 4],
+      "name": "G56 Bow 10-04 Skin (Archer)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25787,
+      "class": "thief",
+      "part": "weapon",
+      "action": [8, 1],
+      "name": "G59 Daggers 08-01 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25788,
+      "class": "thief",
+      "part": "weapon",
+      "action": [8, 2],
+      "name": "G59 Daggers 08-02 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25789,
+      "class": "thief",
+      "part": "weapon",
+      "action": [8, 3],
+      "name": "G59 Daggers 08-03 Skin (Thief)",
+      "review_basis": "standalone_attachment_front_back_review"
+    },
+    {
+      "index": 25790,
+      "class": "knight",
+      "part": "weapon",
+      "action": [11, 1],
+      "name": "G59 Sword 11-01 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25791,
+      "class": "knight",
+      "part": "weapon",
+      "action": [11, 2],
+      "name": "G59 Sword 11-02 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25792,
+      "class": "knight",
+      "part": "weapon",
+      "action": [11, 3],
+      "name": "G59 Sword 11-03 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25793,
+      "class": "knight",
+      "part": "weapon",
+      "action": [11, 4],
+      "name": "G59 Sword 11-04 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25794,
+      "class": "knight",
+      "part": "weapon",
+      "action": [12, 1],
+      "name": "G59 Greatsword 12-01 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25795,
+      "class": "knight",
+      "part": "weapon",
+      "action": [12, 2],
+      "name": "G59 Greatsword 12-02 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25796,
+      "class": "knight",
+      "part": "weapon",
+      "action": [12, 3],
+      "name": "G59 Greatsword 12-03 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25797,
+      "class": "knight",
+      "part": "weapon",
+      "action": [12, 4],
+      "name": "G59 Greatsword 12-04 Skin (Knight)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25798,
+      "class": "magician",
+      "part": "weapon",
+      "action": [9, 1],
+      "name": "G59 Staff 09-01 Skin (Magician)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25799,
+      "class": "magician",
+      "part": "weapon",
+      "action": [9, 2],
+      "name": "G59 Staff 09-02 Skin (Magician)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25800,
+      "class": "magician",
+      "part": "weapon",
+      "action": [9, 3],
+      "name": "G59 Staff 09-03 Skin (Magician)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25801,
+      "class": "magician",
+      "part": "weapon",
+      "action": [9, 4],
+      "name": "G59 Staff 09-04 Skin (Magician)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25802,
+      "class": "magician",
+      "part": "weapon",
+      "action": [9, 5],
+      "name": "G59 Staff 09-05 Skin (Magician)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25803,
+      "class": "magician",
+      "part": "weapon",
+      "action": [9, 6],
+      "name": "G59 Staff 09-06 Skin (Magician)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25804,
+      "class": "archer",
+      "part": "weapon",
+      "action": [9, 1],
+      "name": "G59 Bow 09-01 Skin (Archer)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25805,
+      "class": "archer",
+      "part": "weapon",
+      "action": [9, 2],
+      "name": "G59 Bow 09-02 Skin (Archer)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25806,
+      "class": "archer",
+      "part": "weapon",
+      "action": [9, 3],
+      "name": "G59 Bow 09-03 Skin (Archer)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    },
+    {
+      "index": 25807,
+      "class": "archer",
+      "part": "weapon",
+      "action": [9, 4],
+      "name": "G59 Bow 09-04 Skin (Archer)",
+      "review_basis": "official_image_and_attachment_front_back_review"
+    }
+  ]
+}

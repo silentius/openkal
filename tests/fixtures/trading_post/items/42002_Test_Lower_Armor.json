@@ -1,0 +1,9 @@
+{
+  "_doc": "Synthetic OpenKal fixture for trading-post lower-armor grade selection.",
+  "index": 42002,
+  "name": "Test Lower Armor",
+  "class": ["defense", "lowerarmor"],
+  "level": 46,
+  "wear": 1,
+  "limit": { "class": "knight" }
+}

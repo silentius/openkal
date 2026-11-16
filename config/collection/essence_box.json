@@ -1,0 +1,9 @@
+{
+  "essence_count": { "min": 1, "max": 5 },
+  "grade_percent": {
+    "low": 80.0,
+    "middle": 15.0,
+    "high": 5.0
+  },
+  "_doc": "Server only. Quantity is uniform and inclusive; set min=max for a fixed total. Roll the grade independently for each essence. Percentages must total 100. Reserve room for max essences (including the slot of the last box). Restart the server after edits."
+}

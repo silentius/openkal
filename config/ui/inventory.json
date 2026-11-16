@@ -1,0 +1,1878 @@
+{
+  "_doc": "Dragon inventory: enclosed equipment, a 6x6 bag, hover-only item details, sorting and a framed destroy drop target.",
+  "schema": "openkal.ui/v1",
+  "id": "inventory",
+  "kind": "window",
+  "window": {
+    "w": 532,
+    "h": 508,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.helmet",
+      "bind": "inventory.wear.skin.helmet",
+      "x": 21,
+      "y": 69,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.helmet"
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "skin.lock.helmet",
+      "x": 16,
+      "y": 64,
+      "w": 42,
+      "h": 42,
+      "color": "#181713",
+      "alpha": 0.8,
+      "visible_when": "inventory.skin_locked.helmet"
+    },
+    {
+      "type": "text",
+      "id": "skin.lock_label.helmet",
+      "x": 37,
+      "y": 87,
+      "text": "${inventory.skin_locked_label}",
+      "pixel_size": 8,
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "visible_when": "inventory.skin_locked.helmet"
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.upper",
+      "bind": "inventory.wear.skin.upper",
+      "x": 21,
+      "y": 115,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.upper"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.gauntlet",
+      "bind": "inventory.wear.skin.gauntlet",
+      "x": 21,
+      "y": 161,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.gauntlet"
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "skin.lock.gauntlet",
+      "x": 16,
+      "y": 156,
+      "w": 42,
+      "h": 42,
+      "color": "#181713",
+      "alpha": 0.8,
+      "visible_when": "inventory.skin_locked.gauntlet"
+    },
+    {
+      "type": "text",
+      "id": "skin.lock_label.gauntlet",
+      "x": 37,
+      "y": 179,
+      "text": "${inventory.skin_locked_label}",
+      "pixel_size": 8,
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "visible_when": "inventory.skin_locked.gauntlet"
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.pants",
+      "bind": "inventory.wear.skin.pants",
+      "x": 21,
+      "y": 207,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.pants"
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "skin.lock.pants",
+      "x": 16,
+      "y": 202,
+      "w": 42,
+      "h": 42,
+      "color": "#181713",
+      "alpha": 0.8,
+      "visible_when": "inventory.skin_locked.pants"
+    },
+    {
+      "type": "text",
+      "id": "skin.lock_label.pants",
+      "x": 37,
+      "y": 225,
+      "text": "${inventory.skin_locked_label}",
+      "pixel_size": 8,
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "visible_when": "inventory.skin_locked.pants"
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.boots",
+      "bind": "inventory.wear.skin.boots",
+      "x": 21,
+      "y": 253,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.boots"
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "skin.lock.boots",
+      "x": 16,
+      "y": 248,
+      "w": 42,
+      "h": 42,
+      "color": "#181713",
+      "alpha": 0.8,
+      "visible_when": "inventory.skin_locked.boots"
+    },
+    {
+      "type": "text",
+      "id": "skin.lock_label.boots",
+      "x": 37,
+      "y": 271,
+      "text": "${inventory.skin_locked_label}",
+      "pixel_size": 8,
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "visible_when": "inventory.skin_locked.boots"
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.weapon",
+      "bind": "inventory.wear.skin.weapon",
+      "x": 21,
+      "y": 299,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.weapon"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.shield",
+      "bind": "inventory.wear.skin.shield",
+      "x": 21,
+      "y": 345,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.shield"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "wear.skin.face",
+      "bind": "inventory.wear.skin.face",
+      "x": 119,
+      "y": 207,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.skin.face"
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "skin.lock.face",
+      "x": 114,
+      "y": 202,
+      "w": 42,
+      "h": 42,
+      "color": "#181713",
+      "alpha": 0.8,
+      "visible_when": "inventory.skin_locked.face"
+    },
+    {
+      "type": "text",
+      "id": "skin.lock_label.face",
+      "x": 135,
+      "y": 225,
+      "text": "${inventory.skin_locked_label}",
+      "pixel_size": 8,
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "visible_when": "inventory.skin_locked.face"
+    },
+    {
+      "type": "text",
+      "id": "skin_label",
+      "x": 16,
+      "y": 43,
+      "text": "${inventory.skin_label}",
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${ui.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/inventory.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "equipment_label",
+      "x": 66,
+      "y": 43,
+      "text": "${inventory.equipment_label}",
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "equipment_divider",
+      "x": 220,
+      "y": 28,
+      "w": 1,
+      "h": 360,
+      "color": "#5C4A30"
+    },
+    {
+      "type": "tabs",
+      "id": "bag_tabs",
+      "bind": "inventory.tab",
+      "x": 244,
+      "y": 28,
+      "h": 28,
+      "color_on": "${theme.colors.title}",
+      "color_off": "${theme.colors.label}",
+      "items": [
+        {
+          "id": "normal",
+          "x": 148,
+          "w": 65,
+          "label": "${ui.tab_normal}"
+        },
+        {
+          "id": "quest",
+          "x": 222,
+          "w": 65,
+          "label": "${ui.tab_task}"
+        }
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "items_underline",
+      "x": 244,
+      "y": 57,
+      "w": 35,
+      "h": 2,
+      "color": "#9EB49E",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "fill",
+      "id": "quest_underline",
+      "x": 318,
+      "y": 57,
+      "w": 45,
+      "h": 2,
+      "color": "#9EB49E",
+      "visible_when": "inventory.quest_active"
+    },
+    {
+      "type": "text",
+      "id": "count",
+      "x": 516,
+      "y": 32,
+      "text": "${inventory.count_text}",
+      "color": "${theme.colors.label}",
+      "align": "right",
+      "pixel_size": 12
+    },
+    {
+      "type": "fill",
+      "id": "bag_viewport",
+      "x": 240,
+      "y": 64,
+      "w": 268,
+      "h": 322,
+      "color": "#181713",
+      "visible_when": "inventory.quest_active"
+    },
+    {
+      "type": "fill",
+      "id": "general_viewport",
+      "x": 240,
+      "y": 110,
+      "w": 268,
+      "h": 276,
+      "color": "#181713",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "accept": [
+        "item.helmet"
+      ],
+      "bind": "inventory.wear.helmet",
+      "drag": true,
+      "empty": {
+        "file": "slot back-helmet.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.helmet",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 67,
+      "y": 69
+    },
+    {
+      "accept": [
+        "item.upper"
+      ],
+      "bind": "inventory.wear.upper",
+      "drag": true,
+      "empty": {
+        "file": "slot back-upper.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.upper",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 67,
+      "y": 115
+    },
+    {
+      "accept": [
+        "item.gauntlet"
+      ],
+      "bind": "inventory.wear.gauntlet",
+      "drag": true,
+      "empty": {
+        "file": "slot back-gauntlet.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.gauntlet",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 67,
+      "y": 161
+    },
+    {
+      "accept": [
+        "item.pants"
+      ],
+      "bind": "inventory.wear.pants",
+      "drag": true,
+      "empty": {
+        "file": "slot back-lower.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.pants",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 67,
+      "y": 207
+    },
+    {
+      "accept": [
+        "item.boots"
+      ],
+      "bind": "inventory.wear.boots",
+      "drag": true,
+      "empty": {
+        "file": "slot back-boots.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.boots",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 67,
+      "y": 253
+    },
+    {
+      "accept": [
+        "item.weapon"
+      ],
+      "bind": "inventory.wear.weapon",
+      "drag": true,
+      "empty": {
+        "file": "slot back-weapon1.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.weapon",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 67,
+      "y": 299
+    },
+    {
+      "accept": [
+        "item.shield"
+      ],
+      "bind": "inventory.wear.shield",
+      "drag": true,
+      "empty": {
+        "file": "slot back-weapon2.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.shield",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 67,
+      "y": 345
+    },
+    {
+      "accept": [
+        "item.ring"
+      ],
+      "bind": "inventory.wear.ring",
+      "drag": true,
+      "empty": {
+        "file": "slot back-ring.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.ring",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 165,
+      "y": 69
+    },
+    {
+      "accept": [
+        "item.necklace"
+      ],
+      "bind": "inventory.wear.necklace",
+      "drag": true,
+      "empty": {
+        "file": "slot back-necklace.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.necklace",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 165,
+      "y": 115
+    },
+    {
+      "accept": [
+        "item.accessory"
+      ],
+      "bind": "inventory.wear.accessory",
+      "drag": true,
+      "empty": {
+        "file": "slot back-accessory.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.accessory",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 165,
+      "y": 161
+    },
+    {
+      "accept": [
+        "item.face"
+      ],
+      "bind": "inventory.wear.face",
+      "drag": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.face",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 165,
+      "y": 207
+    },
+    {
+      "accept": [
+        "item.sinsu"
+      ],
+      "bind": "inventory.wear.sinsu",
+      "drag": true,
+      "empty": {
+        "file": "slot back-sin su.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.sinsu",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 165,
+      "y": 253
+    },
+    {
+      "accept": [
+        "item.pet"
+      ],
+      "bind": "inventory.wear.pet",
+      "drag": true,
+      "empty": {
+        "file": "slot back-pet.bmp"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.pet",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 165,
+      "y": 299
+    },
+    {
+      "accept": [
+        "item.ride"
+      ],
+      "bind": "inventory.wear.ride",
+      "drag": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "h": 42,
+        "w": 42
+      },
+      "h": 32,
+      "id": "wear.ride",
+      "tooltip": true,
+      "type": "icon_slot",
+      "w": 32,
+      "x": 165,
+      "y": 345
+    },
+    {
+      "type": "button",
+      "id": "sort",
+      "x": 282,
+      "y": 458,
+      "w": 140,
+      "h": 48,
+      "action": "inventory.sort",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${inventory.sort_label}",
+      "align": "center",
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "button",
+      "id": "destroy",
+      "x": 468,
+      "y": 458,
+      "w": 48,
+      "h": 48,
+      "action": "window.noop",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "bind": "inventory.destroy",
+      "accept": [
+        "item.any"
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "destroy_lid",
+      "x": 483,
+      "y": 475,
+      "w": 18,
+      "h": 2,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_handle_top",
+      "x": 489,
+      "y": 471,
+      "w": 6,
+      "h": 2,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_handle_left",
+      "x": 487,
+      "y": 472,
+      "w": 2,
+      "h": 3,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_handle_right",
+      "x": 495,
+      "y": 472,
+      "w": 2,
+      "h": 3,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_body_left",
+      "x": 485,
+      "y": 478,
+      "w": 2,
+      "h": 14,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_body_right",
+      "x": 497,
+      "y": 478,
+      "w": 2,
+      "h": 14,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_body_bottom",
+      "x": 485,
+      "y": 492,
+      "w": 14,
+      "h": 2,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_inner_left",
+      "x": 489,
+      "y": 480,
+      "w": 2,
+      "h": 10,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "fill",
+      "id": "destroy_inner_right",
+      "x": 493,
+      "y": 480,
+      "w": 2,
+      "h": 10,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x": 0,
+      "y": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp",
+      "x_from_right": 16,
+      "y_from_bottom": 0
+    },
+    {
+      "type": "button",
+      "id": "frame_handle",
+      "x": -29,
+      "y": 184,
+      "w": 28,
+      "h": 112,
+      "action": "inventory.collection_toggle",
+      "file_default": "dragon_dialog/collection_handle_idle.bmp",
+      "file_over": "dragon_dialog/collection_handle_hover.bmp",
+      "label": "${collection.toggle}",
+      "align": "center",
+      "color": "${theme.colors.title}",
+      "pixel_size": 22,
+      "file_on": "dragon_dialog/collection_handle_pressed.bmp"
+    },
+    {
+      "type": "icon_grid",
+      "id": "bag.0",
+      "x": 249,
+      "y": 115,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.general.0",
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "inventory.normal_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.0.0",
+      "x": 244,
+      "y": 110,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page1_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.0.1",
+      "x": 244,
+      "y": 156,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page1_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.0.2",
+      "x": 244,
+      "y": 202,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page1_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.0.3",
+      "x": 244,
+      "y": 248,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page1_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.0.4",
+      "x": 244,
+      "y": 294,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page1_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.0.5",
+      "x": 244,
+      "y": 340,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page1_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "bag.1",
+      "x": 249,
+      "y": 391,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.general.1",
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "inventory.normal_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.1.0",
+      "x": 244,
+      "y": 386,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page2_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.1.1",
+      "x": 244,
+      "y": 432,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page2_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.1.2",
+      "x": 244,
+      "y": 478,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page2_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.1.3",
+      "x": 244,
+      "y": 524,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page2_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.1.4",
+      "x": 244,
+      "y": 570,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page2_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.1.5",
+      "x": 244,
+      "y": 616,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page2_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "bag.2",
+      "x": 249,
+      "y": 667,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.general.2",
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "inventory.normal_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.2.0",
+      "x": 244,
+      "y": 662,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page3_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.2.1",
+      "x": 244,
+      "y": 708,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page3_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.2.2",
+      "x": 244,
+      "y": 754,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page3_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.2.3",
+      "x": 244,
+      "y": 800,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page3_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.2.4",
+      "x": 244,
+      "y": 846,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page3_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.2.5",
+      "x": 244,
+      "y": 892,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page3_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "bag.3",
+      "x": 249,
+      "y": 943,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.general.3",
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "inventory.normal_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.3.0",
+      "x": 244,
+      "y": 938,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page4_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.3.1",
+      "x": 244,
+      "y": 984,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page4_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.3.2",
+      "x": 244,
+      "y": 1030,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page4_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.3.3",
+      "x": 244,
+      "y": 1076,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page4_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.3.4",
+      "x": 244,
+      "y": 1122,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page4_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.3.5",
+      "x": 244,
+      "y": 1168,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page4_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "bag.4",
+      "x": 249,
+      "y": 1219,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.general.4",
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "inventory.normal_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.4.0",
+      "x": 244,
+      "y": 1214,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page5_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.4.1",
+      "x": 244,
+      "y": 1260,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page5_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.4.2",
+      "x": 244,
+      "y": 1306,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page5_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.4.3",
+      "x": 244,
+      "y": 1352,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page5_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.4.4",
+      "x": 244,
+      "y": 1398,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page5_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.4.5",
+      "x": 244,
+      "y": 1444,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page5_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "bag.5",
+      "x": 249,
+      "y": 1495,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.general.5",
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "inventory.normal_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.5.0",
+      "x": 244,
+      "y": 1490,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page6_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.5.1",
+      "x": 244,
+      "y": 1536,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page6_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.5.2",
+      "x": 244,
+      "y": 1582,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page6_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.5.3",
+      "x": 244,
+      "y": 1628,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page6_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.5.4",
+      "x": 244,
+      "y": 1674,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page6_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "fill",
+      "id": "page_shade.5.5",
+      "x": 244,
+      "y": 1720,
+      "w": 262,
+      "h": 42,
+      "color": "#302B26",
+      "alpha": 0.65,
+      "visible_when": "inventory.page6_shaded",
+      "viewport": "general_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "task",
+      "x": 249,
+      "y": 427,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.task",
+      "drag": false,
+      "tooltip": true,
+      "visible_when": "inventory.quest_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "bag_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "icon_grid",
+      "id": "quest",
+      "x": 249,
+      "y": 105,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 46
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "inventory.quest",
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "inventory.quest_active",
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "viewport": "bag_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "image",
+      "id": "money_field",
+      "file": "dragon_dialog/inventory_money.bmp",
+      "x": 100,
+      "y": 396,
+      "w": 340,
+      "h": 48
+    },
+    {
+      "type": "text",
+      "id": "money_label",
+      "x": 165,
+      "y": 412,
+      "text": "${inventory.money_label}",
+      "pixel_size": 15,
+      "color": "#D9BE87"
+    },
+    {
+      "type": "text",
+      "id": "money",
+      "x": 424,
+      "y": 412,
+      "text": "${inventory.money:geons}",
+      "pixel_size": 15,
+      "color": "#F1E2C3",
+      "align": "right"
+    },
+    {
+      "type": "button",
+      "id": "expand",
+      "x": 16,
+      "y": 458,
+      "w": 162,
+      "h": 48,
+      "action": "inventory.expand",
+      "file_default": "dragon_dialog/long_button_idle.bmp",
+      "file_over": "dragon_dialog/long_button_hover.bmp",
+      "file_on": "dragon_dialog/long_button_pressed.bmp",
+      "label": "${inventory.expand_label}",
+      "align": "center",
+      "visible_when": "inventory.normal_active",
+      "file_off": "dragon_dialog/long_button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "scroll_up",
+      "x": 510,
+      "y": 64,
+      "w": 20,
+      "h": 22,
+      "action": "inventory.scroll.up",
+      "label": "${inventory.scroll_up_label}",
+      "align": "center",
+      "file_default": "dragon_dialog/icon_button_idle.bmp"
+    },
+    {
+      "type": "button",
+      "id": "scroll_down",
+      "x": 510,
+      "y": 364,
+      "w": 20,
+      "h": 22,
+      "action": "inventory.scroll.down",
+      "label": "${inventory.scroll_down_label}",
+      "align": "center",
+      "file_default": "dragon_dialog/icon_button_idle.bmp"
+    },
+    {
+      "type": "button",
+      "id": "scroll_track",
+      "x": 512,
+      "y": 90,
+      "w": 16,
+      "h": 270,
+      "action": "window.noop",
+      "file_default": "dragon_dialog/panel_background.bmp"
+    },
+    {
+      "type": "text",
+      "id": "quest_label",
+      "x": 244,
+      "y": 70,
+      "h": 22,
+      "text": "${inventory.quest_label}",
+      "pixel_size": 12,
+      "color": "${theme.colors.title}",
+      "visible_when": "inventory.quest_active",
+      "viewport": "bag_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "text",
+      "id": "task_label",
+      "x": 244,
+      "y": 392,
+      "h": 22,
+      "text": "${inventory.task_label}",
+      "pixel_size": 12,
+      "color": "${theme.colors.title}",
+      "visible_when": "inventory.quest_active",
+      "viewport": "bag_viewport",
+      "scroll_bind": "inventory.scroll"
+    },
+    {
+      "type": "button",
+      "id": "filter.consumables",
+      "action": "inventory.filter.consumables",
+      "x": 244,
+      "y": 65,
+      "w": 42,
+      "h": 36,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "image",
+      "id": "filter_icon.consumables",
+      "file": "dragon_dialog/inventory_filter_consumables.bmp",
+      "x": 253,
+      "y": 70,
+      "w": 24,
+      "h": 24,
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "fill",
+      "id": "filter_selected.consumables",
+      "x": 253,
+      "y": 98,
+      "w": 24,
+      "h": 2,
+      "color": "#B9DA99",
+      "visible_when": "inventory.filter.consumables_visible"
+    },
+    {
+      "type": "button",
+      "id": "filter.weapons",
+      "action": "inventory.filter.weapons",
+      "x": 288,
+      "y": 65,
+      "w": 42,
+      "h": 36,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "image",
+      "id": "filter_icon.weapons",
+      "file": "dragon_dialog/inventory_filter_weapons.bmp",
+      "x": 297,
+      "y": 70,
+      "w": 24,
+      "h": 24,
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "fill",
+      "id": "filter_selected.weapons",
+      "x": 297,
+      "y": 98,
+      "w": 24,
+      "h": 2,
+      "color": "#B9DA99",
+      "visible_when": "inventory.filter.weapons_visible"
+    },
+    {
+      "type": "button",
+      "id": "filter.armors",
+      "action": "inventory.filter.armors",
+      "x": 332,
+      "y": 65,
+      "w": 42,
+      "h": 36,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "image",
+      "id": "filter_icon.armors",
+      "file": "dragon_dialog/inventory_filter_armors.bmp",
+      "x": 341,
+      "y": 70,
+      "w": 24,
+      "h": 24,
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "fill",
+      "id": "filter_selected.armors",
+      "x": 341,
+      "y": 98,
+      "w": 24,
+      "h": 2,
+      "color": "#B9DA99",
+      "visible_when": "inventory.filter.armors_visible"
+    },
+    {
+      "type": "button",
+      "id": "filter.enchantment",
+      "action": "inventory.filter.enchantment",
+      "x": 376,
+      "y": 65,
+      "w": 42,
+      "h": 36,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "image",
+      "id": "filter_icon.enchantment",
+      "file": "dragon_dialog/inventory_filter_enchantment.bmp",
+      "x": 385,
+      "y": 70,
+      "w": 24,
+      "h": 24,
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "fill",
+      "id": "filter_selected.enchantment",
+      "x": 385,
+      "y": 98,
+      "w": 24,
+      "h": 2,
+      "color": "#B9DA99",
+      "visible_when": "inventory.filter.enchantment_visible"
+    },
+    {
+      "type": "button",
+      "id": "filter.skins_pets",
+      "action": "inventory.filter.skins_pets",
+      "x": 420,
+      "y": 65,
+      "w": 42,
+      "h": 36,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "image",
+      "id": "filter_icon.skins_pets",
+      "file": "dragon_dialog/inventory_filter_skins_pets.bmp",
+      "x": 429,
+      "y": 70,
+      "w": 24,
+      "h": 24,
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "fill",
+      "id": "filter_selected.skins_pets",
+      "x": 429,
+      "y": 98,
+      "w": 24,
+      "h": 2,
+      "color": "#B9DA99",
+      "visible_when": "inventory.filter.skins_pets_visible"
+    },
+    {
+      "type": "button",
+      "id": "filter.other",
+      "action": "inventory.filter.other",
+      "x": 464,
+      "y": 65,
+      "w": 42,
+      "h": 36,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "image",
+      "id": "filter_icon.other",
+      "file": "dragon_dialog/inventory_filter_other.bmp",
+      "x": 473,
+      "y": 70,
+      "w": 24,
+      "h": 24,
+      "visible_when": "inventory.normal_active"
+    },
+    {
+      "type": "fill",
+      "id": "filter_selected.other",
+      "x": 473,
+      "y": 98,
+      "w": 24,
+      "h": 2,
+      "color": "#B9DA99",
+      "visible_when": "inventory.filter.other_visible"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "openkal.guilds/v1",
+  "enabled": true,
+  "creation": {
+    "minimum_level": 1,
+    "minimum_members": 1,
+    "require_party": false,
+    "require_full_party": false,
+    "require_consent": true,
+    "consent_seconds": 60,
+    "fee_zamogeon": 500000
+  },
+  "membership": {
+    "minimum_level": 1,
+    "application_fee_zamogeon": 0,
+    "admission_fee_zamogeon": 0,
+    "application_lifetime_seconds": 604800,
+    "rejoin_lock_seconds": 86400,
+    "temporary_member_limit": 10,
+    "count_temporary_members": false,
+    "maximum_members": 0
+  },
+  "rank_quotas": {
+    "sub_leader": {
+      "maximum": 1
+    },
+    "head_chief": {
+      "members_per_slot": 50,
+      "maximum": 0
+    },
+    "chief": {
+      "members_per_slot": 10,
+      "maximum": 0
+    }
+  },
+  "grades": {
+    "minimum_members_by_grade": [1, 26, 40, 54, 70, 90, 110, 130, 130, 130],
+    "on_member_loss": "penalty"
+  },
+  "features": {
+    "name_display_minimum_grade": 2,
+    "flag_minimum_grade": 3,
+    "siege_minimum_grade": 4,
+    "tax_minimum_grade": 4,
+    "raid_minimum_grade": 4
+  },
+  "names": {
+    "maximum_latin": 14,
+    "maximum_hangul": 7,
+    "maximum_text": 512
+  },
+  "time": {
+    "day_offset_minutes": 0,
+    "ranking_refresh_seconds": 86400
+  },
+  "points": {
+    "enabled": true,
+    "low_level_end": 19,
+    "low_level_points": 1,
+    "level_offset": 10,
+    "connected_hour_points": 10,
+    "maximum": 2000000000
+  },
+  "buffs": {
+    "enabled": true,
+    "minimum_grade": 2,
+    "primary_per_grade": 0,
+    "hp_per_grade": 0,
+    "defense_per_grade": 0
+  },
+  "daily_reward": {
+    "enabled": true,
+    "minimum_grade": 2,
+    "zamogeon_per_grade": 1000,
+    "minimum_membership_seconds": 86400
+  },
+  "ranks": {
+    "titles": [
+      "",
+      "Boss",
+      "Sub-Boss",
+      "HeadChief",
+      "Chief",
+      "Member"
+    ],
+    "permissions": [0, 31, 0, 0, 0, 0]
+  }
+}

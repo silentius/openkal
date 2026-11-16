@@ -1,0 +1,14 @@
+{
+  "index": 23018,
+  "rarity": 0,
+  "name": "Perforation Shot",
+  "image": "shop143",
+  "class": [
+    "general",
+    "gslot"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "stackable": 1,
+  "pay": 1
+}

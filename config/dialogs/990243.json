@@ -1,0 +1,21 @@
+{
+  "_doc": "OpenKal dialogue text describing project-owned behavior; no external dialogue text is redistributed.",
+  "id": 990243,
+  "caption": "Stones of Revision",
+  "lines": [
+    "Open your inventory and drag one Revision Hammer onto one unequipped weapon, armor piece, ring or trinket.",
+    "The hammer and the selected equipment are consumed. You receive Stones of Revision in your inventory.",
+    "Weapons yield 4 plus a random amount up to grade / 10. Armor yields 2 plus that random amount. Rings and trinkets yield one stone.",
+    "This conversion is performed in the inventory; the blacksmith does not have a separate destruction window."
+  ],
+  "links": [
+    {
+      "type": "243",
+      "text": "Back to the blacksmith."
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

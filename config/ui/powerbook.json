@@ -1,0 +1,3320 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "powerbook",
+  "kind": "window",
+  "window": {
+    "w": 1520,
+    "h": 760,
+    "draggable": false
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "theme": {
+    "font_pixel_size": 16,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "background",
+      "x": 0,
+      "y": 0,
+      "w": 1520,
+      "h": 760,
+      "file": "dragon_dialog/panel_background.bmp",
+      "repeat": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -46,
+      "text": "${powerbook.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 26,
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "selection",
+      "x": 96,
+      "y": 6,
+      "text": "${powerbook.selection}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp"
+    },
+    {
+      "type": "image",
+      "id": "monster_panel",
+      "x": 12,
+      "y": 52,
+      "w": 312,
+      "h": 676,
+      "file": "dragon_dialog/panel_background.bmp",
+      "repeat": true
+    },
+    {
+      "type": "image",
+      "id": "monster_panel_header",
+      "x": 14,
+      "y": 54,
+      "w": 308,
+      "h": 34,
+      "file": "dragon_hud/party_heading.bmp",
+      "source": {
+        "x": 0,
+        "y": 3,
+        "w": 144,
+        "h": 13
+      },
+      "_doc": "Skip the baked top highlight plus one filtering guard row. The enclosing border owns the single top edge."
+    },
+    {
+      "type": "image",
+      "id": "monster_emblem",
+      "x": 20,
+      "y": 58,
+      "w": 24,
+      "h": 24,
+      "file": "dragon_menu/quest.bmp"
+    },
+    {
+      "type": "image",
+      "id": "drop_panel",
+      "x": 340,
+      "y": 52,
+      "w": 422,
+      "h": 676,
+      "file": "dragon_dialog/panel_background.bmp",
+      "repeat": true
+    },
+    {
+      "type": "image",
+      "id": "drop_panel_header",
+      "x": 342,
+      "y": 54,
+      "w": 418,
+      "h": 34,
+      "file": "dragon_hud/party_heading.bmp",
+      "source": {
+        "x": 0,
+        "y": 3,
+        "w": 144,
+        "h": 13
+      },
+      "_doc": "Skip the baked top highlight plus one filtering guard row. The enclosing border owns the single top edge."
+    },
+    {
+      "type": "image",
+      "id": "drop_emblem",
+      "x": 348,
+      "y": 58,
+      "w": 24,
+      "h": 24,
+      "file": "dragon_menu/inventory.bmp"
+    },
+    {
+      "type": "image",
+      "id": "map_panel",
+      "x": 778,
+      "y": 52,
+      "w": 730,
+      "h": 676,
+      "file": "dragon_dialog/panel_background.bmp",
+      "repeat": true
+    },
+    {
+      "type": "image",
+      "id": "map_panel_header",
+      "x": 780,
+      "y": 54,
+      "w": 726,
+      "h": 34,
+      "file": "dragon_hud/party_heading.bmp",
+      "source": {
+        "x": 0,
+        "y": 3,
+        "w": 144,
+        "h": 13
+      },
+      "_doc": "Skip the baked top highlight plus one filtering guard row. The enclosing border owns the single top edge."
+    },
+    {
+      "type": "image",
+      "id": "map_emblem",
+      "x": 786,
+      "y": 58,
+      "w": 24,
+      "h": 24,
+      "file": "dragon_menu/map.bmp"
+    },
+    {
+      "type": "text",
+      "id": "monsters_label",
+      "x": 50,
+      "y": 62,
+      "text": "${powerbook.monsters_label}",
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "drops_label",
+      "x": 378,
+      "y": 62,
+      "text": "${powerbook.drops_label}",
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "spawns_label",
+      "x": 816,
+      "y": 62,
+      "text": "${powerbook.spawns_label}",
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "empty",
+      "x": 24,
+      "y": 110,
+      "text": "${powerbook.empty}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_0",
+      "x": 22,
+      "y": 108,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.0.color}",
+      "visible_when": "powerbook.monster.0.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_0",
+      "x": 30,
+      "y": 116,
+      "text": "${powerbook.monster.0.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.0.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_0",
+      "x": 288,
+      "y": 116,
+      "text": "${powerbook.monster.0.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.0.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_0",
+      "x": 22,
+      "y": 108,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.0",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.0.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_1",
+      "x": 22,
+      "y": 144,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.1.color}",
+      "visible_when": "powerbook.monster.1.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_1",
+      "x": 30,
+      "y": 152,
+      "text": "${powerbook.monster.1.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.1.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_1",
+      "x": 288,
+      "y": 152,
+      "text": "${powerbook.monster.1.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.1.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_1",
+      "x": 22,
+      "y": 144,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.1",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.1.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_2",
+      "x": 22,
+      "y": 180,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.2.color}",
+      "visible_when": "powerbook.monster.2.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_2",
+      "x": 30,
+      "y": 188,
+      "text": "${powerbook.monster.2.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.2.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_2",
+      "x": 288,
+      "y": 188,
+      "text": "${powerbook.monster.2.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.2.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_2",
+      "x": 22,
+      "y": 180,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.2",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.2.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_3",
+      "x": 22,
+      "y": 216,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.3.color}",
+      "visible_when": "powerbook.monster.3.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_3",
+      "x": 30,
+      "y": 224,
+      "text": "${powerbook.monster.3.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.3.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_3",
+      "x": 288,
+      "y": 224,
+      "text": "${powerbook.monster.3.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.3.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_3",
+      "x": 22,
+      "y": 216,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.3",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.3.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_4",
+      "x": 22,
+      "y": 252,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.4.color}",
+      "visible_when": "powerbook.monster.4.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_4",
+      "x": 30,
+      "y": 260,
+      "text": "${powerbook.monster.4.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.4.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_4",
+      "x": 288,
+      "y": 260,
+      "text": "${powerbook.monster.4.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.4.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_4",
+      "x": 22,
+      "y": 252,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.4",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.4.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_5",
+      "x": 22,
+      "y": 288,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.5.color}",
+      "visible_when": "powerbook.monster.5.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_5",
+      "x": 30,
+      "y": 296,
+      "text": "${powerbook.monster.5.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.5.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_5",
+      "x": 288,
+      "y": 296,
+      "text": "${powerbook.monster.5.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.5.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_5",
+      "x": 22,
+      "y": 288,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.5",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.5.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_6",
+      "x": 22,
+      "y": 324,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.6.color}",
+      "visible_when": "powerbook.monster.6.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_6",
+      "x": 30,
+      "y": 332,
+      "text": "${powerbook.monster.6.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.6.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_6",
+      "x": 288,
+      "y": 332,
+      "text": "${powerbook.monster.6.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.6.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_6",
+      "x": 22,
+      "y": 324,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.6",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.6.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_7",
+      "x": 22,
+      "y": 360,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.7.color}",
+      "visible_when": "powerbook.monster.7.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_7",
+      "x": 30,
+      "y": 368,
+      "text": "${powerbook.monster.7.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.7.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_7",
+      "x": 288,
+      "y": 368,
+      "text": "${powerbook.monster.7.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.7.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_7",
+      "x": 22,
+      "y": 360,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.7",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.7.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_8",
+      "x": 22,
+      "y": 396,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.8.color}",
+      "visible_when": "powerbook.monster.8.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_8",
+      "x": 30,
+      "y": 404,
+      "text": "${powerbook.monster.8.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.8.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_8",
+      "x": 288,
+      "y": 404,
+      "text": "${powerbook.monster.8.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.8.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_8",
+      "x": 22,
+      "y": 396,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.8",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.8.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_9",
+      "x": 22,
+      "y": 432,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.9.color}",
+      "visible_when": "powerbook.monster.9.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_9",
+      "x": 30,
+      "y": 440,
+      "text": "${powerbook.monster.9.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.9.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_9",
+      "x": 288,
+      "y": 440,
+      "text": "${powerbook.monster.9.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.9.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_9",
+      "x": 22,
+      "y": 432,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.9",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.9.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_10",
+      "x": 22,
+      "y": 468,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.10.color}",
+      "visible_when": "powerbook.monster.10.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_10",
+      "x": 30,
+      "y": 476,
+      "text": "${powerbook.monster.10.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.10.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_10",
+      "x": 288,
+      "y": 476,
+      "text": "${powerbook.monster.10.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.10.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_10",
+      "x": 22,
+      "y": 468,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.10",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.10.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_11",
+      "x": 22,
+      "y": 504,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.11.color}",
+      "visible_when": "powerbook.monster.11.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_11",
+      "x": 30,
+      "y": 512,
+      "text": "${powerbook.monster.11.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.11.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_11",
+      "x": 288,
+      "y": 512,
+      "text": "${powerbook.monster.11.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.11.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_11",
+      "x": 22,
+      "y": 504,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.11",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.11.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_12",
+      "x": 22,
+      "y": 540,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.12.color}",
+      "visible_when": "powerbook.monster.12.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_12",
+      "x": 30,
+      "y": 548,
+      "text": "${powerbook.monster.12.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.12.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_12",
+      "x": 288,
+      "y": 548,
+      "text": "${powerbook.monster.12.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.12.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_12",
+      "x": 22,
+      "y": 540,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.12",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.12.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_13",
+      "x": 22,
+      "y": 576,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.13.color}",
+      "visible_when": "powerbook.monster.13.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_13",
+      "x": 30,
+      "y": 584,
+      "text": "${powerbook.monster.13.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.13.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_13",
+      "x": 288,
+      "y": 584,
+      "text": "${powerbook.monster.13.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.13.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_13",
+      "x": 22,
+      "y": 576,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.13",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.13.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_14",
+      "x": 22,
+      "y": 612,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.14.color}",
+      "visible_when": "powerbook.monster.14.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_14",
+      "x": 30,
+      "y": 620,
+      "text": "${powerbook.monster.14.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.14.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_14",
+      "x": 288,
+      "y": 620,
+      "text": "${powerbook.monster.14.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.14.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_14",
+      "x": 22,
+      "y": 612,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.14",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.14.visible"
+    },
+    {
+      "type": "fill",
+      "id": "monster_background_15",
+      "x": 22,
+      "y": 648,
+      "w": 272,
+      "h": 34,
+      "color": "${powerbook.monster.15.color}",
+      "visible_when": "powerbook.monster.15.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_name_15",
+      "x": 30,
+      "y": 656,
+      "text": "${powerbook.monster.15.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "powerbook.monster.15.visible"
+    },
+    {
+      "type": "text",
+      "id": "monster_level_15",
+      "x": 288,
+      "y": 656,
+      "text": "${powerbook.monster.15.level}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "powerbook.monster.15.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_15",
+      "x": 22,
+      "y": 648,
+      "w": 272,
+      "h": 34,
+      "label": "${powerbook.blank}",
+      "action": "powerbook.select.15",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.monster.15.visible"
+    },
+    {
+      "type": "button",
+      "id": "monster_up",
+      "x": 298,
+      "y": 100,
+      "w": 24,
+      "h": 24,
+      "label": "${powerbook.up}",
+      "action": "powerbook.monsters.up",
+      "align": "center",
+      "color": "#E8D4AA",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "fill",
+      "id": "monster_scroll",
+      "x": 304,
+      "y": 128,
+      "w": 14,
+      "h": 530,
+      "color": "#10151C"
+    },
+    {
+      "type": "button",
+      "id": "monster_down",
+      "x": 298,
+      "y": 662,
+      "w": 24,
+      "h": 24,
+      "label": "${powerbook.down}",
+      "action": "powerbook.monsters.down",
+      "align": "center",
+      "color": "#E8D4AA",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "drop_up",
+      "x": 736,
+      "y": 100,
+      "w": 24,
+      "h": 24,
+      "label": "${powerbook.up}",
+      "action": "powerbook.drops.up",
+      "align": "center",
+      "color": "#E8D4AA",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "fill",
+      "id": "drop_scroll",
+      "x": 740,
+      "y": 128,
+      "w": 14,
+      "h": 530,
+      "color": "#10151C"
+    },
+    {
+      "type": "button",
+      "id": "drop_down",
+      "x": 736,
+      "y": 662,
+      "w": 24,
+      "h": 24,
+      "label": "${powerbook.down}",
+      "action": "powerbook.drops.down",
+      "align": "center",
+      "color": "#E8D4AA",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "monster_range",
+      "x": 24,
+      "y": 701,
+      "text": "${powerbook.monster_range}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "drop_status",
+      "x": 354,
+      "y": 701,
+      "text": "${powerbook.drop_status}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 14
+    },
+    {
+      "type": "canvas",
+      "id": "spawn_map",
+      "x": 792,
+      "y": 106,
+      "w": 702,
+      "h": 530,
+      "kind": "minimap",
+      "bind": "powerbook.map"
+    },
+    {
+      "type": "text",
+      "id": "spawn_status",
+      "x": 792,
+      "y": 654,
+      "text": "${powerbook.spawn_status}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "button",
+      "id": "spawn_previous",
+      "x": 792,
+      "y": 690,
+      "w": 150,
+      "h": 30,
+      "label": "${powerbook.previous}",
+      "action": "powerbook.spawn.previous",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.spawn_multiple",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "spawn_next",
+      "x": 1344,
+      "y": 690,
+      "w": 150,
+      "h": 30,
+      "label": "${powerbook.next}",
+      "action": "powerbook.spawn.next",
+      "align": "center",
+      "color": "#E8D4AA",
+      "visible_when": "powerbook.spawn_multiple",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "legend",
+      "x": 24,
+      "y": 731,
+      "text": "${powerbook.legend}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "controls",
+      "x": 24,
+      "y": 747,
+      "text": "${powerbook.controls}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 11
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_0",
+      "x": 365,
+      "y": 115,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.0.color}",
+      "visible_when": "powerbook.drop.0.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_0",
+      "x": 372,
+      "y": 122,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.0",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.0.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_0",
+      "x": 407,
+      "y": 147,
+      "align": "right",
+      "text": "${powerbook.drop.0.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.0.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_1",
+      "x": 425,
+      "y": 115,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.1.color}",
+      "visible_when": "powerbook.drop.1.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_1",
+      "x": 432,
+      "y": 122,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.1",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.1.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_1",
+      "x": 467,
+      "y": 147,
+      "align": "right",
+      "text": "${powerbook.drop.1.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.1.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_2",
+      "x": 485,
+      "y": 115,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.2.color}",
+      "visible_when": "powerbook.drop.2.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_2",
+      "x": 492,
+      "y": 122,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.2",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.2.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_2",
+      "x": 527,
+      "y": 147,
+      "align": "right",
+      "text": "${powerbook.drop.2.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.2.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_3",
+      "x": 545,
+      "y": 115,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.3.color}",
+      "visible_when": "powerbook.drop.3.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_3",
+      "x": 552,
+      "y": 122,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.3",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.3.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_3",
+      "x": 587,
+      "y": 147,
+      "align": "right",
+      "text": "${powerbook.drop.3.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.3.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_4",
+      "x": 605,
+      "y": 115,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.4.color}",
+      "visible_when": "powerbook.drop.4.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_4",
+      "x": 612,
+      "y": 122,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.4",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.4.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_4",
+      "x": 647,
+      "y": 147,
+      "align": "right",
+      "text": "${powerbook.drop.4.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.4.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_5",
+      "x": 665,
+      "y": 115,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.5.color}",
+      "visible_when": "powerbook.drop.5.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_5",
+      "x": 672,
+      "y": 122,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.5",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.5.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_5",
+      "x": 707,
+      "y": 147,
+      "align": "right",
+      "text": "${powerbook.drop.5.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.5.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_6",
+      "x": 365,
+      "y": 171,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.6.color}",
+      "visible_when": "powerbook.drop.6.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_6",
+      "x": 372,
+      "y": 178,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.6",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.6.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_6",
+      "x": 407,
+      "y": 203,
+      "align": "right",
+      "text": "${powerbook.drop.6.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.6.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_7",
+      "x": 425,
+      "y": 171,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.7.color}",
+      "visible_when": "powerbook.drop.7.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_7",
+      "x": 432,
+      "y": 178,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.7",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.7.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_7",
+      "x": 467,
+      "y": 203,
+      "align": "right",
+      "text": "${powerbook.drop.7.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.7.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_8",
+      "x": 485,
+      "y": 171,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.8.color}",
+      "visible_when": "powerbook.drop.8.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_8",
+      "x": 492,
+      "y": 178,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.8",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.8.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_8",
+      "x": 527,
+      "y": 203,
+      "align": "right",
+      "text": "${powerbook.drop.8.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.8.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_9",
+      "x": 545,
+      "y": 171,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.9.color}",
+      "visible_when": "powerbook.drop.9.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_9",
+      "x": 552,
+      "y": 178,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.9",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.9.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_9",
+      "x": 587,
+      "y": 203,
+      "align": "right",
+      "text": "${powerbook.drop.9.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.9.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_10",
+      "x": 605,
+      "y": 171,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.10.color}",
+      "visible_when": "powerbook.drop.10.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_10",
+      "x": 612,
+      "y": 178,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.10",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.10.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_10",
+      "x": 647,
+      "y": 203,
+      "align": "right",
+      "text": "${powerbook.drop.10.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.10.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_11",
+      "x": 665,
+      "y": 171,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.11.color}",
+      "visible_when": "powerbook.drop.11.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_11",
+      "x": 672,
+      "y": 178,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.11",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.11.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_11",
+      "x": 707,
+      "y": 203,
+      "align": "right",
+      "text": "${powerbook.drop.11.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.11.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_12",
+      "x": 365,
+      "y": 227,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.12.color}",
+      "visible_when": "powerbook.drop.12.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_12",
+      "x": 372,
+      "y": 234,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.12",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.12.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_12",
+      "x": 407,
+      "y": 259,
+      "align": "right",
+      "text": "${powerbook.drop.12.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.12.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_13",
+      "x": 425,
+      "y": 227,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.13.color}",
+      "visible_when": "powerbook.drop.13.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_13",
+      "x": 432,
+      "y": 234,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.13",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.13.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_13",
+      "x": 467,
+      "y": 259,
+      "align": "right",
+      "text": "${powerbook.drop.13.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.13.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_14",
+      "x": 485,
+      "y": 227,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.14.color}",
+      "visible_when": "powerbook.drop.14.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_14",
+      "x": 492,
+      "y": 234,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.14",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.14.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_14",
+      "x": 527,
+      "y": 259,
+      "align": "right",
+      "text": "${powerbook.drop.14.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.14.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_15",
+      "x": 545,
+      "y": 227,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.15.color}",
+      "visible_when": "powerbook.drop.15.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_15",
+      "x": 552,
+      "y": 234,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.15",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.15.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_15",
+      "x": 587,
+      "y": 259,
+      "align": "right",
+      "text": "${powerbook.drop.15.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.15.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_16",
+      "x": 605,
+      "y": 227,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.16.color}",
+      "visible_when": "powerbook.drop.16.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_16",
+      "x": 612,
+      "y": 234,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.16",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.16.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_16",
+      "x": 647,
+      "y": 259,
+      "align": "right",
+      "text": "${powerbook.drop.16.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.16.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_17",
+      "x": 665,
+      "y": 227,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.17.color}",
+      "visible_when": "powerbook.drop.17.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_17",
+      "x": 672,
+      "y": 234,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.17",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.17.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_17",
+      "x": 707,
+      "y": 259,
+      "align": "right",
+      "text": "${powerbook.drop.17.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.17.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_18",
+      "x": 365,
+      "y": 283,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.18.color}",
+      "visible_when": "powerbook.drop.18.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_18",
+      "x": 372,
+      "y": 290,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.18",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.18.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_18",
+      "x": 407,
+      "y": 315,
+      "align": "right",
+      "text": "${powerbook.drop.18.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.18.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_19",
+      "x": 425,
+      "y": 283,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.19.color}",
+      "visible_when": "powerbook.drop.19.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_19",
+      "x": 432,
+      "y": 290,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.19",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.19.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_19",
+      "x": 467,
+      "y": 315,
+      "align": "right",
+      "text": "${powerbook.drop.19.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.19.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_20",
+      "x": 485,
+      "y": 283,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.20.color}",
+      "visible_when": "powerbook.drop.20.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_20",
+      "x": 492,
+      "y": 290,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.20",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.20.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_20",
+      "x": 527,
+      "y": 315,
+      "align": "right",
+      "text": "${powerbook.drop.20.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.20.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_21",
+      "x": 545,
+      "y": 283,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.21.color}",
+      "visible_when": "powerbook.drop.21.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_21",
+      "x": 552,
+      "y": 290,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.21",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.21.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_21",
+      "x": 587,
+      "y": 315,
+      "align": "right",
+      "text": "${powerbook.drop.21.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.21.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_22",
+      "x": 605,
+      "y": 283,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.22.color}",
+      "visible_when": "powerbook.drop.22.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_22",
+      "x": 612,
+      "y": 290,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.22",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.22.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_22",
+      "x": 647,
+      "y": 315,
+      "align": "right",
+      "text": "${powerbook.drop.22.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.22.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_23",
+      "x": 665,
+      "y": 283,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.23.color}",
+      "visible_when": "powerbook.drop.23.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_23",
+      "x": 672,
+      "y": 290,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.23",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.23.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_23",
+      "x": 707,
+      "y": 315,
+      "align": "right",
+      "text": "${powerbook.drop.23.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.23.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_24",
+      "x": 365,
+      "y": 339,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.24.color}",
+      "visible_when": "powerbook.drop.24.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_24",
+      "x": 372,
+      "y": 346,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.24",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.24.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_24",
+      "x": 407,
+      "y": 371,
+      "align": "right",
+      "text": "${powerbook.drop.24.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.24.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_25",
+      "x": 425,
+      "y": 339,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.25.color}",
+      "visible_when": "powerbook.drop.25.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_25",
+      "x": 432,
+      "y": 346,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.25",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.25.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_25",
+      "x": 467,
+      "y": 371,
+      "align": "right",
+      "text": "${powerbook.drop.25.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.25.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_26",
+      "x": 485,
+      "y": 339,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.26.color}",
+      "visible_when": "powerbook.drop.26.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_26",
+      "x": 492,
+      "y": 346,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.26",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.26.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_26",
+      "x": 527,
+      "y": 371,
+      "align": "right",
+      "text": "${powerbook.drop.26.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.26.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_27",
+      "x": 545,
+      "y": 339,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.27.color}",
+      "visible_when": "powerbook.drop.27.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_27",
+      "x": 552,
+      "y": 346,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.27",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.27.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_27",
+      "x": 587,
+      "y": 371,
+      "align": "right",
+      "text": "${powerbook.drop.27.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.27.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_28",
+      "x": 605,
+      "y": 339,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.28.color}",
+      "visible_when": "powerbook.drop.28.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_28",
+      "x": 612,
+      "y": 346,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.28",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.28.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_28",
+      "x": 647,
+      "y": 371,
+      "align": "right",
+      "text": "${powerbook.drop.28.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.28.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_29",
+      "x": 665,
+      "y": 339,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.29.color}",
+      "visible_when": "powerbook.drop.29.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_29",
+      "x": 672,
+      "y": 346,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.29",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.29.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_29",
+      "x": 707,
+      "y": 371,
+      "align": "right",
+      "text": "${powerbook.drop.29.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.29.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_30",
+      "x": 365,
+      "y": 395,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.30.color}",
+      "visible_when": "powerbook.drop.30.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_30",
+      "x": 372,
+      "y": 402,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.30",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.30.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_30",
+      "x": 407,
+      "y": 427,
+      "align": "right",
+      "text": "${powerbook.drop.30.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.30.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_31",
+      "x": 425,
+      "y": 395,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.31.color}",
+      "visible_when": "powerbook.drop.31.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_31",
+      "x": 432,
+      "y": 402,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.31",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.31.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_31",
+      "x": 467,
+      "y": 427,
+      "align": "right",
+      "text": "${powerbook.drop.31.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.31.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_32",
+      "x": 485,
+      "y": 395,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.32.color}",
+      "visible_when": "powerbook.drop.32.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_32",
+      "x": 492,
+      "y": 402,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.32",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.32.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_32",
+      "x": 527,
+      "y": 427,
+      "align": "right",
+      "text": "${powerbook.drop.32.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.32.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_33",
+      "x": 545,
+      "y": 395,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.33.color}",
+      "visible_when": "powerbook.drop.33.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_33",
+      "x": 552,
+      "y": 402,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.33",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.33.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_33",
+      "x": 587,
+      "y": 427,
+      "align": "right",
+      "text": "${powerbook.drop.33.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.33.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_34",
+      "x": 605,
+      "y": 395,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.34.color}",
+      "visible_when": "powerbook.drop.34.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_34",
+      "x": 612,
+      "y": 402,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.34",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.34.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_34",
+      "x": 647,
+      "y": 427,
+      "align": "right",
+      "text": "${powerbook.drop.34.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.34.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_35",
+      "x": 665,
+      "y": 395,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.35.color}",
+      "visible_when": "powerbook.drop.35.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_35",
+      "x": 672,
+      "y": 402,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.35",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.35.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_35",
+      "x": 707,
+      "y": 427,
+      "align": "right",
+      "text": "${powerbook.drop.35.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.35.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_36",
+      "x": 365,
+      "y": 451,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.36.color}",
+      "visible_when": "powerbook.drop.36.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_36",
+      "x": 372,
+      "y": 458,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.36",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.36.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_36",
+      "x": 407,
+      "y": 483,
+      "align": "right",
+      "text": "${powerbook.drop.36.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.36.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_37",
+      "x": 425,
+      "y": 451,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.37.color}",
+      "visible_when": "powerbook.drop.37.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_37",
+      "x": 432,
+      "y": 458,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.37",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.37.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_37",
+      "x": 467,
+      "y": 483,
+      "align": "right",
+      "text": "${powerbook.drop.37.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.37.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_38",
+      "x": 485,
+      "y": 451,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.38.color}",
+      "visible_when": "powerbook.drop.38.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_38",
+      "x": 492,
+      "y": 458,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.38",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.38.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_38",
+      "x": 527,
+      "y": 483,
+      "align": "right",
+      "text": "${powerbook.drop.38.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.38.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_39",
+      "x": 545,
+      "y": 451,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.39.color}",
+      "visible_when": "powerbook.drop.39.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_39",
+      "x": 552,
+      "y": 458,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.39",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.39.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_39",
+      "x": 587,
+      "y": 483,
+      "align": "right",
+      "text": "${powerbook.drop.39.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.39.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_40",
+      "x": 605,
+      "y": 451,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.40.color}",
+      "visible_when": "powerbook.drop.40.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_40",
+      "x": 612,
+      "y": 458,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.40",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.40.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_40",
+      "x": 647,
+      "y": 483,
+      "align": "right",
+      "text": "${powerbook.drop.40.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.40.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_41",
+      "x": 665,
+      "y": 451,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.41.color}",
+      "visible_when": "powerbook.drop.41.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_41",
+      "x": 672,
+      "y": 458,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.41",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.41.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_41",
+      "x": 707,
+      "y": 483,
+      "align": "right",
+      "text": "${powerbook.drop.41.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.41.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_42",
+      "x": 365,
+      "y": 507,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.42.color}",
+      "visible_when": "powerbook.drop.42.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_42",
+      "x": 372,
+      "y": 514,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.42",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.42.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_42",
+      "x": 407,
+      "y": 539,
+      "align": "right",
+      "text": "${powerbook.drop.42.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.42.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_43",
+      "x": 425,
+      "y": 507,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.43.color}",
+      "visible_when": "powerbook.drop.43.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_43",
+      "x": 432,
+      "y": 514,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.43",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.43.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_43",
+      "x": 467,
+      "y": 539,
+      "align": "right",
+      "text": "${powerbook.drop.43.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.43.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_44",
+      "x": 485,
+      "y": 507,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.44.color}",
+      "visible_when": "powerbook.drop.44.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_44",
+      "x": 492,
+      "y": 514,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.44",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.44.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_44",
+      "x": 527,
+      "y": 539,
+      "align": "right",
+      "text": "${powerbook.drop.44.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.44.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_45",
+      "x": 545,
+      "y": 507,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.45.color}",
+      "visible_when": "powerbook.drop.45.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_45",
+      "x": 552,
+      "y": 514,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.45",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.45.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_45",
+      "x": 587,
+      "y": 539,
+      "align": "right",
+      "text": "${powerbook.drop.45.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.45.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_46",
+      "x": 605,
+      "y": 507,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.46.color}",
+      "visible_when": "powerbook.drop.46.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_46",
+      "x": 612,
+      "y": 514,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.46",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.46.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_46",
+      "x": 647,
+      "y": 539,
+      "align": "right",
+      "text": "${powerbook.drop.46.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.46.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_47",
+      "x": 665,
+      "y": 507,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.47.color}",
+      "visible_when": "powerbook.drop.47.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_47",
+      "x": 672,
+      "y": 514,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.47",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.47.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_47",
+      "x": 707,
+      "y": 539,
+      "align": "right",
+      "text": "${powerbook.drop.47.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.47.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_48",
+      "x": 365,
+      "y": 563,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.48.color}",
+      "visible_when": "powerbook.drop.48.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_48",
+      "x": 372,
+      "y": 570,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.48",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.48.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_48",
+      "x": 407,
+      "y": 595,
+      "align": "right",
+      "text": "${powerbook.drop.48.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.48.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_49",
+      "x": 425,
+      "y": 563,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.49.color}",
+      "visible_when": "powerbook.drop.49.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_49",
+      "x": 432,
+      "y": 570,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.49",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.49.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_49",
+      "x": 467,
+      "y": 595,
+      "align": "right",
+      "text": "${powerbook.drop.49.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.49.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_50",
+      "x": 485,
+      "y": 563,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.50.color}",
+      "visible_when": "powerbook.drop.50.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_50",
+      "x": 492,
+      "y": 570,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.50",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.50.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_50",
+      "x": 527,
+      "y": 595,
+      "align": "right",
+      "text": "${powerbook.drop.50.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.50.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_51",
+      "x": 545,
+      "y": 563,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.51.color}",
+      "visible_when": "powerbook.drop.51.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_51",
+      "x": 552,
+      "y": 570,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.51",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.51.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_51",
+      "x": 587,
+      "y": 595,
+      "align": "right",
+      "text": "${powerbook.drop.51.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.51.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_52",
+      "x": 605,
+      "y": 563,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.52.color}",
+      "visible_when": "powerbook.drop.52.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_52",
+      "x": 612,
+      "y": 570,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.52",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.52.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_52",
+      "x": 647,
+      "y": 595,
+      "align": "right",
+      "text": "${powerbook.drop.52.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.52.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_53",
+      "x": 665,
+      "y": 563,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.53.color}",
+      "visible_when": "powerbook.drop.53.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_53",
+      "x": 672,
+      "y": 570,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.53",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.53.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_53",
+      "x": 707,
+      "y": 595,
+      "align": "right",
+      "text": "${powerbook.drop.53.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.53.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_54",
+      "x": 365,
+      "y": 619,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.54.color}",
+      "visible_when": "powerbook.drop.54.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_54",
+      "x": 372,
+      "y": 626,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.54",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.54.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_54",
+      "x": 407,
+      "y": 651,
+      "align": "right",
+      "text": "${powerbook.drop.54.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.54.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_55",
+      "x": 425,
+      "y": 619,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.55.color}",
+      "visible_when": "powerbook.drop.55.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_55",
+      "x": 432,
+      "y": 626,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.55",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.55.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_55",
+      "x": 467,
+      "y": 651,
+      "align": "right",
+      "text": "${powerbook.drop.55.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.55.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_56",
+      "x": 485,
+      "y": 619,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.56.color}",
+      "visible_when": "powerbook.drop.56.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_56",
+      "x": 492,
+      "y": 626,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.56",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.56.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_56",
+      "x": 527,
+      "y": 651,
+      "align": "right",
+      "text": "${powerbook.drop.56.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.56.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_57",
+      "x": 545,
+      "y": 619,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.57.color}",
+      "visible_when": "powerbook.drop.57.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_57",
+      "x": 552,
+      "y": 626,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.57",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.57.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_57",
+      "x": 587,
+      "y": 651,
+      "align": "right",
+      "text": "${powerbook.drop.57.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.57.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_58",
+      "x": 605,
+      "y": 619,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.58.color}",
+      "visible_when": "powerbook.drop.58.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_58",
+      "x": 612,
+      "y": 626,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.58",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.58.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_58",
+      "x": 647,
+      "y": 651,
+      "align": "right",
+      "text": "${powerbook.drop.58.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.58.visible"
+    },
+    {
+      "type": "fill",
+      "id": "drop_outline_59",
+      "x": 665,
+      "y": 619,
+      "w": 50,
+      "h": 50,
+      "color": "${powerbook.drop.59.color}",
+      "visible_when": "powerbook.drop.59.visible"
+    },
+    {
+      "type": "icon_slot",
+      "id": "drop_icon_59",
+      "x": 672,
+      "y": 626,
+      "w": 36,
+      "h": 36,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "bind": "powerbook.drop.59",
+      "tooltip": true,
+      "visible_when": "powerbook.drop.59.visible"
+    },
+    {
+      "type": "text",
+      "id": "drop_quest_59",
+      "x": 707,
+      "y": 651,
+      "align": "right",
+      "text": "${powerbook.drop.59.quest}",
+      "pixel_size": 11,
+      "color": "#FFE19A",
+      "visible_when": "powerbook.drop.59.visible"
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "x": 12,
+      "y": -29,
+      "w": 36,
+      "h": 36,
+      "file": "dragon_menu/collection_dialog.bmp"
+    },
+    {
+      "type": "border",
+      "id": "monster_frame",
+      "x": 12,
+      "y": 52,
+      "w": 312,
+      "h": 676,
+      "thickness": 2,
+      "top": "dragon_hud/party_heading.bmp",
+      "bottom": "dragon_hud/party_heading.bmp",
+      "left": "dragon_hud/party_heading.bmp",
+      "right": "dragon_hud/party_heading.bmp"
+    },
+    {
+      "type": "border",
+      "id": "drop_frame",
+      "x": 340,
+      "y": 52,
+      "w": 422,
+      "h": 676,
+      "thickness": 2,
+      "top": "dragon_hud/party_heading.bmp",
+      "bottom": "dragon_hud/party_heading.bmp",
+      "left": "dragon_hud/party_heading.bmp",
+      "right": "dragon_hud/party_heading.bmp"
+    },
+    {
+      "type": "border",
+      "id": "map_frame",
+      "x": 778,
+      "y": 52,
+      "w": 730,
+      "h": 676,
+      "thickness": 2,
+      "top": "dragon_hud/party_heading.bmp",
+      "bottom": "dragon_hud/party_heading.bmp",
+      "left": "dragon_hud/party_heading.bmp",
+      "right": "dragon_hud/party_heading.bmp"
+    }
+  ],
+  "_doc": "Fullscreen Dragon dialog with the shared footer X, three thin bordered sections, flush bronze gradient headings and 6x10 compact drop slots."
+}

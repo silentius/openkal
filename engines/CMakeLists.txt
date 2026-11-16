@@ -1,0 +1,7 @@
+if(OPENKAL_ENGINE STREQUAL "gl")
+  add_subdirectory(gl)
+elseif(OPENKAL_ENGINE STREQUAL "null")
+  add_subdirectory(null)
+else()
+  message(FATAL_ERROR "Unknown OPENKAL_ENGINE=${OPENKAL_ENGINE}")
+endif()

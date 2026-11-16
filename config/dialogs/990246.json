@@ -1,0 +1,21 @@
+{
+  "_doc": "OpenKal dialogue text describing project-owned behavior; no external dialogue text is redistributed.",
+  "id": 990246,
+  "caption": "Trigram enchantment",
+  "lines": [
+    "In the inventory, drag a raw trigram onto an unequipped trigram of the same grade and position.",
+    "A successful attempt converts a raw target into an enchanted trigram at +1, or increases its enchantment up to +15.",
+    "An accepted attempt consumes the material even on failure. Failure lowers the target enchantment by one, to a minimum of zero.",
+    "This upgrade is performed in the inventory; no separate blacksmith enchantment window is needed."
+  ],
+  "links": [
+    {
+      "type": "243",
+      "text": "Back to the blacksmith."
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

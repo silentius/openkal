@@ -1,0 +1,19 @@
+{
+  "index": 24052,
+  "name": "Novice Taegeuk",
+  "description": "Absorption requires eight worn trigrams at +5 or higher.",
+  "image": "item734",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 50,
+  "limit": {
+    "class": "all",
+    "level": 50
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

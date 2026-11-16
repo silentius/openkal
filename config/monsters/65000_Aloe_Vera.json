@@ -1,0 +1,17 @@
+{
+  "index": 65000,
+  "name": "Aloe Vera",
+  "stats": {
+    "race": 4,
+    "level": 1,
+    "hp": 1,
+    "ai": 0
+  },
+  "appearance": {
+    "owned_model": "RuntimeData/models/plants/aloe.gb",
+    "scale": 0.185,
+    "level": 1,
+    "scaleParam": 3
+  },
+  "spawns": []
+}

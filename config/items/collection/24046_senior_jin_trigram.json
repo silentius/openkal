@@ -1,0 +1,19 @@
+{
+  "index": 24046,
+  "name": "Senior Jin Trigram",
+  "description": "Equip with the other seven trigrams of the same grade.",
+  "image": "item720",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 75,
+  "limit": {
+    "class": "all",
+    "level": 75
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

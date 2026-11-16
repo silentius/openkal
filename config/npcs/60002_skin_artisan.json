@@ -1,0 +1,27 @@
+{
+  "_doc": "Standalone Skin Artisan configuration moved from the user-supplied NPC 1252 on 2026-10-30. Appearance assets remain optional external runtime input.",
+  "_source": {
+    "origin": "openkal_data/config/npcs/1252_new_weapon_costume_blacksmith.json",
+    "original_index": 1252,
+    "sha256": "f2354b2258d1dcf688a7b55e9dc7206f2b08744baf91fa2c3601a87360f33943",
+    "transferred_on": "2026-10-30",
+    "author": "Not recorded in the supplied definition.",
+    "license": "No license declaration supplied."
+  },
+  "index": 60002,
+  "name": "Skin Artisan",
+  "country": [0, 1, 2],
+  "kind": 1,
+  "shape": 73,
+  "map": 0,
+  "html": 990310,
+  "xy": [267261, 243021, 19630],
+  "dir": [267360, 243015],
+  "appearance": {
+    "boneId": 953,
+    "scale": 1.0,
+    "scaleParam": 5,
+    "motion": "AAAAAAAAAA",
+    "mspeed": [0, 0]
+  }
+}

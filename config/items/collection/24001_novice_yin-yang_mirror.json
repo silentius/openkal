@@ -1,0 +1,19 @@
+{
+  "index": 24001,
+  "name": "Novice Yin-Yang Mirror",
+  "description": "Requires eight enchanted trigrams of the same grade.",
+  "image": "item698",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 50,
+  "limit": {
+    "class": "all",
+    "level": 50
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 1000000,
+  "sell": 0
+}

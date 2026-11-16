@@ -1,0 +1,12 @@
+{
+  "schema": "openkal.fishing/v1",
+  "baseIntervalSeconds": 600,
+  "acceleratedIntervalSeconds": 300,
+  "rewards": [
+    { "itemIndex": 241, "chancePerThousand": 5 },
+    { "itemIndex": 444, "chancePerThousand": 10 },
+    { "itemIndex": 240, "chancePerThousand": 25 },
+    { "itemIndex": 239, "chancePerThousand": 320 },
+    { "itemIndex": 237, "chancePerThousand": 640 }
+  ]
+}

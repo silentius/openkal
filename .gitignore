@@ -1,0 +1,59 @@
+# Prerequisites
+*.user
+*.suo
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Build
+build/
+build-ninja/
+build-null/
+cmake-build-*/
+out/
+compile_commands.json
+
+# Runtime game assets live next to the executable (data/, map/), not in git.
+# Keep a local tree or symlink from external asset pack — see data/README.md.
+/data/**
+!/data/README.md
+/map/
+
+# Third-party audio is optional user data. Keep it outside the source tree and
+# supply it through OPENKAL_DATA_ROOT. Retain the synthesized quest cues.
+/RuntimeData/sounds/*
+!/RuntimeData/sounds/README.md
+!/RuntimeData/sounds/quest_accept.mp3
+!/RuntimeData/sounds/quest_update.mp3
+!/RuntimeData/sounds/quest_done.mp3
+
+# Godot / editor
+.godot/
+*.translation
+
+# OS / junk
+.DS_Store
+*~
+*.swp
+*.o
+*.a
+*.so
+*.dylib
+
+# Secrets / local
+.env
+auto_login.json
+/server.json
+/postgres.env
+*.pem
+local.cmake
+
+# Single-player flat-file DB + unix sockets
+save/
+__pycache__
+
+Testing/*
+.pre-commit-cache/*
+build-*
+output/*

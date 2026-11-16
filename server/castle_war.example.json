@@ -1,0 +1,63 @@
+{
+  "schema": "openkal.castle_war/v1",
+  "enabled": false,
+  "minimum_level": 70,
+  "schedule": {
+    "utc_offset_minutes": 540,
+    "battle_weekday": 0,
+    "battle_hour": 1,
+    "battle_minute": 0,
+    "battle_second": 0,
+    "declaration_seconds": 86400,
+    "preparation_seconds": 86400,
+    "admission_seconds": 600,
+    "battle_seconds": 3600
+  },
+  "alliances": {
+    "max_allied_guilds": 5,
+    "alliance_min_days": 1,
+    "alliance_max_days": 15,
+    "alliance_invitation_seconds": 86400
+  },
+  "combat": {
+    "respawn_seconds": 30,
+    "protection_seconds": 10,
+    "capture_unlock_seconds": 600,
+    "hold_seconds": 300,
+    "flag_regen_seconds": 5,
+    "flag_regen_points": 100,
+    "match_score_flush_seconds": 5
+  },
+  "honor": {
+    "activity_minimum": 1,
+    "honor_winner": 7000,
+    "honor_ally": 3000,
+    "honor_loser": 300,
+    "honor_flag_max": 2000,
+    "honor_kill_max": 150,
+    "honor_activity_max": 4000
+  },
+  "tax": {
+    "percent": [95, 100, 110],
+    "max_defenses": 10,
+    "merchant_npc_indices": []
+  },
+  "layout": {
+    "bounds": [0, 0, 0, 0],
+    "guard_npc_index": 0,
+    "master_npc_index": 0,
+    "camp_npc_index": 0,
+    "manager_npc_index": 0,
+    "attack_camp": [0, 0, 0, 0],
+    "defense_camp": [0, 0, 0, 0],
+    "east_gate": [0, 0, 0, 0],
+    "west_gate": [0, 0, 0, 0],
+    "exit": [0, 0, 0, 0],
+    "flags": [
+      { "position": [0, 0, 0, 0], "monster_index": 0, "points": 50, "hit_points": 10000 },
+      { "position": [0, 0, 0, 0], "monster_index": 0, "points": 30, "hit_points": 5000 },
+      { "position": [0, 0, 0, 0], "monster_index": 0, "points": 30, "hit_points": 5000 },
+      { "position": [0, 0, 0, 0], "monster_index": 0, "points": 30, "hit_points": 5000 }
+    ]
+  }
+}

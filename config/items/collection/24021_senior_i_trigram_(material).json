@@ -1,0 +1,19 @@
+{
+  "index": 24021,
+  "name": "Senior I Trigram (Material)",
+  "description": "Raw material for the matching trigram position and grade.",
+  "image": "item719",
+  "class": [
+    "general",
+    "collection"
+  ],
+  "level": 75,
+  "limit": {
+    "class": "all",
+    "level": 75
+  },
+  "wear": 0,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

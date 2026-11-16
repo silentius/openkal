@@ -1,0 +1,31 @@
+{
+  "types": {
+    "aloe_vera": {
+      "entity_index": 65000,
+      "item_index": 23027,
+      "items_per_pick": 4,
+      "enabled": true,
+      "max_plants": 256,
+      "plants_per_area": 8,
+      "respawn_seconds": 600
+    },
+    "blue_lotus": {
+      "entity_index": 65001,
+      "item_index": 23028,
+      "items_per_pick": 4,
+      "enabled": true,
+      "max_plants": 256,
+      "plants_per_area": 8,
+      "respawn_seconds": 600
+    },
+    "ginseng": {
+      "entity_index": 65002,
+      "item_index": 23029,
+      "items_per_pick": 1,
+      "enabled": true,
+      "max_plants": 256,
+      "plants_per_area": 4,
+      "respawn_seconds": 600
+    }
+  }
+}

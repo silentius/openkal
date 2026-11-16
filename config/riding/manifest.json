@@ -1,0 +1,6 @@
+{
+  "schema": "openkal.riding-manifest/v1",
+  "files": [
+    "catalog.json"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "openkal.level_mail_rewards/v1",
+  "rewards": [
+    { "level": 2, "itemId": 23001, "count": 10 },
+    { "level": 3, "itemId": 23001, "count": 10 },
+    { "level": 4, "itemId": 23001, "count": 10 },
+    { "level": 5, "itemId": 23001, "count": 10 },
+    { "level": 6, "itemId": 23001, "count": 10 },
+    { "level": 7, "itemId": 23001, "count": 10 },
+    { "level": 8, "itemId": 23001, "count": 10 },
+    { "level": 9, "itemId": 23001, "count": 10 },
+    { "level": 10, "itemId": 23001, "count": 10 }
+  ]
+}

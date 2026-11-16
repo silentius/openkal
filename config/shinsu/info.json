@@ -1,0 +1,462 @@
+{
+  "entries": [
+    {
+      "key": 10,
+      "race": 0,
+      "stage": 1,
+      "bone": 0,
+      "scale": [
+        0.8,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": "Ancient Tiger"
+    },
+    {
+      "key": 20,
+      "race": 0,
+      "stage": 2,
+      "bone": 0,
+      "scale": [
+        1.0,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [
+        {
+          "name": "yungsang_head",
+          "bone": 2,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "yungsang_hand",
+          "bone": 3,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "yungsang_hand",
+          "bone": 4,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "name": "Ancient Tiger"
+    },
+    {
+      "key": 30,
+      "race": 0,
+      "stage": 3,
+      "bone": 30,
+      "scale": [
+        1.0,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [
+        {
+          "name": "jufoot_shinsu_yungsang_head",
+          "bone": 2,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_yungsang_shoulder",
+          "bone": 5,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_yungsang_shoulder",
+          "bone": 6,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "name": "Ancient Tiger"
+    },
+    {
+      "key": 40,
+      "race": 0,
+      "stage": 4,
+      "bone": 30,
+      "scale": [
+        1.0,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": ""
+    },
+    {
+      "key": 14,
+      "race": 4,
+      "stage": 1,
+      "bone": 4,
+      "scale": [
+        0.8,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": "Ancient Panther"
+    },
+    {
+      "key": 24,
+      "race": 4,
+      "stage": 2,
+      "bone": 4,
+      "scale": [
+        1.0,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [
+        {
+          "name": "tuguk_foot",
+          "bone": 3,
+          "offset": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "name": "tuguk_foot",
+          "bone": 4,
+          "offset": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "name": "tuguk_foot",
+          "bone": 5,
+          "offset": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        },
+        {
+          "name": "tuguk_foot",
+          "bone": 6,
+          "offset": [
+            0.0,
+            0.0,
+            -1.0
+          ]
+        }
+      ],
+      "name": "Ancient Panther"
+    },
+    {
+      "key": 34,
+      "race": 4,
+      "stage": 3,
+      "bone": 34,
+      "scale": [
+        1.3,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [
+        {
+          "name": "jufoot_shinsu_tuguk_hand",
+          "bone": 3,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_tuguk_hand",
+          "bone": 4,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_tuguk_toe",
+          "bone": 5,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_tuguk_toe",
+          "bone": 6,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "name": "Ancient Panther"
+    },
+    {
+      "key": 44,
+      "race": 4,
+      "stage": 4,
+      "bone": 34,
+      "scale": [
+        1.3,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": ""
+    },
+    {
+      "key": 16,
+      "race": 6,
+      "stage": 1,
+      "bone": 6,
+      "scale": [
+        0.7,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": "Ancient Bird"
+    },
+    {
+      "key": 26,
+      "race": 6,
+      "stage": 2,
+      "bone": 6,
+      "scale": [
+        0.9,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [
+        {
+          "name": "gunchi_spine",
+          "bone": 1,
+          "offset": [
+            0.0,
+            -4.0,
+            0.0
+          ]
+        }
+      ],
+      "name": "Ancient Bird"
+    },
+    {
+      "key": 36,
+      "race": 6,
+      "stage": 3,
+      "bone": 36,
+      "scale": [
+        1.0,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [
+        {
+          "name": "jufoot_shinsu_gunchi_spine",
+          "bone": 1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_gunchi_hand",
+          "bone": 3,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_gunchi_hand",
+          "bone": 4,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_gunchi_toe",
+          "bone": 5,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "jufoot_shinsu_gunchi_toe",
+          "bone": 6,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ],
+      "name": "Ancient Bird"
+    },
+    {
+      "key": 46,
+      "race": 6,
+      "stage": 4,
+      "bone": 36,
+      "scale": [
+        1.0,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": ""
+    },
+    {
+      "key": 18,
+      "race": 8,
+      "stage": 1,
+      "bone": 8,
+      "scale": [
+        1.0,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": ""
+    },
+    {
+      "key": 28,
+      "race": 8,
+      "stage": 2,
+      "bone": 8,
+      "scale": [
+        1.2,
+        7
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": ""
+    },
+    {
+      "key": 38,
+      "race": 8,
+      "stage": 3,
+      "bone": 38,
+      "scale": [
+        1.2,
+        10
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": ""
+    },
+    {
+      "key": 48,
+      "race": 8,
+      "stage": 4,
+      "bone": 38,
+      "scale": [
+        1.2,
+        5
+      ],
+      "mspeed": [
+        800,
+        533
+      ],
+      "motion": "AAAAAAAAAA",
+      "particles": [],
+      "name": ""
+    }
+  ]
+}

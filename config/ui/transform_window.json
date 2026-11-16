@@ -1,0 +1,318 @@
+{
+  "_doc": "Dragon Shinsu window with egg details, worn bonuses, transform stages and animal skills.",
+  "schema": "openkal.ui/v1",
+  "id": "transform_window",
+  "kind": "window",
+  "window": {
+    "w": 440,
+    "h": 254,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E",
+      "active": "#B5D991"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "fill",
+      "id": "identity_rule",
+      "x": 12,
+      "y": 98,
+      "w": 416,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "fill",
+      "id": "skills_rule",
+      "x": 12,
+      "y": 144,
+      "w": 416,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "fill",
+      "id": "skills_divider",
+      "x": 220,
+      "y": 160,
+      "w": 1,
+      "h": 76,
+      "color": "#0B100F",
+      "alpha": 0.7,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "fill",
+      "id": "bonus_backing_0",
+      "x": 14,
+      "y": 108,
+      "w": 76,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "fill",
+      "id": "bonus_backing_1",
+      "x": 98,
+      "y": 108,
+      "w": 76,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "fill",
+      "id": "bonus_backing_2",
+      "x": 182,
+      "y": 108,
+      "w": 76,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "fill",
+      "id": "bonus_backing_3",
+      "x": 266,
+      "y": 108,
+      "w": 76,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "fill",
+      "id": "bonus_backing_4",
+      "x": 350,
+      "y": 108,
+      "w": 76,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7,
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/sinsu.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${ui.ancient_animal}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "icon_slot",
+      "id": "egg",
+      "x": 24,
+      "y": 46,
+      "w": 32,
+      "h": 32,
+      "bind": "transform.egg",
+      "visible_when": "transform.equipped",
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "egg_name",
+      "x": 80,
+      "y": 42,
+      "text": "${transform.name}",
+      "color": "${theme.colors.value}",
+      "visible_when": "transform.equipped",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "egg_level",
+      "x": 80,
+      "y": 66,
+      "text": "${transform.level_line}",
+      "color": "${theme.colors.label}",
+      "visible_when": "transform.equipped"
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "x": 220,
+      "y": 118,
+      "text": "${ui.equip_egg_hint}",
+      "color": "${theme.colors.label}",
+      "visible_when": "transform.empty",
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "bonus_str",
+      "x": 52,
+      "y": 114,
+      "text": "${stats.str_label} ${transform.str:+}",
+      "color": "${theme.colors.value}",
+      "visible_when": "transform.equipped",
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "bonus_hth",
+      "x": 136,
+      "y": 114,
+      "text": "${stats.hth_label} ${transform.hth:+}",
+      "color": "${theme.colors.value}",
+      "visible_when": "transform.equipped",
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "bonus_dex",
+      "x": 220,
+      "y": 114,
+      "text": "${stats.dex_label} ${transform.dex:+}",
+      "color": "${theme.colors.value}",
+      "visible_when": "transform.equipped",
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "bonus_int",
+      "x": 304,
+      "y": 114,
+      "text": "${stats.intl_label} ${transform.intl:+}",
+      "color": "${theme.colors.value}",
+      "visible_when": "transform.equipped",
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "bonus_wis",
+      "x": 388,
+      "y": 114,
+      "text": "${stats.wis_label} ${transform.wis:+}",
+      "color": "${theme.colors.value}",
+      "visible_when": "transform.equipped",
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "stages_label",
+      "x": 16,
+      "y": 158,
+      "text": "${ui.transform}",
+      "color": "${theme.colors.label}",
+      "visible_when": "transform.equipped",
+      "bold": true,
+      "pixel_size": 14
+    },
+    {
+      "type": "icon_grid",
+      "id": "stages",
+      "x": 28,
+      "y": 198,
+      "cols": 3,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 60,
+        "y": 32
+      },
+      "bind": "transform.stages",
+      "visible_when": "transform.equipped",
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "animals_label",
+      "x": 240,
+      "y": 158,
+      "text": "${ui.animal_skills}",
+      "color": "${theme.colors.label}",
+      "visible_when": "transform.equipped",
+      "bold": true,
+      "pixel_size": 14
+    },
+    {
+      "type": "icon_grid",
+      "id": "animals",
+      "x": 252,
+      "y": 198,
+      "cols": 3,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 60,
+        "y": 32
+      },
+      "bind": "transform.animals",
+      "visible_when": "transform.equipped",
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x": 0,
+      "y": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp",
+      "x_from_right": 16,
+      "y_from_bottom": 0
+    }
+  ]
+}

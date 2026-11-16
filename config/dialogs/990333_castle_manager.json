@@ -1,0 +1,11 @@
+{
+  "id": 990333,
+  "caption": "Castle Territory Manager",
+  "lines": ["The castle-owning guild leader can set prices at participating territory merchants."],
+  "links": [
+    { "type": "quest", "quest": [64990, 5], "text": "Set the low tax policy." },
+    { "type": "quest", "quest": [64990, 6], "text": "Set the standard tax policy." },
+    { "type": "quest", "quest": [64990, 7], "text": "Set the high tax policy." },
+    { "type": "close", "text": "End conversation." }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "index": 25145,
+  "name": "Swimsuit (Magician)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [1, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins."
+}

@@ -1,0 +1,168 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "clock",
+  "kind": "window",
+  "window": {
+    "w": 188,
+    "h": 108,
+    "draggable": true,
+    "title_drag_h": 43
+  },
+  "theme": {
+    "font_pixel_size": 12,
+    "colors": {
+      "title": "#D8BC83",
+      "label": "#A99B82",
+      "value": "#E5DDCB"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": [],
+    "pad_left": 5,
+    "pad_top": 5,
+    "pad_right": 5,
+    "pad_bottom": 5,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "background",
+      "x": -5,
+      "y": -5,
+      "w": 198,
+      "h": 118,
+      "file": "dragon_dialog/panel_background.bmp"
+    },
+    {
+      "type": "image",
+      "id": "clock_emblem",
+      "x": 8,
+      "y": 7,
+      "w": 28,
+      "h": 28,
+      "file": "dragon_dialog/clock_emblem.bmp"
+    },
+    {
+      "type": "fill",
+      "id": "time_separator",
+      "x": 9,
+      "y": 40,
+      "w": 170,
+      "h": 1,
+      "color": "#8C673A",
+      "alpha": 0.45
+    },
+    {
+      "type": "text",
+      "id": "server_label",
+      "x": 45,
+      "y": 6,
+      "text": "${clock.server_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 10
+    },
+    {
+      "type": "text",
+      "id": "server_time",
+      "x": 45,
+      "y": 18,
+      "text": "${clock.server_time}",
+      "color": "${theme.colors.title}",
+      "align": "left",
+      "pixel_size": 16,
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "online_label",
+      "x": 9,
+      "y": 46,
+      "text": "${clock.online_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 11
+    },
+    {
+      "type": "text",
+      "id": "online_time",
+      "x": 178,
+      "y": 46,
+      "text": "${clock.online_time}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "pixel_size": 11
+    },
+    {
+      "type": "button",
+      "id": "event",
+      "x": 6,
+      "y": 64,
+      "w": 176,
+      "h": 21,
+      "action": "clock.events",
+      "label": "${clock.selected_event}",
+      "align": "center",
+      "pixel_size": 11,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp"
+    },
+    {
+      "type": "text",
+      "id": "countdown",
+      "x": 94,
+      "y": 91,
+      "text": "${clock.countdown}",
+      "color": "${theme.colors.title}",
+      "align": "center",
+      "pixel_size": 13
+    },
+    {
+      "type": "fill",
+      "id": "countdown_rule_20",
+      "x": 20,
+      "y": 97,
+      "w": 30,
+      "h": 1,
+      "color": "#80603A",
+      "alpha": 0.5
+    },
+    {
+      "type": "fill",
+      "id": "countdown_rule_138",
+      "x": 138,
+      "y": 97,
+      "w": 30,
+      "h": 1,
+      "color": "#80603A",
+      "alpha": 0.5
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x": 166,
+      "y": 3,
+      "w": 18,
+      "h": 18,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp"
+    },
+    {
+      "type": "border",
+      "id": "frame",
+      "x": -5,
+      "y": -5,
+      "w": 198,
+      "h": 118,
+      "thickness": 3,
+      "top": "chatting-box-top.bmp",
+      "bottom": "chatting-box-bottom.bmp",
+      "left": "chatting-box-left.bmp",
+      "right": "chatting-box-right.bmp"
+    }
+  ],
+  "_doc": "Compact clock with the same three-pixel border as chat. Five-pixel content insets preserve the existing HUD geometry."
+}

@@ -1,0 +1,14 @@
+{
+  "_doc": "Shared new-character data. spawn is server pixels [x, y, z]. items are granted once per character as character-bound instances to every class and merged with the class file. item_id is item definition index.",
+  "spawn": [257285, 258744, 16100],
+  "items": [
+    { "item_id": 23000, "prefix": 0, "count": 5, "equipped": false },
+    { "item_id": 23001, "prefix": 0, "count": 3, "equipped": false },
+    { "item_id": 192, "prefix": 0, "count": 5, "equipped": false },
+    { "item_id": 193, "prefix": 0, "count": 5, "equipped": false },
+    { "item_id": 194, "prefix": 0, "count": 5, "equipped": false },
+    { "item_id": 195, "prefix": 0, "count": 5, "equipped": false },
+    { "item_id": 196, "prefix": 0, "count": 5, "equipped": false },
+    { "item_id": 485, "prefix": 0, "count": 5, "equipped": false }
+  ]
+}

@@ -1,0 +1,52 @@
+# openkal Coding Style
+# BasedOnStyle: LLVM
+Language: Cpp
+
+# Column limit and indentation
+ColumnLimit: 100
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+NamespaceIndentation: All
+
+# Place opening braces on the same line as the declaration
+BreakBeforeBraces: Attach
+InsertBraces: true
+RemoveBracesLLVM: false
+
+# Disallow packing short blocks or statements onto a single line
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# Avoid packing multiple arguments or parameters onto a single line
+BinPackArguments: false
+BinPackParameters: false
+
+# Slightly indent visibility modifiers (public, private, protected)
+AccessModifierOffset: -2
+
+# Bind pointers and references to the type (e.g., int* a; instead of int *a;)
+PointerAlignment: Left
+
+# Spaces for better readability
+SpaceAfterCStyleCast: true
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInContainerLiterals: false
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# Preserve authored tokens while formatting and inserting control-flow braces.
+SortIncludes: Never
+IncludeBlocks: Preserve
+SortUsingDeclarations: Never
+ReflowComments: false
+BreakStringLiterals: false
+FixNamespaceComments: false
+QualifierAlignment: Leave

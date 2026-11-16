@@ -1,0 +1,295 @@
+{
+  "_doc": "Dragon Explosive Blow service. Standard widgets show the selected weapon, current upgrade details and live resource totals; gameplay rules remain in PrefixEnchant.",
+  "schema": "openkal.ui/v1",
+  "id": "blacksmith",
+  "kind": "window",
+  "window": {
+    "w": 460,
+    "h": 422,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E",
+      "warning": "#D7AA7A"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/skill.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${blacksmith.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "fill",
+      "id": "weapon_panel",
+      "x": 20,
+      "y": 52,
+      "w": 420,
+      "h": 80,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "weapon_panel_top",
+      "x": 20,
+      "y": 52,
+      "w": 420,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "weapon_panel_bottom",
+      "x": 20,
+      "y": 131,
+      "w": 420,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "weapon_panel_left",
+      "x": 20,
+      "y": 53,
+      "w": 1,
+      "h": 78,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "weapon_panel_right",
+      "x": 439,
+      "y": 53,
+      "w": 1,
+      "h": 78,
+      "color": "#4D4233"
+    },
+    {
+      "type": "icon_slot",
+      "id": "weapon",
+      "x": 38,
+      "y": 76,
+      "w": 32,
+      "h": 32,
+      "bind": "blacksmith.weapon",
+      "accept": [
+        "item.weapon"
+      ],
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      }
+    },
+    {
+      "type": "text",
+      "id": "weapon_name",
+      "x": 92,
+      "y": 66,
+      "text": "${blacksmith.weapon_name}",
+      "color": "${theme.colors.value}",
+      "w": 328,
+      "pixel_size": 13,
+      "h": 20
+    },
+    {
+      "type": "text",
+      "id": "weapon_hint",
+      "x": 92,
+      "y": 92,
+      "text": "${blacksmith.weapon_hint}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "placement_hint",
+      "x": 20,
+      "y": 144,
+      "text": "${blacksmith.placement_hint}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "fill",
+      "id": "header_rule",
+      "x": 20,
+      "y": 168,
+      "w": 420,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "text",
+      "id": "level_label",
+      "x": 20,
+      "y": 180,
+      "text": "${blacksmith.level_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "level",
+      "x": 440,
+      "y": 180,
+      "text": "${blacksmith.level} / ${blacksmith.cap}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "chance_label",
+      "x": 20,
+      "y": 210,
+      "text": "${blacksmith.chance_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "chance",
+      "x": 440,
+      "y": 210,
+      "text": "${blacksmith.chance}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "stones_label",
+      "x": 20,
+      "y": 240,
+      "text": "${blacksmith.stones_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "stones",
+      "x": 440,
+      "y": 240,
+      "text": "${blacksmith.stones_owned:comma} / ${blacksmith.stones_required}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "fee_label",
+      "x": 20,
+      "y": 270,
+      "text": "${blacksmith.fee_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "fee",
+      "x": 440,
+      "y": 270,
+      "text": "${blacksmith.geon_owned:geons} / ${blacksmith.fee:geons}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "status",
+      "x": 20,
+      "y": 308,
+      "text": "${blacksmith.status}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "warning",
+      "x": 20,
+      "y": 334,
+      "text": "${blacksmith.warning}",
+      "color": "${theme.colors.warning}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "revise",
+      "x": 20,
+      "y": 368,
+      "w": 200,
+      "h": 34,
+      "label": "${blacksmith.revise_label}",
+      "action": "blacksmith.revise",
+      "align": "center",
+      "pixel_size": 13,
+      "color": "${theme.colors.title}",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "explosive_blow",
+      "x": 240,
+      "y": 368,
+      "w": 200,
+      "h": 34,
+      "label": "${blacksmith.upgrade_label}",
+      "action": "blacksmith.explosive_blow",
+      "align": "center",
+      "pixel_size": 13,
+      "color": "${theme.colors.title}",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp"
+    }
+  ]
+}

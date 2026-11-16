@@ -1,0 +1,19 @@
+{
+  "index": 25398,
+  "name": "Midnight Layered Outfit Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [17, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins. OpenKal descriptive name; model thief/body 17-01."
+}

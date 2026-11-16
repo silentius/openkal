@@ -1,0 +1,625 @@
+{
+  "_doc": "Dragon Riding window with framed mount equipment, satiety, management and Stablemaster services.",
+  "schema": "openkal.ui/v1",
+  "id": "riding",
+  "kind": "window",
+  "window": {
+    "w": 440,
+    "h": 580,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E",
+      "active": "#B5D991"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "fill",
+      "id": "status_backing",
+      "x": 12,
+      "y": 74,
+      "w": 200,
+      "h": 24,
+      "color": "#0B100F",
+      "alpha": 0.7
+    },
+    {
+      "type": "fill",
+      "id": "duration_backing",
+      "x": 232,
+      "y": 74,
+      "w": 196,
+      "h": 24,
+      "color": "#0B100F",
+      "alpha": 0.7
+    },
+    {
+      "type": "fill",
+      "id": "identity_rule",
+      "x": 12,
+      "y": 128,
+      "w": 416,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "fill",
+      "id": "equipment_rule",
+      "x": 12,
+      "y": 300,
+      "w": 416,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "fill",
+      "id": "satiety_backing",
+      "x": 88,
+      "y": 306,
+      "w": 336,
+      "h": 24,
+      "color": "#0B100F",
+      "alpha": 0.7
+    },
+    {
+      "type": "fill",
+      "id": "services_rule",
+      "x": 12,
+      "y": 448,
+      "w": 416,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65,
+      "visible_when": "stablemaster.open"
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/riding.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${ui.riding_title}",
+      "color": "${theme.colors.title}",
+      "bold": true,
+      "pixel_size": 18
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "x": 220,
+      "y": 42,
+      "text": "${riding.name}",
+      "color": "${theme.colors.value}",
+      "align": "center",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "status_label",
+      "x": 20,
+      "y": 80,
+      "text": "${riding.status_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "status",
+      "x": 204,
+      "y": 80,
+      "text": "${riding.status}",
+      "color": "${theme.colors.active}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "duration_label",
+      "x": 240,
+      "y": 80,
+      "text": "${riding.duration_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "remaining",
+      "x": 420,
+      "y": 80,
+      "text": "${riding.remaining}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "grade_label",
+      "x": 20,
+      "y": 108,
+      "text": "${riding.grade_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "grade",
+      "x": 420,
+      "y": 108,
+      "text": "${riding.grade_line}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "helmet_label",
+      "x": 220,
+      "y": 136,
+      "text": "${riding.helmet_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "center"
+    },
+    {
+      "type": "icon_slot",
+      "id": "helmet",
+      "x": 204,
+      "y": 160,
+      "w": 32,
+      "h": 32,
+      "bind": "riding.equipment.helmet",
+      "accept": [
+        "riding.helmet"
+      ],
+      "tooltip": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "armor_label",
+      "x": 364,
+      "y": 136,
+      "text": "${riding.armor_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "center"
+    },
+    {
+      "type": "icon_slot",
+      "id": "armor",
+      "x": 348,
+      "y": 160,
+      "w": 32,
+      "h": 32,
+      "bind": "riding.equipment.armor",
+      "accept": [
+        "riding.armor"
+      ],
+      "tooltip": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "saddle_label",
+      "x": 76,
+      "y": 204,
+      "text": "${riding.saddle_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "center"
+    },
+    {
+      "type": "icon_slot",
+      "id": "saddle",
+      "x": 60,
+      "y": 228,
+      "w": 32,
+      "h": 32,
+      "bind": "riding.equipment.saddle",
+      "accept": [
+        "riding.saddle"
+      ],
+      "tooltip": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "cloth_label",
+      "x": 220,
+      "y": 204,
+      "text": "${riding.cloth_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "center"
+    },
+    {
+      "type": "icon_slot",
+      "id": "cloth",
+      "x": 204,
+      "y": 228,
+      "w": 32,
+      "h": 32,
+      "bind": "riding.equipment.cloth",
+      "accept": [
+        "riding.cloth"
+      ],
+      "tooltip": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "magnet_label",
+      "x": 364,
+      "y": 204,
+      "text": "${riding.magnet_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "center"
+    },
+    {
+      "type": "icon_slot",
+      "id": "magnet",
+      "x": 348,
+      "y": 228,
+      "w": 32,
+      "h": 32,
+      "bind": "riding.equipment.magnet",
+      "accept": [
+        "riding.magnet"
+      ],
+      "tooltip": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "icon_slot",
+      "id": "mount",
+      "x": 60,
+      "y": 160,
+      "w": 32,
+      "h": 32,
+      "bind": "riding.mount",
+      "tooltip": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "mount_label",
+      "x": 76,
+      "y": 136,
+      "text": "${riding.mount_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "satiety_label",
+      "x": 16,
+      "y": 310,
+      "text": "${riding.satiety_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "progress",
+      "id": "satiety_fill",
+      "x": 92,
+      "y": 310,
+      "w": 328,
+      "h": 16,
+      "bind": "riding.satiety_ratio",
+      "file": "dragon_hud/exp_fill.bmp",
+      "visible_when": "riding.battle",
+      "fill_mode": "crop"
+    },
+    {
+      "type": "text",
+      "id": "satiety",
+      "x": 256,
+      "y": 310,
+      "text": "${riding.satiety}",
+      "color": "${theme.colors.value}",
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "equipment_hint",
+      "x": 220,
+      "y": 276,
+      "text": "${riding.equipment_hint}",
+      "color": "${theme.colors.label}",
+      "align": "center",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "feed",
+      "x": 12,
+      "y": 348,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${riding.feed_label}",
+      "action": "riding.feed",
+      "align": "center",
+      "visible_when": "riding.battle",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "ability",
+      "x": 296,
+      "y": 348,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${riding.ability_label}",
+      "action": "riding.ability",
+      "align": "center",
+      "visible_when": "riding.battle",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "reroll",
+      "x": 12,
+      "y": 386,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${riding.reroll_label}",
+      "action": "riding.reroll",
+      "align": "center",
+      "visible_when": "riding.battle",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "enchant",
+      "x": 154,
+      "y": 386,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${riding.enchant_label}",
+      "action": "riding.enchant",
+      "align": "center",
+      "visible_when": "riding.battle",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "upgrade",
+      "x": 296,
+      "y": 386,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${riding.upgrade_label}",
+      "action": "riding.upgrade",
+      "align": "center",
+      "visible_when": "riding.battle",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "x": 220,
+      "y": 428,
+      "text": "${riding.hint}",
+      "color": "${theme.colors.label}",
+      "align": "center",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "stablemaster_title",
+      "x": 12,
+      "y": 454,
+      "text": "${stablemaster.title}",
+      "color": "${theme.colors.title}",
+      "align": "left",
+      "visible_when": "stablemaster.open",
+      "pixel_size": 13,
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "stablemaster_seals",
+      "x": 428,
+      "y": 478,
+      "text": "${stablemaster.seals}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "visible_when": "stablemaster.open"
+    },
+    {
+      "type": "button",
+      "id": "stablemaster_exchange",
+      "x": 12,
+      "y": 500,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${stablemaster.exchange_label}",
+      "action": "stablemaster.exchange",
+      "align": "center",
+      "visible_when": "stablemaster.open",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "stablemaster_promote",
+      "x": 154,
+      "y": 500,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${stablemaster.promote_label}",
+      "action": "stablemaster.promote",
+      "align": "center",
+      "visible_when": "stablemaster.open",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "stablemaster_grade",
+      "x": 296,
+      "y": 500,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${stablemaster.grade_label}",
+      "action": "stablemaster.grade",
+      "align": "center",
+      "visible_when": "stablemaster.open",
+      "pixel_size": 12
+    },
+    {
+      "type": "icon_slot",
+      "id": "stablemaster_duplicate_mount",
+      "x": 168,
+      "y": 540,
+      "w": 32,
+      "h": 32,
+      "bind": "stablemaster.duplicate_mount",
+      "accept": [
+        "stablemaster.duplicate_mount"
+      ],
+      "tooltip": true,
+      "visible_when": "stablemaster.open",
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 40,
+        "h": 40
+      }
+    },
+    {
+      "type": "text",
+      "id": "stablemaster_duplicate_selection",
+      "x": 210,
+      "y": 548,
+      "text": "${stablemaster.duplicate_selection}",
+      "color": "${theme.colors.label}",
+      "visible_when": "stablemaster.open",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "stablemaster_writ",
+      "x": 12,
+      "y": 540,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${stablemaster.writ_label}",
+      "action": "stablemaster.writ",
+      "align": "center",
+      "visible_when": "stablemaster.open",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "stablemaster_duplicate",
+      "x": 296,
+      "y": 540,
+      "w": 132,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "${stablemaster.duplicate_label}",
+      "action": "stablemaster.duplicate",
+      "align": "center",
+      "visible_when": "stablemaster.open",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x": 0,
+      "y": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp",
+      "x_from_right": 16,
+      "y_from_bottom": 0
+    }
+  ]
+}

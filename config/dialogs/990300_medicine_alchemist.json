@@ -1,0 +1,12 @@
+{
+  "_doc": "OpenKal dialogue for Medicine Alchemist recipes.",
+  "id": 990300,
+  "caption": "Medicine Alchemist",
+  "lines": ["Bring Aloe Vera for larger Medicine, Blue Lotus Leaves for larger Magic Potions, or Ginseng Roots to turn Medicine into Auto-HP Medicine. Choose a recipe family."],
+  "links": [
+    { "type": "craft_medicine", "text": "Make larger Medicine." },
+    { "type": "craft_magic_potion", "text": "Make larger Magic Potions." },
+    { "type": "craft_auto_medicine", "text": "Turn Medicine into Auto-HP Medicine." },
+    { "type": "close", "text": "End conversation." }
+  ]
+}

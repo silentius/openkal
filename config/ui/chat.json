@@ -1,0 +1,101 @@
+{
+  "_doc": "Chat HUD with independent message and player-chat feeds. Fill and border are widgets; chrome is unused bitmap so UiView skips the 9-slice.",
+  "schema": "openkal.ui/v1",
+  "id": "chat",
+  "kind": "hud",
+  "window": {
+    "w": 450,
+    "h": 226,
+    "draggable": true
+  },
+  "theme": {
+    "font_pixel_size": 12,
+    "colors": {
+      "label": "#D9D9CC",
+      "value": "#E6E6D9"
+    }
+  },
+  "chrome": {
+    "kind": "bitmap"
+  },
+  "widgets": [
+    {
+      "type": "tabs",
+      "id": "channels",
+      "bind": "chat.tab",
+      "y": 200,
+      "h": 20,
+      "align": "center",
+      "color_on": "#FFF0CB",
+      "color_off": "#BDAE92",
+      "items": [
+        {"id": "normal", "x": 8, "w": 70, "label": "${chat.tab_normal}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+        {"id": "party", "x": 80, "w": 70, "label": "${chat.tab_party}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+        {"id": "guild", "x": 152, "w": 70, "label": "${chat.tab_guild}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+        {"id": "alliance", "x": 224, "w": 74, "label": "${chat.tab_alliance}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+        {"id": "squad", "x": 300, "w": 70, "label": "${chat.tab_squad}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+        {"id": "shout", "x": 372, "w": 70, "label": "${chat.tab_shout}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"}
+      ]
+    },
+    {
+      "type": "fill",
+      "id": "panel_fill",
+      "x": 0,
+      "y": 0,
+      "w": 450,
+      "h": 226,
+      "color": "#000000",
+      "alpha": 0.45
+    },
+    {
+      "type": "border",
+      "id": "frame",
+      "x": 0,
+      "y": 0,
+      "w": 450,
+      "h": 226,
+      "thickness": 3,
+      "border_top": "chatting-box-top.bmp",
+      "border_bottom": "chatting-box-bottom.bmp",
+      "border_left": "chatting-box-left.bmp",
+      "border_right": "chatting-box-right.bmp"
+    },
+    {
+      "type": "list",
+      "id": "messages",
+      "x": 8,
+      "y": 8,
+      "w": 434,
+      "h": 56,
+      "bind": "chat.messages",
+      "line_height": 14
+    },
+    {
+      "type": "list",
+      "id": "lines",
+      "x": 8,
+      "y": 72,
+      "w": 434,
+      "h": 94,
+      "bind": "chat.lines",
+      "line_height": 14
+    },
+    {
+      "type": "text",
+      "id": "mode",
+      "x": 8,
+      "y_from_bottom": 44,
+      "text": "${chat.mode}",
+      "color": "${chat.mode_color}"
+    },
+    {
+      "type": "input",
+      "id": "input",
+      "x": 72,
+      "y_from_bottom": 44,
+      "w": 370,
+      "h": 18,
+      "bind": "chat.input"
+    }
+  ]
+}

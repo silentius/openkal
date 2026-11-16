@@ -1,0 +1,9 @@
+{
+  "id": 990331,
+  "caption": "Castle War Master",
+  "lines": ["During admission, registered guild and alliance members can travel to their faction camp."],
+  "links": [
+    { "type": "quest", "quest": [64990, 2], "text": "Enter Castle War." },
+    { "type": "close", "text": "End conversation." }
+  ]
+}

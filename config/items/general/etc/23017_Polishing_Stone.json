@@ -1,0 +1,14 @@
+{
+  "index": 23017,
+  "rarity": 0,
+  "name": "Polishing Stone",
+  "image": "shop015",
+  "class": [
+    "general",
+    "etc"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "stackable": 1,
+  "description": "When it used on an item,#nitem won't be destroyed even if it failed to enchant with talisman."
+}

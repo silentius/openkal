@@ -1,0 +1,19 @@
+{
+  "index": 24003,
+  "name": "Apprentice Geon Trigram (Material)",
+  "description": "Raw material for the matching trigram position and grade.",
+  "image": "item701",
+  "class": [
+    "general",
+    "collection"
+  ],
+  "level": 30,
+  "limit": {
+    "class": "all",
+    "level": 30
+  },
+  "wear": 0,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

@@ -1,0 +1,19 @@
+{
+  "index": 25040,
+  "name": "Iron Mail Helmet Skin (Knight)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "helmet"
+  ],
+  "action": [1, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the helmet skin slot. No combat bonuses. OpenKal descriptive name; model knight/helmet 01-01."
+}

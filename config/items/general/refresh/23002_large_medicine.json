@@ -1,0 +1,22 @@
+{
+  "index": 23002,
+  "rarity": 0,
+  "name": "Large Medicine",
+  "image": "medicineLarge",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 210,
+  "sell": 50,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 55],
+  "effect": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "hp",
+      "amount": 500
+    }
+  }
+}

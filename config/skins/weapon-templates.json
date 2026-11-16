@@ -1,0 +1,276 @@
+{
+  "schema": "openkal.skin-weapon-templates/v1",
+  "source": {
+    "scope": "Curated Knight weapon categories and guarded model-shape comparisons; separate external name-reference and line annotations are omitted."
+  },
+  "comparison": {
+    "reviewed_on": "2026-10-29",
+    "scope": "Knight weapon models only. Exact decoded positions and triangle indices for every rendered non-effect mesh, with mesh order ignored. UVs, textures and material flags are reviewed separately.",
+    "limitation": "Type assignments are OpenKal compatibility classifications, not a claim about reference item flags or weapon-effect equivalence."
+  },
+  "additional_references": [
+    {
+      "class": "knight",
+      "part": "weapon",
+      "action": [17, 4],
+      "weapon_type": "sword"
+    },
+    {
+      "class": "knight",
+      "part": "weapon",
+      "action": [18, 1],
+      "weapon_type": "sword2h"
+    },
+    {
+      "class": "knight",
+      "part": "weapon",
+      "action": [18, 4],
+      "weapon_type": "sword2h"
+    }
+  ],
+  "entries": [
+    {
+      "index": 25048,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 5],
+      "reference_action": [21, 3],
+      "expected_shape_fingerprint": "2880df2541d09a76",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25049,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 6],
+      "reference_action": [21, 4],
+      "expected_shape_fingerprint": "4e094b319b63be37",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25051,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 8],
+      "reference_action": [21, 3],
+      "expected_shape_fingerprint": "2880df2541d09a76",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25052,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 9],
+      "reference_action": [21, 4],
+      "expected_shape_fingerprint": "4e094b319b63be37",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25054,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 11],
+      "reference_action": [21, 3],
+      "expected_shape_fingerprint": "2880df2541d09a76",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25055,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 12],
+      "reference_action": [21, 4],
+      "expected_shape_fingerprint": "4e094b319b63be37",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25056,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 13],
+      "reference_action": [21, 3],
+      "expected_shape_fingerprint": "2880df2541d09a76",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25057,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 14],
+      "reference_action": [21, 4],
+      "expected_shape_fingerprint": "4e094b319b63be37",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25058,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 15],
+      "reference_action": [21, 3],
+      "expected_shape_fingerprint": "2880df2541d09a76",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25059,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 16],
+      "reference_action": [21, 4],
+      "expected_shape_fingerprint": "4e094b319b63be37",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25060,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 17],
+      "reference_action": [23, 3],
+      "expected_shape_fingerprint": "ef9471941d53a2d7",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25061,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 18],
+      "reference_action": [23, 4],
+      "expected_shape_fingerprint": "b60dd965f0d1368a",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25073,
+      "class": "knight",
+      "part": "weapon",
+      "action": [41, 1],
+      "reference_action": [40, 1],
+      "expected_shape_fingerprint": "0d0ca73b1fbc915e",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25077,
+      "class": "knight",
+      "part": "weapon",
+      "action": [42, 4],
+      "reference_action": [17, 4],
+      "expected_shape_fingerprint": "cb71a155c255a8c5",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25080,
+      "class": "knight",
+      "part": "weapon",
+      "action": [43, 4],
+      "reference_action": [18, 4],
+      "expected_shape_fingerprint": "f414217064fbefaa",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25091,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 2],
+      "reference_action": [18, 4],
+      "expected_shape_fingerprint": "f414217064fbefaa",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25092,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 3],
+      "reference_action": [23, 3],
+      "expected_shape_fingerprint": "ef9471941d53a2d7",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25093,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 4],
+      "reference_action": [17, 4],
+      "expected_shape_fingerprint": "cb71a155c255a8c5",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25096,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 3],
+      "reference_action": [21, 3],
+      "expected_shape_fingerprint": "2880df2541d09a76",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25097,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 4],
+      "reference_action": [21, 4],
+      "expected_shape_fingerprint": "4e094b319b63be37",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25109,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 1],
+      "reference_action": [23, 1],
+      "expected_shape_fingerprint": "bb9cce93243054e0",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25115,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 1],
+      "reference_action": [23, 1],
+      "expected_shape_fingerprint": "bb9cce93243054e0",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25117,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 3],
+      "reference_action": [23, 3],
+      "expected_shape_fingerprint": "ef9471941d53a2d7",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25118,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 4],
+      "reference_action": [23, 4],
+      "expected_shape_fingerprint": "b60dd965f0d1368a",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25128,
+      "class": "knight",
+      "part": "weapon",
+      "action": [88, 1],
+      "reference_action": [18, 1],
+      "expected_shape_fingerprint": "d3c9203418abbd1b",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25130,
+      "class": "knight",
+      "part": "weapon",
+      "action": [89, 3],
+      "reference_action": [21, 3],
+      "expected_shape_fingerprint": "2880df2541d09a76",
+      "expected_shape_meshes": 1
+    },
+    {
+      "index": 25131,
+      "class": "knight",
+      "part": "weapon",
+      "action": [89, 4],
+      "reference_action": [21, 4],
+      "expected_shape_fingerprint": "4e094b319b63be37",
+      "expected_shape_meshes": 1
+    }
+  ]
+}

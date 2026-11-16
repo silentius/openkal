@@ -1,0 +1,45 @@
+{
+  "by_id": {
+    "1": "Ancient Baby Tiger",
+    "2": "Ancient Young Tiger",
+    "3": "Ancient Perfect Tiger",
+    "10": "Ancient Tiger",
+    "14": "Ancient Panther",
+    "16": "Ancient Bird",
+    "20": "Ancient Tiger",
+    "24": "Ancient Panther",
+    "26": "Ancient Bird",
+    "30": "Ancient Tiger",
+    "34": "Ancient Panther",
+    "36": "Ancient Bird",
+    "41": "Ancient Baby Panther",
+    "42": "Ancient Young Panther",
+    "43": "Ancient Perfect Panther",
+    "61": "Ancient Baby Bird",
+    "62": "Ancient Young Bird",
+    "63": "Ancient Perfect Bird"
+  },
+  "by_race_stage": {
+    "0": {
+      "1": "Ancient Baby Tiger",
+      "2": "Ancient Young Tiger",
+      "3": "Ancient Perfect Tiger"
+    },
+    "4": {
+      "1": "Ancient Baby Panther",
+      "2": "Ancient Young Panther",
+      "3": "Ancient Perfect Panther"
+    },
+    "6": {
+      "1": "Ancient Baby Bird",
+      "2": "Ancient Young Bird",
+      "3": "Ancient Perfect Bird"
+    },
+    "8": {
+      "1": "Ancient Baby ZilPoongShinRhoe",
+      "2": "Ancient Young ZilPoongShinRhoe",
+      "3": "Ancient Perfect ZilPoongShinRhoe"
+    }
+  },
+  "gale_fallback": "Ancient Baby/Young/Perfect ZilPoongShinRhoe"
+}

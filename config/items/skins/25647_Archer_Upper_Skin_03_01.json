@@ -1,0 +1,19 @@
+{
+  "index": 25647,
+  "name": "G24 Armor Skin (Archer)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "upper"
+  ],
+  "action": [3, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the upper skin slot. No combat bonuses. OpenKal descriptive name; model archer/upper 03-01."
+}

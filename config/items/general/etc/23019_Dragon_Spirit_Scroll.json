@@ -1,0 +1,14 @@
+{
+  "index": 23019,
+  "rarity": 0,
+  "name": "Dragon Spirit Scroll",
+  "image": "shop134",
+  "class": [
+    "general",
+    "etc"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "use": 1,
+  "stackable": 1
+}

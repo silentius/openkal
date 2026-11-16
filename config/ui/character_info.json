@@ -1,0 +1,834 @@
+{
+  "_doc": "Dragon Character Info. Fixed artwork corners, resizable rails, TrueType content and an anchored footer close button.",
+  "schema": "openkal.ui/v1",
+  "id": "character_info",
+  "kind": "window",
+  "window": {
+    "w": 420,
+    "h": 560,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${ui.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/character.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "x": 96,
+      "y": 8,
+      "text": "${player.name}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 17,
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "awaken",
+      "x": 408,
+      "y": 14,
+      "text": "${player.awaken}",
+      "color": "${theme.colors.value}",
+      "align": "right",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "level_label",
+      "x": 12,
+      "y": 48,
+      "text": "${player.level_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "level",
+      "x": 68,
+      "y": 48,
+      "text": "${player.level}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "job_label",
+      "x": 12,
+      "y": 70,
+      "text": "${player.job_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "job",
+      "x": 68,
+      "y": 70,
+      "text": "${player.job}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "guild_label",
+      "x": 12,
+      "y": 92,
+      "text": "${player.guild_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "guild",
+      "x": 68,
+      "y": 92,
+      "text": "${player.guild}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "gp_label",
+      "x": 226,
+      "y": 48,
+      "text": "${player.gov_pos_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "gp",
+      "x": 282,
+      "y": 48,
+      "text": "${player.gov_pos}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "pos_label",
+      "x": 226,
+      "y": 70,
+      "text": "${player.guild_pos_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "pos",
+      "x": 282,
+      "y": 70,
+      "text": "${player.guild_pos}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "ctb_label",
+      "x": 226,
+      "y": 92,
+      "text": "${player.ctb_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "ctb",
+      "x": 282,
+      "y": 92,
+      "text": "${player.ctb}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "fill",
+      "id": "identity_rule",
+      "x": 12,
+      "y": 120,
+      "w": 396,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "fill",
+      "id": "hp_backing",
+      "x": 10,
+      "y": 132,
+      "w": 188,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7
+    },
+    {
+      "type": "text",
+      "id": "hp_label",
+      "x": 18,
+      "y": 138,
+      "text": "${vital.hp_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "hp",
+      "x": 190,
+      "y": 138,
+      "text": "${vital.hp_text}",
+      "color": "${theme.colors.value}",
+      "pending_when": "vital.hp_pending",
+      "align": "right"
+    },
+    {
+      "type": "fill",
+      "id": "mp_backing",
+      "x": 224,
+      "y": 132,
+      "w": 188,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7
+    },
+    {
+      "type": "text",
+      "id": "mp_label",
+      "x": 232,
+      "y": 138,
+      "text": "${vital.mp_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "mp",
+      "x": 404,
+      "y": 138,
+      "text": "${vital.mp_text}",
+      "color": "${theme.colors.value}",
+      "pending_when": "vital.mp_pending",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "attributes_heading",
+      "x": 12,
+      "y": 176,
+      "text": "${character.attributes}",
+      "color": "${theme.colors.label}",
+      "bold": true,
+      "pixel_size": 14
+    },
+    {
+      "type": "fill",
+      "id": "attributes_rule",
+      "x": 12,
+      "y": 195,
+      "w": 182,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "text",
+      "id": "combat_heading",
+      "x": 226,
+      "y": 176,
+      "text": "${character.combat}",
+      "color": "${theme.colors.label}",
+      "bold": true,
+      "pixel_size": 14
+    },
+    {
+      "type": "fill",
+      "id": "combat_rule",
+      "x": 226,
+      "y": 195,
+      "w": 182,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "text",
+      "id": "str_label",
+      "x": 12,
+      "y": 208,
+      "text": "${stats.str_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "str",
+      "x": 120,
+      "y": 208,
+      "text": "${stats.str}",
+      "color": "${theme.colors.value}",
+      "pending_when": "stats.str_pending",
+      "align": "right"
+    },
+    {
+      "type": "button",
+      "id": "str_minus",
+      "x": 136,
+      "y": 204,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.str",
+      "action": "stats.unspend",
+      "label": "-",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "str_plus",
+      "x": 166,
+      "y": 204,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.str",
+      "action": "stats.spend",
+      "label": "+",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "hth_label",
+      "x": 12,
+      "y": 233,
+      "text": "${stats.hth_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "hth",
+      "x": 120,
+      "y": 233,
+      "text": "${stats.hth}",
+      "color": "${theme.colors.value}",
+      "pending_when": "stats.hth_pending",
+      "align": "right"
+    },
+    {
+      "type": "button",
+      "id": "hth_minus",
+      "x": 136,
+      "y": 229,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.hth",
+      "action": "stats.unspend",
+      "label": "-",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "hth_plus",
+      "x": 166,
+      "y": 229,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.hth",
+      "action": "stats.spend",
+      "label": "+",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "intl_label",
+      "x": 12,
+      "y": 258,
+      "text": "${stats.intl_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "intl",
+      "x": 120,
+      "y": 258,
+      "text": "${stats.intl}",
+      "color": "${theme.colors.value}",
+      "pending_when": "stats.intl_pending",
+      "align": "right"
+    },
+    {
+      "type": "button",
+      "id": "intl_minus",
+      "x": 136,
+      "y": 254,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.intl",
+      "action": "stats.unspend",
+      "label": "-",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "intl_plus",
+      "x": 166,
+      "y": 254,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.intl",
+      "action": "stats.spend",
+      "label": "+",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "wis_label",
+      "x": 12,
+      "y": 283,
+      "text": "${stats.wis_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "wis",
+      "x": 120,
+      "y": 283,
+      "text": "${stats.wis}",
+      "color": "${theme.colors.value}",
+      "pending_when": "stats.wis_pending",
+      "align": "right"
+    },
+    {
+      "type": "button",
+      "id": "wis_minus",
+      "x": 136,
+      "y": 279,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.wis",
+      "action": "stats.unspend",
+      "label": "-",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "wis_plus",
+      "x": 166,
+      "y": 279,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.wis",
+      "action": "stats.spend",
+      "label": "+",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "dex_label",
+      "x": 12,
+      "y": 308,
+      "text": "${stats.dex_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "dex",
+      "x": 120,
+      "y": 308,
+      "text": "${stats.dex}",
+      "color": "${theme.colors.value}",
+      "pending_when": "stats.dex_pending",
+      "align": "right"
+    },
+    {
+      "type": "button",
+      "id": "dex_minus",
+      "x": 136,
+      "y": 304,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.dex",
+      "action": "stats.unspend",
+      "label": "-",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "dex_plus",
+      "x": 166,
+      "y": 304,
+      "w": 24,
+      "h": 24,
+      "bind": "stats.dex",
+      "action": "stats.spend",
+      "label": "+",
+      "align": "center",
+      "pixel_size": 14,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "point_label",
+      "x": 12,
+      "y": 344,
+      "text": "${stats.pu_point_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "point",
+      "x": 75,
+      "y": 344,
+      "text": "${stats.pu_remaining}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "button",
+      "id": "ok",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "x": 94,
+      "y": 334,
+      "label": "${ui.ok}",
+      "label_ox": 0,
+      "label_oy": 0,
+      "action": "stats.apply",
+      "w": 96,
+      "h": 32,
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "attack_label",
+      "x": 226,
+      "y": 208,
+      "text": "${combat.attack_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "attack",
+      "x": 408,
+      "y": 208,
+      "text": "${combat.attack}",
+      "color": "${theme.colors.value}",
+      "pending_when": "combat.attack_pending",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "mattack_label",
+      "x": 226,
+      "y": 233,
+      "text": "${combat.mattack_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "mattack",
+      "x": 408,
+      "y": 233,
+      "text": "${combat.mattack}",
+      "color": "${theme.colors.value}",
+      "pending_when": "combat.mattack_pending",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "hit_label",
+      "x": 226,
+      "y": 258,
+      "text": "${combat.hit_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "hit",
+      "x": 408,
+      "y": 258,
+      "text": "${combat.hit}",
+      "color": "${theme.colors.value}",
+      "pending_when": "combat.hit_pending",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "evasion_label",
+      "x": 226,
+      "y": 283,
+      "text": "${combat.evasion_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "evasion",
+      "x": 408,
+      "y": 283,
+      "text": "${combat.evasion}",
+      "color": "${theme.colors.value}",
+      "pending_when": "combat.evasion_pending",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "defense_label",
+      "x": 226,
+      "y": 308,
+      "text": "${combat.defense_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "defense",
+      "x": 408,
+      "y": 308,
+      "text": "${combat.defense}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "absorb_label",
+      "x": 226,
+      "y": 333,
+      "text": "${combat.absorb_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "absorb",
+      "x": 408,
+      "y": 333,
+      "text": "${combat.absorb}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "resistances_heading",
+      "x": 12,
+      "y": 379,
+      "text": "${character.resistances}",
+      "color": "${theme.colors.label}",
+      "bold": true,
+      "pixel_size": 14
+    },
+    {
+      "type": "fill",
+      "id": "resist_rule",
+      "x": 12,
+      "y": 398,
+      "w": 396,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "text",
+      "id": "fire_label",
+      "x": 12,
+      "y": 408,
+      "text": "${resist.fire_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "fire",
+      "x": 194,
+      "y": 408,
+      "text": "${resist.fire}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "ice_label",
+      "x": 12,
+      "y": 429,
+      "text": "${resist.ice_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "ice",
+      "x": 194,
+      "y": 429,
+      "text": "${resist.ice}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "lightning_label",
+      "x": 12,
+      "y": 450,
+      "text": "${resist.lightning_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "lightning",
+      "x": 194,
+      "y": 450,
+      "text": "${resist.lightning}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "palsy_label",
+      "x": 226,
+      "y": 408,
+      "text": "${resist.palsy_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "palsy",
+      "x": 408,
+      "y": 408,
+      "text": "${resist.palsy}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "curse_label",
+      "x": 226,
+      "y": 429,
+      "text": "${resist.curse_label}",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "curse",
+      "x": 408,
+      "y": 429,
+      "text": "${resist.curse}",
+      "color": "${theme.colors.value}",
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "effects_heading",
+      "x": 12,
+      "y": 479,
+      "text": "${character.active_effects}",
+      "color": "${theme.colors.label}",
+      "bold": true,
+      "pixel_size": 14
+    },
+    {
+      "type": "fill",
+      "id": "effects_rule",
+      "x": 12,
+      "y": 498,
+      "w": 396,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "_doc": "Active item buffs; their icons, titles, and time remaining come from the server.",
+      "type": "icon_grid",
+      "id": "apply_buffs",
+      "x": 32,
+      "y": 510,
+      "visible": true,
+      "bind": "apply_item.buffs",
+      "cols": 8,
+      "rows": 2,
+      "cell": {
+        "w": 24,
+        "h": 24
+      },
+      "pitch": {
+        "x": 46,
+        "y": 26
+      },
+      "empty": {
+        "file": "dragon_hud/slot_normal.bmp"
+      }
+    },
+    {
+      "type": "button",
+      "id": "exit_bottom",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp"
+    }
+  ]
+}

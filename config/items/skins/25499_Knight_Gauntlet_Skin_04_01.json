@@ -1,0 +1,19 @@
+{
+  "index": 25499,
+  "name": "G32 Gloves Skin (Knight)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "gauntlet"
+  ],
+  "action": [4, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the gauntlet skin slot. No combat bonuses. OpenKal descriptive name; model knight/gauntlet 04-01."
+}

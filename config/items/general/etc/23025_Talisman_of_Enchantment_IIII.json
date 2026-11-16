@@ -1,0 +1,9 @@
+{
+  "index": 23025,
+  "rarity": 0,
+  "name": "Talisman of Enchantment IIII",
+  "image": "talismanOfEnchantmentIIII",
+  "class": ["general", "etc"],
+  "stackable": 1,
+  "description": "Drag onto a single unequipped weapon of grade 70 to 79 to reset and reroll OTP, Attack/Magic and Explosive Blow.#n10% chance of the next lower grade; 5% chance of the next higher grade. Imperial weapons stay Imperial.#nEach OTP and Attack/Magic stage is rolled independently; the last successful stage wins.#nOTP: +1 (50%), +2 (40%), +3 (20%), +4 (10%), +5 (5%).#nAttack/Magic: +1 to +16 with 1 to 10 EB; rarest result: +16 with 16 EB.#nExisting enchantments can become worse. Consumes one talisman."
+}

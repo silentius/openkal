@@ -1,0 +1,17 @@
+{
+  "index": 65001,
+  "name": "Blue Lotus",
+  "stats": {
+    "race": 4,
+    "level": 1,
+    "hp": 1,
+    "ai": 0
+  },
+  "appearance": {
+    "owned_model": "RuntimeData/models/plants/blue_lotus.gb",
+    "scale": 0.185,
+    "level": 1,
+    "scaleParam": 3
+  },
+  "spawns": []
+}

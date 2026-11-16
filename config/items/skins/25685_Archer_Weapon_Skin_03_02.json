@@ -1,0 +1,22 @@
+{
+  "index": 25685,
+  "name": "G17 Bow 03-02 Skin (Archer)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [3, 2],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model archer/weapon 03-02.",
+  "skin": {
+    "weapon_type": "bow"
+  }
+}

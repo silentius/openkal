@@ -1,0 +1,19 @@
+{
+  "index": 25729,
+  "name": "G46 Armor Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "upper"
+  ],
+  "action": [6, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the upper skin slot. No combat bonuses. OpenKal descriptive name; model thief/upper 06-01."
+}

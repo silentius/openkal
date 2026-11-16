@@ -1,0 +1,24 @@
+{
+  "index": 23006,
+  "rarity": 0,
+  "name": "Large Magic Potion",
+  "image": "magicPotionLarge",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 2000,
+  "sell": 200,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 2],
+  "description": "Recovers Magic Point by 800",
+  "effect": 2,
+  "pay": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "mp",
+      "amount": 800
+    }
+  }
+}

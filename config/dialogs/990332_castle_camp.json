@@ -1,0 +1,10 @@
+{
+  "id": 990332,
+  "caption": "Attack Camp Guide",
+  "lines": ["Choose which gate to approach."],
+  "links": [
+    { "type": "quest", "quest": [64990, 3], "text": "Travel to the east gate." },
+    { "type": "quest", "quest": [64990, 4], "text": "Travel to the west gate." },
+    { "type": "close", "text": "End conversation." }
+  ]
+}

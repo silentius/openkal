@@ -1,0 +1,14 @@
+{
+  "index": 23027,
+  "rarity": 0,
+  "name": "Aloe Vera",
+  "image": "aloeVera",
+  "class": [
+    "general",
+    "etc"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "stackable": 1,
+  "description": "Fresh aloe leaves gathered in the wild. Combine with smaller Medicine at the Medicine Alchemist to make larger Medicine."
+}

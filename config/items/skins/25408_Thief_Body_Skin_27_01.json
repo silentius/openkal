@@ -1,0 +1,19 @@
+{
+  "index": 25408,
+  "name": "Monochrome Naval Outfit Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [27, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins. OpenKal descriptive name; model thief/body 27-01."
+}

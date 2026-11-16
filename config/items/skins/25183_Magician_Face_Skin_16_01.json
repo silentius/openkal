@@ -1,0 +1,19 @@
+{
+  "index": 25183,
+  "name": "Soft Makeup Face Skin (Magician)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "face"
+  ],
+  "action": [0, 2],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the face skin slot. No combat bonuses. OpenKal descriptive name; model magician/face 00-02."
+}

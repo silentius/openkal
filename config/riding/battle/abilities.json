@@ -1,0 +1,13 @@
+{
+  "schema": "openkal.battle-riding.abilities/v1",
+  "rollsAreUnique": true,
+  "unlockAndRerollMaterialItemIndex": 30330,
+  "abilities": [
+    { "id": 1, "name": "Strength", "stat": "strength", "minimum": 1, "maximum": 5 },
+    { "id": 2, "name": "Intelligence", "stat": "intelligence", "minimum": 1, "maximum": 5 },
+    { "id": 3, "name": "Health", "stat": "health", "minimum": 1, "maximum": 5 },
+    { "id": 4, "name": "Defense", "stat": "defense", "minimum": 1, "maximum": 5 },
+    { "id": 5, "name": "Evasion", "stat": "evasion", "minimum": 1, "maximum": 5 },
+    { "id": 6, "name": "Absorption", "stat": "absorption", "minimum": 1, "maximum": 5 }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "index": 23020,
+  "rarity": 0,
+  "name": "Qigong Talisman",
+  "image": "shop142",
+  "class": [
+    "general",
+    "gigong"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "use": 1,
+  "stackable": 1,
+  "pay": 1
+}

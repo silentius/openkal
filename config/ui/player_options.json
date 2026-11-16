@@ -1,0 +1,114 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "player_options",
+  "kind": "window",
+  "window": {
+    "w": 420,
+    "h": 210,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/community.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${player_options.title}",
+      "pixel_size": 18,
+      "bold": true,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "target",
+      "x": 210,
+      "y": 10,
+      "text": "${player_options.target}",
+      "align": "center",
+      "pixel_size": 16,
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "empty",
+      "x": 210,
+      "y": 70,
+      "text": "${player_options.empty_label}",
+      "align": "center",
+      "visible_when": "player_options.empty",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "button",
+      "id": "send_pm",
+      "x": 8,
+      "y_from_bottom": 86,
+      "w": 404,
+      "h": 32,
+      "action": "player_options.send_pm",
+      "label": "${player_options.pm_label}",
+      "visible_when": "player_options.pm_available",
+      "align": "center",
+      "pixel_size": 12,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp"
+    },
+    {
+      "type": "text",
+      "id": "status",
+      "x": 210,
+      "y_from_bottom": 48,
+      "text": "${player_options.status}",
+      "align": "center",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "status_more",
+      "x": 210,
+      "y_from_bottom": 30,
+      "text": "${player_options.status_more}",
+      "align": "center",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp"
+    }
+  ]
+}

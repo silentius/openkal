@@ -1,0 +1,19 @@
+{
+  "index": 25364,
+  "name": "Frost Feather Bow Skin (Archer)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [75, 4],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model archer/weapon 75-04."
+}

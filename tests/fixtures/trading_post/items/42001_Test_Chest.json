@@ -1,0 +1,9 @@
+{
+  "_doc": "Synthetic OpenKal fixture for trading-post chest grade selection.",
+  "index": 42001,
+  "name": "Test Chest",
+  "class": ["defense", "upperarmor"],
+  "level": 50,
+  "wear": 1,
+  "limit": { "class": "knight" }
+}

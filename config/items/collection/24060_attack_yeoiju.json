@@ -1,0 +1,19 @@
+{
+  "index": 24060,
+  "name": "Attack Yeoiju",
+  "description": "Collection Yeoiju. Combat bonuses are disabled.",
+  "image": "item733",
+  "class": [
+    "yeoiju",
+    "collection"
+  ],
+  "level": 1,
+  "limit": {
+    "class": "all",
+    "level": 1
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

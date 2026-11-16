@@ -1,0 +1,13 @@
+{
+  "grades": [
+    { "center": 40, "extra": 40, "armor": 42, "slot": "any" },
+    { "center": 45, "extra": 45, "armor": 42, "slot": "upperarmor" },
+    { "center": 48, "extra": 48, "armor": 46, "slot": "any" },
+    { "center": 50, "extra": 50, "armor": 46, "slot": "upperarmor" },
+    { "center": 53, "extra": 50, "armor": 50, "slot": "any" },
+    { "center": 56, "extra": 53, "armor": 50, "slot": "any" },
+    { "center": 59, "extra": 53, "armor": 50, "slot": "any" },
+    { "center": 62, "extra": 56, "armor": 50, "slot": "upperarmor" },
+    { "center": 65, "extra": 59, "armor": 50, "slot": "upperarmor" }
+  ]
+}

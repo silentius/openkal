@@ -1,0 +1,33 @@
+{
+  "id": 690,
+  "caption": "Talk",
+  "lines": [
+    "[Exp Event Manager]",
+    "The community can activate a global EXP Event.",
+    "Donate Exp Event Coins and I will count every contribution.",
+    "The first 500 coins start +10% EXP for 60 minutes.",
+    "",
+    "Tips:",
+    "You can find Exp Event Coins on monsters.",
+    "Multiple players can contribute to the same event.",
+    "Every further 500 coins during the event add 10 percentage points and 15 minutes.",
+    "The bonus is capped at 50%; further donations still add 15 minutes per 500 coins.",
+    "Donate all your coins or exactly 100. The noticeboard shows the current progress."
+  ],
+  "links": [
+    {
+      "type": "quest",
+      "text": "[Me] I would like to donate all my Exp Event Coins",
+      "quest": [9501, 1]
+    },
+    {
+      "type": "quest",
+      "text": "[Me] I would like to donate 100 Exp Event Coins",
+      "quest": [9502, 1]
+    },
+    {
+      "type": "close",
+      "text": "[End] Sorry, not now."
+    }
+  ]
+}

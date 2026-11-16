@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=cmake+ninja
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		-DOPENKAL_RELEASE_BUILD=ON \
+		-DOPENKAL_BUILD_TESTS=OFF \
+		-DOPENKAL_BUILD_TOOLS=OFF \
+		-DOPENKAL_BUILD_AREA_EDITOR=OFF \
+		-DOPENKAL_BUILD_PROFILE_CLIENT=OFF
+
+override_dh_auto_test:
+	:

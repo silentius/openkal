@@ -1,0 +1,614 @@
+{
+  "schema": "openkal.skin-weapon-compatibility/v1",
+  "source": {
+    "author": "OpenKal contributors",
+    "license": "GPL-3.0-or-later",
+    "created_on": "2026-10-30",
+    "origin": "OpenKal compatibility decisions based on independent local renderer observations of optional user-supplied models. No model or texture data is redistributed.",
+    "compatibility_policy": "OpenKal defines its own one-hand/two-hand compatibility assignments where reference categories are unverified. Strict actual-weapon matching remains required.",
+    "scope": "These choices specify OpenKal cosmetic compatibility, not reference item categories. Standalone grips and sampled one-hand/two-hand attack views were compared; names, model numbering, variant parity and fingerprints do not infer a category.",
+    "review": "All assignments receive subsequent idle/walk and sampled attack-variant checks. This does not establish complete animation, effect, collision or live-game correctness."
+  },
+  "entries": [
+    {
+      "index": 25050,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 7],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "c802f2e656cf4fe3",
+      "expected_shape_meshes": 1,
+      "reason": "Ornate crystal hilt supports a spaced grip; two-hand swing selected."
+    },
+    {
+      "index": 25053,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 10],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "469b5887ede9def2",
+      "expected_shape_meshes": 1,
+      "reason": "Compact saber hilt and curved cutting edge; one-hand swing preferred."
+    },
+    {
+      "index": 25067,
+      "class": "knight",
+      "part": "weapon",
+      "action": [23, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "b2b99359d2bd00e3",
+      "expected_shape_meshes": 1,
+      "reason": "Broad cleaver and rear grip support; two-hand hold preferred."
+    },
+    {
+      "index": 25071,
+      "class": "knight",
+      "part": "weapon",
+      "action": [40, 8],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "c224637ef8b792b3",
+      "expected_shape_meshes": 1,
+      "reason": "Winged guard with rear grip support; two-hand hold preferred."
+    },
+    {
+      "index": 25072,
+      "class": "knight",
+      "part": "weapon",
+      "action": [40, 9],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "f0aee87718beb6df",
+      "expected_shape_meshes": 1,
+      "reason": "Double-winged guard with rear grip support; two-hand hold preferred."
+    },
+    {
+      "index": 25074,
+      "class": "knight",
+      "part": "weapon",
+      "action": [41, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "c0b31b28605062d7",
+      "expected_shape_meshes": 1,
+      "reason": "Heavy sawtooth blade and supported rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25075,
+      "class": "knight",
+      "part": "weapon",
+      "action": [42, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "afc470e3cf23c5c2",
+      "expected_shape_meshes": 1,
+      "reason": "Compact bone hilt beneath a narrow spine blade; one-hand swing preferred."
+    },
+    {
+      "index": 25076,
+      "class": "knight",
+      "part": "weapon",
+      "action": [42, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "66ae403d139692f5",
+      "expected_shape_meshes": 1,
+      "reason": "Large skull guard and rear grip support; two-hand swing selected."
+    },
+    {
+      "index": 25078,
+      "class": "knight",
+      "part": "weapon",
+      "action": [43, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "522d1b87bee16d7e",
+      "expected_shape_meshes": 1,
+      "reason": "Compact gold crossguard and narrow flame blade; one-hand swing preferred."
+    },
+    {
+      "index": 25079,
+      "class": "knight",
+      "part": "weapon",
+      "action": [43, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "0e8711a92072944d",
+      "expected_shape_meshes": 1,
+      "reason": "Broad fang guard and supported rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25081,
+      "class": "knight",
+      "part": "weapon",
+      "action": [44, 1],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "3d8a11e080e62e20",
+      "expected_shape_meshes": 1,
+      "reason": "Broad stone cleaver and wrapped rear grip; two-hand hold preferred."
+    },
+    {
+      "index": 25082,
+      "class": "knight",
+      "part": "weapon",
+      "action": [44, 3],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "c7eac1cb1e336616",
+      "expected_shape_meshes": 1,
+      "reason": "Compact talon guard and curved narrow blade; one-hand swing preferred."
+    },
+    {
+      "index": 25083,
+      "class": "knight",
+      "part": "weapon",
+      "action": [45, 1],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "73d2eb153a7abe5e",
+      "expected_shape_meshes": 1,
+      "reason": "Broad rune cleaver with rear grip support; two-hand hold preferred."
+    },
+    {
+      "index": 25084,
+      "class": "knight",
+      "part": "weapon",
+      "action": [45, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "494a4f87f619b81f",
+      "expected_shape_meshes": 1,
+      "reason": "Wrapped katana grip supports both sampled hand positions; two-hand swing selected."
+    },
+    {
+      "index": 25085,
+      "class": "knight",
+      "part": "weapon",
+      "action": [45, 3],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "62227c9d9eb4dd57",
+      "expected_shape_meshes": 1,
+      "reason": "Wrapped katana grip supports both sampled hand positions; two-hand swing selected."
+    },
+    {
+      "index": 25086,
+      "class": "knight",
+      "part": "weapon",
+      "action": [46, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "3d47b14d0f234e52",
+      "expected_shape_meshes": 1,
+      "reason": "Plain compact crossguard and straight blade; one-hand swing preferred."
+    },
+    {
+      "index": 25087,
+      "class": "knight",
+      "part": "weapon",
+      "action": [47, 1],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "344c59c7866bf87d",
+      "expected_shape_meshes": 1,
+      "reason": "Extended wrapped katana hilt; two-hand hold preferred."
+    },
+    {
+      "index": 25088,
+      "class": "knight",
+      "part": "weapon",
+      "action": [48, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "60eac7539e57b743",
+      "expected_shape_meshes": 1,
+      "reason": "Compact crystal ring guard; one-hand swing preferred."
+    },
+    {
+      "index": 25089,
+      "class": "knight",
+      "part": "weapon",
+      "action": [49, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "60eac7539e57b743",
+      "expected_shape_meshes": 1,
+      "reason": "Compact crystal ring guard; one-hand swing preferred."
+    },
+    {
+      "index": 25090,
+      "class": "knight",
+      "part": "weapon",
+      "action": [50, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "9ee55a52246202f2",
+      "expected_shape_meshes": 1,
+      "reason": "Compact rune hilt behind the clawed guard; one-hand swing preferred."
+    },
+    {
+      "index": 25094,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "9ee55a52246202f2",
+      "expected_shape_meshes": 1,
+      "reason": "Compact rune hilt behind the clawed guard; one-hand swing preferred."
+    },
+    {
+      "index": 25095,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "a2c7e8d7078dfb57",
+      "expected_shape_meshes": 1,
+      "reason": "Large axe head and extended rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25098,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 6],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "9c2db1a0452a9ee3",
+      "expected_shape_meshes": 1,
+      "reason": "Compact bone grip and hooked blade; one-hand swing preferred."
+    },
+    {
+      "index": 25099,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 12],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "4eacd509c66f73d5",
+      "expected_shape_meshes": 1,
+      "reason": "Long wrapped grip with a rear counterweight; two-hand hold preferred."
+    },
+    {
+      "index": 25100,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 15],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "a4ef8c32be1b793c",
+      "expected_shape_meshes": 1,
+      "reason": "Fencing blade with a compact hand guard; one-hand thrust/swing selected."
+    },
+    {
+      "index": 25101,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 16],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "7aab5f6abe9d6307",
+      "expected_shape_meshes": 1,
+      "reason": "Extended hilt beneath a broad forked blade; two-hand hold preferred."
+    },
+    {
+      "index": 25102,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 17],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "89c40ec4d49c133a",
+      "expected_shape_meshes": 1,
+      "reason": "Extended hilt beneath the ivory blade guard; two-hand hold preferred."
+    },
+    {
+      "index": 25103,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 18],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "6b335bc160fd135f",
+      "expected_shape_meshes": 1,
+      "reason": "Large prism guard and rear grip support; two-hand swing selected."
+    },
+    {
+      "index": 25104,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 19],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "b0568b7297191ee8",
+      "expected_shape_meshes": 1,
+      "reason": "Heavy wrapped cleaver with supported rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25105,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 20],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "6a1cc41abfaac56a",
+      "expected_shape_meshes": 1,
+      "reason": "Heavy bone cleaver with supported rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25106,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 21],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "ee75de7c429a341c",
+      "expected_shape_meshes": 1,
+      "reason": "Broad rune cleaver and wrapped rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25107,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 22],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "e7355eab1e373b39",
+      "expected_shape_meshes": 1,
+      "reason": "Compact fang guard and curved blade; one-hand swing preferred."
+    },
+    {
+      "index": 25108,
+      "class": "knight",
+      "part": "weapon",
+      "action": [51, 23],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "777740fa1b46f0a8",
+      "expected_shape_meshes": 1,
+      "reason": "Slender fencing blade with a compact guard; one-hand thrust/swing selected."
+    },
+    {
+      "index": 25110,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "b2b99359d2bd00e3",
+      "expected_shape_meshes": 1,
+      "reason": "Broad cleaver and rear grip support; same choice as identical reviewed attachment shape."
+    },
+    {
+      "index": 25111,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 10],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "583759fe4b88f629",
+      "expected_shape_meshes": 1,
+      "reason": "Compact grip beneath a narrow jagged blade; one-hand swing preferred."
+    },
+    {
+      "index": 25112,
+      "class": "knight",
+      "part": "weapon",
+      "action": [55, 15],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "b198ec3d204c368a",
+      "expected_shape_meshes": 1,
+      "reason": "Broad sawtooth blade and supported rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25113,
+      "class": "knight",
+      "part": "weapon",
+      "action": [57, 4],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "a8e4e6236f807ad6",
+      "expected_shape_meshes": 1,
+      "reason": "Compact compass guard around a slender blade; one-hand swing preferred."
+    },
+    {
+      "index": 25114,
+      "class": "knight",
+      "part": "weapon",
+      "action": [58, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "c224637ef8b792b3",
+      "expected_shape_meshes": 1,
+      "reason": "Winged guard and rear grip support; same choice as identical reviewed attachment shape."
+    },
+    {
+      "index": 25116,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "b2b99359d2bd00e3",
+      "expected_shape_meshes": 1,
+      "reason": "Broad cleaver and rear grip support; same choice as identical reviewed attachment shape."
+    },
+    {
+      "index": 25119,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 7],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "8e8410e2df98162d",
+      "expected_shape_meshes": 1,
+      "reason": "Long pole-axe shaft supports a spaced grip; two-hand swing selected."
+    },
+    {
+      "index": 25120,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 8],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "eccbabff908da176",
+      "expected_shape_meshes": 1,
+      "reason": "Extended wrapped shaft behind the crescent blade; two-hand swing selected."
+    },
+    {
+      "index": 25121,
+      "class": "knight",
+      "part": "weapon",
+      "action": [60, 9],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "b5f23aa6fa68ad56",
+      "expected_shape_meshes": 1,
+      "reason": "Wrapped katana hilt supports both sampled hand positions; two-hand swing selected."
+    },
+    {
+      "index": 25122,
+      "class": "knight",
+      "part": "weapon",
+      "action": [61, 3],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "aed735ea51175b9f",
+      "expected_shape_meshes": 1,
+      "reason": "Compact rune grip and narrower fang blade; one-hand swing preferred."
+    },
+    {
+      "index": 25123,
+      "class": "knight",
+      "part": "weapon",
+      "action": [61, 4],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "9912ead5197c798f",
+      "expected_shape_meshes": 1,
+      "reason": "Broad rune blade and supported rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25124,
+      "class": "knight",
+      "part": "weapon",
+      "action": [68, 1],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "3f611d21043765e6",
+      "expected_shape_meshes": 1,
+      "reason": "Broad claw blade with hooked rear grip support; two-hand swing selected."
+    },
+    {
+      "index": 25125,
+      "class": "knight",
+      "part": "weapon",
+      "action": [68, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "eb3c7451d2390353",
+      "expected_shape_meshes": 1,
+      "reason": "Broad claw blade with hooked rear grip support; two-hand swing selected."
+    },
+    {
+      "index": 25126,
+      "class": "knight",
+      "part": "weapon",
+      "action": [70, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "699f15de2870d85a",
+      "expected_shape_meshes": 1,
+      "reason": "Compact crossguard and knight blade; one-hand swing preferred."
+    },
+    {
+      "index": 25127,
+      "class": "knight",
+      "part": "weapon",
+      "action": [87, 3],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "1b09c73840367929",
+      "expected_shape_meshes": 1,
+      "reason": "Compact dragon guard and curved blade; one-hand swing preferred."
+    },
+    {
+      "index": 25129,
+      "class": "knight",
+      "part": "weapon",
+      "action": [88, 3],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "c09b2516b061f18a",
+      "expected_shape_meshes": 1,
+      "reason": "Broad dragon blade and supported rear grip; two-hand swing selected."
+    },
+    {
+      "index": 25132,
+      "class": "knight",
+      "part": "weapon",
+      "action": [90, 1],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "700d5a48b3da802f",
+      "expected_shape_meshes": 1,
+      "reason": "Unbroken bat shaft supports a spaced grip; two-hand swing selected."
+    },
+    {
+      "index": 25133,
+      "class": "knight",
+      "part": "weapon",
+      "action": [100, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "e1496f4467519ab3",
+      "expected_shape_meshes": 1,
+      "reason": "Compact hook guard and pointed blade; one-hand swing preferred."
+    },
+    {
+      "index": 25134,
+      "class": "knight",
+      "part": "weapon",
+      "action": [100, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "6f27fbea9baf1085",
+      "expected_shape_meshes": 1,
+      "reason": "Broad fang blade with rear grip support; two-hand swing selected."
+    },
+    {
+      "index": 25136,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "bf59f5b6e28247c0",
+      "expected_shape_meshes": 1,
+      "reason": "Compact sun guard and curved blade; one-hand swing preferred."
+    },
+    {
+      "index": 25137,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 2],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "63cec51e702bf2fa",
+      "expected_shape_meshes": 1,
+      "reason": "Compact talon guard and curved blade; one-hand swing preferred."
+    },
+    {
+      "index": 25138,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 3],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "6fafae47a13f0633",
+      "expected_shape_meshes": 1,
+      "reason": "Broad shard blade and rear grip support; two-hand swing selected."
+    },
+    {
+      "index": 25139,
+      "class": "knight",
+      "part": "weapon",
+      "action": [104, 5],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "bf6b6c77db051b58",
+      "expected_shape_meshes": 1,
+      "reason": "Compact icy grip and narrow shard blade; one-hand swing preferred."
+    },
+    {
+      "index": 25140,
+      "class": "knight",
+      "part": "weapon",
+      "action": [106, 1],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "fd4512c2c7cbb0c2",
+      "expected_shape_meshes": 1,
+      "reason": "Broad barbed blade and rear grip support; two-hand swing selected."
+    },
+    {
+      "index": 25141,
+      "class": "knight",
+      "part": "weapon",
+      "action": [106, 2],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "739fe8ba20529b38",
+      "expected_shape_meshes": 3,
+      "reason": "Extended grip beneath the black/gold blade; two-hand swing selected."
+    },
+    {
+      "index": 25142,
+      "class": "knight",
+      "part": "weapon",
+      "action": [108, 1],
+      "weapon_type": "sword",
+      "expected_shape_fingerprint": "5c66cbbb9f7ecabf",
+      "expected_shape_meshes": 4,
+      "reason": "Compact flame guard and narrow cutting blade; one-hand swing preferred."
+    },
+    {
+      "index": 25144,
+      "class": "knight",
+      "part": "weapon",
+      "action": [140, 1],
+      "weapon_type": "sword2h",
+      "expected_shape_fingerprint": "62e5f1e7c6736491",
+      "expected_shape_meshes": 1,
+      "reason": "Large lion guard and supported rear grip; two-hand swing selected."
+    }
+  ]
+}

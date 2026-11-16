@@ -1,0 +1,22 @@
+{
+  "_doc": "OpenKal dialogue for the implemented guild service; no external dialogue text is redistributed.",
+  "id": 184,
+  "caption": "Guild Executive",
+  "lines": [
+    "Create a guild or browse existing guilds. The guild window shows the current server requirements and fees before you submit a request."
+  ],
+  "links": [
+    {
+      "type": "guild_create",
+      "text": "Create a guild."
+    },
+    {
+      "type": "guild",
+      "text": "Browse guilds and manage my guild."
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

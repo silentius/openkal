@@ -1,0 +1,14 @@
+{
+  "index": 23028,
+  "rarity": 0,
+  "name": "Blue Lotus Leaf",
+  "image": "blueLotusLeaf",
+  "class": [
+    "general",
+    "etc"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "stackable": 1,
+  "description": "A fresh blue lotus leaf gathered in the wild. Combine with smaller Magic Potions at the Medicine Alchemist to make larger Magic Potions."
+}

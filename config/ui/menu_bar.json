@@ -1,0 +1,514 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "menu_bar",
+  "kind": "hud",
+  "_doc": "Compact Dragon menu. End caps and the narrow rail drag the panel; all twelve buttons retain separate click regions. Button text supplies the FreeType tooltip.",
+  "window": {
+    "w": 472,
+    "h": 42,
+    "draggable": true,
+    "title_drag_h": 42
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#E8DCC0",
+      "value": "#F2E7CC"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "backing",
+      "file": "dragon_hud/bar_backing.bmp",
+      "x": 18,
+      "y": 0,
+      "w": 436,
+      "h": 42
+    },
+    {
+      "type": "image",
+      "id": "grip_left",
+      "file": "dragon_menu/grip_left.bmp",
+      "x": 0,
+      "y": 0,
+      "w": 20,
+      "h": 42
+    },
+    {
+      "type": "image",
+      "id": "grip_right",
+      "file": "dragon_menu/grip_right.bmp",
+      "x": 452,
+      "y": 0,
+      "w": 20,
+      "h": 42
+    },
+    {
+      "type": "button",
+      "id": "menu_sinsu",
+      "x": 21,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.sinsu",
+      "text": "${hud.menu.sinsu.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "sinsu_icon",
+      "file": "dragon_menu/sinsu.bmp",
+      "x": 26,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_riding",
+      "x": 57,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.riding",
+      "text": "${hud.menu.riding.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "riding_icon",
+      "file": "dragon_menu/riding.bmp",
+      "x": 62,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_character",
+      "x": 93,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.character",
+      "text": "${hud.menu.character.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "character_icon",
+      "file": "dragon_menu/character.bmp",
+      "x": 98,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_inventory",
+      "x": 129,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.inventory",
+      "text": "${hud.menu.inventory.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "inventory_icon",
+      "file": "dragon_menu/inventory.bmp",
+      "x": 134,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_skill",
+      "x": 165,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.skill",
+      "text": "${hud.menu.skill.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "skill_icon",
+      "file": "dragon_menu/skill.bmp",
+      "x": 170,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_quest",
+      "x": 201,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.quest",
+      "text": "${hud.menu.quest.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "quest_icon",
+      "file": "dragon_menu/quest.bmp",
+      "x": 206,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_party",
+      "x": 237,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.party",
+      "text": "${hud.menu.party.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "party_icon",
+      "file": "dragon_menu/party.bmp",
+      "x": 242,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_community",
+      "x": 273,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.community",
+      "text": "${hud.menu.community.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "community_icon",
+      "file": "dragon_menu/community.bmp",
+      "x": 278,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_map",
+      "x": 309,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.map",
+      "text": "${hud.menu.map.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "map_icon",
+      "file": "dragon_menu/map.bmp",
+      "x": 314,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "button",
+      "id": "menu_messages",
+      "x": 345,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.messages",
+      "text": "${hud.menu.messages.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "messages_icon",
+      "file": "dragon_menu/messages.bmp",
+      "x": 350,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_top_left",
+      "x": 361,
+      "y": 11,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_top",
+      "x": 362,
+      "y": 11,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_top_right",
+      "x": 363,
+      "y": 11,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_left",
+      "x": 361,
+      "y": 12,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_right",
+      "x": 363,
+      "y": 12,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_bottom_left",
+      "x": 361,
+      "y": 13,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_bottom",
+      "x": 362,
+      "y": 13,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge_outline_bottom_right",
+      "x": 363,
+      "y": 13,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "text",
+      "id": "messages_badge",
+      "x": 362,
+      "y": 12,
+      "text": "${hud.menu.messages.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#000000",
+      "visible_when": "hud.menu.messages.unread > 0"
+    },
+    {
+      "type": "button",
+      "id": "menu_trading_post",
+      "x": 381,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.trading_post",
+      "text": "${hud.menu.trading_post.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "trading_post_icon",
+      "file": "dragon_menu/trading_post.bmp",
+      "x": 386,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_top_left",
+      "x": 397,
+      "y": 11,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_top",
+      "x": 398,
+      "y": 11,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_top_right",
+      "x": 399,
+      "y": 11,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_left",
+      "x": 397,
+      "y": 12,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_right",
+      "x": 399,
+      "y": 12,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_bottom_left",
+      "x": 397,
+      "y": 13,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_bottom",
+      "x": 398,
+      "y": 13,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge_outline_bottom_right",
+      "x": 399,
+      "y": 13,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#FFFFFF",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "text",
+      "id": "trading_post_badge",
+      "x": 398,
+      "y": 12,
+      "text": "${hud.menu.trading_post.badge}",
+      "pixel_size": 12,
+      "align": "center",
+      "color": "#000000",
+      "visible_when": "hud.menu.trading_post.pending"
+    },
+    {
+      "type": "button",
+      "id": "menu_system",
+      "x": 417,
+      "y": 4,
+      "w": 34,
+      "h": 34,
+      "file_default": "dragon_menu/button_idle.bmp",
+      "file_over": "dragon_menu/button_hover.bmp",
+      "file_on": "dragon_menu/button_open.bmp",
+      "action": "hud.menu.system",
+      "text": "${hud.menu.system.tooltip}"
+    },
+    {
+      "type": "image",
+      "id": "system_icon",
+      "file": "dragon_menu/system.bmp",
+      "x": 422,
+      "y": 8,
+      "w": 24,
+      "h": 24
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+add_executable(openkal_test_optimization_crafting_coverage OptimizationCraftingCoverageTest.cpp)
+target_link_libraries(openkal_test_optimization_crafting_coverage PRIVATE openkal::server sqlite3)
+openkal_target_warnings(openkal_test_optimization_crafting_coverage)
+add_test(NAME optimization_crafting_coverage COMMAND openkal_test_optimization_crafting_coverage)
+set_tests_properties(optimization_crafting_coverage PROPERTIES
+  LABELS "optimization-coverage" TIMEOUT 30)

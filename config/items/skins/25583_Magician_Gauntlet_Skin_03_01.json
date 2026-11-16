@@ -1,0 +1,19 @@
+{
+  "index": 25583,
+  "name": "G24 Gloves Skin (Magician)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "gauntlet"
+  ],
+  "action": [3, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the gauntlet skin slot. No combat bonuses. OpenKal descriptive name; model magician/gauntlet 03-01."
+}

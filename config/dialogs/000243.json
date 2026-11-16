@@ -1,0 +1,38 @@
+{
+  "_doc": "OpenKal dialogue text describing project-owned behavior; no external dialogue text is redistributed.",
+  "id": 243,
+  "caption": "Blacksmith",
+  "lines": [
+    "Choose a service or read how to use your equipment materials."
+  ],
+  "links": [
+    {
+      "type": "244",
+      "text": "How does Explosive Blow work?"
+    },
+    {
+      "type": "990243",
+      "text": "Make Stones of Revision with a Revision Hammer."
+    },
+    {
+      "type": "990244",
+      "text": "Costume and riding enchantment / decomposition (unavailable)."
+    },
+    {
+      "type": "blacksmith",
+      "text": "Open Explosive Blow and improve its success chance."
+    },
+    {
+      "type": "990244",
+      "text": "Equipment exchange (unavailable)."
+    },
+    {
+      "type": "990246",
+      "text": "How do I enchant trigrams?"
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

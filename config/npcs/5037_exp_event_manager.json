@@ -1,0 +1,19 @@
+{
+  "index": 5037,
+  "name": "Exp Event Manager",
+  "nameId": 5037,
+  "country": 2,
+  "kind": 3,
+  "shape": 75,
+  "map": 0,
+  "xy": [267440, 242661, 19643],
+  "dir": [267459, 242667],
+  "quest": [9500, 1],
+  "appearance": {
+    "boneId": 955,
+    "scale": 1.0,
+    "scaleParam": 5,
+    "motion": "AAAAAAAAAA",
+    "mspeed": [0, 0]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "index": 25592,
+  "name": "G42 Armor Skin (Magician)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "upper"
+  ],
+  "action": [5, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the upper skin slot. No combat bonuses. OpenKal descriptive name; model magician/upper 05-01."
+}

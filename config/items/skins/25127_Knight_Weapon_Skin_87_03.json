@@ -1,0 +1,22 @@
+{
+  "index": 25127,
+  "name": "Jade Dragon Blade Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [87, 3],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model knight/weapon 87-03. OpenKal weapon compatibility: one-hand sword; reference type unverified.",
+  "skin": {
+    "weapon_type": "sword"
+  }
+}

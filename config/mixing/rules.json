@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "success_level1_percent": 66,
+    "success_level2_percent": 33,
+    "max_mix_level": 2,
+    "block_same_stone_at_max": true
+  }
+}

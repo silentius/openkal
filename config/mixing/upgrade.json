@@ -1,0 +1,52 @@
+{
+  "recipes": [
+    {
+      "id": "upgrade",
+      "mode": 0,
+      "note": "Charged 30000 gold (MONEY_BEEFUP). Set gold to enable.",
+      "gold": 0,
+      "center": {
+        "kind": "weapon",
+        "wearable": true
+      },
+      "extra_weapon": {
+        "required": true
+      },
+      "armor": {
+        "required": true,
+        "slot": "any"
+      },
+      "stones": {
+        "count": 1,
+        "same_type": false
+      },
+      "result": {
+        "action": "apply_mix"
+      }
+    },
+    {
+      "id": "upgrade_g3",
+      "mode": 0,
+      "note": "G3 Mystery / Demon Blood on a G2 weapon. Two stones of the same type.",
+      "gold": 0,
+      "center": {
+        "kind": "weapon",
+        "wearable": true
+      },
+      "extra_weapon": {
+        "required": true
+      },
+      "armor": {
+        "required": true,
+        "slot": "any"
+      },
+      "stones": {
+        "count": 2,
+        "same_type": true
+      },
+      "result": {
+        "action": "apply_mix"
+      }
+    }
+  ]
+}

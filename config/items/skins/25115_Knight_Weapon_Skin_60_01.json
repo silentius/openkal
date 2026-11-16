@@ -1,0 +1,22 @@
+{
+  "index": 25115,
+  "name": "Crimson Silver Sword Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [60, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model knight/weapon 60-01.",
+  "skin": {
+    "weapon_type": "sword"
+  }
+}

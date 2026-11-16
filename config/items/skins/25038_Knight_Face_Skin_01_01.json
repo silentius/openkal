@@ -1,0 +1,19 @@
+{
+  "index": 25038,
+  "name": "Scarred Face Skin (Knight)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "face"
+  ],
+  "action": [0, 2],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the face skin slot. No combat bonuses. OpenKal descriptive name; model knight/face 00-02."
+}

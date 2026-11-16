@@ -1,0 +1,122 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "play_mode",
+  "kind": "window",
+  "window": {
+    "w": 360,
+    "h": 300,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 16,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/system.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${mode.title}",
+      "pixel_size": 22,
+      "align": "left",
+      "bold": true,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "button",
+      "id": "single",
+      "x": 60,
+      "y": 55,
+      "w": 240,
+      "h": 38,
+      "label": "${mode.single}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "mode.single",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "multi",
+      "x": 60,
+      "y": 110,
+      "w": 240,
+      "h": 38,
+      "label": "${mode.multi}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "mode.multi",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "quit",
+      "x": 60,
+      "y": 165,
+      "w": 240,
+      "h": 38,
+      "label": "${mode.quit}",
+      "align": "center",
+      "pixel_size": 16,
+      "action": "mode.quit",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "status_line0",
+      "x": 25,
+      "y": 230,
+      "text": "${mode.status_line0}",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "status_line1",
+      "x": 25,
+      "y": 248,
+      "text": "${mode.status_line1}",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "status_line2",
+      "x": 25,
+      "y": 266,
+      "text": "${mode.status_line2}",
+      "pixel_size": 14
+    }
+  ]
+}

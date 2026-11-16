@@ -1,0 +1,19 @@
+{
+  "index": 24062,
+  "name": "Yeoiju Fortification",
+  "description": "Collection accessory. Equip from the inventory drawer. PvP ignores all bonuses except movement speed.",
+  "image": "item735",
+  "class": [
+    "general",
+    "collection"
+  ],
+  "level": 1,
+  "limit": {
+    "class": "all",
+    "level": 1
+  },
+  "wear": 0,
+  "stackable": 1,
+  "buy": 0,
+  "sell": 0
+}

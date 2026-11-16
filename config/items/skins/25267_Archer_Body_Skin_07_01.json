@@ -1,0 +1,22 @@
+{
+  "index": 25267,
+  "name": "Halloween Formal Costume (Archer)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [7, 1],
+  "skin": {
+    "replace_face": true
+  },
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins."
+}

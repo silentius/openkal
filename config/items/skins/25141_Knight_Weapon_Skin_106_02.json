@@ -1,0 +1,22 @@
+{
+  "index": 25141,
+  "name": "Black Gold Blade Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [106, 2],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model knight/weapon 106-02. OpenKal weapon compatibility: two-hand sword; reference type unverified.",
+  "skin": {
+    "weapon_type": "sword2h"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "index": 41323,
+  "rarity": 2,
+  "name": "Stable Time Writ",
+  "description": "A stable contract that extends an eligible registered Riding Pet. Speak with Stablemaster Edmund to use it.",
+  "image": "stableTimeWrit",
+  "class": ["etc", "battleRideMaterial"],
+  "stackable": 1,
+  "level": 1,
+  "wear": 0,
+  "use": 0,
+  "limit": { "class": "all", "level": 1 }
+}

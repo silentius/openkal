@@ -1,0 +1,16 @@
+{
+  "index": 23012,
+  "rarity": 0,
+  "name": "Low class Essence Box",
+  "image": "item784",
+  "class": [
+    "gather",
+    "jungsubox"
+  ],
+  "buy": 200000,
+  "sell": 50000,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": 1500,
+  "description": "Right-click to open. Contains random Hanin essences."
+}

@@ -1,0 +1,24 @@
+{
+  "index": 23005,
+  "rarity": 0,
+  "name": "Medium Magic Potion",
+  "image": "magicPotionMedium",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 1000,
+  "sell": 100,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 2],
+  "description": "Recovers Magic Point by 500",
+  "effect": 2,
+  "pay": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "mp",
+      "amount": 500
+    }
+  }
+}

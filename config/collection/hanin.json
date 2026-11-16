@@ -1,0 +1,7 @@
+{
+  "_doc": "Server upgrade probability by destination stage, starting at stage 1. Hanin stages are Low -> Middle and Middle -> High. Restart the server after edits.",
+  "success_percent": [
+    50.0,
+    25.0
+  ]
+}

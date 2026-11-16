@@ -1,0 +1,13 @@
+{
+  "index": 23030,
+  "name": "Skin Ticket",
+  "image": "skinTicket",
+  "class": [
+    "general",
+    "etc"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "stackable": 1,
+  "description": "Trade this ticket with the Skin Artisan for cosmetic skins. Freely tradeable. No combat bonuses."
+}

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="96" viewBox="0 0 340 48">
+  <!-- OpenKal vector artwork, GPL-3.0-or-later. No external assets. -->
+  <defs>
+    <linearGradient id="stone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17191b"/><stop offset=".48" stop-color="#0b0d0f"/><stop offset="1" stop-color="#171716"/>
+    </linearGradient>
+    <linearGradient id="bronze" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d6b56f"/><stop offset=".18" stop-color="#7a542d"/><stop offset=".7" stop-color="#392a1c"/><stop offset="1" stop-color="#b28b4c"/>
+    </linearGradient>
+    <linearGradient id="coin_top" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0a4"/><stop offset=".45" stop-color="#f3c54c"/><stop offset="1" stop-color="#a56816"/>
+    </linearGradient>
+    <linearGradient id="coin_edge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a26317"/><stop offset=".35" stop-color="#f3c54c"/><stop offset=".7" stop-color="#b97b21"/><stop offset="1" stop-color="#6d400f"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="4" width="338" height="43" rx="4" fill="#000000" opacity=".55"/>
+  <rect x="1" y="2" width="338" height="43" rx="4" fill="url(#stone)" stroke="url(#bronze)" stroke-width="2"/>
+  <rect x="3.5" y="4.5" width="333" height="38" rx="2" fill="none" stroke="#352d23"/>
+  <path d="M 57,11 V 36" stroke="#8e7046" opacity=".45"/>
+  <g transform="translate(0 4)">
+  <path d="M 13,25.0 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="20" cy="25.0" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="20" cy="24.8" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 13,21.5 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="20" cy="21.5" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="20" cy="21.3" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 13,18.0 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="20" cy="18.0" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="20" cy="17.8" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 24,18.0 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="31" cy="18.0" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="31" cy="17.8" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 24,14.5 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="31" cy="14.5" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="31" cy="14.3" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 24,11.0 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="31" cy="11.0" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="31" cy="10.8" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 24,7.5 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="31" cy="7.5" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="31" cy="7.3" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 35,29.0 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="42" cy="29.0" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="42" cy="28.8" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  <path d="M 35,25.5 v 3 c 0,4 14,4 14,0 v -3 z" fill="url(#coin_edge)" stroke="#5f3c13" stroke-width=".7"/>
+  <ellipse cx="42" cy="25.5" rx="7" ry="2.8" fill="url(#coin_top)" stroke="#83581c" stroke-width=".7"/>
+  <ellipse cx="42" cy="25.3" rx="4.6" ry="1.5" fill="none" stroke="#fff0ad" stroke-width=".5" opacity=".65"/>
+  </g>
+</svg>

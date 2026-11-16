@@ -1,0 +1,15 @@
+Source: openkal
+Section: games
+Priority: optional
+Maintainer: silentius <dev@silentius.com>
+Build-Depends: debhelper-compat (= 13), cmake (>= 3.20), g++, libfreetype-dev, libglew-dev, libglfw3-dev, libopengl-dev, libsqlite3-dev, libssl-dev, libpng-dev, ninja-build, python3, python3-pil
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+
+Package: openkal-client
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, zenity, fonts-dejavu-core
+Description: open-source KalOnline client
+ OpenKal is an open-source client for KalOnline-compatible game data.
+ The package contains no proprietary game assets. Configure the paths to a
+ locally available KalOnline client directory on its first start.

@@ -1,0 +1,770 @@
+{
+  "schema": "openkal.skin-preview-review/v1",
+  "reviewed_on": "2026-10-29",
+  "runtime_update": "Recorded manual checks show the complete Knight functional round: body skins return individual skins to General and lock body slots; double-clicking boots skin 25037 replaces body 25006 and unlocks those slots. Weapon/shield skins remain independent. The distinct 25042 shield, character-selection visibility, re-entry persistence, item counts and normal-shield restoration are confirmed. All 101 Knight weapon appearances now have explicit categories: 41 unchanged reference assignments and 60 project-defined OpenKal grip/pose choices (23 one-hand, 37 two-hand). All 591 sampled validation cases rendered; 240 selected captures were inspected. The reference categories remain unverified for those 60. Manual review accepted both OpenKal compatibility representatives, 25108 and 25132. That round is complete; individual action, rejection and removal results were not reported separately. No focused manual test round is pending. The three missing textures and 25003/25004 skirt clipping remain unresolved. The catalog uses project-authored descriptive English names: 396 available appearances now use guarded OpenKal visual labels, while 44 resolved community names remain unchanged. Model keys and name origin are retained in item descriptions. The three missing-texture appearances keep technical names until inspection.",
+  "evidence": {
+    "kind": "operator inspection of OpenKal-generated static previews",
+    "gallery_run": "build/skin-previews/2026-10-29",
+    "audit_sha256": "2d779df883d2ff950e99f8ab45f49e6b7be81246bf2ed5240cbccc15e22fbb3d",
+    "license": "OpenKal review observations, GPL-3.0-or-later; external art is not included."
+  },
+  "limits": [
+    "Descriptions are visual search labels, not verified official item names.",
+    "Static review does not change technical audit status or prior manual observations.",
+    "No item is cleared for animation, clipping, multiplayer appearance or weapon attachment.",
+    "Similar geometry and different colors do not justify deleting a skin or reusing its ID."
+  ],
+  "families": [
+    {
+      "action": [1, 1],
+      "items": {
+        "knight": 25000,
+        "magician": 25145,
+        "archer": 25261,
+        "thief": 25381
+      },
+      "description": "Summer shirt and swimwear",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [2, 1],
+      "items": {
+        "knight": 25001,
+        "magician": 25146,
+        "archer": 25262,
+        "thief": 25382
+      },
+      "description": "Alternate summer shirt and swimwear",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [3, 1],
+      "items": {
+        "knight": 25002,
+        "magician": 25147,
+        "archer": 25263,
+        "thief": 25383
+      },
+      "description": "Green shirt and contrasting swimwear",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [4, 1],
+      "items": {
+        "knight": 25003,
+        "magician": 25148,
+        "archer": 25264,
+        "thief": 25384
+      },
+      "description": "Blue formal outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "reported_idle_clipping",
+          "items": [25003],
+          "note": "Manual checks reproduced legs protruding through the skirt while standing and walking. Attack behavior is unverified. Bind-pose images cannot reproduce or clear this report."
+        }
+      ]
+    },
+    {
+      "action": [5, 1],
+      "items": {
+        "knight": 25004,
+        "magician": 25149,
+        "archer": 25265,
+        "thief": 25385
+      },
+      "description": "Black formal outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "reported_idle_clipping",
+          "items": [25004],
+          "note": "Manual checks reproduced legs protruding through the skirt while standing and walking. Attack behavior is unverified. Bind-pose images cannot reproduce or clear this report."
+        }
+      ]
+    },
+    {
+      "action": [6, 1],
+      "items": {
+        "knight": 25005,
+        "magician": 25150,
+        "archer": 25266,
+        "thief": 25386
+      },
+      "description": "Orange pumpkin head",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "head_only",
+          "items": [25005, 25150, 25266, 25386],
+          "note": "Only the pumpkin head belongs to this costume mesh. All four previews retain normal body clothing. Recorded manual checks show correct Knight appearance (25005) and normal-head restoration on removal; the other classes are not live-confirmed."
+        }
+      ]
+    },
+    {
+      "action": [7, 1],
+      "items": {
+        "knight": 25006,
+        "magician": 25151,
+        "archer": 25267,
+        "thief": 25387
+      },
+      "description": "Halloween formal outfits with masks",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "hair_overlap",
+          "items": [25006, 25151, 25267, 25387],
+          "note": "Normal hair is visible together with the costume head covering, especially from behind. Check intended hair replacement in game; do not hide the whole face or hair globally."
+        }
+      ]
+    },
+    {
+      "action": [8, 1],
+      "items": {
+        "knight": 25007,
+        "magician": 25152,
+        "archer": 25268,
+        "thief": 25388
+      },
+      "description": "Dark formal outfits with masks",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "hair_overlap",
+          "items": [25007, 25152, 25268, 25388],
+          "note": "The mask/head covering coexists with visible normal hair; compare with family 7 in a live head-composition test."
+        }
+      ]
+    },
+    {
+      "action": [9, 1],
+      "items": {
+        "knight": 25008,
+        "magician": 25153,
+        "archer": 25269,
+        "thief": 25389
+      },
+      "description": "Christmas outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [10, 1],
+      "items": {
+        "knight": 25009,
+        "magician": 25154,
+        "archer": 25270,
+        "thief": 25390
+      },
+      "description": "Hanbok outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [11, 1],
+      "items": {
+        "knight": 25010,
+        "magician": 25155,
+        "archer": 25271,
+        "thief": 25391
+      },
+      "description": "Mong-Nyong / Choon-Hyang outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [12, 1],
+      "items": {
+        "knight": 25011,
+        "magician": 25156,
+        "archer": 25272,
+        "thief": 25392
+      },
+      "description": "Pale skull-like head with top hat",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "head_only",
+          "items": [25011, 25156, 25272, 25392],
+          "note": "Pale head and hat are a head-only mesh. All four previews retain normal body clothing. Recorded manual checks show correct Knight appearance (25011) and normal-head restoration on removal; the other classes are not live-confirmed."
+        }
+      ]
+    },
+    {
+      "action": [13, 1],
+      "items": {
+        "knight": 25012,
+        "magician": 25157,
+        "archer": 25273,
+        "thief": 25393
+      },
+      "description": "Green melon-like head",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "head_only",
+          "items": [25012, 25157, 25273, 25393],
+          "note": "Green melon-like head is a head-only mesh. All four previews retain normal body clothing. Recorded manual checks show correct Knight appearance (25012) and normal-head restoration on removal; the other classes are not live-confirmed."
+        }
+      ]
+    },
+    {
+      "action": [14, 1],
+      "items": {
+        "knight": 25013,
+        "magician": 25158,
+        "archer": 25274,
+        "thief": 25394
+      },
+      "description": "Burgundy shorts / skirt outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [15, 1],
+      "items": {
+        "knight": 25014,
+        "magician": 25159,
+        "archer": 25275,
+        "thief": 25395
+      },
+      "description": "Black shorts / skirt outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [15, 5],
+      "items": {
+        "knight": 25015,
+        "magician": 25160,
+        "archer": 25276,
+        "thief": 25396
+      },
+      "description": "Blue skin variant of black outfits",
+      "status": "partly_blocked",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "missing_texture",
+          "items": [25160, 25396],
+          "note": "Two class appearances are blocked by absent textures. Knight and Archer show blue skin; whether this coloring is intended is unconfirmed. Defer the blocked classes until compatible assets are available."
+        }
+      ]
+    },
+    {
+      "action": [16, 1],
+      "items": {
+        "knight": 25016,
+        "magician": 25161,
+        "archer": 25277,
+        "thief": 25397
+      },
+      "description": "Purple formal / layered skirt outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "hair_overlap",
+          "items": [25161, 25277, 25397],
+          "note": "Costume pigtails coexist with normal hair; the Magician long hair and Thief ponytail are especially clear from behind. Use 25161 as the first live representative."
+        }
+      ]
+    },
+    {
+      "action": [17, 1],
+      "items": {
+        "knight": 25017,
+        "magician": 25162,
+        "archer": 25278,
+        "thief": 25398
+      },
+      "description": "Dark formal / layered skirt outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "hair_overlap",
+          "items": [25162, 25278, 25398],
+          "note": "The alternate layered-skirt appearance has the same visible normal-hair/pigtail combination as family 16."
+        }
+      ]
+    },
+    {
+      "action": [18, 1],
+      "items": {
+        "knight": 25018,
+        "magician": 25163,
+        "archer": 25279,
+        "thief": 25399
+      },
+      "description": "Blue-plumed armor outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "headwear_overlap_candidate",
+          "items": [25163, 25279, 25399],
+          "note": "Normal hair remains visible with a large costume helmet. Whether this placement is intentional needs a live headwear check."
+        }
+      ]
+    },
+    {
+      "action": [19, 1],
+      "items": {
+        "knight": 25019,
+        "magician": 25164,
+        "archer": 25280,
+        "thief": 25400
+      },
+      "description": "Red-plumed armor outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "headwear_overlap_candidate",
+          "items": [25164, 25280, 25400],
+          "note": "Alternate plume color of family 18. Retain as a distinct colorway; use family 18 for the first headwear check."
+        }
+      ]
+    },
+    {
+      "action": [20, 1],
+      "items": {
+        "knight": 25020,
+        "magician": 25165,
+        "archer": 25281,
+        "thief": 25401
+      },
+      "description": "White shirts / dark casual outfit",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [21, 1],
+      "items": {
+        "knight": 25021,
+        "magician": 25166,
+        "archer": 25282,
+        "thief": 25402
+      },
+      "description": "Light blue shirts and shorts",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [22, 1],
+      "items": {
+        "knight": 25022,
+        "magician": 25167,
+        "archer": 25283,
+        "thief": 25403
+      },
+      "description": "Blue skirt / red scarf outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "headwear_overlap_candidate",
+          "items": [25167, 25283, 25403],
+          "note": "Normal hair is visible through or below the wide hat and dark rear head covering. Check headwear layering rather than declaring the entire costume invalid."
+        }
+      ]
+    },
+    {
+      "action": [23, 1],
+      "items": {
+        "knight": 25023,
+        "magician": 25168,
+        "archer": 25284,
+        "thief": 25404
+      },
+      "description": "Red skirt / blue scarf outfits",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "headwear_overlap_candidate",
+          "items": [25168, 25284, 25404],
+          "note": "Normal hair is visible through or below the wide hat and pale rear head covering. The belt-mounted props are visible geometry, not evidence of weapon-skin attachment behavior."
+        }
+      ]
+    },
+    {
+      "action": [24, 1],
+      "items": {
+        "knight": 25024,
+        "magician": 25169,
+        "archer": 25285,
+        "thief": 25405
+      },
+      "description": "Black suit / cat-ear skirt outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [25, 1],
+      "items": {
+        "knight": 25025,
+        "magician": 25170,
+        "archer": 25286,
+        "thief": 25406
+      },
+      "description": "Pink suit / cat-ear skirt outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [26, 1],
+      "items": {
+        "knight": 25026,
+        "magician": 25171,
+        "archer": 25287,
+        "thief": 25407
+      },
+      "description": "Cyan summer shirt and swimwear",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [27, 1],
+      "items": {
+        "knight": 25027,
+        "magician": 25172,
+        "archer": 25288,
+        "thief": 25408
+      },
+      "description": "Black and white naval outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [28, 1],
+      "items": {
+        "knight": 25028,
+        "magician": 25173,
+        "archer": 25289,
+        "thief": 25409
+      },
+      "description": "Blue and gold naval outfits",
+      "status": "static_reviewed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": []
+    },
+    {
+      "action": [29, 1],
+      "items": {
+        "knight": 25029,
+        "magician": 25174,
+        "archer": 25290,
+        "thief": 25410
+      },
+      "description": "Torn clothing and pale faces",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "hair_overlap",
+          "items": [25029, 25174, 25290, 25410],
+          "note": "Built-in costume hair and normal hair are simultaneously visible from behind; default brown hair contrasts with the dark costume hair. Use 25174 as a second live composition representative."
+        }
+      ]
+    },
+    {
+      "action": [30, 1],
+      "items": {
+        "knight": 25030,
+        "magician": 25175,
+        "archer": 25291,
+        "thief": 25411
+      },
+      "description": "Red-eyed variant with torn clothing",
+      "status": "live_check_needed",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "hair_overlap",
+          "items": [25030, 25175, 25291, 25411],
+          "note": "The red-eyed variant has the same visible normal-hair combination as family 29. Red eyes, shoes and markings distinguish the variant; do not merge it solely by silhouette."
+        }
+      ]
+    },
+    {
+      "action": [189, 1],
+      "items": {
+        "thief": 25418
+      },
+      "description": "Gold armor appearance, Thief only",
+      "status": "classification_pending",
+      "coverage": "All available rendered class variants inspected from front and back; no motion sampled.",
+      "observations": [
+        {
+          "kind": "classification_pending",
+          "items": [25418],
+          "note": "The only available class appearance is ornate gold armor. A rendered armor-like appearance does not establish whether it is an official costume or ordinary armor. Keep the classification open and the existing ID unchanged."
+        }
+      ]
+    }
+  ],
+  "weapon_duplicate_candidates": [
+    {
+      "items": [25090, 25094],
+      "status": "technical_candidate_only",
+      "note": "Same audited geometry/material and decoded texture fingerprints; no attachment, animation or effect equivalence established. Keep both IDs."
+    },
+    {
+      "items": [25322, 25326],
+      "status": "technical_candidate_only",
+      "note": "Same audited geometry/material and decoded texture fingerprints; no attachment, animation or effect equivalence established. Keep both IDs."
+    },
+    {
+      "items": [25324, 25335],
+      "status": "technical_candidate_only",
+      "note": "Same audited geometry/material and decoded texture fingerprints; no attachment, animation or effect equivalence established. Keep both IDs."
+    },
+    {
+      "items": [25345, 25347],
+      "status": "technical_candidate_only",
+      "note": "Same audited geometry/material and decoded texture fingerprints; no attachment, animation or effect equivalence established. Keep both IDs."
+    },
+    {
+      "items": [25355, 25364],
+      "status": "technical_candidate_only",
+      "note": "Same audited geometry/material and decoded texture fingerprints; no attachment, animation or effect equivalence established. Keep both IDs."
+    },
+    {
+      "items": [25448, 25450],
+      "status": "technical_candidate_only",
+      "note": "Same audited geometry/material and decoded texture fingerprints; no attachment, animation or effect equivalence established. Keep both IDs."
+    }
+  ],
+  "test_rounds": [
+    {
+      "id": "first",
+      "open": false,
+      "description": "Knight results: skirt clipping reproduced; three head-slot appearances confirmed.",
+      "cases": [
+        {
+          "items": [25003, 25004],
+          "status": "failed",
+          "result": "Manual checks reproduced skirt clipping while standing and walking. Attack behavior is unverified. Keep this issue open; do not request the same retest before a fix.",
+          "check": "Equip separately. Observe legs and skirt from front/back during standing idle, walking and one basic attack; report which actions clip."
+        },
+        {
+          "items": [25005, 25011, 25012],
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show correct appearance and normal-head restoration on removal for all three Knight items. Individual animation actions were not reported separately.",
+          "check": "Equip separately in the helmet skin slot over normal armor. Check body stays visible, head follows movement, and removing the skin restores the normal head."
+        }
+      ]
+    },
+    {
+      "id": "head_fix",
+      "open": false,
+      "description": "Head composition confirmed in game for all three representatives.",
+      "cases": [
+        {
+          "items": [25006],
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show the complete demon face and gray hair while standing and walking, and normal-head restoration on removal. Attack behavior was not reported separately.",
+          "check": "Knight: the costume's complete demon head and gray hair should be visible, with no normal human face or hair through it. Check idle, walking and one attack, then remove the costume and confirm the normal head returns."
+        },
+        {
+          "items": [25161, 25174],
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show both face/hair combinations while standing and walking, and restoration of the normal face and hair on removal.",
+          "check": "Magician: 25161 should keep the normal face and only the costume pigtails; 25174 should show the pale costume face and dark hair. Check front/back while idle and walking, then remove each costume and confirm the normal face and hair return."
+        }
+      ]
+    },
+    {
+      "id": "weapon_runtime",
+      "open": false,
+      "description": "Weapon results: four appearances accepted; staff sphere and sword type restriction reported.",
+      "cases": [
+        {
+          "items": [25062, 25063],
+          "status": "manual_check_recorded",
+          "result": "Both appearances accepted. Manual observation recorded 25063 also worked on a one-hand weapon; strict weapon types were requested and implemented afterward. Restriction retest is separate.",
+          "check": "Knight: test 25062 with a real one-hand sword and 25063 with a real two-hand sword. Check grip while idle, walking and attacking. After removing each skin, the actual weapon must reappear; combat values and attack type must still come from the actual weapon."
+        },
+        {
+          "items": [25188],
+          "status": "failed",
+          "result": "Manual inspection established that camera rotation exposes a texture problem in the red sphere. Oblique inspection reproduced rear faces overwriting the front; the camera-depth ordering fix has a separate retest below.",
+          "check": "Magician with a real staff: check the skinned staff grip while idle, walking and attacking/casting. Remove the skin and confirm the actual staff returns."
+        },
+        {
+          "items": [25316],
+          "status": "manual_check_recorded",
+          "result": "Manual review accepted this bow appearance in the focused live round.",
+          "check": "Archer with a real bow: check grip and bow orientation while idle, walking and shooting. Remove the skin and confirm the actual bow returns."
+        },
+        {
+          "items": [25432],
+          "status": "manual_check_recorded",
+          "result": "Manual review accepted this dual-dagger appearance in the focused live round.",
+          "check": "Thief with real daggers: check that both hands show the skin while idle, walking and attacking. Remove it and confirm both actual daggers return."
+        }
+      ]
+    },
+    {
+      "id": "weapon_type_fix",
+      "open": false,
+      "description": "Strict one-hand and two-hand matching confirmed in game.",
+      "cases": [
+        {
+          "items": [25062, 25063],
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show both skins now obey weapon type limits. The restriction round is complete.",
+          "check": "Restart both client and server. 25062 must require a real one-hand sword; 25063 must require a real two-hand sword. Reject equipping a skin over the opposite type and changing to the opposite real weapon while the skin is worn. Removing the skin must permit the weapon change; a matching skin must still equip. Unknown Knight weapon categories remain unavailable until classified."
+        }
+      ]
+    },
+    {
+      "id": "staff_sort_fix",
+      "open": false,
+      "description": "Red sphere on staff 25188 confirmed correct in game.",
+      "cases": [
+        {
+          "items": [25188],
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show the sphere is now correct after the camera-depth triangle-ordering correction.",
+          "check": "Restart the client, equip the staff skin and rotate the camera around the red sphere, especially through oblique and side views. The large torn-looking triangles should be gone while standing, walking and casting. Check removal still restores the actual staff."
+        }
+      ]
+    },
+    {
+      "id": "follow_up",
+      "open": false,
+      "description": "Follow-up complete: boots and Archer appearance accepted; Thief gold armor, face and removal confirmed.",
+      "cases": [
+        {
+          "items": [25161, 25174],
+          "status": "manual_check_recorded",
+          "result": "Completed in the head-composition correction round; do not request the same retest without a new change.",
+          "check": "On Magician, compare normal long hair with costume hair from behind during idle and walking. Record visible hair overlap; these represent families 16/17 and 29/30."
+        },
+        {
+          "items": [25037],
+          "check": "On Knight wearing the G8 boots, verify the changed boots sample visibly replaces them and removing it restores them.",
+          "status": "appearance_confirmed",
+          "result": "Manual observations record the changed blue boots. Exact grade and removal restoration were not reported separately."
+        },
+        {
+          "items": [25283],
+          "check": "On Archer, inspect wide-hat layering and hair from front/back during idle and walking; do not test every hat colorway yet.",
+          "status": "appearance_confirmed",
+          "result": "Recorded manual checks show the full-body skin and correct hat/hair. Removal restoration was not reported separately."
+        },
+        {
+          "items": [25418],
+          "check": "Restart the client and equip 25418 on Thief. Armor visibility and removal are already recorded in manual checks; check only that the normal face appears under the gold headwear while standing/walking.",
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show visible gold armor and working removal after local data completion, then confirmed the corrected face. Official costume classification remains open."
+        }
+      ]
+    },
+    {
+      "id": "weapon_material_hints",
+      "open": false,
+      "description": "Complete: 25135/25143 appearance and removal confirmed in game.",
+      "cases": [
+        {
+          "items": [25135],
+          "check": "Knight: use an actual two-hand sword. Check the black/red weapon stays in the hand during idle, walking and attacks; removing it should restore the actual weapon. This type comes from explicit local material labels, not dimensions or variant parity.",
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show both weapon skins during idle/walking/attacks and restoration of the actual weapon on removal."
+        },
+        {
+          "items": [25143],
+          "check": "Knight: use an actual one-hand sword. Check the red blade during idle, walking and attacks, then removal. No official name is inferred from its appearance.",
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show both weapon skins during idle/walking/attacks and restoration of the actual weapon on removal."
+        }
+      ]
+    },
+    {
+      "id": "skin_inventory_persistence",
+      "open": false,
+      "description": "Partially confirmed: body replacement/locks and independent weapon/shield equips; follow-up below.",
+      "cases": [
+        {
+          "items": [25005, 25037, 25006],
+          "check": "Knight, with free General inventory space: first equip head skin 25005 and boots skin 25037, then whole-body skin 25006 in the chest skin slot. Both individual skins must return to General; helmet/gloves/pants/boots/face skin slots must lock. Double-click 25037 in General: 25006 must return to General and the body slots unlock. Equip 25006 again for the next step.",
+          "status": "partially_confirmed",
+          "result": "Recorded manual checks show head/boots skins return to General and other body skin slots lock when 25006 is equipped. The reverse replacement instruction was unclear; that direction remains unverified."
+        },
+        {
+          "items": [25062, 25042],
+          "check": "Use an actual one-hand sword and a shield different from the starter shield model. With 25006 still worn, equip weapon skin 25062 and shield skin 25042. Both must remain independent of the body locks; check the shield while standing/walking/attacking. Log out and back in normally: all three equipped skins and the body locks must persist, with no lost or duplicate items in General. Remove the skins: normal body, weapon and shield appearances must return and all skin slots must unlock.",
+          "status": "partially_confirmed",
+          "result": "Recorded manual checks show independent weapon/shield skin equips. 25042 had the same model as the actual Small Iron Shield, so no visible change was expected. Manual observation recorded a missing shield in character selection with 25006; the old thirteen-entry wear limit is now corrected. Complete reconnect/instance restoration remains unverified."
+        }
+      ]
+    },
+    {
+      "id": "shield_selection_follow_up",
+      "open": false,
+      "description": "Complete: distinct shield, selection visibility, reverse replacement and reconnect confirmed.",
+      "cases": [
+        {
+          "items": [25006, 25042],
+          "check": "Restart the client; reuse the existing skin items. With the actual Small Iron Shield equipped, wear 25006 and 25042. 25042 should show a larger gold-trimmed shield while standing/walking/attacking. Return to character selection: the shield must remain visible. Enter the same character: equipped skins, body locks and returned General items must persist without loss/duplication. Removing 25042 restores the small iron shield; removing 25006 restores normal armor and unlocks body skin slots.",
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show all shield checks and the previously reported shield/selection defects are fixed, including re-entry preservation without item loss/duplication and normal-shield restoration."
+        },
+        {
+          "items": [25037],
+          "check": "While 25006 is still worn, find the unequipped skin item 25037 in General and double-click that item. Do not double-click the normal boots. 25006 must return to General, 25037 must occupy the boots skin slot, and the other body skin slots must unlock. Ordinary boots remain equipped throughout.",
+          "status": "manual_check_recorded",
+          "result": "Recorded manual checks show 25037 replaces the worn whole-body skin, returns 25006 to General and unlocks the other body skin slots while ordinary boots remain equipped."
+        }
+      ]
+    },
+    {
+      "id": "openkal_weapon_compatibility",
+      "open": false,
+      "description": "OpenKal weapon compatibility: both representative appearances accepted in recorded manual review.",
+      "cases": [
+        {
+          "items": [25108],
+          "status": "appearance_confirmed",
+          "check": "Restart client and separate server. Knight: equip Silver Fencing Blade Skin 25108 over an actual one-hand sword. Check grip while idle/walking/attacking; removal must restore the real weapon. Equipping the skin over a real two-hand sword must be rejected. This is an OpenKal compatibility choice, not a verified reference category.",
+          "result": "Manual review accepted both requested representatives with \"looks good\". Individual movement, attack, opposite-type rejection and removal results were not reported separately. This closes the representative appearance round; do not request all 60 individually."
+        },
+        {
+          "items": [25132],
+          "status": "appearance_confirmed",
+          "check": "Knight: equip Wooden Bat Skin 25132 over an actual two-hand sword. Check grip while idle/walking/attacking; removal must restore the real weapon. Equipping the skin over a real one-hand sword must be rejected. These two representatives suffice; do not test all 60 individually.",
+          "result": "Manual review accepted both requested representatives with \"looks good\". Individual movement, attack, opposite-type rejection and removal results were not reported separately. This closes the representative appearance round; do not request all 60 individually."
+        }
+      ]
+    }
+  ]
+}

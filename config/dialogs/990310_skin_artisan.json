@@ -1,0 +1,26 @@
+{
+  "_doc": "OpenKal skin exchange dialogue.",
+  "id": 990310,
+  "caption": "Skin Artisan",
+  "lines": [
+    "Choose a look for your class. Full-body skins cost 4 Skin Tickets; individual pieces, weapons and shields cost 2. All skins and tickets can be traded. Previewing is free."
+  ],
+  "links": [
+    {
+      "type": "skin_weapons",
+      "text": "Browse weapon skins."
+    },
+    {
+      "type": "skin_full",
+      "text": "Browse full-body skins."
+    },
+    {
+      "type": "skin_parts",
+      "text": "Browse individual skin pieces."
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

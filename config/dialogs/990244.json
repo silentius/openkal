@@ -1,0 +1,19 @@
+{
+  "_doc": "OpenKal dialogue text describing project-owned behavior; no external dialogue text is redistributed.",
+  "id": 990244,
+  "caption": "Unavailable services",
+  "lines": [
+    "Costume and riding enchantment / decomposition and equipment exchange are not available at this blacksmith in OpenKal.",
+    "No items or currency have been consumed. Return to choose Explosive Blow or read the inventory material instructions."
+  ],
+  "links": [
+    {
+      "type": "243",
+      "text": "Back to the blacksmith."
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

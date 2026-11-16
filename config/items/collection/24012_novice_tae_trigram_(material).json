@@ -1,0 +1,19 @@
+{
+  "index": 24012,
+  "name": "Novice Tae Trigram (Material)",
+  "description": "Raw material for the matching trigram position and grade.",
+  "image": "item710",
+  "class": [
+    "general",
+    "collection"
+  ],
+  "level": 50,
+  "limit": {
+    "class": "all",
+    "level": 50
+  },
+  "wear": 0,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

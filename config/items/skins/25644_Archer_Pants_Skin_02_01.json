@@ -1,0 +1,19 @@
+{
+  "index": 25644,
+  "name": "G16 Leggings Skin (Archer)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "pants"
+  ],
+  "action": [2, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the pants skin slot. No combat bonuses. OpenKal descriptive name; model archer/pants 02-01."
+}

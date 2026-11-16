@@ -1,0 +1,48 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "party_action_member",
+  "kind": "window",
+  "window": {
+    "w": 300,
+    "h": 28,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "name",
+      "x": 4,
+      "y": 5,
+      "text": "${party.member.name}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "kick",
+      "x": 216,
+      "y": 0,
+      "w": 84,
+      "h": 24,
+      "label": "${party.remove}",
+      "action": "party.kick",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    }
+  ]
+}

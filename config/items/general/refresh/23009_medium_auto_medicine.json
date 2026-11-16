@@ -1,0 +1,24 @@
+{
+  "index": 23009,
+  "rarity": 0,
+  "name": "Medium Auto Medicine",
+  "image": "medicineAutoHpMedium",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 70,
+  "sell": 14,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 44],
+  "description": "Recovers Health point by 300. Place in the Auto HP slot; double-click the slot to change the HP threshold.",
+  "effect": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "hp",
+      "amount": 300,
+      "auto_hp": true
+    }
+  }
+}

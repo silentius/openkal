@@ -1,0 +1,19 @@
+{
+  "index": 25025,
+  "name": "Rose Evening Suit Skin (Knight)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [25, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins. OpenKal descriptive name; model knight/body 25-01."
+}

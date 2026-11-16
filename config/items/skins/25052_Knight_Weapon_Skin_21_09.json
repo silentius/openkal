@@ -1,0 +1,22 @@
+{
+  "index": 25052,
+  "name": "Ivory Dragon Greatsword Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [21, 9],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model knight/weapon 21-09.",
+  "skin": {
+    "weapon_type": "sword2h"
+  }
+}

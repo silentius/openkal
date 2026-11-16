@@ -1,0 +1,259 @@
+{
+  "_doc": "Dragon Mix Master with five recipe slots, mode and readiness feedback. Recipe rules remain in config/mixing.",
+  "schema": "openkal.ui/v1",
+  "id": "mix_master_window",
+  "kind": "window",
+  "window": {
+    "w": 440,
+    "h": 500,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E",
+      "active": "#B5D991"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/skill.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${mix.title}",
+      "pixel_size": 18,
+      "bold": true,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "mode",
+      "x": 220,
+      "y": 24,
+      "text": "${mix.mode}",
+      "align": "center",
+      "pixel_size": 15,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "placement_hint",
+      "x": 220,
+      "y": 52,
+      "text": "${mix.placement_hint}",
+      "align": "center",
+      "pixel_size": 12,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "fill",
+      "id": "header_rule",
+      "x": 20,
+      "y": 78,
+      "w": 400,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65
+    },
+    {
+      "type": "image",
+      "id": "pentagram",
+      "file": "inchant(~ing)-image.bmp",
+      "x": 78.5,
+      "y": 88,
+      "w": 283,
+      "h": 283,
+      "alpha": 0.8
+    },
+    {
+      "type": "icon_slot",
+      "id": "mix.center",
+      "bind": "mix.center",
+      "x": 204,
+      "y": 214,
+      "w": 32,
+      "h": 32,
+      "accept": [
+        "mix.weapon"
+      ],
+      "frame": {
+        "file": "dragon_hud/slot_selected.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "icon_slot",
+      "id": "mix.north",
+      "bind": "mix.north",
+      "x": 204,
+      "y": 142,
+      "w": 32,
+      "h": 32,
+      "accept": [
+        "mix.weapon",
+        "mix.armor",
+        "mix.stone"
+      ],
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "icon_slot",
+      "id": "mix.east",
+      "bind": "mix.east",
+      "x": 276,
+      "y": 214,
+      "w": 32,
+      "h": 32,
+      "accept": [
+        "mix.weapon",
+        "mix.armor",
+        "mix.stone"
+      ],
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "icon_slot",
+      "id": "mix.south",
+      "bind": "mix.south",
+      "x": 204,
+      "y": 286,
+      "w": 32,
+      "h": 32,
+      "accept": [
+        "mix.weapon",
+        "mix.armor",
+        "mix.stone"
+      ],
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "icon_slot",
+      "id": "mix.west",
+      "bind": "mix.west",
+      "x": 132,
+      "y": 214,
+      "w": 32,
+      "h": 32,
+      "accept": [
+        "mix.weapon",
+        "mix.armor",
+        "mix.stone"
+      ],
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      }
+    },
+    {
+      "type": "text",
+      "id": "weapon_label",
+      "x": 220,
+      "y": 188,
+      "text": "${mix.weapon_label}",
+      "align": "center",
+      "pixel_size": 12,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "remove_hint",
+      "x": 220,
+      "y": 378,
+      "text": "${mix.remove_hint}",
+      "align": "center",
+      "pixel_size": 12,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "fill",
+      "id": "status_backing",
+      "x": 20,
+      "y": 404,
+      "w": 400,
+      "h": 28,
+      "color": "#0B100F",
+      "alpha": 0.7
+    },
+    {
+      "type": "text",
+      "id": "status",
+      "x": 220,
+      "y": 411,
+      "text": "${mix.status}",
+      "align": "center",
+      "pixel_size": 12,
+      "color": "${theme.colors.value}",
+      "pending_when": "mix.can_start"
+    },
+    {
+      "type": "button",
+      "id": "mix_start",
+      "x": 132,
+      "y": 448,
+      "w": 176,
+      "h": 36,
+      "label": "${ui.start_mixing}",
+      "align": "center",
+      "pixel_size": 13,
+      "color": "${theme.colors.title}",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "action": "mix.start"
+    },
+    {
+      "type": "button",
+      "id": "exit_bottom",
+      "x": 0,
+      "y": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp",
+      "x_from_right": 16,
+      "y_from_bottom": 0
+    }
+  ]
+}

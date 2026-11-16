@@ -1,0 +1,16 @@
+# https://pre-commit.com
+# Install once: pre-commit install
+# Run manually: pre-commit run --all-files
+repos:
+  - repo: local
+    hooks:
+      - id: clang-format
+        name: clang-format
+        description: Format C/C++ files with project .clang-format
+        entry: clang-format
+        language: python
+        additional_dependencies: [clang-format==18.1.8]
+        types_or: [c++, c]
+        args: [-i]
+        files: \.(c|cc|cxx|cpp|h|hh|hpp|hxx)$
+        exclude: ^(third_party/|build(-ninja|-null)?/)

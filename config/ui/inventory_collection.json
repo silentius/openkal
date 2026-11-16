@@ -1,0 +1,874 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "inventory_collection",
+  "kind": "window",
+  "window": {
+    "w": 276,
+    "h": 560,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${collection.title}",
+      "pixel_size": 18,
+      "color": "${theme.colors.title}",
+      "bold": true
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/collection_dialog.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "taegeuk_title",
+      "x": 8,
+      "y": 52,
+      "text": "${collection.taegeuk}",
+      "pixel_size": 15,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "taegeuk_help",
+      "x": 8,
+      "y": 75,
+      "text": "${collection.taegeuk_help}",
+      "pixel_size": 10,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.0",
+      "bind": "inventory.collection.0",
+      "x": 58,
+      "y": 146,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.1",
+      "bind": "inventory.collection.1",
+      "x": 12,
+      "y": 100,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.2",
+      "bind": "inventory.collection.2",
+      "x": 58,
+      "y": 100,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.3",
+      "bind": "inventory.collection.3",
+      "x": 104,
+      "y": 100,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.4",
+      "bind": "inventory.collection.4",
+      "x": 150,
+      "y": 100,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.5",
+      "bind": "inventory.collection.5",
+      "x": 12,
+      "y": 192,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.6",
+      "bind": "inventory.collection.6",
+      "x": 58,
+      "y": 192,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.7",
+      "bind": "inventory.collection.7",
+      "x": 104,
+      "y": 192,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.8",
+      "bind": "inventory.collection.8",
+      "x": 150,
+      "y": 192,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.9",
+      "bind": "inventory.collection.9",
+      "x": 104,
+      "y": 146,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "text",
+      "id": "hanin_title",
+      "x": 8,
+      "y": 256,
+      "text": "${collection.hanin}",
+      "pixel_size": 15,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "hanin_help",
+      "x": 8,
+      "y": 279,
+      "text": "${collection.hanin_help}",
+      "pixel_size": 10,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.10",
+      "bind": "inventory.collection.10",
+      "x": 8,
+      "y": 303,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.11",
+      "bind": "inventory.collection.11",
+      "x": 52,
+      "y": 303,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.12",
+      "bind": "inventory.collection.12",
+      "x": 96,
+      "y": 303,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.13",
+      "bind": "inventory.collection.13",
+      "x": 140,
+      "y": 303,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.14",
+      "bind": "inventory.collection.14",
+      "x": 184,
+      "y": 303,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.15",
+      "bind": "inventory.collection.15",
+      "x": 228,
+      "y": 303,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "text",
+      "id": "yeoiju_title",
+      "x": 8,
+      "y": 370,
+      "text": "${collection.yeoiju}",
+      "pixel_size": 15,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "yeoiju_attack",
+      "x": 8,
+      "y": 393,
+      "text": "${collection.attack}",
+      "pixel_size": 10,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "yeoiju_defense",
+      "x": 8,
+      "y": 457,
+      "text": "${collection.defense}",
+      "pixel_size": 10,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.16",
+      "bind": "inventory.collection.16",
+      "x": 12,
+      "y": 415,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.17",
+      "bind": "inventory.collection.17",
+      "x": 58,
+      "y": 415,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.18",
+      "bind": "inventory.collection.18",
+      "x": 104,
+      "y": 415,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.19",
+      "bind": "inventory.collection.19",
+      "x": 150,
+      "y": 415,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.20",
+      "bind": "inventory.collection.20",
+      "x": 196,
+      "y": 415,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.21",
+      "bind": "inventory.collection.21",
+      "x": 12,
+      "y": 479,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.22",
+      "bind": "inventory.collection.22",
+      "x": 58,
+      "y": 479,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.23",
+      "bind": "inventory.collection.23",
+      "x": 104,
+      "y": 479,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.24",
+      "bind": "inventory.collection.24",
+      "x": 150,
+      "y": 479,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "icon_slot",
+      "id": "collection.25",
+      "bind": "inventory.collection.25",
+      "x": 196,
+      "y": 479,
+      "w": 32,
+      "h": 32,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "drag": true,
+      "tooltip": true,
+      "accept": [
+        "item.collection"
+      ]
+    },
+    {
+      "type": "text",
+      "id": "pvp_notice",
+      "x": 8,
+      "y": 530,
+      "text": "${collection.pvp_notice}",
+      "pixel_size": 10,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "button",
+      "id": "absorb",
+      "x": 198,
+      "y": 145,
+      "w": 70,
+      "h": 40,
+      "action": "inventory.collection_absorb",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "label": "${collection.absorb}",
+      "align": "center",
+      "pixel_size": 10
+    },
+    {
+      "type": "text",
+      "id": "empty.0",
+      "x": 59,
+      "y": 157,
+      "text": "${collection.empty.0}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.1",
+      "x": 13,
+      "y": 111,
+      "text": "${collection.empty.1}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.2",
+      "x": 59,
+      "y": 111,
+      "text": "${collection.empty.2}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.3",
+      "x": 105,
+      "y": 111,
+      "text": "${collection.empty.3}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.4",
+      "x": 151,
+      "y": 111,
+      "text": "${collection.empty.4}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.5",
+      "x": 13,
+      "y": 203,
+      "text": "${collection.empty.5}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.6",
+      "x": 59,
+      "y": 203,
+      "text": "${collection.empty.6}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.7",
+      "x": 105,
+      "y": 203,
+      "text": "${collection.empty.7}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.8",
+      "x": 151,
+      "y": 203,
+      "text": "${collection.empty.8}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.9",
+      "x": 105,
+      "y": 157,
+      "text": "${collection.empty.9}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.10",
+      "x": 9,
+      "y": 314,
+      "text": "${collection.empty.10}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.11",
+      "x": 53,
+      "y": 314,
+      "text": "${collection.empty.11}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.12",
+      "x": 97,
+      "y": 314,
+      "text": "${collection.empty.12}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.13",
+      "x": 141,
+      "y": 314,
+      "text": "${collection.empty.13}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.14",
+      "x": 185,
+      "y": 314,
+      "text": "${collection.empty.14}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.15",
+      "x": 229,
+      "y": 314,
+      "text": "${collection.empty.15}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.16",
+      "x": 13,
+      "y": 426,
+      "text": "${collection.empty.16}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.17",
+      "x": 59,
+      "y": 426,
+      "text": "${collection.empty.17}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.18",
+      "x": 105,
+      "y": 426,
+      "text": "${collection.empty.18}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.19",
+      "x": 151,
+      "y": 426,
+      "text": "${collection.empty.19}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.20",
+      "x": 197,
+      "y": 426,
+      "text": "${collection.empty.20}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.21",
+      "x": 13,
+      "y": 490,
+      "text": "${collection.empty.21}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.22",
+      "x": 59,
+      "y": 490,
+      "text": "${collection.empty.22}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.23",
+      "x": 105,
+      "y": 490,
+      "text": "${collection.empty.23}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.24",
+      "x": 151,
+      "y": 490,
+      "text": "${collection.empty.24}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "empty.25",
+      "x": 197,
+      "y": 490,
+      "text": "${collection.empty.25}",
+      "pixel_size": 8,
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "absorb_help",
+      "x": 8,
+      "y": 233,
+      "text": "${collection.absorb_help}",
+      "pixel_size": 10,
+      "color": "${theme.colors.label}"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "index": 23001,
+  "rarity": 0,
+  "name": "Medium Medicine",
+  "image": "medicineMedium",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 70,
+  "sell": 14,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 44],
+  "description": "Recovers Health point by 300",
+  "effect": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "hp",
+      "amount": 300
+    }
+  }
+}

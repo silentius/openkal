@@ -1,0 +1,108 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "party_invitation",
+  "kind": "window",
+  "window": {
+    "w": 300,
+    "h": 164,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/party.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${party.invitation_title}",
+      "pixel_size": 18,
+      "bold": true,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "inviter",
+      "x": 0,
+      "y": 50,
+      "text": "${party.inviter}",
+      "pixel_size": 16,
+      "color": "${theme.colors.title}"
+    },
+    {
+      "type": "text",
+      "id": "invitation",
+      "x": 0,
+      "y": 77,
+      "text": "${party.invitation}",
+      "pixel_size": 13
+    },
+    {
+      "type": "fill",
+      "id": "divider",
+      "x": 0,
+      "y": 104,
+      "w": 300,
+      "h": 1,
+      "color": "#695137",
+      "alpha": 0.8
+    },
+    {
+      "type": "button",
+      "id": "accept",
+      "x": 0,
+      "y": 120,
+      "w": 144,
+      "h": 28,
+      "label": "${party.accept}",
+      "action": "party.accept",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "decline",
+      "x": 156,
+      "y": 120,
+      "w": 144,
+      "h": 28,
+      "label": "${party.decline}",
+      "action": "party.decline",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    }
+  ]
+}

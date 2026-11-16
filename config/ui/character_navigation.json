@@ -1,0 +1,83 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "character_navigation",
+  "kind": "hud",
+  "window": {
+    "w": 280,
+    "h": 60,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 14,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "count",
+      "x": 140,
+      "y": 0,
+      "text": "${selection.count}",
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "previous",
+      "x": 16,
+      "y": 24,
+      "w": 40,
+      "h": 36,
+      "label": "${selection.previous}",
+      "align": "center",
+      "action": "selection.previous",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "select",
+      "x": 64,
+      "y": 24,
+      "w": 152,
+      "h": 36,
+      "label": "${selection.enter}",
+      "align": "center",
+      "action": "selection.select",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "next",
+      "x": 224,
+      "y": 24,
+      "w": 40,
+      "h": 36,
+      "label": "${selection.next}",
+      "align": "center",
+      "action": "selection.next",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "pixel_size": 14
+    }
+  ]
+}

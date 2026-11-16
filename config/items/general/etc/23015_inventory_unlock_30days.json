@@ -1,0 +1,18 @@
+{
+  "index": 23015,
+  "rarity": 5,
+  "name": "Inventory Tab Unlock [30 days]",
+  "image": "invUnlock",
+  "class": [
+    "general",
+    "etc"
+  ],
+  "buy": 0,
+  "sell": 0,
+  "use": 1,
+  "stackable": 0,
+  "description": "This special item is used to unlock another inventory tab for 30 days",
+  "specialty": {
+    "buff": [100, 2592000, 0]
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "_doc": "Dragon skill dialog. Standard buttons select specialty-gated pages; the Action page uses a continuous grid.",
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "id": "skill_window",
+  "kind": "window",
+  "schema": "openkal.ui/v1",
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/skill.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "text": "${skill.title}",
+      "x": 96,
+      "y": -41,
+      "color": "${theme.colors.title}",
+      "bold": true,
+      "pixel_size": 18
+    },
+    {
+      "type": "button",
+      "id": "tab_common",
+      "x": 12,
+      "y": 56,
+      "w": 66,
+      "h": 32,
+      "label": "${ui.tab_common}",
+      "align": "center",
+      "pixel_size": 12,
+      "action": "skill.tab.common",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "tab_job1",
+      "x": 82,
+      "y": 56,
+      "w": 66,
+      "h": 32,
+      "label": "${ui.tab_job1}",
+      "align": "center",
+      "pixel_size": 12,
+      "action": "skill.tab.job1",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "tab_job2",
+      "x": 152,
+      "y": 56,
+      "w": 66,
+      "h": 32,
+      "label": "${ui.tab_job2}",
+      "align": "center",
+      "pixel_size": 12,
+      "action": "skill.tab.job2",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "tab_job3",
+      "x": 222,
+      "y": 56,
+      "w": 66,
+      "h": 32,
+      "label": "${ui.tab_job3}",
+      "align": "center",
+      "pixel_size": 12,
+      "action": "skill.tab.job3",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "tab_awaken",
+      "x": 292,
+      "y": 56,
+      "w": 66,
+      "h": 32,
+      "label": "${ui.tab_awaken}",
+      "align": "center",
+      "pixel_size": 12,
+      "action": "skill.tab.awaken",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "tab_action",
+      "x": 362,
+      "y": 56,
+      "w": 66,
+      "h": 32,
+      "label": "${ui.tab_action}",
+      "align": "center",
+      "pixel_size": 12,
+      "action": "skill.tab.action",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "fill",
+      "id": "active_rule",
+      "x": 12,
+      "y": 106,
+      "w": 416,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65,
+      "visible_when": "skill.class_page"
+    },
+    {
+      "type": "text",
+      "id": "active_label",
+      "x": 220,
+      "y": 114,
+      "align": "center",
+      "text": "${ui.active}",
+      "color": "${theme.colors.label}",
+      "visible_when": "skill.class_page"
+    },
+    {
+      "type": "icon_grid",
+      "id": "active_grid",
+      "bind": "skill.active",
+      "x": 34,
+      "y": 140,
+      "cols": 6,
+      "rows": 3,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 68,
+        "y": 66
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "skill.class_page"
+    },
+    {
+      "type": "fill",
+      "id": "passive_rule",
+      "x": 12,
+      "y": 336,
+      "w": 416,
+      "h": 1,
+      "color": "#685A3C",
+      "alpha": 0.65,
+      "visible_when": "skill.class_page"
+    },
+    {
+      "type": "text",
+      "id": "passive_label",
+      "x": 220,
+      "y": 344,
+      "align": "center",
+      "text": "${ui.passive}",
+      "color": "${theme.colors.label}",
+      "visible_when": "skill.class_page"
+    },
+    {
+      "type": "icon_grid",
+      "id": "passive_grid",
+      "bind": "skill.passive",
+      "x": 34,
+      "y": 370,
+      "cols": 6,
+      "rows": 2,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 68,
+        "y": 66
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "skill.class_page"
+    },
+    {
+      "type": "text",
+      "id": "action_label",
+      "x": 220,
+      "y": 114,
+      "align": "center",
+      "text": "${ui.tab_action}",
+      "color": "${theme.colors.label}",
+      "visible_when": "skill.action_page"
+    },
+    {
+      "type": "icon_grid",
+      "id": "action_grid",
+      "bind": "skill.actions",
+      "x": 34,
+      "y": 140,
+      "cols": 6,
+      "rows": 5,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 68,
+        "y": 66
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 48,
+        "h": 48
+      },
+      "drag": true,
+      "tooltip": true,
+      "visible_when": "skill.action_page"
+    },
+    {
+      "type": "button",
+      "id": "tab_talents",
+      "x": 20,
+      "y": 478,
+      "w": 120,
+      "h": 32,
+      "label": "${ui.tab_talents}",
+      "action": "skill.tab.talents",
+      "align": "center",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "open_talent_tree",
+      "x": 156,
+      "y": 478,
+      "w": 140,
+      "h": 32,
+      "label": "${skill.talent_tree_label}",
+      "action": "skill.talent_tree",
+      "align": "center",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x": 0,
+      "y": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp",
+      "x_from_right": 16,
+      "y_from_bottom": 0
+    }
+  ],
+  "window": {
+    "draggable": true,
+    "h": 520,
+    "title_drag_h": 84,
+    "w": 440
+  }
+}

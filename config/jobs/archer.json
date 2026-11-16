@@ -1,0 +1,13 @@
+{
+  "_doc": "Government Position (G.P.) titles for Archer. Index matches jobsystem.dat grade order (sys 232 233 235 234 236 237). Use index 0 until specialty is synced.",
+  "class_id": 2,
+  "class_name": "Archer",
+  "titles": [
+    "Wandering Archer",
+    "Apprentice Archer",
+    "Expert Archer",
+    "Imperial Commander",
+    "God of Bow",
+    "Imperial General"
+  ]
+}

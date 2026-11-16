@@ -1,0 +1,512 @@
+{
+  "_doc": "Dragon Chemist of Speed-up Medicine with individually framed recipe rows and material totals. Dark fill and 1-pixel bronze borders match conversation response panels.",
+  "schema": "openkal.ui/v1",
+  "id": "speed_medicine",
+  "kind": "window",
+  "window": {
+    "w": 600,
+    "h": 440,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/skill.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "fill",
+      "id": "medicine_recipe_panel",
+      "x": 12,
+      "y": 48,
+      "w": 576,
+      "h": 48,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "medicine_recipe_panel_top",
+      "x": 12,
+      "y": 48,
+      "w": 576,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "medicine_recipe_panel_bottom",
+      "x": 12,
+      "y": 95,
+      "w": 576,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "medicine_recipe_panel_left",
+      "x": 12,
+      "y": 49,
+      "w": 1,
+      "h": 46,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "medicine_recipe_panel_right",
+      "x": 587,
+      "y": 49,
+      "w": 1,
+      "h": 46,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "blood_fish_recipe_panel",
+      "x": 12,
+      "y": 104,
+      "w": 576,
+      "h": 48,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "blood_fish_recipe_panel_top",
+      "x": 12,
+      "y": 104,
+      "w": 576,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "blood_fish_recipe_panel_bottom",
+      "x": 12,
+      "y": 151,
+      "w": 576,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "blood_fish_recipe_panel_left",
+      "x": 12,
+      "y": 105,
+      "w": 1,
+      "h": 46,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "blood_fish_recipe_panel_right",
+      "x": 587,
+      "y": 105,
+      "w": 1,
+      "h": 46,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "materials_panel",
+      "x": 12,
+      "y": 160,
+      "w": 576,
+      "h": 184,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "materials_panel_top",
+      "x": 12,
+      "y": 160,
+      "w": 576,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "materials_panel_bottom",
+      "x": 12,
+      "y": 343,
+      "w": 576,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "materials_panel_left",
+      "x": 12,
+      "y": 161,
+      "w": 1,
+      "h": 182,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "materials_panel_right",
+      "x": 587,
+      "y": 161,
+      "w": 1,
+      "h": 182,
+      "color": "#4D4233"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${speed_medicine.title}",
+      "color": "${theme.colors.title}",
+      "bold": true,
+      "pixel_size": 18
+    },
+    {
+      "type": "text",
+      "id": "from_blood_fish_label",
+      "x": 24,
+      "y": 65,
+      "text": "${speed_medicine.from_blood_fish_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "from_blood_fish_decrease",
+      "x": 464,
+      "y": 56,
+      "w": 32,
+      "h": 32,
+      "label": "-",
+      "align": "center",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "action": "speed_medicine.from_blood_fish.decrease",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "from_blood_fish_count",
+      "x": 520,
+      "y": 65,
+      "text": "${speed_medicine.from_blood_fish}",
+      "color": "${theme.colors.value}",
+      "align": "center",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "from_blood_fish_increase",
+      "x": 544,
+      "y": 56,
+      "w": 32,
+      "h": 32,
+      "label": "+",
+      "align": "center",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "action": "speed_medicine.from_blood_fish.increase",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "blood_fish_label",
+      "x": 24,
+      "y": 121,
+      "text": "${speed_medicine.blood_fish_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "blood_fish_decrease",
+      "x": 464,
+      "y": 112,
+      "w": 32,
+      "h": 32,
+      "label": "-",
+      "align": "center",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "action": "speed_medicine.blood_fish.decrease",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "blood_fish_count",
+      "x": 520,
+      "y": 121,
+      "text": "${speed_medicine.blood_fish}",
+      "color": "${theme.colors.value}",
+      "align": "center",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "blood_fish_increase",
+      "x": 544,
+      "y": 112,
+      "w": 32,
+      "h": 32,
+      "label": "+",
+      "align": "center",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "action": "speed_medicine.blood_fish.increase",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "requirements_heading",
+      "x": 24,
+      "y": 172,
+      "text": "${speed_medicine.requirements_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "owned_heading",
+      "x": 448,
+      "y": 172,
+      "text": "${speed_medicine.owned_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "right",
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "required_heading",
+      "x": 576,
+      "y": 172,
+      "text": "${speed_medicine.required_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13,
+      "align": "right",
+      "bold": true
+    },
+    {
+      "type": "fill",
+      "id": "requirements_separator",
+      "x": 24,
+      "y": 194,
+      "w": 552,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "text",
+      "id": "requirement_demon_blood_label",
+      "x": 24,
+      "y": 206,
+      "text": "${speed_medicine.requirements.demon_blood.label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "requirement_demon_blood_owned",
+      "x": 448,
+      "y": 206,
+      "text": "${speed_medicine.requirements.demon_blood.owned}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_demon_blood_required",
+      "x": 576,
+      "y": 206,
+      "text": "${speed_medicine.requirements.demon_blood.required}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_sea_bream_label",
+      "x": 24,
+      "y": 232,
+      "text": "${speed_medicine.requirements.sea_bream.label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "requirement_sea_bream_owned",
+      "x": 448,
+      "y": 232,
+      "text": "${speed_medicine.requirements.sea_bream.owned}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_sea_bream_required",
+      "x": 576,
+      "y": 232,
+      "text": "${speed_medicine.requirements.sea_bream.required}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_bamboo_keg_label",
+      "x": 24,
+      "y": 258,
+      "text": "${speed_medicine.requirements.bamboo_keg.label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "requirement_bamboo_keg_owned",
+      "x": 448,
+      "y": 258,
+      "text": "${speed_medicine.requirements.bamboo_keg.owned}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_bamboo_keg_required",
+      "x": 576,
+      "y": 258,
+      "text": "${speed_medicine.requirements.bamboo_keg.required}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_blood_fish_label",
+      "x": 24,
+      "y": 284,
+      "text": "${speed_medicine.requirements.blood_fish.label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "requirement_blood_fish_owned",
+      "x": 448,
+      "y": 284,
+      "text": "${speed_medicine.requirements.blood_fish.owned}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_blood_fish_required",
+      "x": 576,
+      "y": 284,
+      "text": "${speed_medicine.requirements.blood_fish.required}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_geon_label",
+      "x": 24,
+      "y": 310,
+      "text": "${speed_medicine.requirements.geon.label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "requirement_geon_owned",
+      "x": 448,
+      "y": 310,
+      "text": "${speed_medicine.requirements.geon.owned:geons}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "requirement_geon_required",
+      "x": 576,
+      "y": 310,
+      "text": "${speed_medicine.requirements.geon.required:geons}",
+      "color": "${theme.colors.value}",
+      "pixel_size": 13,
+      "align": "right"
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "x": 24,
+      "y": 360,
+      "text": "${speed_medicine.hint}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "make",
+      "x": 446,
+      "y": 392,
+      "w": 130,
+      "h": 32,
+      "label": "${speed_medicine.make_label}",
+      "align": "center",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "action": "speed_medicine.make",
+      "pixel_size": 13,
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp"
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp"
+    }
+  ]
+}

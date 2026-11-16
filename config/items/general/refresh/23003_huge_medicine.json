@@ -1,0 +1,22 @@
+{
+  "index": 23003,
+  "rarity": 0,
+  "name": "Huge Medicine",
+  "image": "medicineHuge",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 0,
+  "sell": 50,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 55],
+  "effect": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "hp",
+      "amount": 800
+    }
+  }
+}

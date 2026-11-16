@@ -1,0 +1,20 @@
+{
+  "index": 25065,
+  "name": "Sovereign Stormforged Greatsword Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [22, 4],
+  "skin": {"weapon_type": "sword2h"},
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses."
+}

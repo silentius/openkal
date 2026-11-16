@@ -1,0 +1,52 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "party_member",
+  "kind": "window",
+  "window": {
+    "w": 150,
+    "h": 28,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 11,
+    "colors": {
+      "value": "#EEE7D6",
+      "title": "#DBC591"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "name",
+      "x": 8,
+      "y": 1,
+      "text": "${party.member.name}",
+      "pixel_size": 11,
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "image",
+      "id": "hp_back",
+      "x": 6,
+      "y": 16,
+      "w": 138,
+      "h": 9,
+      "file": "dragon_hud/party_hp_back.bmp"
+    },
+    {
+      "type": "progress",
+      "id": "hp",
+      "x": 8,
+      "y": 18,
+      "w": 134,
+      "h": 5,
+      "bind": "party.member.hp_ratio",
+      "file": "dragon_hud/party_hp_fill.bmp",
+      "fill_mode": "crop"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "index": 25453,
+  "name": "Burgundy Crown Daggers Skin (Thief)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [60, 2],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model thief/weapon 60-02."
+}

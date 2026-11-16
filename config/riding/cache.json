@@ -1,0 +1,30 @@
+{
+  "schema": "openkal.riding-cache/v1",
+  "cacheItemIndex": 41321,
+  "sealItemIndex": 41322,
+  "sealCount": 1,
+  "rewards": [
+    { "item": 30003, "count": 1, "chance": 12.0 },
+    { "item": 30002, "count": 1, "chance": 8.5 },
+    { "item": 30008, "count": 1, "chance": 7.5 },
+    { "item": 30004, "count": 1, "chance": 7.5 },
+    { "item": 30007, "count": 1, "chance": 6.5 },
+    { "item": 30009, "count": 1, "chance": 6.5 },
+    { "item": 30000, "count": 1, "chance": 5.5 },
+    { "item": 30001, "count": 1, "chance": 5.5 },
+    { "item": 30005, "count": 1, "chance": 4.5 },
+    { "item": 30006, "count": 1, "chance": 4.5 },
+    { "item": 30010, "count": 1, "chance": 3.5 },
+    { "item": 30011, "count": 1, "chance": 2.5 },
+    { "item": 30012, "count": 1, "chance": 1.0 },
+    { "item": 30100, "count": 1, "chance": 1.0 },
+    { "item": 30101, "count": 1, "chance": 0.8 },
+    { "item": 30102, "count": 1, "chance": 0.7 },
+    { "item": 30320, "count": 5, "chance": 13.0 },
+    { "item": 30300, "count": 2, "chance": 2.5 },
+    { "item": 30301, "count": 1, "chance": 1.5 },
+    { "item": 30310, "count": 2, "chance": 2.5 },
+    { "item": 30311, "count": 1, "chance": 1.5 },
+    { "item": 41323, "count": 1, "chance": 1.0 }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "index": 41322,
+  "rarity": 1,
+  "name": "Riding Seal",
+  "description": "A stable seal. It is guaranteed from every Riding Cache and is used for Riding progression.",
+  "image": "ridingSeal",
+  "class": ["etc", "battleRideMaterial"],
+  "stackable": 1,
+  "level": 1,
+  "wear": 0,
+  "use": 0,
+  "limit": { "class": "all", "level": 1 }
+}

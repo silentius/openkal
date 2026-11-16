@@ -1,0 +1,16 @@
+# Compiler warnings for openkal targets.
+function(openkal_target_warnings target)
+  if(MSVC)
+    target_compile_options(${target} PRIVATE /W4)
+  else()
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic)
+  endif()
+endfunction()
+
+option(OPENKAL_SANITIZE "Enable Address/UB sanitizers (GCC/Clang)" OFF)
+function(openkal_target_sanitize target)
+  if(OPENKAL_SANITIZE AND NOT MSVC)
+    target_compile_options(${target} PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
+    target_link_options(${target} PRIVATE -fsanitize=address,undefined)
+  endif()
+endfunction()

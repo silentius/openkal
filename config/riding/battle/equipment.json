@@ -1,0 +1,18 @@
+{
+  "schema": "openkal.battle-riding.equipment/v1",
+  "slots": ["helmet", "armor", "saddle", "saddleCloth", "magnet"],
+  "maximumEnchant": 10,
+  "criticalFailureStartsAtGrade": 2,
+  "upgradeRequiresEnchant": 10,
+  "upgradeSuccessPercent": 50,
+  "satietyScaling": "linear",
+  "missingVisualPartPolicy": "renderBaseMount",
+  "baseValuesByGrade": {
+    "helmetStrengthOrIntelligence": [1, 12, 24, 35],
+    "armorDefense": [1, 12, 24, 35],
+    "saddleHealth": [1, 12, 24, 35],
+    "saddleClothAbsorb": [1, 6, 12, 17],
+    "magnetEvasion": [1, 6, 12, 17]
+  },
+  "enchantSuccessPercent": [100, 95, 90, 85, 80, 70, 60, 50, 40, 30]
+}

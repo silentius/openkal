@@ -1,0 +1,12 @@
+{
+  "schema": "openkal.battle-riding.grades/v1",
+  "grades": [
+    { "id": 0, "name": "Normal", "itemRarity": 0, "initialAbilitySlots": 1, "combineSuccessPercent": 100 },
+    { "id": 1, "name": "Uncommon", "itemRarity": 2, "initialAbilitySlots": 1, "combineSuccessPercent": 70 },
+    { "id": 2, "name": "Rare", "itemRarity": 1, "initialAbilitySlots": 2, "combineSuccessPercent": 40 },
+    { "id": 3, "name": "Epic", "itemRarity": 5, "initialAbilitySlots": 2, "combineSuccessPercent": 0 }
+  ],
+  "maximumAbilitySlots": 6,
+  "maximumSatiety": 100,
+  "satietyPerSuccessfulSkillHit": 1
+}

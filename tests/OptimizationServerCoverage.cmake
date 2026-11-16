@@ -1,0 +1,27 @@
+add_executable(openkal_test_optimization_host_coverage OptimizationHostCoverageTest.cpp)
+target_link_libraries(openkal_test_optimization_host_coverage PRIVATE openkal::server)
+openkal_target_warnings(openkal_test_optimization_host_coverage)
+add_test(NAME optimization_host_coverage COMMAND openkal_test_optimization_host_coverage)
+set_tests_properties(optimization_host_coverage PROPERTIES LABELS "optimization-coverage")
+
+add_executable(openkal_test_optimization_world_coverage OptimizationWorldCoverageTest.cpp)
+target_link_libraries(openkal_test_optimization_world_coverage PRIVATE openkal::server)
+openkal_target_warnings(openkal_test_optimization_world_coverage)
+add_test(NAME optimization_world_coverage COMMAND openkal_test_optimization_world_coverage)
+set_tests_properties(optimization_world_coverage PROPERTIES LABELS "optimization-coverage")
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND NOT BUILD_SHARED_LIBS)
+  add_executable(openkal_test_optimization_transport_coverage OptimizationTransportCoverageTest.cpp)
+  target_link_libraries(openkal_test_optimization_transport_coverage PRIVATE openkal::server)
+  target_link_options(openkal_test_optimization_transport_coverage PRIVATE
+    -Wl,--wrap=send -Wl,--wrap=recv -Wl,--wrap=poll)
+  openkal_target_warnings(openkal_test_optimization_transport_coverage)
+  add_test(NAME optimization_transport_coverage COMMAND openkal_test_optimization_transport_coverage)
+  set_tests_properties(optimization_transport_coverage PROPERTIES LABELS "optimization-coverage")
+endif()
+
+add_executable(openkal_test_optimization_talent_coverage OptimizationTalentCoverageTest.cpp)
+target_link_libraries(openkal_test_optimization_talent_coverage PRIVATE openkal::server)
+openkal_target_warnings(openkal_test_optimization_talent_coverage)
+add_test(NAME optimization_talent_coverage COMMAND openkal_test_optimization_talent_coverage)
+set_tests_properties(optimization_talent_coverage PROPERTIES LABELS "optimization-coverage")

@@ -1,0 +1,19 @@
+{
+  "index": 25524,
+  "name": "Gloves of Darkness Skin (Knight)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "gauntlet"
+  ],
+  "action": [9, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the gauntlet skin slot. No combat bonuses. OpenKal descriptive name; model knight/gauntlet 09-01."
+}

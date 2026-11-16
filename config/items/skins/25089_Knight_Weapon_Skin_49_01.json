@@ -1,0 +1,22 @@
+{
+  "index": 25089,
+  "name": "Silver Crystal Blade Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [49, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model knight/weapon 49-01. OpenKal weapon compatibility: one-hand sword; reference type unverified.",
+  "skin": {
+    "weapon_type": "sword"
+  }
+}

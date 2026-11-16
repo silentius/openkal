@@ -1,0 +1,1235 @@
+{
+  "source": "external asset pack/config_pk/object.dat (particle rows)",
+  "models": [
+    {
+      "path": "MAP\\lib\\d03_obj_31",
+      "particles": [
+        {
+          "name": "jufoot_particle1",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\7\\structure\\[a]obj01",
+      "particles": [
+        {
+          "name": "test_waterfall01",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            -380.0,
+            -400.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\login_ob\\login_H_21",
+      "particles": [
+        {
+          "name": "Wongori_40",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "Wongori_41",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\login_ob\\login_H_01",
+      "particles": [
+        {
+          "name": "Wongori_43",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\login_ob\\login_H_11",
+      "particles": [
+        {
+          "name": "Wongori_42",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\login_ob\\login_H_31",
+      "particles": [
+        {
+          "name": "Wongori_50",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\7\\structure\\obj02",
+      "particles": [
+        {
+          "name": "BanGoRi79",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\7\\structure\\obj01",
+      "particles": [
+        {
+          "name": "Wongori_09",
+          "effectBone": -1,
+          "offset": [
+            0.5,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\7\\structure\\7-arch2",
+      "particles": [
+        {
+          "name": "Wongori_20",
+          "effectBone": -1,
+          "offset": [
+            -36.623,
+            57.336,
+            -0.04
+          ]
+        },
+        {
+          "name": "Wongori_21",
+          "effectBone": -1,
+          "offset": [
+            -21.24,
+            57.336,
+            -0.04
+          ]
+        },
+        {
+          "name": "Wongori_22",
+          "effectBone": -1,
+          "offset": [
+            -6.505,
+            57.336,
+            -0.04
+          ]
+        },
+        {
+          "name": "Wongori_23",
+          "effectBone": -1,
+          "offset": [
+            9.944,
+            57.336,
+            -0.04
+          ]
+        },
+        {
+          "name": "Wongori_18",
+          "effectBone": -1,
+          "offset": [
+            25.327,
+            57.336,
+            -0.04
+          ]
+        },
+        {
+          "name": "Wongori_24",
+          "effectBone": -1,
+          "offset": [
+            40.062,
+            57.336,
+            -0.04
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\lib\\effect_light",
+      "particles": [
+        {
+          "name": "Wongori_16",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\lib\\[ae]dg_fire",
+      "particles": [
+        {
+          "name": "firepot_flame03",
+          "effectBone": -1,
+          "offset": [
+            -11.117,
+            13.0,
+            -0.78
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\lib\\[ae]dr_fire",
+      "particles": [
+        {
+          "name": "firepot_flame03",
+          "effectBone": -1,
+          "offset": [
+            0.314,
+            20.0,
+            0.327
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\1\\structure\\metc_03_01",
+      "particles": [
+        {
+          "name": "Fire_28",
+          "effectBone": -1,
+          "offset": [
+            4.5,
+            9.7,
+            0.0
+          ]
+        },
+        {
+          "name": "Fire_19",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            27.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\1\\structure\\[a]bonfire_01",
+      "particles": [
+        {
+          "name": "firepot_flame",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            9.6,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\8\\structure\\8-firewood01",
+      "particles": [
+        {
+          "name": "Fire_20",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\8\\structure\\8-firewood02",
+      "particles": [
+        {
+          "name": "Fire_19",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\8\\structure\\8-firewood03",
+      "particles": [
+        {
+          "name": "Fire_19",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\8\\structure\\8-pasture01",
+      "particles": [
+        {
+          "name": "Fire_23",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\8\\structure\\8-pasture05",
+      "particles": [
+        {
+          "name": "Fire_21",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\8\\structure\\8-skull01",
+      "particles": [
+        {
+          "name": "Fire_22",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\d03_obj_01",
+      "particles": [
+        {
+          "name": "Fire_24",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\d03_obj_27",
+      "particles": [
+        {
+          "name": "Fire_25",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\d03_obj_29",
+      "particles": [
+        {
+          "name": "Fire_25",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\gs\\structure\\gs-fire",
+      "particles": [
+        {
+          "name": "Fire_26",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "data\\objects\\b\\8\\structure\\8-door2",
+      "particles": [
+        {
+          "name": "worpgate_01",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\d03_obj_42",
+      "particles": [
+        {
+          "name": "Fire_27",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\ud\\structure\\bsa",
+      "particles": [
+        {
+          "name": "test_poison",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\test\\structure\\stonelamp",
+      "particles": [
+        {
+          "name": "test_lamp_fire",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            30.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\13\\structure\\k3_30490",
+      "particles": [
+        {
+          "name": "test_fire",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            9.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_11.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_11",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_12.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_12",
+          "effectBone": 2,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "davi_jt_08_12_02",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_15.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_15",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_18.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_18",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_19.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_19",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_20.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_20",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_22.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_22",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_23.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_18",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]jt_08_25.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_25",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            22.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-A\\structure\\[ae]DV-A000-01",
+      "particles": [
+        {
+          "name": "HellGate_FX02_02",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            11.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-A\\structure\\[ae]DV-A000-02",
+      "particles": [
+        {
+          "name": "Dv_A000",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            40.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-A\\structure\\[ae]DV-A000-03",
+      "particles": [
+        {
+          "name": "Dv_A000",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            40.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-A\\structure\\[ae]DV-A000-04",
+      "particles": [
+        {
+          "name": "Dv_A000",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            40.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-A\\structure\\a]Dv_A013",
+      "particles": [
+        {
+          "name": "HellGate_FX13",
+          "effectBone": -1,
+          "offset": [
+            1.2,
+            30.0,
+            -3.0
+          ]
+        },
+        {
+          "name": "HellGate_FX13",
+          "effectBone": -1,
+          "offset": [
+            -1.2,
+            30.0,
+            -3.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-A_C\\[a]Dv_A_C003",
+      "particles": [
+        {
+          "name": "Fire_15",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            8.0,
+            0.0
+          ]
+        },
+        {
+          "name": "Fire_15",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-A_C\\[a]Dv_A_C022",
+      "particles": [
+        {
+          "name": "Fire_03s",
+          "effectBone": -1,
+          "offset": [
+            -1.5,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-B\\structure\\[a]Dv_B003",
+      "particles": [
+        {
+          "name": "Dv_B003",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-B\\structure\\[a]Dv_B004",
+      "particles": [
+        {
+          "name": "Dv_B004",
+          "effectBone": -1,
+          "offset": [
+            -3.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[ae]DV-C060-1",
+      "particles": [
+        {
+          "name": "Dv_C060_1",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[ae]DV-CM670",
+      "particles": [
+        {
+          "name": "DV-CM670",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[ae]DV-WallFog",
+      "particles": [
+        {
+          "name": "DV-WallFog",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[ae]DV-RoofFog",
+      "particles": [
+        {
+          "name": "DV-RoofFog",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[ae]DV-WindowFog",
+      "particles": [
+        {
+          "name": "DV-WindowFog",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[a]Dv_C020",
+      "particles": [
+        {
+          "name": "Fire_03s",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            33.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[a]Dv_C021",
+      "particles": [
+        {
+          "name": "Fire_03s",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            33.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[a]Dv_C022",
+      "particles": [
+        {
+          "name": "Fire_15",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            2.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[a]Dv_C056",
+      "particles": [
+        {
+          "name": "Fire_15",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            2.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[a]Dv_C059",
+      "particles": [
+        {
+          "name": "Fire_12",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[a]Dv_C059_1",
+      "particles": [
+        {
+          "name": "HellGat_FX02",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            2.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-C\\structure\\[a]Dv_C060",
+      "particles": [
+        {
+          "name": "Dv_C060",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-D\\structure\\[ae]DV-D001",
+      "particles": [
+        {
+          "name": "DV-D001",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            9.0,
+            -1.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-D\\structure\\[ae]DV-D002",
+      "particles": [
+        {
+          "name": "DV-D002",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            20.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-D\\structure\\[ae]DV-D018",
+      "particles": [
+        {
+          "name": "DV-D018",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-D\\structure\\[ae]DV-D019",
+      "particles": [
+        {
+          "name": "DV-D019",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            5.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-D\\structure\\[ae]DV-D020",
+      "particles": [
+        {
+          "name": "DV-D019",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            9.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\DV-d\\structure\\[ae]DV-D001-1",
+      "particles": [
+        {
+          "name": "DV-D001-1",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]hell02fx01.gb",
+      "particles": [
+        {
+          "name": "Hell2_Fire",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]hell02fx02.gb",
+      "particles": [
+        {
+          "name": "Hell2_Fire",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            23.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu09.gb",
+      "particles": [
+        {
+          "name": "[a]qu09",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu10.gb",
+      "particles": [
+        {
+          "name": "[a]qu10",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu11-box.gb",
+      "particles": [
+        {
+          "name": "[a]qu11",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu12-box.gb",
+      "particles": [
+        {
+          "name": "[a]qu12",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu24.gb",
+      "particles": [
+        {
+          "name": "[a]qu24",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu25-box.gb",
+      "particles": [
+        {
+          "name": "[a]qu25",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu30-box.gb",
+      "particles": [
+        {
+          "name": "[a]qu30",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu37.gb",
+      "particles": [
+        {
+          "name": "[a]qu37",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]qu39.gb",
+      "particles": [
+        {
+          "name": "[a]qu39",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]_DG03_Fire_01.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_16",
+          "effectBone": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Map\\lib\\[a]_DG03_EF_01.gb",
+      "particles": [
+        {
+          "name": "davi_jt_08_17",
+          "effectBone": 0,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\2016\\structure\\Oj_Christmas_Tree_01",
+      "particles": [
+        {
+          "name": "xmas_lamp1",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "Data\\OBJECTS\\b\\2016\\structure\\Kal_Oj_lo_102",
+      "particles": [
+        {
+          "name": "pole_flame",
+          "effectBone": -1,
+          "offset": [
+            0.0,
+            60.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\lib_00_lamp\\[ae]d02_0f_lamp",
+      "particles": [
+        {
+          "name": "firepot_flame03",
+          "effectBone": -1,
+          "offset": [0.0, 8.0, 0.0]
+        }
+      ]
+    },
+    {
+      "path": "MAP\\lib\\[ae]d02_0f_lamp",
+      "particles": [
+        {
+          "name": "firepot_flame03",
+          "effectBone": -1,
+          "offset": [0.0, 8.0, 0.0]
+        }
+      ]
+    }
+  ]
+}

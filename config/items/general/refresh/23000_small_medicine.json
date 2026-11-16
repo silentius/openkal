@@ -1,0 +1,23 @@
+{
+  "index": 23000,
+  "rarity": 0,
+  "name": "Small Medicine",
+  "image": "medicineSmall",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 20,
+  "sell": 4,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 33],
+  "description": "Recovers Health point by 100",
+  "effect": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "hp",
+      "amount": 100
+    }
+  }
+}

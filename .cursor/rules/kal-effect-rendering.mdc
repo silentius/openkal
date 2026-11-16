@@ -1,0 +1,17 @@
+---
+description: Apply the effect-rendering verification workflow to particle, sprite, CombatFx, and skill-effect changes
+globs:
+  - "**/SpriteFx.h"
+  - "**/SpriteFx.cpp"
+  - "**/CombatFx.h"
+  - "**/CombatFx.cpp"
+  - "tools/skill_effect_view/**"
+  - "tests/**/*effect*"
+alwaysApply: false
+---
+
+# Effect rendering workflow
+
+Read and follow `.agents/skills/kal-effect-rendering/SKILL.md`. The file in
+`.agents/skills` is the single source of truth; do not duplicate its workflow in
+this Cursor rule.

@@ -1,0 +1,19 @@
+{
+  "index": 25303,
+  "name": "Wooden Arrow Skin (Archer)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "shield"
+  ],
+  "action": [1, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the shield skin slot. No combat bonuses. OpenKal descriptive name; model archer/shield 01-01."
+}

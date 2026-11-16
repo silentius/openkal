@@ -1,0 +1,19 @@
+{
+  "index": 25518,
+  "name": "G55 Armor Skin (Knight)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "upper"
+  ],
+  "action": [8, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the upper skin slot. No combat bonuses. OpenKal descriptive name; model knight/upper 08-01."
+}

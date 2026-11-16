@@ -1,0 +1,2 @@
+debian/openkal usr/games
+debian/openkal.profile.example usr/share/openkal

@@ -1,0 +1,26 @@
+{
+  "schema": "openkal.riding-progression/v1",
+  "sealItem": 41322,
+  "starterExchange": {
+    "sealCost": 2,
+    "item": 30003
+  },
+  "promotions": [
+    {
+      "item": 30003,
+      "sealCost": 6,
+      "results": [
+        { "item": 30100, "chance": 33.3 },
+        { "item": 30101, "chance": 33.3 },
+        { "item": 30102, "chance": 33.4 }
+      ]
+    }
+  ],
+  "gradeUpgradeSealCosts": [5, 10, 20],
+  "duplicateSealReward": 2,
+  "timeWrit": {
+    "item": 41323,
+    "extensionDays": 7,
+    "maximumDays": 30
+  }
+}

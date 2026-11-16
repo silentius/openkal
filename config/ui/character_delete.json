@@ -1,0 +1,190 @@
+{
+  "_doc": "Character deletion confirmation and recoverable-character list.",
+  "schema": "openkal.ui/v1",
+  "id": "character_delete",
+  "kind": "window",
+  "window": {
+    "w": 520,
+    "h": 350,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 14,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/character.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${character_delete.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "question",
+      "x": 260,
+      "y": 68,
+      "w": 470,
+      "text": "${character_delete.question}",
+      "align": "center",
+      "color": "${theme.colors.value}",
+      "visible_when": "character_delete.confirming",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "recovery_note",
+      "x": 260,
+      "y": 108,
+      "w": 470,
+      "text": "${character_delete.recovery_note}",
+      "align": "center",
+      "color": "${theme.colors.pending}",
+      "visible_when": "character_delete.confirming",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "confirm_yes",
+      "x": 104,
+      "y": 178,
+      "w": 144,
+      "h": 40,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "${character_delete.yes}",
+      "align": "center",
+      "action": "character_delete.confirm",
+      "visible_when": "character_delete.confirming",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "confirm_no",
+      "x": 272,
+      "y": 178,
+      "w": 144,
+      "h": 40,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "${character_delete.no}",
+      "align": "center",
+      "action": "character_delete.cancel",
+      "visible_when": "character_delete.confirming",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "columns",
+      "x": 24,
+      "y": 52,
+      "text": "${character_delete.columns}",
+      "color": "${theme.colors.label}",
+      "visible_when": "character_delete.listing",
+      "pixel_size": 14
+    },
+    {
+      "type": "list",
+      "id": "deleted_characters",
+      "x": 24,
+      "y": 80,
+      "w": 472,
+      "h": 154,
+      "bind": "character_delete.rows",
+      "line_height": 28,
+      "color": "${theme.colors.value}",
+      "visible_when": "character_delete.listing",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "empty",
+      "x": 260,
+      "y": 112,
+      "w": 470,
+      "text": "${character_delete.empty}",
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "visible_when": "character_delete.empty_visible",
+      "pixel_size": 14
+    },
+    {
+      "type": "text",
+      "id": "status",
+      "x": 260,
+      "y": 250,
+      "w": 470,
+      "text": "${character_delete.status}",
+      "align": "center",
+      "color": "${theme.colors.pending}",
+      "visible_when": "character_delete.listing",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "restore",
+      "x": 104,
+      "y": 292,
+      "w": 144,
+      "h": 40,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "${character_delete.restore}",
+      "align": "center",
+      "action": "character_delete.restore",
+      "visible_when": "character_delete.listing",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 14
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x": 272,
+      "y": 292,
+      "w": 144,
+      "h": 40,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "${character_delete.close}",
+      "align": "center",
+      "action": "character_delete.close",
+      "visible_when": "character_delete.listing",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 14
+    }
+  ]
+}

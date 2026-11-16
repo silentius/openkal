@@ -1,0 +1,19 @@
+{
+  "index": 24058,
+  "name": "Middle Hanin's Essence",
+  "description": "Equip in Hanin's Mirror. Each instance has one ability.",
+  "image": "item777",
+  "class": [
+    "gather",
+    "collection"
+  ],
+  "level": 1,
+  "limit": {
+    "class": "all",
+    "level": 1
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

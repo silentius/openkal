@@ -1,0 +1,22 @@
+{
+  "index": 25532,
+  "name": "G21 Sword 03-03 Skin (Knight)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [3, 3],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model knight/weapon 03-03.",
+  "skin": {
+    "weapon_type": "sword"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "index": 25741,
+  "name": "G55 Leggings Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "pants"
+  ],
+  "action": [8, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the pants skin slot. No combat bonuses. OpenKal descriptive name; model thief/pants 08-01."
+}

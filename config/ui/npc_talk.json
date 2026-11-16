@@ -1,0 +1,112 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "npc_talk",
+  "kind": "window",
+  "window": {
+    "w": 450,
+    "h": 360,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/quest.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${npc.name}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp",
+      "visible_when": "npc.closable"
+    },
+    {
+      "type": "button",
+      "id": "previous",
+      "y_from_bottom": 40,
+      "w": 96,
+      "h": 28,
+      "align": "center",
+      "action": "npc.previous",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "npc.paged",
+      "x": 20,
+      "label": "${npc.previous_label}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "next",
+      "y_from_bottom": 40,
+      "w": 96,
+      "h": 28,
+      "align": "center",
+      "action": "npc.next",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "npc.paged",
+      "x_from_right": 116,
+      "label": "${npc.next_label}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "page",
+      "x": 225,
+      "y_from_bottom": 34,
+      "text": "${npc.page}",
+      "align": "center",
+      "color": "${theme.colors.label}",
+      "visible_when": "npc.paged"
+    }
+  ],
+  "_doc": "Dragon NPC conversation frame. Wrapped body and responses share bounded content pages; the standard navigation controls stay inside the client box."
+}

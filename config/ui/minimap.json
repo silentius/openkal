@@ -1,0 +1,136 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "minimap",
+  "kind": "hud",
+  "_doc": "Movable Dragon minimap. Area names are supplied by the host; coordinates are absolute world tiles.",
+  "window": {
+    "w": 260,
+    "h": 272,
+    "draggable": true
+  },
+  "theme": {
+    "font_pixel_size": 11,
+    "colors": {
+      "label": "#F2E7CC"
+    }
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "canvas",
+      "id": "map",
+      "kind": "minimap",
+      "shape": "circle",
+      "x": 36,
+      "y": 55,
+      "w": 188,
+      "h": 188
+    },
+    {
+      "type": "image",
+      "id": "area_support",
+      "file": "dragon_minimap/area_support.bmp",
+      "x": 144,
+      "y": 41,
+      "w": 79,
+      "h": 27
+    },
+    {
+      "type": "image",
+      "id": "area_plate",
+      "file": "dragon_minimap/area_plate.bmp",
+      "x": 89,
+      "y": 16,
+      "w": 146,
+      "h": 30
+    },
+    {
+      "type": "image",
+      "id": "frame",
+      "file": "dragon_minimap/frame.bmp",
+      "x": 0,
+      "y": 0,
+      "w": 241,
+      "h": 258
+    },
+    {
+      "type": "image",
+      "id": "coordinates_plate",
+      "file": "dragon_minimap/coordinates_plate.bmp",
+      "x": 75,
+      "y": 242,
+      "w": 110,
+      "h": 28
+    },
+    {
+      "type": "text",
+      "id": "area_name",
+      "x": 162,
+      "y": 25,
+      "text": "${minimap.area_name}",
+      "pixel_size": 11,
+      "align": "center",
+      "color": "#F2E7CC"
+    },
+    {
+      "type": "text",
+      "id": "coordinates",
+      "x": 130,
+      "y": 250,
+      "text": "${minimap.coordinates}",
+      "pixel_size": 10,
+      "align": "center",
+      "color": "#F2E7CC"
+    },
+    {
+      "type": "image",
+      "id": "north_badge",
+      "file": "dragon_minimap/zoom_button.bmp",
+      "x": 121,
+      "y": 42,
+      "w": 18,
+      "h": 18
+    },
+    {
+      "type": "text",
+      "id": "north",
+      "x": 130,
+      "y": 46,
+      "text": "${minimap.north}",
+      "pixel_size": 10,
+      "align": "center",
+      "color": "#F2E7CC"
+    },
+    {
+      "type": "button",
+      "id": "zoom_plus",
+      "x": 216,
+      "y": 192,
+      "w": 26,
+      "h": 26,
+      "file_default": "dragon_minimap/zoom_button.bmp",
+      "label": "${minimap.zoom_in_label}",
+      "pixel_size": 16,
+      "align": "center",
+      "color": "#F2E7CC",
+      "action": "minimap.zoom_in"
+    },
+    {
+      "type": "button",
+      "id": "zoom_minus",
+      "x": 186,
+      "y": 225,
+      "w": 26,
+      "h": 26,
+      "file_default": "dragon_minimap/zoom_button.bmp",
+      "label": "${minimap.zoom_out_label}",
+      "pixel_size": 16,
+      "align": "center",
+      "color": "#F2E7CC",
+      "action": "minimap.zoom_out"
+    }
+  ]
+}

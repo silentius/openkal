@@ -1,0 +1,35 @@
+.TH OPENKAL 1 "September 2026" "OpenKal" "Games"
+.SH NAME
+openkal \- start the OpenKal client
+.SH SYNOPSIS
+.B openkal
+.SH DESCRIPTION
+The first invocation creates
+.I ~/.config/openkal/openkal.profile
+from the packaged template and opens a folder picker. Select the KalOnline
+client directory that contains the
+.I data
+and
+.I map
+directories. OpenKal validates the selected directory before it starts and
+stores the resolved client paths in the profile. If validation fails, it asks
+for a directory again. Canceling the picker exits without starting the client.
+.PP
+The embedded single-player server requires compatible world catalogs and area
+maps. The project client package does not include a complete world. A locally
+built package may include user-supplied world catalogs and area maps in
+.IR /usr/share/openkal/config.pak .
+.PP
+Advanced users may edit that profile to set
+.B data_root
+and
+.B map_root
+to separate existing KalOnline asset directories. These paths are validated
+before the client starts. Set
+.B server_map_root
+to use an external directory of compatible area maps.
+.PP
+User data, including the local SQLite state and UI settings, is stored in
+.I ~/.local/share/openkal
+by default. The XDG_CONFIG_HOME and XDG_DATA_HOME environment variables are
+honored. Set OPENKAL_PROFILE to use a different profile path.

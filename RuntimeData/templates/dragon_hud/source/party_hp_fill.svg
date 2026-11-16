@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="134" height="5" viewBox="0 0 134 5">
+<!-- OpenKal contributors, 2026. SPDX-License-Identifier: GPL-3.0-or-later -->
+<defs><linearGradient id="health" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e49386"/><stop offset="28%" stop-color="#c6574f"/><stop offset="58%" stop-color="#ac3a36"/><stop offset="100%" stop-color="#551c20"/></linearGradient></defs>
+<path fill="url(#health)" d="M0 0h134v5H0z"/>
+</svg>

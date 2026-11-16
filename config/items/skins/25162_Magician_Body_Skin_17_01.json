@@ -1,0 +1,19 @@
+{
+  "index": 25162,
+  "name": "Midnight Layered Outfit Skin (Magician)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [17, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins. OpenKal descriptive name; model magician/body 17-01."
+}

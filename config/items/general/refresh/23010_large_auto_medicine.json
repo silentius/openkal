@@ -1,0 +1,24 @@
+{
+  "index": 23010,
+  "rarity": 0,
+  "name": "Large Auto Medicine",
+  "image": "medicineAutoHpLarge",
+  "class": [
+    "general",
+    "refresh"
+  ],
+  "buy": 210,
+  "sell": 50,
+  "use": 1,
+  "stackable": 1,
+  "cooltime": [1300, 55],
+  "effect": 1,
+  "specialty": {
+    "refresh": {
+      "stat": "hp",
+      "amount": 500,
+      "auto_hp": true
+    }
+  },
+  "description": "Recovers Health point by 500. Place in the Auto HP slot; double-click the slot to change the HP threshold."
+}

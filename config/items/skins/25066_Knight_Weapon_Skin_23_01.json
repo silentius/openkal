@@ -1,0 +1,22 @@
+{
+  "index": 25066,
+  "name": "Heavenly Executioner Sword",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [23, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses.",
+  "skin": {
+    "weapon_type": "sword"
+  }
+}

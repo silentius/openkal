@@ -1,0 +1,745 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "trading_post",
+  "kind": "window",
+  "window": {
+    "w": 760,
+    "h": 650,
+    "draggable": true,
+    "title_drag_h": 30
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${trading_post.title}",
+      "pixel_size": 18
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/trading_post_dialog.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "button",
+      "id": "tab_buy",
+      "x": 96,
+      "y": 42,
+      "w": 150,
+      "h": 30,
+      "label": "${trading_post.tab_buy}",
+      "action": "trading_post.tab_buy",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "color": "${trading_post.buy_color}"
+    },
+    {
+      "type": "button",
+      "id": "tab_sell",
+      "x": 256,
+      "y": 42,
+      "w": 150,
+      "h": 30,
+      "label": "${trading_post.tab_sell}",
+      "action": "trading_post.tab_sell",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "color": "${trading_post.sell_color}"
+    },
+    {
+      "type": "button",
+      "id": "tab_own",
+      "x": 416,
+      "y": 42,
+      "w": 150,
+      "h": 30,
+      "label": "${trading_post.tab_own}",
+      "action": "trading_post.tab_own",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "color": "${trading_post.own_color}"
+    },
+    {
+      "type": "button",
+      "id": "tab_collection",
+      "x": 576,
+      "y": 42,
+      "w": 150,
+      "h": 30,
+      "label": "${trading_post.tab_collection}",
+      "action": "trading_post.tab_collection",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "color": "${trading_post.collection_color}"
+    },
+    {
+      "type": "fill",
+      "id": "filter_divider",
+      "x": 250,
+      "y": 84,
+      "w": 2,
+      "h": 461,
+      "color": "#8A7046",
+      "alpha": 0.85
+    },
+    {
+      "type": "text",
+      "id": "class_label",
+      "x": 14,
+      "y": 90,
+      "text": "${trading_post.class_label}",
+      "pixel_size": 13,
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "button",
+      "id": "filter_class",
+      "x": 12,
+      "y": 110,
+      "w": 222,
+      "h": 29,
+      "label": "${trading_post.class}",
+      "action": "trading_post.filter_class",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "text",
+      "id": "type_label",
+      "x": 14,
+      "y": 157,
+      "text": "${trading_post.type_label}",
+      "pixel_size": 13,
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "button",
+      "id": "filter_type",
+      "x": 12,
+      "y": 177,
+      "w": 222,
+      "h": 29,
+      "label": "${trading_post.type}",
+      "action": "trading_post.filter_type",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "text",
+      "id": "prefix_label",
+      "x": 14,
+      "y": 224,
+      "text": "${trading_post.prefix_label}",
+      "pixel_size": 13,
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "button",
+      "id": "filter_prefix",
+      "x": 12,
+      "y": 244,
+      "w": 222,
+      "h": 29,
+      "label": "${trading_post.prefix}",
+      "action": "trading_post.filter_prefix",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "text",
+      "id": "grade_label",
+      "x": 14,
+      "y": 291,
+      "text": "${trading_post.grade_label}",
+      "pixel_size": 13,
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "button",
+      "id": "filter_grade",
+      "x": 12,
+      "y": 311,
+      "w": 222,
+      "h": 29,
+      "label": "${trading_post.grade}",
+      "action": "trading_post.filter_grade",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "text",
+      "id": "order_label",
+      "x": 14,
+      "y": 358,
+      "text": "${trading_post.order_label}",
+      "pixel_size": 13,
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "button",
+      "id": "filter_order",
+      "x": 12,
+      "y": 378,
+      "w": 222,
+      "h": 29,
+      "label": "${trading_post.order}",
+      "action": "trading_post.filter_order",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "trading_post.filters"
+    },
+    {
+      "type": "text",
+      "id": "price_label",
+      "x": 270,
+      "y": 493,
+      "text": "${trading_post.price_label}",
+      "pixel_size": 13,
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "fill",
+      "id": "price_field",
+      "x": 402,
+      "y": 484,
+      "w": 190,
+      "h": 30,
+      "color": "#090807",
+      "alpha": 0.92,
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "fill",
+      "id": "price_field_top",
+      "x": 402,
+      "y": 484,
+      "w": 190,
+      "h": 1,
+      "color": "#6B5330",
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "fill",
+      "id": "price_field_bottom",
+      "x": 402,
+      "y": 512,
+      "w": 190,
+      "h": 2,
+      "color": "#C4A46D",
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "fill",
+      "id": "price_field_left",
+      "x": 402,
+      "y": 484,
+      "w": 1,
+      "h": 30,
+      "color": "#6B5330",
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "fill",
+      "id": "price_field_right",
+      "x": 591,
+      "y": 484,
+      "w": 1,
+      "h": 30,
+      "color": "#6B5330",
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "input",
+      "id": "price",
+      "x": 408,
+      "y": 484,
+      "w": 176,
+      "h": 30,
+      "bind": "trading_post.price",
+      "text": "${trading_post.price}",
+      "align": "right",
+      "pixel_size": 14,
+      "color": "${trading_post.price_color}",
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "text",
+      "id": "range0",
+      "x": 270,
+      "y": 90,
+      "text": "${trading_post.range0:geons}",
+      "pixel_size": 13
+    },
+    {
+      "type": "icon_grid",
+      "id": "row0",
+      "x": 270,
+      "y": 111,
+      "cols": 10,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 42
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trading_post.row0",
+      "tooltip": true,
+      "badge": {
+        "text": "${slot.count}"
+      },
+      "select_color": "#D8B15A"
+    },
+    {
+      "type": "text",
+      "id": "range1",
+      "x": 270,
+      "y": 150,
+      "text": "${trading_post.range1:geons}",
+      "pixel_size": 13
+    },
+    {
+      "type": "icon_grid",
+      "id": "row1",
+      "x": 270,
+      "y": 171,
+      "cols": 10,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 42
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trading_post.row1",
+      "tooltip": true,
+      "badge": {
+        "text": "${slot.count}"
+      },
+      "select_color": "#D8B15A"
+    },
+    {
+      "type": "text",
+      "id": "range2",
+      "x": 270,
+      "y": 210,
+      "text": "${trading_post.range2:geons}",
+      "pixel_size": 13
+    },
+    {
+      "type": "icon_grid",
+      "id": "row2",
+      "x": 270,
+      "y": 231,
+      "cols": 10,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 42
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trading_post.row2",
+      "tooltip": true,
+      "badge": {
+        "text": "${slot.count}"
+      },
+      "select_color": "#D8B15A"
+    },
+    {
+      "type": "text",
+      "id": "range3",
+      "x": 270,
+      "y": 270,
+      "text": "${trading_post.range3:geons}",
+      "pixel_size": 13
+    },
+    {
+      "type": "icon_grid",
+      "id": "row3",
+      "x": 270,
+      "y": 291,
+      "cols": 10,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 42
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trading_post.row3",
+      "tooltip": true,
+      "badge": {
+        "text": "${slot.count}"
+      },
+      "select_color": "#D8B15A"
+    },
+    {
+      "type": "text",
+      "id": "range4",
+      "x": 270,
+      "y": 330,
+      "text": "${trading_post.range4:geons}",
+      "pixel_size": 13
+    },
+    {
+      "type": "icon_grid",
+      "id": "row4",
+      "x": 270,
+      "y": 351,
+      "cols": 10,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 42
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trading_post.row4",
+      "tooltip": true,
+      "badge": {
+        "text": "${slot.count}"
+      },
+      "select_color": "#D8B15A"
+    },
+    {
+      "type": "text",
+      "id": "range5",
+      "x": 270,
+      "y": 390,
+      "text": "${trading_post.range5:geons}",
+      "pixel_size": 13
+    },
+    {
+      "type": "icon_grid",
+      "id": "row5",
+      "x": 270,
+      "y": 411,
+      "cols": 10,
+      "rows": 1,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 44,
+        "y": 42
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      },
+      "bind": "trading_post.row5",
+      "tooltip": true,
+      "badge": {
+        "text": "${slot.count}"
+      },
+      "select_color": "#D8B15A"
+    },
+    {
+      "type": "text",
+      "id": "selected",
+      "x": 270,
+      "y": 465,
+      "text": "${trading_post.selected}",
+      "color": "${trading_post.selected_color}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "details",
+      "x": 270,
+      "y": 486,
+      "text": "${trading_post.details}",
+      "color": "${trading_post.details_color}",
+      "pixel_size": 13,
+      "visible_when": "trading_post.inspect"
+    },
+    {
+      "type": "button",
+      "id": "act",
+      "x": 270,
+      "y": 516,
+      "w": 200,
+      "h": 30,
+      "label": "${trading_post.act}",
+      "action": "trading_post.act",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "refresh",
+      "x": 480,
+      "y": 516,
+      "w": 90,
+      "h": 30,
+      "label": "Refresh",
+      "action": "trading_post.refresh",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "prev",
+      "x": 580,
+      "y": 516,
+      "w": 40,
+      "h": 30,
+      "label": "<",
+      "action": "trading_post.prev",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "next",
+      "x": 688,
+      "y": 516,
+      "w": 40,
+      "h": 30,
+      "label": ">",
+      "action": "trading_post.next",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "page",
+      "x": 654,
+      "y": 524,
+      "align": "center",
+      "text": "${trading_post.page}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "status1",
+      "x": 12,
+      "y": 564,
+      "text": "${trading_post.status1}",
+      "pixel_size": 13
+    },
+    {
+      "type": "text",
+      "id": "status2",
+      "x": 12,
+      "y": 584,
+      "text": "${trading_post.status2}",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp"
+    },
+    {
+      "type": "text",
+      "id": "collection_help",
+      "x": 12,
+      "y": 120,
+      "text": "${trading_post.collection_help}",
+      "pixel_size": 12,
+      "visible_when": "trading_post.collection"
+    },
+    {
+      "type": "button",
+      "id": "collect_selected",
+      "x": 12,
+      "y": 190,
+      "w": 222,
+      "h": 30,
+      "label": "${trading_post.collect_selected}",
+      "action": "trading_post.collect_selected",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "visible_when": "trading_post.collection"
+    },
+    {
+      "type": "text",
+      "id": "collection_help2",
+      "x": 12,
+      "y": 145,
+      "text": "${trading_post.collection_help2}",
+      "pixel_size": 12,
+      "visible_when": "trading_post.collection"
+    },
+    {
+      "type": "text",
+      "id": "own_help",
+      "x": 12,
+      "y": 120,
+      "text": "${trading_post.own_help}",
+      "pixel_size": 12,
+      "visible_when": "trading_post.own"
+    },
+    {
+      "type": "fill",
+      "id": "active_buy",
+      "x": 98,
+      "y": 70,
+      "w": 146,
+      "h": 2,
+      "color": "#E5BC72",
+      "visible_when": "trading_post.buy"
+    },
+    {
+      "type": "fill",
+      "id": "active_sell",
+      "x": 258,
+      "y": 70,
+      "w": 146,
+      "h": 2,
+      "color": "#E5BC72",
+      "visible_when": "trading_post.sell"
+    },
+    {
+      "type": "fill",
+      "id": "active_own",
+      "x": 418,
+      "y": 70,
+      "w": 146,
+      "h": 2,
+      "color": "#E5BC72",
+      "visible_when": "trading_post.own"
+    },
+    {
+      "type": "fill",
+      "id": "active_collection",
+      "x": 578,
+      "y": 70,
+      "w": 146,
+      "h": 2,
+      "color": "#E5BC72",
+      "visible_when": "trading_post.collection"
+    }
+  ]
+}

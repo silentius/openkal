@@ -1,0 +1,19 @@
+{
+  "index": 24035,
+  "name": "Novice Geon Trigram",
+  "description": "Equip with the other seven trigrams of the same grade.",
+  "image": "item709",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 50,
+  "limit": {
+    "class": "all",
+    "level": 50
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

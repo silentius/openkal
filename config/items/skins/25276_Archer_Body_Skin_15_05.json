@@ -1,0 +1,19 @@
+{
+  "index": 25276,
+  "name": "Azure Skin Summer Outfit Skin (Archer)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "body"
+  ],
+  "action": [15, 5],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "archer",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Chest skin slot; replaces individual body skins. OpenKal descriptive name; model archer/body 15-05."
+}

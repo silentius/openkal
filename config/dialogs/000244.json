@@ -1,0 +1,26 @@
+{
+  "_doc": "OpenKal dialogue text describing project-owned behavior; no external dialogue text is redistributed.",
+  "id": 244,
+  "caption": "Explosive Blow",
+  "lines": [
+    "Drag an unequipped weapon of grade 40 or higher from your inventory into the blacksmith weapon slot.",
+    "The window shows its Explosive Blow level, current cap, success chance and required Stones of Revision.",
+    "Use Revise to spend Stones of Revision on improving the success chance. Use Explosive Blow to attempt the next level for a Geon fee.",
+    "Check the displayed chance before upgrading: a failed attempt can destroy the weapon.",
+    "To obtain Stones of Revision, use a Revision Hammer on eligible equipment in your inventory."
+  ],
+  "links": [
+    {
+      "type": "blacksmith",
+      "text": "Open Explosive Blow."
+    },
+    {
+      "type": "243",
+      "text": "Back to the blacksmith."
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

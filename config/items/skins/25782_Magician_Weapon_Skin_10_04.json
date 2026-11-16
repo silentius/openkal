@@ -1,0 +1,22 @@
+{
+  "index": 25782,
+  "name": "G56 Staff 10-04 Skin (Magician)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [10, 4],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model magician/weapon 10-04.",
+  "skin": {
+    "weapon_type": "wand"
+  }
+}

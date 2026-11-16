@@ -1,0 +1,545 @@
+{
+  "schema": "openkal.skin-names/v1",
+  "source": {
+    "scope": "Current display names and guarded item/model associations; external source metadata and line annotations are omitted."
+  },
+  "display_name_overrides": {
+    "author": "OpenKal contributors",
+    "license": "GPL-3.0-or-later",
+    "created_on": "2026-10-30",
+    "reason": "Project-authored fantasy names replace Game Master labels. Stable item IDs and model guards remain unchanged.",
+    "item_ids": [25062, 25063, 25064, 25065, 25316, 25317, 25432, 25433]
+  },
+  "entries": [
+    {
+      "index": 25000,
+      "class": "knight",
+      "part": "body",
+      "action": [1, 1],
+      "name": "Swimsuit (Knight)"
+    },
+    {
+      "index": 25001,
+      "class": "knight",
+      "part": "body",
+      "action": [2, 1],
+      "name": "New Swimsuit (Knight)"
+    },
+    {
+      "index": 25002,
+      "class": "knight",
+      "part": "body",
+      "action": [3, 1],
+      "name": "Sexy Swimsuit (Knight)"
+    },
+    {
+      "index": 25003,
+      "class": "knight",
+      "part": "body",
+      "action": [4, 1],
+      "name": "Blue Formal Costume (Knight)"
+    },
+    {
+      "index": 25004,
+      "class": "knight",
+      "part": "body",
+      "action": [5, 1],
+      "name": "Black Formal Costume (Knight)"
+    },
+    {
+      "index": 25006,
+      "class": "knight",
+      "part": "body",
+      "action": [7, 1],
+      "name": "Halloween Formal Costume (Knight)"
+    },
+    {
+      "index": 25008,
+      "class": "knight",
+      "part": "body",
+      "action": [9, 1],
+      "name": "Happy Christmas Santa Costume (Knight)"
+    },
+    {
+      "index": 25009,
+      "class": "knight",
+      "part": "body",
+      "action": [10, 1],
+      "name": "Hanbok Costume (Knight)"
+    },
+    {
+      "index": 25010,
+      "class": "knight",
+      "part": "body",
+      "action": [11, 1],
+      "name": "Mong-Nyong Costume (Knight)"
+    },
+    {
+      "index": 25044,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 1],
+      "name": "Blood Dragon's Sword"
+    },
+    {
+      "index": 25045,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 2],
+      "name": "Blood Dragon's Giant sword"
+    },
+    {
+      "index": 25046,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 3],
+      "name": "Imperial Blood Dragon's Sword"
+    },
+    {
+      "index": 25047,
+      "class": "knight",
+      "part": "weapon",
+      "action": [21, 4],
+      "name": "Imperial Blood Dragon's Giant Sword"
+    },
+    {
+      "index": 25062,
+      "class": "knight",
+      "part": "weapon",
+      "action": [22, 1],
+      "name": "Stormforged Sword Skin (Knight)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25063,
+      "class": "knight",
+      "part": "weapon",
+      "action": [22, 2],
+      "name": "Stormforged Greatsword Skin (Knight)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25064,
+      "class": "knight",
+      "part": "weapon",
+      "action": [22, 3],
+      "name": "Sovereign Stormforged Sword Skin (Knight)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25065,
+      "class": "knight",
+      "part": "weapon",
+      "action": [22, 4],
+      "name": "Sovereign Stormforged Greatsword Skin (Knight)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25066,
+      "class": "knight",
+      "part": "weapon",
+      "action": [23, 1],
+      "name": "Heavenly Executioner Sword"
+    },
+    {
+      "index": 25067,
+      "class": "knight",
+      "part": "weapon",
+      "action": [23, 2],
+      "name": "Heavenly Executioner Giant Sword"
+    },
+    {
+      "index": 25068,
+      "class": "knight",
+      "part": "weapon",
+      "action": [23, 3],
+      "name": "Imperial Heavenly Executioner Sword"
+    },
+    {
+      "index": 25069,
+      "class": "knight",
+      "part": "weapon",
+      "action": [23, 4],
+      "name": "Imperial Heavenly Executioner Giant Sword"
+    },
+    {
+      "index": 25070,
+      "class": "knight",
+      "part": "weapon",
+      "action": [40, 1],
+      "name": "Special T-Bear sword"
+    },
+    {
+      "index": 25145,
+      "class": "magician",
+      "part": "body",
+      "action": [1, 1],
+      "name": "Swimsuit (Magician)"
+    },
+    {
+      "index": 25146,
+      "class": "magician",
+      "part": "body",
+      "action": [2, 1],
+      "name": "New Swimsuit (Magician)"
+    },
+    {
+      "index": 25147,
+      "class": "magician",
+      "part": "body",
+      "action": [3, 1],
+      "name": "Sexy Swimsuit (Magician)"
+    },
+    {
+      "index": 25148,
+      "class": "magician",
+      "part": "body",
+      "action": [4, 1],
+      "name": "Blue Formal Costume (Magician)"
+    },
+    {
+      "index": 25149,
+      "class": "magician",
+      "part": "body",
+      "action": [5, 1],
+      "name": "Black Formal Costume (Magician)"
+    },
+    {
+      "index": 25151,
+      "class": "magician",
+      "part": "body",
+      "action": [7, 1],
+      "name": "Halloween Formal Costume (Magician)"
+    },
+    {
+      "index": 25153,
+      "class": "magician",
+      "part": "body",
+      "action": [9, 1],
+      "name": "Happy Christmas Santa Costume (Magician)"
+    },
+    {
+      "index": 25154,
+      "class": "magician",
+      "part": "body",
+      "action": [10, 1],
+      "name": "Hanbok Costume (Magician)"
+    },
+    {
+      "index": 25155,
+      "class": "magician",
+      "part": "body",
+      "action": [11, 1],
+      "name": "Choon-Hyang Costume (Magician)"
+    },
+    {
+      "index": 25188,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 1],
+      "name": "Blood Dragon Stick"
+    },
+    {
+      "index": 25189,
+      "class": "magician",
+      "part": "weapon",
+      "action": [21, 2],
+      "name": "Blood Dragon Imperial Stick"
+    },
+    {
+      "index": 25197,
+      "class": "magician",
+      "part": "weapon",
+      "action": [22, 1],
+      "name": "Violet Wing Staff Skin (Magician)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25198,
+      "class": "magician",
+      "part": "weapon",
+      "action": [22, 2],
+      "name": "Violet Wing Crown Staff Skin (Magician)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25201,
+      "class": "magician",
+      "part": "weapon",
+      "action": [23, 1],
+      "name": "Heavenly Executioner Stick"
+    },
+    {
+      "index": 25202,
+      "class": "magician",
+      "part": "weapon",
+      "action": [23, 2],
+      "name": "Heavenly Executioner Stick of Ruin"
+    },
+    {
+      "index": 25203,
+      "class": "magician",
+      "part": "weapon",
+      "action": [23, 3],
+      "name": "Heavenly Executioner Stick of Hell"
+    },
+    {
+      "index": 25204,
+      "class": "magician",
+      "part": "weapon",
+      "action": [23, 4],
+      "name": "Imperial Heavenly Executioner Stick"
+    },
+    {
+      "index": 25205,
+      "class": "magician",
+      "part": "weapon",
+      "action": [23, 5],
+      "name": "Imperial Heavenly Executioner Stick of Ruin"
+    },
+    {
+      "index": 25206,
+      "class": "magician",
+      "part": "weapon",
+      "action": [23, 6],
+      "name": "Imperial Heavenly Executioner Stick of Hell"
+    },
+    {
+      "index": 25208,
+      "class": "magician",
+      "part": "weapon",
+      "action": [40, 1],
+      "name": "T-bear Stick"
+    },
+    {
+      "index": 25261,
+      "class": "archer",
+      "part": "body",
+      "action": [1, 1],
+      "name": "Swimsuit (Archer)"
+    },
+    {
+      "index": 25262,
+      "class": "archer",
+      "part": "body",
+      "action": [2, 1],
+      "name": "New Swimsuit (Archer)"
+    },
+    {
+      "index": 25263,
+      "class": "archer",
+      "part": "body",
+      "action": [3, 1],
+      "name": "Sexy Swimsuit (Archer)"
+    },
+    {
+      "index": 25264,
+      "class": "archer",
+      "part": "body",
+      "action": [4, 1],
+      "name": "Blue Formal Costume (Archer)"
+    },
+    {
+      "index": 25265,
+      "class": "archer",
+      "part": "body",
+      "action": [5, 1],
+      "name": "Black Formal Costume (Archer)"
+    },
+    {
+      "index": 25267,
+      "class": "archer",
+      "part": "body",
+      "action": [7, 1],
+      "name": "Halloween Formal Costume (Archer)"
+    },
+    {
+      "index": 25269,
+      "class": "archer",
+      "part": "body",
+      "action": [9, 1],
+      "name": "Happy Christmas Santa Costume (Archer)"
+    },
+    {
+      "index": 25270,
+      "class": "archer",
+      "part": "body",
+      "action": [10, 1],
+      "name": "Hanbok Costume (Archer)"
+    },
+    {
+      "index": 25271,
+      "class": "archer",
+      "part": "body",
+      "action": [11, 1],
+      "name": "Choon-Hyang Costume (Archer)"
+    },
+    {
+      "index": 25305,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 1],
+      "name": "Blood Dragon's Bow"
+    },
+    {
+      "index": 25306,
+      "class": "archer",
+      "part": "weapon",
+      "action": [21, 2],
+      "name": "Imperial Blood Dragon's Bow"
+    },
+    {
+      "index": 25316,
+      "class": "archer",
+      "part": "weapon",
+      "action": [22, 1],
+      "name": "Starfall Bow Skin (Archer)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25317,
+      "class": "archer",
+      "part": "weapon",
+      "action": [22, 2],
+      "name": "Sovereign Starfall Bow Skin (Archer)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25320,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 1],
+      "name": "Heavenly Executioner Bow"
+    },
+    {
+      "index": 25321,
+      "class": "archer",
+      "part": "weapon",
+      "action": [23, 2],
+      "name": "Imperial Heavenly Executioner Bow"
+    },
+    {
+      "index": 25330,
+      "class": "archer",
+      "part": "weapon",
+      "action": [40, 1],
+      "name": "T-bear Bow"
+    },
+    {
+      "index": 25381,
+      "class": "thief",
+      "part": "body",
+      "action": [1, 1],
+      "name": "Swimsuit (Thief)"
+    },
+    {
+      "index": 25382,
+      "class": "thief",
+      "part": "body",
+      "action": [2, 1],
+      "name": "New Swimsuit (Thief)"
+    },
+    {
+      "index": 25383,
+      "class": "thief",
+      "part": "body",
+      "action": [3, 1],
+      "name": "Sexy Swimsuit (Thief)"
+    },
+    {
+      "index": 25384,
+      "class": "thief",
+      "part": "body",
+      "action": [4, 1],
+      "name": "Blue Formal Costume (Thief)"
+    },
+    {
+      "index": 25385,
+      "class": "thief",
+      "part": "body",
+      "action": [5, 1],
+      "name": "Black Formal Costume (Thief)"
+    },
+    {
+      "index": 25387,
+      "class": "thief",
+      "part": "body",
+      "action": [7, 1],
+      "name": "Halloween Formal Costume (Thief)",
+      "normalization_note": "Removed an unmatched trailing bracket from the display name."
+    },
+    {
+      "index": 25389,
+      "class": "thief",
+      "part": "body",
+      "action": [9, 1],
+      "name": "Happy Christmas Santa Costume (Thief)"
+    },
+    {
+      "index": 25390,
+      "class": "thief",
+      "part": "body",
+      "action": [10, 1],
+      "name": "Hanbok Costume (Thief)"
+    },
+    {
+      "index": 25391,
+      "class": "thief",
+      "part": "body",
+      "action": [11, 1],
+      "name": "Choon-Hyang Costume (Thief)"
+    },
+    {
+      "index": 25425,
+      "class": "thief",
+      "part": "weapon",
+      "action": [21, 1],
+      "name": "Blood Dragon's Dagger"
+    },
+    {
+      "index": 25426,
+      "class": "thief",
+      "part": "weapon",
+      "action": [21, 2],
+      "name": "Imperial Blood Dragon's Dagger"
+    },
+    {
+      "index": 25432,
+      "class": "thief",
+      "part": "weapon",
+      "action": [22, 1],
+      "name": "Moonveil Dagger Skin (Thief)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25433,
+      "class": "thief",
+      "part": "weapon",
+      "action": [22, 2],
+      "name": "Sovereign Moonveil Dagger Skin (Thief)",
+      "name_origin": "openkal_original"
+    },
+    {
+      "index": 25435,
+      "class": "thief",
+      "part": "weapon",
+      "action": [23, 1],
+      "name": "Heavenly Executioner Dagger"
+    },
+    {
+      "index": 25436,
+      "class": "thief",
+      "part": "weapon",
+      "action": [23, 2],
+      "name": "Imperial Heavenly Executioner Dagger"
+    },
+    {
+      "index": 25437,
+      "class": "thief",
+      "part": "weapon",
+      "action": [40, 1],
+      "name": "T-bear dagger"
+    }
+  ],
+  "ambiguous": []
+}

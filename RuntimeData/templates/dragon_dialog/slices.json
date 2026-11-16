@@ -1,0 +1,134 @@
+{
+  "frame_source": "source/frame-quiet.png",
+  "frame_size": [
+    472,
+    672
+  ],
+  "frame_source_crop": [
+    32,
+    80,
+    976,
+    1424
+  ],
+  "frame_slices": {
+    "frame_top_left": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "frame_top": [
+      192,
+      0,
+      256,
+      84
+    ],
+    "frame_top_right": [
+      408,
+      0,
+      472,
+      96
+    ],
+    "frame_left": [
+      0,
+      256,
+      40,
+      320
+    ],
+    "frame_right": [
+      432,
+      256,
+      472,
+      320
+    ],
+    "frame_bottom_left": [
+      0,
+      616,
+      96,
+      672
+    ],
+    "frame_bottom": [
+      192,
+      616,
+      256,
+      672
+    ],
+    "frame_bottom_right": [
+      416,
+      616,
+      472,
+      672
+    ],
+    "panel_background": [
+      192,
+      256,
+      320,
+      384
+    ]
+  },
+  "button_sizes": {
+    "button": [
+      144,
+      48
+    ],
+    "icon_button": [
+      28,
+      28
+    ],
+    "close": [
+      36,
+      36
+    ],
+    "long_button": [
+      276,
+      30
+    ],
+    "toggle": [
+      20,
+      20
+    ]
+  },
+  "notes": "Native pixels. No baked title, dialog icon or text-button glyphs.",
+  "frame_slice_sources": {
+    "frame_top_right": "source/frame-corner-ornament.png"
+  },
+  "long_controls_source": "source/long_buttons.png",
+  "long_controls_cells": {
+    "long_button_idle": [
+      0,
+      0,
+      1536,
+      210
+    ],
+    "long_button_hover": [
+      0,
+      210,
+      1536,
+      390
+    ],
+    "long_button_pressed": [
+      0,
+      390,
+      1536,
+      565
+    ],
+    "long_button_disabled": [
+      0,
+      565,
+      1536,
+      755
+    ],
+    "toggle_active": [
+      380,
+      755,
+      760,
+      1024
+    ],
+    "toggle_inactive": [
+      760,
+      755,
+      1140,
+      1024
+    ]
+  }
+}

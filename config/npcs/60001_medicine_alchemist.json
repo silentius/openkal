@@ -1,0 +1,12 @@
+{
+  "_doc": "OpenKal NPC. Position is explicitly configured; appearance is inherited at runtime from the Speed-up Medicine chemist; no external NPC data is redistributed.",
+  "index": 60001,
+  "name": "Medicine Alchemist",
+  "kind": 3,
+  "html": 990300,
+  "xy": [257454, 258802, 16080],
+  "placement": {
+    "beside_dialog": 192,
+    "offset": [0, 0, 0]
+  }
+}

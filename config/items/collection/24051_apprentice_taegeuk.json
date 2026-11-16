@@ -1,0 +1,19 @@
+{
+  "index": 24051,
+  "name": "Apprentice Taegeuk",
+  "description": "Absorption requires eight worn trigrams at +5 or higher.",
+  "image": "item733",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 30,
+  "limit": {
+    "class": "all",
+    "level": 30
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 0,
+  "sell": 0
+}

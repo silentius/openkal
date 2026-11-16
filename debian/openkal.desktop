@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=OpenKal
+Comment=Open-source KalOnline client
+Exec=/usr/games/openkal
+Icon=openkal
+Terminal=false
+Categories=Game;RolePlaying;
+Keywords=KalOnline;MMORPG;

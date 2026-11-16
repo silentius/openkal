@@ -1,0 +1,15 @@
+{
+  "schema": "openkal.battle-riding.restrictions/v1",
+  "allGrades": {
+    "blockedActions": ["walkOnAir", "run", "rest", "transform", "revival", "fishing", "itemDrop", "speedUp"]
+  },
+  "grades0To2": {
+    "blockedSkillsByClass": {
+      "knight": [21],
+      "mage": [54],
+      "archer": [31, 46],
+      "thief": [6, 33]
+    }
+  },
+  "epic": { "blockedActions": ["speedUp"] }
+}

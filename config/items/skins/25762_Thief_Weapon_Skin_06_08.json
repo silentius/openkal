@@ -1,0 +1,22 @@
+{
+  "index": 25762,
+  "name": "G45 Daggers 06-08 Skin (Thief)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [6, 8],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model thief/weapon 06-08.",
+  "skin": {
+    "weapon_type": "dagger"
+  }
+}

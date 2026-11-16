@@ -1,0 +1,21 @@
+---
+description: Keep the openkal.ui/v1 schema, templates, variables, bindings, and UI editor synchronized
+globs:
+  - "config/ui/**"
+  - "docs/ui/**"
+  - "client/src/ui/**"
+  - "client/include/openkal/client/Ui*.h"
+  - "client/include/openkal/client/*Window.h"
+  - "client/include/openkal/client/*Widget.h"
+  - "client/include/openkal/client/GameHud.h"
+  - "client/include/openkal/client/Inventory.h"
+  - "client/include/openkal/client/SkillBar.h"
+  - "client/include/openkal/client/ItemTooltip.h"
+  - "tools/uiEditor/**"
+alwaysApply: false
+---
+
+# UI JSON workflow
+
+Read and follow `.agents/skills/ui-json-schema/SKILL.md`. The skill is the single
+source of truth; this Cursor rule only supplies automatic file attachment.

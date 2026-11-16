@@ -1,0 +1,94 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "trade_quantity",
+  "kind": "window",
+  "window": {
+    "w": 280,
+    "h": 162,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${trade.quantity_title}",
+      "pixel_size": 18
+    },
+    {
+      "type": "text",
+      "id": "prompt",
+      "x": 96,
+      "y": 35,
+      "text": "${trade.quantity_prompt}",
+      "pixel_size": 13
+    },
+    {
+      "type": "button",
+      "id": "quantity",
+      "x": 8,
+      "y": 67,
+      "w": 264,
+      "h": 30,
+      "label": "${trade.quantity}",
+      "action": "trade.quantity",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "quantity_accept",
+      "x": 8,
+      "y": 114,
+      "w": 124,
+      "h": 30,
+      "label": "OK",
+      "action": "trade.quantity_accept",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "quantity_cancel",
+      "x": 148,
+      "y": 114,
+      "w": 124,
+      "h": 30,
+      "label": "Cancel",
+      "action": "trade.quantity_cancel",
+      "align": "center",
+      "pixel_size": 13,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    }
+  ]
+}

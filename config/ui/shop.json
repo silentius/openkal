@@ -1,0 +1,899 @@
+{
+  "_doc": "Dragon merchant with equal 42-pixel slot frames, 46-pixel grid pitches, 12-pixel panel insets and framed currency/details. Inventory remains 6x6 and merchant offers 5x7.",
+  "schema": "openkal.ui/v1",
+  "id": "shop",
+  "kind": "window",
+  "window": {
+    "w": 586,
+    "h": 530,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/inventory.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "fill",
+      "id": "inventory_panel",
+      "x": 12,
+      "y": 44,
+      "w": 296,
+      "h": 342,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "inventory_panel_top",
+      "x": 12,
+      "y": 44,
+      "w": 296,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "inventory_panel_bottom",
+      "x": 12,
+      "y": 385,
+      "w": 296,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "inventory_panel_left",
+      "x": 12,
+      "y": 45,
+      "w": 1,
+      "h": 340,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "inventory_panel_right",
+      "x": 307,
+      "y": 45,
+      "w": 1,
+      "h": 340,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "offers_panel",
+      "x": 324,
+      "y": 44,
+      "w": 250,
+      "h": 342,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "offers_panel_top",
+      "x": 324,
+      "y": 44,
+      "w": 250,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "offers_panel_bottom",
+      "x": 324,
+      "y": 385,
+      "w": 250,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "offers_panel_left",
+      "x": 324,
+      "y": 45,
+      "w": 1,
+      "h": 340,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "offers_panel_right",
+      "x": 573,
+      "y": 45,
+      "w": 1,
+      "h": 340,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selection_hint_field",
+      "x": 12,
+      "y": 398,
+      "w": 296,
+      "h": 32,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "selection_hint_field_top",
+      "x": 12,
+      "y": 398,
+      "w": 296,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selection_hint_field_bottom",
+      "x": 12,
+      "y": 429,
+      "w": 296,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selection_hint_field_left",
+      "x": 12,
+      "y": 399,
+      "w": 1,
+      "h": 30,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selection_hint_field_right",
+      "x": 307,
+      "y": 399,
+      "w": 1,
+      "h": 30,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "money_field",
+      "x": 12,
+      "y": 440,
+      "w": 296,
+      "h": 40,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "money_field_top",
+      "x": 12,
+      "y": 440,
+      "w": 296,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "money_field_bottom",
+      "x": 12,
+      "y": 479,
+      "w": 296,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "money_field_left",
+      "x": 12,
+      "y": 441,
+      "w": 1,
+      "h": 38,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "money_field_right",
+      "x": 307,
+      "y": 441,
+      "w": 1,
+      "h": 38,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_name_field",
+      "x": 324,
+      "y": 440,
+      "w": 250,
+      "h": 36,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "selected_name_field_top",
+      "x": 324,
+      "y": 440,
+      "w": 250,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_name_field_bottom",
+      "x": 324,
+      "y": 475,
+      "w": 250,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_name_field_left",
+      "x": 324,
+      "y": 441,
+      "w": 1,
+      "h": 34,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_name_field_right",
+      "x": 573,
+      "y": 441,
+      "w": 1,
+      "h": 34,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_price_field",
+      "x": 324,
+      "y": 482,
+      "w": 250,
+      "h": 36,
+      "color": "#090807",
+      "alpha": 0.48
+    },
+    {
+      "type": "fill",
+      "id": "selected_price_field_top",
+      "x": 324,
+      "y": 482,
+      "w": 250,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_price_field_bottom",
+      "x": 324,
+      "y": 517,
+      "w": 250,
+      "h": 1,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_price_field_left",
+      "x": 324,
+      "y": 483,
+      "w": 1,
+      "h": 34,
+      "color": "#4D4233"
+    },
+    {
+      "type": "fill",
+      "id": "selected_price_field_right",
+      "x": 573,
+      "y": 483,
+      "w": 1,
+      "h": 34,
+      "color": "#4D4233"
+    },
+    {
+      "type": "text",
+      "id": "inventory_label",
+      "x": 96,
+      "y": 14,
+      "text": "${shop.inventory_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${shop.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "inventory_count",
+      "x": 296,
+      "y": 14,
+      "text": "${shop.inventory_count} items",
+      "color": "${theme.colors.label}",
+      "align": "right",
+      "pixel_size": 12
+    },
+    {
+      "type": "icon_grid",
+      "id": "inventory",
+      "x": 29,
+      "y": 61,
+      "cols": 6,
+      "rows": 6,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 46,
+        "y": 46
+      },
+      "bind": "shop.inventory",
+      "select_color": "#D7B76F",
+      "tooltip": true,
+      "badge": {
+        "text": "${slot.count}",
+        "visible_when": "slot.count > 1"
+      },
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      }
+    },
+    {
+      "type": "tabs",
+      "id": "inventory_registers",
+      "x": 0,
+      "y": 346,
+      "h": 28,
+      "bind": "shop.inventory_register",
+      "color_off": "${theme.colors.label}",
+      "color_on": "${theme.colors.title}",
+      "items": [
+        {
+          "id": "0",
+          "x": 24,
+          "w": 42,
+          "file_off": "dragon_dialog/button_idle.bmp",
+          "file_on": "dragon_dialog/button_pressed.bmp",
+          "label": "1"
+        },
+        {
+          "id": "1",
+          "x": 70,
+          "w": 42,
+          "file_off": "dragon_dialog/button_idle.bmp",
+          "file_on": "dragon_dialog/button_pressed.bmp",
+          "label": "2"
+        },
+        {
+          "id": "2",
+          "x": 116,
+          "w": 42,
+          "file_off": "dragon_dialog/button_idle.bmp",
+          "file_on": "dragon_dialog/button_pressed.bmp",
+          "label": "3"
+        },
+        {
+          "id": "3",
+          "x": 162,
+          "w": 42,
+          "file_off": "dragon_dialog/button_idle.bmp",
+          "file_on": "dragon_dialog/button_pressed.bmp",
+          "label": "4"
+        },
+        {
+          "id": "4",
+          "x": 208,
+          "w": 42,
+          "file_off": "dragon_dialog/button_idle.bmp",
+          "file_on": "dragon_dialog/button_pressed.bmp",
+          "label": "5"
+        },
+        {
+          "id": "5",
+          "x": 254,
+          "w": 42,
+          "file_off": "dragon_dialog/button_idle.bmp",
+          "file_on": "dragon_dialog/button_pressed.bmp",
+          "label": "6"
+        }
+      ],
+      "align": "center"
+    },
+    {
+      "type": "text",
+      "id": "selection_hint",
+      "x": 24,
+      "y": 408,
+      "text": "${shop.selection_hint}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "money",
+      "x": 296,
+      "y": 453,
+      "align": "right",
+      "pixel_size": 12,
+      "text": "${shop.money:geons}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "icon_slot",
+      "id": "money_icon",
+      "x": 24,
+      "y": 444,
+      "w": 32,
+      "h": 32,
+      "bind": "shop.currency"
+    },
+    {
+      "type": "text",
+      "id": "money_label",
+      "x": 64,
+      "y": 453,
+      "text": "${shop.money_label}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "sell",
+      "x": 174,
+      "y": 486,
+      "w": 122,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "Sell",
+      "action": "shop.sell",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "offers_label",
+      "x": 336,
+      "y": 14,
+      "text": "${shop.offers_label}",
+      "color": "${theme.colors.label}",
+      "align": "left",
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "offers_page",
+      "x": 562,
+      "y": 14,
+      "align": "right",
+      "text": "${shop.offers_page}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12
+    },
+    {
+      "type": "icon_grid",
+      "id": "offers",
+      "x": 341,
+      "y": 61,
+      "cols": 5,
+      "rows": 7,
+      "cell": {
+        "w": 32,
+        "h": 32
+      },
+      "pitch": {
+        "x": 46,
+        "y": 46
+      },
+      "bind": "shop.offers",
+      "select_color": "#D7B76F",
+      "tooltip": true,
+      "frame": {
+        "file": "dragon_hud/slot_normal.bmp",
+        "w": 42,
+        "h": 42
+      }
+    },
+    {
+      "type": "text",
+      "id": "selected_name",
+      "x": 336,
+      "y": 453,
+      "text": "${shop.selected_name}",
+      "color": "${theme.colors.value}",
+      "w": 226,
+      "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "selected_price",
+      "x": 336,
+      "y": 495,
+      "text": "${shop.selected_price:geons}",
+      "color": "${theme.colors.label}",
+      "w": 226,
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "buy",
+      "x": 440,
+      "y": 398,
+      "w": 122,
+      "h": 32,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "label": "Buy",
+      "action": "shop.buy",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "offers_previous",
+      "x": 336,
+      "y": 398,
+      "w": 42,
+      "h": 32,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "label": "<",
+      "action": "shop.offers.previous",
+      "align": "center",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "offers_next",
+      "x": 386,
+      "y": 398,
+      "w": 42,
+      "h": 32,
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "label": ">",
+      "action": "shop.offers.next",
+      "align": "center",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "fill",
+      "id": "quantity_shade",
+      "x": 0,
+      "y": 0,
+      "w": 586,
+      "h": 530,
+      "color": "#000000",
+      "alpha": 0.8,
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "image",
+      "id": "quantity_panel_texture",
+      "file": "dragon_dialog/panel_background.bmp",
+      "x": 153,
+      "y": 183,
+      "w": 280,
+      "h": 166,
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel",
+      "x": 153,
+      "y": 183,
+      "w": 280,
+      "h": 166,
+      "color": "#090807",
+      "alpha": 0.48,
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_top",
+      "x": 153,
+      "y": 183,
+      "w": 280,
+      "h": 1,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_bottom",
+      "x": 153,
+      "y": 348,
+      "w": 280,
+      "h": 1,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_left",
+      "x": 153,
+      "y": 184,
+      "w": 1,
+      "h": 164,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_panel_right",
+      "x": 432,
+      "y": 184,
+      "w": 1,
+      "h": 164,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field",
+      "x": 253,
+      "y": 242,
+      "w": 80,
+      "h": 30,
+      "color": "#090807",
+      "alpha": 0.48,
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_top",
+      "x": 253,
+      "y": 242,
+      "w": 80,
+      "h": 1,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_bottom",
+      "x": 253,
+      "y": 271,
+      "w": 80,
+      "h": 1,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_left",
+      "x": 253,
+      "y": 243,
+      "w": 1,
+      "h": 28,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "fill",
+      "id": "quantity_field_right",
+      "x": 332,
+      "y": 243,
+      "w": 1,
+      "h": 28,
+      "color": "#4D4233",
+      "visible_when": "shop.quantity_open"
+    },
+    {
+      "type": "text",
+      "id": "quantity_prompt",
+      "x": 293,
+      "y": 209,
+      "align": "center",
+      "text": "${shop.quantity_prompt}",
+      "color": "${theme.colors.title}",
+      "visible_when": "shop.quantity_open",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_decrease",
+      "x": 184,
+      "y": 242,
+      "w": 42,
+      "h": 28,
+      "label": "-",
+      "action": "shop.quantity.decrease",
+      "visible_when": "shop.quantity_open",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "input",
+      "id": "quantity",
+      "x": 293,
+      "y": 248,
+      "w": 70,
+      "h": 20,
+      "align": "center",
+      "bind": "shop.quantity",
+      "color": "${theme.colors.value}",
+      "visible_when": "shop.quantity_open",
+      "text": "${shop.quantity}",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_increase",
+      "x": 360,
+      "y": 242,
+      "w": 42,
+      "h": 28,
+      "label": "+",
+      "action": "shop.quantity.increase",
+      "visible_when": "shop.quantity_open",
+      "file_default": "dragon_dialog/icon_button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/icon_button_hover.bmp",
+      "file_on": "dragon_dialog/icon_button_pressed.bmp",
+      "file_off": "dragon_dialog/icon_button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_add10",
+      "x": 169,
+      "y": 277,
+      "w": 56,
+      "h": 22,
+      "label": "10",
+      "action": "shop.quantity.add10",
+      "visible_when": "shop.buy_quantity_open",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_add100",
+      "x": 233,
+      "y": 277,
+      "w": 56,
+      "h": 22,
+      "label": "100",
+      "action": "shop.quantity.add100",
+      "visible_when": "shop.buy_quantity_open",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_add1000",
+      "x": 297,
+      "y": 277,
+      "w": 56,
+      "h": 22,
+      "label": "1000",
+      "action": "shop.quantity.add1000",
+      "visible_when": "shop.buy_quantity_open",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_max",
+      "x": 361,
+      "y": 277,
+      "w": 56,
+      "h": 22,
+      "label": "Max",
+      "action": "shop.quantity.max",
+      "visible_when": "shop.quantity_open",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_cancel",
+      "x": 183,
+      "y": 312,
+      "w": 88,
+      "h": 28,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "Cancel",
+      "action": "shop.quantity.cancel",
+      "visible_when": "shop.quantity_open",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "quantity_confirm",
+      "x": 315,
+      "y": 312,
+      "w": 88,
+      "h": 28,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "label": "Confirm",
+      "action": "shop.quantity.confirm",
+      "visible_when": "shop.quantity_open",
+      "align": "center",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp",
+      "pixel_size": 12
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp",
+      "pixel_size": 12
+    }
+  ]
+}

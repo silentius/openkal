@@ -1,0 +1,125 @@
+{
+  "_doc": "Dragon Quest Journal. Shared frame and footer; wrapped quest rows and live item progress use the journal canvas.",
+  "schema": "openkal.ui/v1",
+  "id": "quest_journal",
+  "kind": "window",
+  "window": {
+    "w": 720,
+    "h": 440,
+    "draggable": true,
+    "title_drag_h": 70
+  },
+  "theme": {
+    "font_pixel_size": 13,
+    "colors": {
+      "label": "#BDAE92",
+      "value": "#EAE3D4",
+      "pending": "#B5D991",
+      "title": "#E5CF9E"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "${quest.title}",
+      "color": "${theme.colors.title}",
+      "pixel_size": 18,
+      "bold": true
+    },
+    {
+      "type": "image",
+      "id": "dialog_icon",
+      "file": "dragon_menu/quest.bmp",
+      "x": 15,
+      "y": -30,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "type": "text",
+      "id": "active_label",
+      "x": 96,
+      "y": 10,
+      "text": "${quest.active_label}",
+      "color": "${theme.colors.title}",
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "count",
+      "x": 272,
+      "y": 12,
+      "text": "${quest.count}",
+      "align": "right",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "details_label",
+      "x": 298,
+      "y": 10,
+      "text": "${quest.details_label}",
+      "color": "${theme.colors.title}",
+      "bold": true
+    },
+    {
+      "type": "fill",
+      "id": "heading_rule",
+      "x": 96,
+      "y": 36,
+      "w": 612,
+      "h": 1,
+      "color": "#5C4A30"
+    },
+    {
+      "type": "canvas",
+      "id": "journal",
+      "kind": "quest_journal",
+      "x": 12,
+      "y": 44,
+      "w": 696,
+      "h": 376
+    },
+    {
+      "type": "button",
+      "id": "snitch",
+      "x_from_right": 120,
+      "y": 388,
+      "w": 108,
+      "h": 32,
+      "label": "${quest.snitch_label}",
+      "align": "center",
+      "action": "quest.snitch",
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp",
+      "file_off": "dragon_dialog/button_disabled.bmp"
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp"
+    }
+  ]
+}

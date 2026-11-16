@@ -1,0 +1,19 @@
+{
+  "index": 24002,
+  "name": "Senior Yin-Yang Mirror",
+  "description": "Requires eight enchanted trigrams of the same grade.",
+  "image": "item699",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 75,
+  "limit": {
+    "class": "all",
+    "level": 75
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 4000000,
+  "sell": 0
+}

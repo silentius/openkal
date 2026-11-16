@@ -1,0 +1,6 @@
+Checks: '-*,readability-braces-around-statements'
+WarningsAsErrors: 'readability-braces-around-statements'
+HeaderFilterRegex: '(^|/)(client|engines|libs|server|tests|tools)/'
+CheckOptions:
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: '0'

@@ -1,0 +1,51 @@
+{
+  "id": 277,
+  "caption": "Talk",
+  "window": {
+    "w": 450,
+    "h": 550
+  },
+  "lines": [
+    "I can mix stones into weapons and also create Imperial weapons.",
+    "To mix a stone into a weapon, bring me:",
+    "1. One weapon (center)",
+    "2. One extra weapon",
+    "3. One armor piece",
+    "4. One elemental stone",
+    "",
+    "Each mix step uses one stone. The first mix is Grade 1.",
+    "Mix again (same or different stone) to reach Grade 2 of the new stone.",
+    "",
+    "Grade 3 is Stone of Mystery or Stone of Demon's Blood. Those only",
+    "work on a Grade 2 weapon and need two stones of the same type.",
+    "",
+    "To make an Imperial weapon, bring the grades from the mix list:",
+    "main weapon + extra weapon + armor + two identical stones.",
+    "Grade 50 needs a Grade 50 extra weapon and a Grade 46 chest — the same",
+    "grades as the mix list, for both upgrading and making.",
+    "",
+    "Be careful: the materials are consumed even when mixing fails."
+  ],
+  "links": [
+    {
+      "type": "mixing_up",
+      "text": "[Upgrading A Weapon] I'd like to upgrade my weapon."
+    },
+    {
+      "type": "mixing_new",
+      "text": "[Making A Weapon] I'd like to make a new weapon."
+    },
+    {
+      "type": "mixing_list_up",
+      "text": "[Mixing Item List] I'd like to upgrade my weapon."
+    },
+    {
+      "type": "mixing_list_new",
+      "text": "[Mixing Item List] I'd like to create a new weapon."
+    },
+    {
+      "type": "close",
+      "text": "[Talk End] I'll come back later."
+    }
+  ]
+}

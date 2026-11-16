@@ -1,0 +1,13 @@
+{
+  "_doc": "Government Position (G.P.) titles for Thief. Index matches jobsystem.dat grade order (sys 2001..2006). Use index 0 until specialty is synced.",
+  "class_id": 3,
+  "class_name": "Thief",
+  "titles": [
+    "Wandering Thief",
+    "Thief Guild member",
+    "Hitman",
+    "I. Swordman",
+    "Dark Shadow",
+    "Unearthly Ghost"
+  ]
+}

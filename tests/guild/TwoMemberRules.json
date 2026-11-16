@@ -1,0 +1,19 @@
+{
+  "schema": "openkal.guilds/v1",
+  "creation": {
+    "minimum_level": 1,
+    "minimum_members": 2,
+    "require_party": true,
+    "require_full_party": false,
+    "fee_zamogeon": 100
+  },
+  "grades": {
+    "minimum_members_by_grade": [1, 2, 2, 2, 26, 40, 54, 70, 90, 110]
+  },
+  "membership": {
+    "rejoin_lock_seconds": 60
+  },
+  "daily_reward": {
+    "minimum_membership_seconds": 0
+  }
+}

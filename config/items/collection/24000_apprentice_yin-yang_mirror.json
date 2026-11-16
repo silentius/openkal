@@ -1,0 +1,19 @@
+{
+  "index": 24000,
+  "name": "Apprentice Yin-Yang Mirror",
+  "description": "Requires eight enchanted trigrams of the same grade.",
+  "image": "item697",
+  "class": [
+    "yinyang",
+    "collection"
+  ],
+  "level": 30,
+  "limit": {
+    "class": "all",
+    "level": 30
+  },
+  "wear": 1,
+  "stackable": 0,
+  "buy": 30000,
+  "sell": 0
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "player_option_row",
+  "kind": "hud",
+  "window": {
+    "w": 420,
+    "h": 32
+  },
+  "chrome": {
+    "kind": "pieces",
+    "pieces": []
+  },
+  "widgets": [
+    {
+      "type": "button",
+      "id": "action",
+      "x": 8,
+      "y": 0,
+      "w": 404,
+      "h": 32,
+      "action": "player_options.choose",
+      "label": "${player_options.action_label}",
+      "align": "center",
+      "pixel_size": 12,
+      "file_default": "dragon_dialog/button_idle.bmp",
+      "file_over": "dragon_dialog/button_hover.bmp",
+      "file_on": "dragon_dialog/button_pressed.bmp"
+    }
+  ]
+}

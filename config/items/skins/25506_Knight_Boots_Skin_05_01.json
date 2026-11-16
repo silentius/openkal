@@ -1,0 +1,19 @@
+{
+  "index": 25506,
+  "name": "G42 Boots Skin (Knight)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "boots"
+  ],
+  "action": [5, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "knight",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the boots skin slot. No combat bonuses. OpenKal descriptive name; model knight/boots 05-01."
+}

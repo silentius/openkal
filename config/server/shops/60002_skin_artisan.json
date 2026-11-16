@@ -1,0 +1,11 @@
+{
+  "_doc": "OpenKal cosmetic exchange. Derives offers from loaded skin definitions, then filters by the requesting player's class. No loot sources are configured.",
+  "schema": "openkal.shop/v1",
+  "npcIndex": 60002,
+  "currencyItem": 23030,
+  "skinCatalog": true,
+  "fullBodyPrice": 4,
+  "itemPrice": 2,
+  "excludeItems": [25303, 25313, 25364],
+  "_excludedItemsDoc": "25303 is an arrow attachment, 25313 has a missing texture, and 25364 duplicates the Frost Feather Bow appearance retained as 25355. Existing item definitions remain available."
+}

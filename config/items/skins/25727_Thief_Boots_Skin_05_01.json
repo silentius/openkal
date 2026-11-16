@@ -1,0 +1,19 @@
+{
+  "index": 25727,
+  "name": "G42 Boots Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "boots"
+  ],
+  "action": [5, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the boots skin slot. No combat bonuses. OpenKal descriptive name; model thief/boots 05-01."
+}

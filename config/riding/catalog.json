@@ -1,0 +1,21 @@
+{
+  "schema": "openkal.riding/v1",
+  "mounts": [
+    { "itemIndex": 30000, "visualKey": 1,  "bone": 1,  "partCount": 4, "seatBone": 29, "modelScale": 1.0, "riderOffsetY": 18.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30001, "visualKey": 5,  "bone": 1,  "partCount": 4, "seatBone": 29, "modelScale": 1.0, "riderOffsetY": 18.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30002, "visualKey": 2,  "bone": 2,  "partCount": 6, "seatBone": 21, "modelScale": 1.0, "riderOffsetY": 19.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30003, "visualKey": 6,  "bone": 2,  "partCount": 6, "seatBone": 21, "modelScale": 1.0, "riderOffsetY": 19.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30004, "visualKey": 3,  "bone": 3,  "partCount": 4, "seatBone": 26, "modelScale": 1.0, "riderOffsetY": 18.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30005, "visualKey": 7,  "bone": 3,  "partCount": 4, "seatBone": 26, "modelScale": 1.0, "riderOffsetY": 18.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30006, "visualKey": 4,  "bone": 4,  "partCount": 5, "seatBone": 24, "modelScale": 1.0, "riderOffsetY": 20.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30007, "visualKey": 8,  "bone": 4,  "partCount": 5, "seatBone": 24, "modelScale": 1.0, "riderOffsetY": 20.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30008, "visualKey": 9,  "bone": 5,  "partCount": 6, "seatBone": 21, "modelScale": 1.0, "riderOffsetY": 19.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30009, "visualKey": 10, "bone": 10, "partCount": 2, "seatBone": 34, "modelScale": 1.0, "riderOffsetY": 20.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30010, "visualKey": 11, "bone": 11, "partCount": 2, "seatBone": 34, "modelScale": 1.0, "riderOffsetY": 20.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30011, "visualKey": 14, "bone": 14, "partCount": 2, "seatBone": 34, "modelScale": 1.0, "riderOffsetY": 20.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30012, "visualKey": 15, "bone": 15, "partCount": 2, "seatBone": 34, "modelScale": 1.0, "riderOffsetY": 20.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30100, "kind": "battle", "initialGrade": 0, "visualKey": 24, "bone": 24, "partCount": 6, "seatBone": 22, "modelScale": 1.0, "riderOffsetY": 19.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30101, "kind": "battle", "initialGrade": 0, "visualKey": 25, "bone": 25, "partCount": 6, "seatBone": 22, "modelScale": 1.0, "riderOffsetY": 19.0, "durationSeconds": 604800, "movementSpeedPercent": 75 },
+    { "itemIndex": 30102, "kind": "battle", "initialGrade": 0, "visualKey": 26, "bone": 26, "partCount": 6, "seatBone": 22, "modelScale": 1.0, "riderOffsetY": 19.0, "durationSeconds": 604800, "movementSpeedPercent": 75 }
+  ]
+}

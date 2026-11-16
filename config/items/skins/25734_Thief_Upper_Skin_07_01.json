@@ -1,0 +1,19 @@
+{
+  "index": 25734,
+  "name": "G50 Armor Skin (Thief)",
+  "image": "skinBody",
+  "class": [
+    "skin",
+    "upper"
+  ],
+  "action": [7, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "thief",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the upper skin slot. No combat bonuses. OpenKal descriptive name; model thief/upper 07-01."
+}

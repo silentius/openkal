@@ -1,0 +1,13 @@
+{
+  "index": 41321,
+  "rarity": 5,
+  "name": "Riding Cache",
+  "description": "Open this cache to receive a Riding Seal and one additional Riding reward.",
+  "image": "ridingCache",
+  "class": ["etc", "battleRidingCache"],
+  "stackable": 1,
+  "level": 1,
+  "wear": 0,
+  "use": 1,
+  "limit": { "class": "all", "level": 1 }
+}

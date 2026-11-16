@@ -1,0 +1,22 @@
+{
+  "_doc": "OpenKal trading-post collector on map 0. Facing 176.6 degrees converted to a look-at point. Uses the existing shape 75 appearance; compatible appearance assets remain optional runtime input.",
+  "index": 60003,
+  "name": "Trading Post Agent",
+  "kind": 3,
+  "shape": 75,
+  "map": 0,
+  "html": 990320,
+  "trading_post_collector": true,
+  "overhead_icon": "dragon_menu/trading_post_dialog.bmp",
+  "name_offset_y": 0,
+  "name_offset_pixels": 10,
+  "xy": [232525, 291711, 45410],
+  "dir": [232466, 292709],
+  "appearance": {
+    "boneId": 955,
+    "scale": 1.0,
+    "scaleParam": 5,
+    "motion": "AAAAAAAAAA",
+    "mspeed": [0, 0]
+  }
+}

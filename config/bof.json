@@ -1,0 +1,28 @@
+{
+  "minGrade": 46,
+  "halfCount": 3,
+  "fullCount": 5,
+  "successRate": 100,
+  "halfDefensePercent": 3,
+  "fullHpMpPercent": 10,
+  "fullResistPercent": 10,
+  "armorParts": [
+    "helmet",
+    "hat",
+    "upperarmor",
+    "lowerarmor",
+    "pants",
+    "gauntlet",
+    "boots"
+  ],
+  "fxLevels": [46, 50, 55, 60, 65],
+  "tiers": [
+    { "grade": 46, "piece": 1, "halfSet": 5, "fullSet": 10 },
+    { "grade": 50, "piece": 2, "halfSet": 6, "fullSet": 11 },
+    { "grade": 55, "piece": 3, "halfSet": 7, "fullSet": 12 },
+    { "grade": 60, "piece": 4, "halfSet": 8, "fullSet": 13 },
+    { "grade": 65, "piece": 5, "halfSet": 9, "fullSet": 14 },
+    { "grade": 70, "piece": 6, "halfSet": 10, "fullSet": 15 },
+    { "grade": 75, "piece": 7, "halfSet": 11, "fullSet": 16 }
+  ]
+}

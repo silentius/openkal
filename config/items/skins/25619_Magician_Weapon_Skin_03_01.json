@@ -1,0 +1,22 @@
+{
+  "index": 25619,
+  "name": "G13 Staff 03-01 Skin (Magician)",
+  "image": "skinWeapon",
+  "class": [
+    "skin",
+    "weapon"
+  ],
+  "action": [3, 1],
+  "wear": 1,
+  "stackable": 0,
+  "limit": {
+    "class": "magician",
+    "level": 1
+  },
+  "buy": 0,
+  "sell": 0,
+  "description": "Cosmetic only. Use the weapon skin slot. No combat bonuses. OpenKal descriptive name; model magician/weapon 03-01.",
+  "skin": {
+    "weapon_type": "wand"
+  }
+}
