@@ -477,7 +477,7 @@ and its checksum for publication.
 All 170 repository images were created for OpenKal using AI. The
 [image provenance inventory](ImageProvenance.md#authorship-distribution-and-references)
 documents their creation and processing. The artwork provenance item is closed
-for the current source candidate. The publication decision for internal
-authoring chat titles and identifiers remains open.
+for the current source candidate. The public provenance records link assets
+to prompts and hashes using project-assigned generation identifiers.
 The [technical results and remaining delivery steps](../TODO.md#technical-verification-and-delivery)
 apply to the local candidate.

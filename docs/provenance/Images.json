@@ -12,7 +12,6 @@
   "summary": {
     "image_files": 170,
     "source_records": 30,
-    "chats": 28,
     "generation_records": 82,
     "evidence_counts": {
       "documented_derivative": 2,
@@ -23,1213 +22,743 @@
       "retained_project_source": 2
     }
   },
-  "chats": [
-    {
-      "id": "01a09aef-f053-7013-acb7-dc0faf14a17b",
-      "title": "Erstelle Unlock-Symbol für Tabs",
-      "created_at_utc": "2026-09-13T13:23:31Z"
-    },
-    {
-      "id": "01a0a54c-d821-78b3-8b54-ab8e26fe15eb",
-      "title": "Erstelle weiches 3D-Yin-Yang",
-      "created_at_utc": "2026-09-15T13:41:11Z"
-    },
-    {
-      "id": "01a1012a-970b-72f2-9079-6fe657cbd35a",
-      "title": "Generiere Battle-Riding-Bilder",
-      "created_at_utc": "2026-10-03T09:48:50Z"
-    },
-    {
-      "id": "01a10168-91b2-7801-8052-040ca3294f24",
-      "title": "Erstelle ExpEvent Coin Template",
-      "created_at_utc": "2026-10-03T10:56:32Z"
-    },
-    {
-      "id": "01a1022d-1e07-7481-b673-617f8c65b611",
-      "title": "Create purple bound-item overlay",
-      "created_at_utc": "2026-10-03T14:31:13Z"
-    },
-    {
-      "id": "01a102e4-0863-7990-9122-85ef9c288e50",
-      "title": "Exp-Event-Symbol überarbeiten",
-      "created_at_utc": "2026-10-03T17:51:01Z"
-    },
-    {
-      "id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "title": "Erstelle blaue und rote Tränke",
-      "created_at_utc": "2026-10-07T15:01:22Z"
-    },
-    {
-      "id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "title": "Generiere KalOnline UI-Beispiel",
-      "created_at_utc": "2026-10-07T17:12:45Z"
-    },
-    {
-      "id": "01a1251f-d049-7801-91a2-646028a23ad6",
-      "title": "Runde Minimap planen",
-      "created_at_utc": "2026-10-10T09:23:24Z"
-    },
-    {
-      "id": "01a12550-0004-74c0-a4e3-052b53565f22",
-      "title": "Menüleisten-UI im Dragon-Stil",
-      "created_at_utc": "2026-10-10T10:16:02Z"
-    },
-    {
-      "id": "01a1256d-2bdf-7c61-8025-47c79539ae57",
-      "title": "Chatbox im Singleplayer verbessern",
-      "created_at_utc": "2026-10-10T10:47:54Z"
-    },
-    {
-      "id": "01a12af2-01e2-7b92-ab62-b53ad3710afd",
-      "title": "Neue Designs für restliche UIs",
-      "created_at_utc": "2026-10-11T12:31:05Z"
-    },
-    {
-      "id": "01a12bc6-180c-7d83-b934-2e0aabaf5167",
-      "title": "Fix TransformWindow and add messages",
-      "created_at_utc": "2026-10-11T16:22:45Z"
-    },
-    {
-      "id": "01a13ba4-6a84-7930-a7a1-b6c8cb1faef1",
-      "title": "Add custom animated cursors",
-      "created_at_utc": "2026-10-14T18:19:53Z"
-    },
-    {
-      "id": "01a13f17-4d77-73d0-8df4-f54bb7af92e9",
-      "title": "Add Taegeuk Hanin and Yeoju",
-      "created_at_utc": "2026-10-15T10:24:14Z"
-    },
-    {
-      "id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "title": "Add dragon designs to medicine potes",
-      "created_at_utc": "2026-10-18T08:01:53Z"
-    },
-    {
-      "id": "01a14f6c-c730-7290-a06d-cb2683361d61",
-      "title": "Add attachment icon to messages",
-      "created_at_utc": "2026-10-18T14:31:31Z"
-    },
-    {
-      "id": "01a152ce-afd3-7f23-a730-f89da13f0f6c",
-      "title": "Add polishing stone protection",
-      "created_at_utc": "2026-10-19T06:17:19Z"
-    },
-    {
-      "id": "01a15427-3651-77d1-9c8a-2057b3bcd405",
-      "title": "Add trade tree progression",
-      "created_at_utc": "2026-10-19T12:33:38Z"
-    },
-    {
-      "id": "01a16257-84f5-70c3-b301-8f9162ae7310",
-      "title": "Partyfenster und Einladungen ergänze",
-      "created_at_utc": "2026-10-22T06:41:05Z"
-    },
-    {
-      "id": "01a16e95-697b-7991-9f83-5713059b8679",
-      "title": "Add shop-bought revision stone item",
-      "created_at_utc": "2026-10-24T15:44:08Z"
-    },
-    {
-      "id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "title": "Add Talisman of Enchantment",
-      "created_at_utc": "2026-10-24T16:41:16Z"
-    },
-    {
-      "id": "01a171d9-ad78-79c3-93d4-77e3a72452b4",
-      "title": "Inventar auf altes Design zurück",
-      "created_at_utc": "2026-10-25T06:57:33Z"
-    },
-    {
-      "id": "01a17ee1-947d-7163-984e-10d6e0da4577",
-      "title": "Prüfe offene Legal-Probleme",
-      "created_at_utc": "2026-10-27T19:41:15Z"
-    },
-    {
-      "id": "01a18407-8fa8-7f81-8f58-570b5239e4f0",
-      "title": "Kleine Aloe Vera modellieren",
-      "created_at_utc": "2026-10-28T19:40:50Z"
-    },
-    {
-      "id": "01a1878e-e607-7632-8a6f-e26f8da82526",
-      "title": "Ideen für Potion-Zutaten finden",
-      "created_at_utc": "2026-10-29T12:07:31Z"
-    },
-    {
-      "id": "01a1881b-e724-76e1-aa8e-5751361f960a",
-      "title": "Kostümsystem prüfen und planen",
-      "created_at_utc": "2026-10-29T14:41:32Z"
-    },
-    {
-      "id": "01a18d70-4a55-7cd1-bcc5-abc8a5e60c80",
-      "title": "Erkläre Skin Crafting und Enhancing",
-      "created_at_utc": "2026-10-30T15:31:48Z"
-    }
-  ],
   "generations": [
     {
-      "id": "exec-014d37e5-41b8-4b94-ab27-62d063a5f548",
-      "chat_id": "01a13f17-4d77-73d0-8df4-f54bb7af92e9",
-      "turn_id": "01a13f74-91df-7bc2-8d06-16cc284a8e86",
-      "turn_started_at_utc": "2026-10-15T12:06:06Z",
+      "id": "generation-001",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-014d37e5-41b8-4b94-ab27-62d063a5f548.png",
       "output_sha256": "46ecd1b8175b92689fb4ee7a03c3e481b2fcb6949bc40ee3981aa729cae5edc3",
-      "prompt_record": "ImageGenerationPrompts.md#exec-014d37e5-41b8-4b94-ab27-62d063a5f548",
+      "prompt_record": "ImageGenerationPrompts.md#generation-001",
       "prompt_sha256": "bc546e3471413e95ce1162aa7cb3a4cd348faeee549787cc0b89e7f7c90602f0"
     },
     {
-      "id": "exec-089eebb2-07fa-4384-a03c-f9f93908dbd5",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-002",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-089eebb2-07fa-4384-a03c-f9f93908dbd5.png",
       "output_sha256": "d71c5d7617fee73baa7a396643a68678006bf26eec8511184327e712369f7da1",
-      "prompt_record": "ImageGenerationPrompts.md#exec-089eebb2-07fa-4384-a03c-f9f93908dbd5",
+      "prompt_record": "ImageGenerationPrompts.md#generation-002",
       "prompt_sha256": "28ad02cf5de7b60b079facd7e37a9f423e63660247ad703075f65f9e9e41d5a1"
     },
     {
-      "id": "exec-093d4e53-9dd1-4313-b163-ce0791d8323e",
-      "chat_id": "01a1256d-2bdf-7c61-8025-47c79539ae57",
-      "turn_id": "01a125af-0cac-70d1-ad84-0dad4f656a28",
-      "turn_started_at_utc": "2026-10-10T11:59:51Z",
+      "id": "generation-003",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-093d4e53-9dd1-4313-b163-ce0791d8323e.png",
       "output_sha256": "0fd8dad12b55d8c89110241301218c8a7fb97d74cacf2816f94e29095f62d6f3",
-      "prompt_record": "ImageGenerationPrompts.md#exec-093d4e53-9dd1-4313-b163-ce0791d8323e",
+      "prompt_record": "ImageGenerationPrompts.md#generation-003",
       "prompt_sha256": "48179dd65fd18ede149ec71743e66d6ad48e7fc36b423ae75ade4ac59d788340"
     },
     {
-      "id": "exec-1174f034-f58e-4e61-9494-308a6a20562e",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-004",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-1174f034-f58e-4e61-9494-308a6a20562e.png",
       "output_sha256": "18b11d86d949a45af651fbae116e0f5dd5b88ce02a512a83db96eeb7af6ca378",
-      "prompt_record": "ImageGenerationPrompts.md#exec-1174f034-f58e-4e61-9494-308a6a20562e",
+      "prompt_record": "ImageGenerationPrompts.md#generation-004",
       "prompt_sha256": "8956221118ab1933e07e79a42966199d102b4b229eb4a4c9843a30288923dd55"
     },
     {
-      "id": "exec-11aa8fa7-9dff-41c5-9c3a-56fdb168eb5d",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11780-d16d-7971-9147-93e3606541a9",
-      "turn_started_at_utc": "2026-10-07T17:54:40Z",
+      "id": "generation-005",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-11aa8fa7-9dff-41c5-9c3a-56fdb168eb5d.png",
       "output_sha256": "b9d2eaa9ccb9b6e787884b1d414756fd63595d61a612199ae005dcb1965053ad",
-      "prompt_record": "ImageGenerationPrompts.md#exec-11aa8fa7-9dff-41c5-9c3a-56fdb168eb5d",
+      "prompt_record": "ImageGenerationPrompts.md#generation-005",
       "prompt_sha256": "50c3af5e32c72f2e042bcc7f91305ca654a9c39c6338d7c1eef96a2765a51620"
     },
     {
-      "id": "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a1176c-ab8f-7342-a668-09585957310d",
-      "turn_started_at_utc": "2026-10-07T17:32:40Z",
+      "id": "generation-006",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e.png",
       "output_sha256": "501b81efe8e31450824fa066273834896cd1816759996c908b5b09a4e9176acc",
-      "prompt_record": "ImageGenerationPrompts.md#exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e",
+      "prompt_record": "ImageGenerationPrompts.md#generation-006",
       "prompt_sha256": "58f910a54cda92ce09a774c6a60a035029fcb3a860744c6e37c4533556ee109c"
     },
     {
-      "id": "exec-1846eaad-1879-49ff-82d8-636b88f9e64f",
-      "chat_id": "01a18407-8fa8-7f81-8f58-570b5239e4f0",
-      "turn_id": "01a1843c-3184-75c1-ab8a-a2e1545cf07e",
-      "turn_started_at_utc": "2026-10-28T20:38:19Z",
+      "id": "generation-007",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-1846eaad-1879-49ff-82d8-636b88f9e64f.png",
       "output_sha256": "769761a312698c7e8c169ad58ead6f2195b17ee6b35f392d11a27265216c14dd",
-      "prompt_record": "ImageGenerationPrompts.md#exec-1846eaad-1879-49ff-82d8-636b88f9e64f",
+      "prompt_record": "ImageGenerationPrompts.md#generation-007",
       "prompt_sha256": "ea11b1a2107d3911e990e01cdd93740703ff90834c98deb937d622fa1234d4ff"
     },
     {
-      "id": "exec-1b0b4d85-7c35-4c32-9bf7-dc2c4070b497",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-008",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-1b0b4d85-7c35-4c32-9bf7-dc2c4070b497.png",
       "output_sha256": "706e37e0791984bf4d2c1772fcf99960301670f60594a109c7ddcc90a8999462",
-      "prompt_record": "ImageGenerationPrompts.md#exec-1b0b4d85-7c35-4c32-9bf7-dc2c4070b497",
+      "prompt_record": "ImageGenerationPrompts.md#generation-008",
       "prompt_sha256": "4b569f7b196d42afb32ed525af5af46741f0f83898fd35ce8a1a09e16ba9a1c6"
     },
     {
-      "id": "exec-1e3d90bd-e2e7-4526-9f6c-01f70413122a",
-      "chat_id": "01a1256d-2bdf-7c61-8025-47c79539ae57",
-      "turn_id": "01a125af-0cac-70d1-ad84-0dad4f656a28",
-      "turn_started_at_utc": "2026-10-10T11:59:51Z",
+      "id": "generation-009",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-1e3d90bd-e2e7-4526-9f6c-01f70413122a.png",
       "output_sha256": "0ead9d558b44a3227e5b546bddc090c0c9d7862882e236a87bb582cd9128d4a0",
-      "prompt_record": "ImageGenerationPrompts.md#exec-1e3d90bd-e2e7-4526-9f6c-01f70413122a",
+      "prompt_record": "ImageGenerationPrompts.md#generation-009",
       "prompt_sha256": "b360a1f51e26801d8e268690bb77baa76062af9a39053cae6d2df54de2ffc146"
     },
     {
-      "id": "exec-1f4e4e34-b275-4043-85e7-5efdef56fb24",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a1176c-ab8f-7342-a668-09585957310d",
-      "turn_started_at_utc": "2026-10-07T17:32:40Z",
+      "id": "generation-010",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-1f4e4e34-b275-4043-85e7-5efdef56fb24.png",
       "output_sha256": "08598f88b8116b718d5bbf14c6d989a09f18d6a0e9ad04c1a4f322caaebb94f9",
-      "prompt_record": "ImageGenerationPrompts.md#exec-1f4e4e34-b275-4043-85e7-5efdef56fb24",
+      "prompt_record": "ImageGenerationPrompts.md#generation-010",
       "prompt_sha256": "30254537103dfd1e35c638f11aa2ec670ce76fe175a870f79892da216353ac40"
     },
     {
-      "id": "exec-1fb439f6-ec8d-495d-b52e-66c10bd1b45f",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-011",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-1fb439f6-ec8d-495d-b52e-66c10bd1b45f.png",
       "output_sha256": "d249def7e50b5b05ecd6547a8f89dc2bba3dcbca59ffc4df31352542cfb635e3",
-      "prompt_record": "ImageGenerationPrompts.md#exec-1fb439f6-ec8d-495d-b52e-66c10bd1b45f",
+      "prompt_record": "ImageGenerationPrompts.md#generation-011",
       "prompt_sha256": "07084129ae161a114ddf408d95765fcc1bada8e31bd26b094a20a3355d6f31b2"
     },
     {
-      "id": "exec-218f38bc-d6c2-4455-9666-3e7916ceb474",
-      "chat_id": "01a1251f-d049-7801-91a2-646028a23ad6",
-      "turn_id": "01a12520-71f8-79e2-b61b-25eac517fa67",
-      "turn_started_at_utc": "2026-10-10T09:24:05Z",
+      "id": "generation-012",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-218f38bc-d6c2-4455-9666-3e7916ceb474.png",
       "output_sha256": "772a2ef6f1e0fb4f337ce9710318b4d8095c5a963553c916468fcc331c1b630b",
-      "prompt_record": "ImageGenerationPrompts.md#exec-218f38bc-d6c2-4455-9666-3e7916ceb474",
+      "prompt_record": "ImageGenerationPrompts.md#generation-012",
       "prompt_sha256": "100b22e5d2cb2bd017c7fb569864e6863388fbefba7e1a7b898890256546b5a2"
     },
     {
-      "id": "exec-22ef8700-1c29-4cbd-8fa5-4463c4765d26",
-      "chat_id": "01a1256d-2bdf-7c61-8025-47c79539ae57",
-      "turn_id": "01a125ab-b216-79b3-9c7a-fae62e5cf22a",
-      "turn_started_at_utc": "2026-10-10T11:56:11Z",
+      "id": "generation-013",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-22ef8700-1c29-4cbd-8fa5-4463c4765d26.png",
       "output_sha256": "0a329a50905bdd34baabc103cbd110ade54d4f586e34e55bd7c48428ffe25aed",
-      "prompt_record": "ImageGenerationPrompts.md#exec-22ef8700-1c29-4cbd-8fa5-4463c4765d26",
+      "prompt_record": "ImageGenerationPrompts.md#generation-013",
       "prompt_sha256": "70e8a3fdf924113dd1507e197c8d35adc9566c6a32f9043bfde50f51e793d0e1"
     },
     {
-      "id": "exec-2617a6cd-b3c7-4327-a091-871774d06cd5",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11bda-5ddc-7b03-9b20-1a788460ee81",
-      "turn_started_at_utc": "2026-10-08T14:10:58Z",
+      "id": "generation-014",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-2617a6cd-b3c7-4327-a091-871774d06cd5.png",
       "output_sha256": "a1f12b9b8278e1f3b11517547ba8a24b4781d002bc372e24dbc780490ee3459b",
-      "prompt_record": "ImageGenerationPrompts.md#exec-2617a6cd-b3c7-4327-a091-871774d06cd5",
+      "prompt_record": "ImageGenerationPrompts.md#generation-014",
       "prompt_sha256": "0577d6e06f2509bca7cb35b8f0a9df51ab4f452cb1c5e2c300e68810ed7e42ad"
     },
     {
-      "id": "exec-29e738da-d56c-4edb-b98f-47652f564652",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11765-dc9e-7482-8bbf-a119ea3e1f4b",
-      "turn_started_at_utc": "2026-10-07T17:25:14Z",
+      "id": "generation-015",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-29e738da-d56c-4edb-b98f-47652f564652.png",
       "output_sha256": "902c5392cc5f20e25b31dfed0b589b9ab40a06656bf90ac8df77c4de9a8dd303",
-      "prompt_record": "ImageGenerationPrompts.md#exec-29e738da-d56c-4edb-b98f-47652f564652",
+      "prompt_record": "ImageGenerationPrompts.md#generation-015",
       "prompt_sha256": "401294bbdf8317604a01b54b74b069b65197c2ed5288ab18d623026022336207"
     },
     {
-      "id": "exec-2de6da1a-f2c3-473b-a2b3-e0e3103b7656",
-      "chat_id": "01a1256d-2bdf-7c61-8025-47c79539ae57",
-      "turn_id": "01a125a7-9518-7e40-aa9a-e2204e9802c7",
-      "turn_started_at_utc": "2026-10-10T11:51:42Z",
+      "id": "generation-016",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-2de6da1a-f2c3-473b-a2b3-e0e3103b7656.png",
       "output_sha256": "27c7be2585985921f2cf609aac464eb2a98e29ab66bfcb47f00435258f36cc23",
-      "prompt_record": "ImageGenerationPrompts.md#exec-2de6da1a-f2c3-473b-a2b3-e0e3103b7656",
+      "prompt_record": "ImageGenerationPrompts.md#generation-016",
       "prompt_sha256": "0fbe63c41c044c4549f2e24ba66cd458b5cb94d2eaa9bc15ca8d9f12743f9527"
     },
     {
-      "id": "exec-32b7b01c-f682-4b52-80b2-5d6b90b1122f",
-      "chat_id": "01a13f17-4d77-73d0-8df4-f54bb7af92e9",
-      "turn_id": "01a13f74-91df-7bc2-8d06-16cc284a8e86",
-      "turn_started_at_utc": "2026-10-15T12:06:06Z",
+      "id": "generation-017",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-32b7b01c-f682-4b52-80b2-5d6b90b1122f.png",
       "output_sha256": "72ae6ee6b3c2a28dadfc94ac240b2fcbc95851d3d83473231cbde71778d6d0b3",
-      "prompt_record": "ImageGenerationPrompts.md#exec-32b7b01c-f682-4b52-80b2-5d6b90b1122f",
+      "prompt_record": "ImageGenerationPrompts.md#generation-017",
       "prompt_sha256": "350c62a4f98a6e473488f02a1b4ffeee0ffb77302ad4443190ef176ac8c1f156"
     },
     {
-      "id": "exec-35462c6e-f565-4362-8e22-157d09008791",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-018",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-35462c6e-f565-4362-8e22-157d09008791.png",
       "output_sha256": "49f59dc8d34ffdf490bbc117fe0f4b26e471e79014851795110ddd620ca2175c",
-      "prompt_record": "ImageGenerationPrompts.md#exec-35462c6e-f565-4362-8e22-157d09008791",
+      "prompt_record": "ImageGenerationPrompts.md#generation-018",
       "prompt_sha256": "112562aecffea6c0b3924097a3aa36c97faeaf0396b19ffc3a933ca79317e53b"
     },
     {
-      "id": "exec-3cc7310a-e77d-468d-a52b-ae7a981b4555",
-      "chat_id": "01a18d70-4a55-7cd1-bcc5-abc8a5e60c80",
-      "turn_id": "01a18d93-e41e-7002-856d-52460a750d95",
-      "turn_started_at_utc": "2026-10-30T16:10:42Z",
+      "id": "generation-019",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-3cc7310a-e77d-468d-a52b-ae7a981b4555.png",
       "output_sha256": "00a67b85e2086b4d6a8cd5a02d83af98f1bf06a4eed9991d45fbe0eb28271fc4",
-      "prompt_record": "ImageGenerationPrompts.md#exec-3cc7310a-e77d-468d-a52b-ae7a981b4555",
+      "prompt_record": "ImageGenerationPrompts.md#generation-019",
       "prompt_sha256": "3020b3277ffd2ee17ac1613152738e0862a4c1e70fd9ab0bb6584a484fad4ab8"
     },
     {
-      "id": "exec-3f3b4b82-5b00-4d5a-ae25-60ded411d74f",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-020",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-3f3b4b82-5b00-4d5a-ae25-60ded411d74f.png",
       "output_sha256": "cbff064a56be026ce4af326bf9ca397efc71f4f10b52e7f001b12c94ce59ae14",
-      "prompt_record": "ImageGenerationPrompts.md#exec-3f3b4b82-5b00-4d5a-ae25-60ded411d74f",
+      "prompt_record": "ImageGenerationPrompts.md#generation-020",
       "prompt_sha256": "82c851f44b6433f2c45f1d5415726a8c608161fb6209644927c9901fcdc426ad"
     },
     {
-      "id": "exec-3f91d67a-9531-499b-9435-0efd977a0d7f",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-021",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-3f91d67a-9531-499b-9435-0efd977a0d7f.png",
       "output_sha256": "df3f8efbf3687894350221958925f9b95eedaf07a9234ef2ed0007b6fc73c9a0",
-      "prompt_record": "ImageGenerationPrompts.md#exec-3f91d67a-9531-499b-9435-0efd977a0d7f",
+      "prompt_record": "ImageGenerationPrompts.md#generation-021",
       "prompt_sha256": "b595a45bee6f1fc8ffdfb51ae15350ed8bdc26082e4ed2c0b347578a6832f6ed"
     },
     {
-      "id": "exec-4337628c-8379-404f-94aa-6a9ff148f715",
-      "chat_id": "01a16e95-697b-7991-9f83-5713059b8679",
-      "turn_id": "01a16e97-faf9-7eb1-9ff0-e3f115bf1f52",
-      "turn_started_at_utc": "2026-10-24T15:46:56Z",
+      "id": "generation-022",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-4337628c-8379-404f-94aa-6a9ff148f715.png",
       "output_sha256": "8a84bc739667d747d68594b11b988b03745d02ae9bbedb74c17751a2984644ca",
-      "prompt_record": "ImageGenerationPrompts.md#exec-4337628c-8379-404f-94aa-6a9ff148f715",
+      "prompt_record": "ImageGenerationPrompts.md#generation-022",
       "prompt_sha256": "7449daaaf2e9e0094c21ea075b2ac5ea9bd026f5f2331fd52ce79e8728f5970c"
     },
     {
-      "id": "exec-436c85cd-495a-4af4-9e01-e0a45b9196bf",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a1175e-8389-7241-a3a3-c5a902a3bebf",
-      "turn_started_at_utc": "2026-10-07T17:17:12Z",
+      "id": "generation-023",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-436c85cd-495a-4af4-9e01-e0a45b9196bf.png",
       "output_sha256": "f875e5b69338aed60c2f17cca47b349a1ad7051ced474a001f32b4b329d3b7c4",
-      "prompt_record": "ImageGenerationPrompts.md#exec-436c85cd-495a-4af4-9e01-e0a45b9196bf",
+      "prompt_record": "ImageGenerationPrompts.md#generation-023",
       "prompt_sha256": "6ad36c9aab1e1c8a3a34e698319b6c49b66e55fa9a7792664764c241d194f407"
     },
     {
-      "id": "exec-43e34182-c749-4fb4-9d7e-274117a25a08",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a1176c-ab8f-7342-a668-09585957310d",
-      "turn_started_at_utc": "2026-10-07T17:32:40Z",
+      "id": "generation-024",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-43e34182-c749-4fb4-9d7e-274117a25a08.png",
       "output_sha256": "f4f7a0bdb61cda21eac5b3ace5e700a7de6328e45503823a4be2bb430b253577",
-      "prompt_record": "ImageGenerationPrompts.md#exec-43e34182-c749-4fb4-9d7e-274117a25a08",
+      "prompt_record": "ImageGenerationPrompts.md#generation-024",
       "prompt_sha256": "a3f36fceb6c8ddab4e4a6acb65c31483674a253968f1664c7eef770736f98ee2"
     },
     {
-      "id": "exec-43fc4145-85b2-49c6-b2f3-12b710785268",
-      "chat_id": "01a16e95-697b-7991-9f83-5713059b8679",
-      "turn_id": "01a16e97-faf9-7eb1-9ff0-e3f115bf1f52",
-      "turn_started_at_utc": "2026-10-24T15:46:56Z",
+      "id": "generation-025",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-43fc4145-85b2-49c6-b2f3-12b710785268.png",
       "output_sha256": "a1f5136ca1b432a5eaa679ca993cd5271fe5a26235864c16e13bd28390a31b99",
-      "prompt_record": "ImageGenerationPrompts.md#exec-43fc4145-85b2-49c6-b2f3-12b710785268",
+      "prompt_record": "ImageGenerationPrompts.md#generation-025",
       "prompt_sha256": "101ae346f054fe3826e64aa8c47999e96db04f324cbd458dca46a953a449c84e"
     },
     {
-      "id": "exec-471dc5f0-520d-407b-8723-877316cd1420",
-      "chat_id": "01a1012a-970b-72f2-9079-6fe657cbd35a",
-      "turn_id": "01a1012d-03fc-71d3-afe0-352aa989b13b",
-      "turn_started_at_utc": "2026-10-03T09:51:29Z",
+      "id": "generation-026",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-471dc5f0-520d-407b-8723-877316cd1420.png",
       "output_sha256": "de491fb3e952cd40e193b75d5a7a1219b1a0a83bc9fcf23e81d5d4aa9ceb0a8d",
-      "prompt_record": "ImageGenerationPrompts.md#exec-471dc5f0-520d-407b-8723-877316cd1420",
+      "prompt_record": "ImageGenerationPrompts.md#generation-026",
       "prompt_sha256": "3bf9e97910f151d7b20b04f8f616ad0c088b646b4cb79977e61c1f63149121f0"
     },
     {
-      "id": "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38",
-      "chat_id": "01a1251f-d049-7801-91a2-646028a23ad6",
-      "turn_id": "01a12526-d0cc-7f03-a039-712638401c92",
-      "turn_started_at_utc": "2026-10-10T09:31:03Z",
+      "id": "generation-027",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38.png",
       "output_sha256": "74f4e2a473dc94b24bd91dfb12d2d022d06b0887b3c98494857bb75491edf12b",
-      "prompt_record": "ImageGenerationPrompts.md#exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38",
+      "prompt_record": "ImageGenerationPrompts.md#generation-027",
       "prompt_sha256": "48539b6d78547f859e947f5451e884e865d634ab3227d3ebb52f98fa3916a8cb"
     },
     {
-      "id": "exec-4c9ceb6d-05e5-4dd0-9bb8-12d62eca7845",
-      "chat_id": "01a10168-91b2-7801-8052-040ca3294f24",
-      "turn_id": "01a1016b-a74e-75d1-96c2-34067819f76c",
-      "turn_started_at_utc": "2026-10-03T10:59:54Z",
+      "id": "generation-028",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-4c9ceb6d-05e5-4dd0-9bb8-12d62eca7845.png",
       "output_sha256": "f59fa21f9a2d1ae65f85a79e6d22ba869ef62791dd1d97e98c665eb9ebab0b75",
-      "prompt_record": "ImageGenerationPrompts.md#exec-4c9ceb6d-05e5-4dd0-9bb8-12d62eca7845",
+      "prompt_record": "ImageGenerationPrompts.md#generation-028",
       "prompt_sha256": "446290379b674f0203ef774f4546e9fa523657166d06f130a5c5d24cea4b2915"
     },
     {
-      "id": "exec-4d2d88cc-1a14-4643-8e84-532098197cad",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e10-c34a-7bf3-8457-38b335b1f979",
-      "turn_started_at_utc": "2026-10-18T08:11:23Z",
+      "id": "generation-029",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-4d2d88cc-1a14-4643-8e84-532098197cad.png",
       "output_sha256": "5a87cf806e0f3ab940a0254a2576947c4e74b145ebda998a90c2676f49bd16e7",
-      "prompt_record": "ImageGenerationPrompts.md#exec-4d2d88cc-1a14-4643-8e84-532098197cad",
+      "prompt_record": "ImageGenerationPrompts.md#generation-029",
       "prompt_sha256": "db13031dd177fe2b59a5aa60d236927281681f0272a84f10df65bb6091759c6f"
     },
     {
-      "id": "exec-4d8ac92b-ac48-449b-bd02-74867e5f7d03",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-030",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-4d8ac92b-ac48-449b-bd02-74867e5f7d03.png",
       "output_sha256": "7125012f7dcb92b1ee1507c7a07c43beaa372c9a5230dfaf9b75dba4023d4707",
-      "prompt_record": "ImageGenerationPrompts.md#exec-4d8ac92b-ac48-449b-bd02-74867e5f7d03",
+      "prompt_record": "ImageGenerationPrompts.md#generation-030",
       "prompt_sha256": "a2e151a40bf75b1126a3d1e0dae0c1deffc254c6607cd32c62c3697d72fd56a6"
     },
     {
-      "id": "exec-546b3112-309d-4762-8be0-cb8628b9d076",
-      "chat_id": "01a15427-3651-77d1-9c8a-2057b3bcd405",
-      "turn_id": "01a15427-4295-75f3-9262-0706898b7c87",
-      "turn_started_at_utc": "2026-10-19T12:33:41Z",
+      "id": "generation-031",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-546b3112-309d-4762-8be0-cb8628b9d076.png",
       "output_sha256": "728ac1ceed2dd37798aafdd1eaf297a70ce970ea7ed0351dee58725fb246447e",
-      "prompt_record": "ImageGenerationPrompts.md#exec-546b3112-309d-4762-8be0-cb8628b9d076",
+      "prompt_record": "ImageGenerationPrompts.md#generation-031",
       "prompt_sha256": "67b4fd7647d623e7d6a6f74b732b856959fb91d030ca3dc4129a7fbaff5e7bbc"
     },
     {
-      "id": "exec-5bf23026-8511-4957-81fe-10d923d6edbd",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-032",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-5bf23026-8511-4957-81fe-10d923d6edbd.png",
       "output_sha256": "a56a59e3ee7c587940d1e777c0a9f5bc5254a3457e7e2eec5a44fc70bc01e418",
-      "prompt_record": "ImageGenerationPrompts.md#exec-5bf23026-8511-4957-81fe-10d923d6edbd",
+      "prompt_record": "ImageGenerationPrompts.md#generation-032",
       "prompt_sha256": "fd5ed3f5ebc431c74856f75fd44ce25dc4cb6bc2e724f73c63a97f671c495918"
     },
     {
-      "id": "exec-5d676bea-deaa-4cab-adfa-98084a247547",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-033",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-5d676bea-deaa-4cab-adfa-98084a247547.png",
       "output_sha256": "f45cca77589a7e74bbf1e6237792adb0215185a6f2dae265aebc95e2c80d21e0",
-      "prompt_record": "ImageGenerationPrompts.md#exec-5d676bea-deaa-4cab-adfa-98084a247547",
+      "prompt_record": "ImageGenerationPrompts.md#generation-033",
       "prompt_sha256": "d1f3751b5e89b3298f593bed6247065e341597ef5db1ff801ab520ae5c65b5d2"
     },
     {
-      "id": "exec-61ad31fd-cda9-42ef-9f91-3d3f885daa9c",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e10-c34a-7bf3-8457-38b335b1f979",
-      "turn_started_at_utc": "2026-10-18T08:11:23Z",
+      "id": "generation-034",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-61ad31fd-cda9-42ef-9f91-3d3f885daa9c.png",
       "output_sha256": "d01b260206b4d2f694653ee454b14cbbb9c5877975c707e7ac157a3aa174843d",
-      "prompt_record": "ImageGenerationPrompts.md#exec-61ad31fd-cda9-42ef-9f91-3d3f885daa9c",
+      "prompt_record": "ImageGenerationPrompts.md#generation-034",
       "prompt_sha256": "db13031dd177fe2b59a5aa60d236927281681f0272a84f10df65bb6091759c6f"
     },
     {
-      "id": "exec-62917dcf-35e7-44bd-a5ca-e2cc8afa74c9",
-      "chat_id": "01a1878e-e607-7632-8a6f-e26f8da82526",
-      "turn_id": "01a18792-963d-7391-b54c-c618bf68720d",
-      "turn_started_at_utc": "2026-10-29T12:11:33Z",
+      "id": "generation-035",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-62917dcf-35e7-44bd-a5ca-e2cc8afa74c9.png",
       "output_sha256": "b4f52fee09d005c9d145fa474a10ce33dc6012a70e36d82e3bebe29af81edbb7",
-      "prompt_record": "ImageGenerationPrompts.md#exec-62917dcf-35e7-44bd-a5ca-e2cc8afa74c9",
+      "prompt_record": "ImageGenerationPrompts.md#generation-035",
       "prompt_sha256": "2739a4ba415d2bfceeeefb60453d054c635faa0f61977bdb721d55aea71fa015"
     },
     {
-      "id": "exec-629a7deb-3432-4942-96a9-0b018e97da98",
-      "chat_id": "01a1012a-970b-72f2-9079-6fe657cbd35a",
-      "turn_id": "01a10133-5542-71d2-9b1d-190e870c3cd0",
-      "turn_started_at_utc": "2026-10-03T09:58:23Z",
+      "id": "generation-036",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-629a7deb-3432-4942-96a9-0b018e97da98.png",
       "output_sha256": "c34422d69cc3d698b4082256d8fec2b77d2b535e56fbfbe0b7107679914bdd37",
-      "prompt_record": "ImageGenerationPrompts.md#exec-629a7deb-3432-4942-96a9-0b018e97da98",
+      "prompt_record": "ImageGenerationPrompts.md#generation-036",
       "prompt_sha256": "6b17be43450c71d0b4bb071afe106b4f446ead4e5213f26607748bc10a61207e"
     },
     {
-      "id": "exec-62e2c207-9916-4680-b19c-82d7ea5906b5",
-      "chat_id": "01a152ce-afd3-7f23-a730-f89da13f0f6c",
-      "turn_id": "01a152ce-b4d2-7fa3-b92f-e79f175be384",
-      "turn_started_at_utc": "2026-10-19T06:17:20Z",
+      "id": "generation-037",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-62e2c207-9916-4680-b19c-82d7ea5906b5.png",
       "output_sha256": "77bdd9192dfbaf0b1c563682f89ba4306e349ca315edaf18bd7a187c0f535549",
-      "prompt_record": "ImageGenerationPrompts.md#exec-62e2c207-9916-4680-b19c-82d7ea5906b5",
+      "prompt_record": "ImageGenerationPrompts.md#generation-037",
       "prompt_sha256": "7160241386cad5ac7be7128ad13cef1e72a1dddf13fd8b476d8a8069ee2956dd"
     },
     {
-      "id": "exec-6345f6b9-af74-4d33-a9dc-e6140a03d6e2",
-      "chat_id": "01a1022d-1e07-7481-b673-617f8c65b611",
-      "turn_id": "01a1022d-22c0-7453-ab60-c46b093ccf62",
-      "turn_started_at_utc": "2026-10-03T14:31:14Z",
+      "id": "generation-038",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-6345f6b9-af74-4d33-a9dc-e6140a03d6e2.png",
       "output_sha256": "6320061864dff0383de242baf729c5120442930b770fb970ebee8e69836f0b43",
-      "prompt_record": "ImageGenerationPrompts.md#exec-6345f6b9-af74-4d33-a9dc-e6140a03d6e2",
+      "prompt_record": "ImageGenerationPrompts.md#generation-038",
       "prompt_sha256": "8a993a44bbb1b3201a9b474874943acc49cf4e89d80389ecbe875f22a5d00846"
     },
     {
-      "id": "exec-63e0d741-226d-498c-b532-2056cf8751f4",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e10-c34a-7bf3-8457-38b335b1f979",
-      "turn_started_at_utc": "2026-10-18T08:11:23Z",
+      "id": "generation-039",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-63e0d741-226d-498c-b532-2056cf8751f4.png",
       "output_sha256": "fd320c044ee39f2c66cca0b1d7a0de8bda27fa2a1bf6ebb576ee1fffc6e119e0",
-      "prompt_record": "ImageGenerationPrompts.md#exec-63e0d741-226d-498c-b532-2056cf8751f4",
+      "prompt_record": "ImageGenerationPrompts.md#generation-039",
       "prompt_sha256": "db13031dd177fe2b59a5aa60d236927281681f0272a84f10df65bb6091759c6f"
     },
     {
-      "id": "exec-64900a8c-89b3-4f1e-8405-7600abea6d41",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11bc0-b7e8-7c53-8751-389d9d10bdf4",
-      "turn_started_at_utc": "2026-10-08T13:42:57Z",
+      "id": "generation-040",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-64900a8c-89b3-4f1e-8405-7600abea6d41.png",
       "output_sha256": "f169066ccd4ceb5ff41dbbc5e0ec900621eeb7159409b166c3b97e28e6a3615e",
-      "prompt_record": "ImageGenerationPrompts.md#exec-64900a8c-89b3-4f1e-8405-7600abea6d41",
+      "prompt_record": "ImageGenerationPrompts.md#generation-040",
       "prompt_sha256": "7fef68faf60f215aea2055d49317b0197273b1c1492e17285e8eb52bb5feb588"
     },
     {
-      "id": "exec-64cf1469-9baf-460c-b47f-db6c5533f360",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ecb-f473-7901-b889-ea023b5a6402",
-      "turn_started_at_utc": "2026-10-24T16:43:42Z",
+      "id": "generation-041",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-64cf1469-9baf-460c-b47f-db6c5533f360.png",
       "output_sha256": "d1832fef433134978a7f3b1480bef28346b15250f2162eed09e7b871e5b3ff4a",
-      "prompt_record": "ImageGenerationPrompts.md#exec-64cf1469-9baf-460c-b47f-db6c5533f360",
+      "prompt_record": "ImageGenerationPrompts.md#generation-041",
       "prompt_sha256": "57ef5144e3896d5d04345098548e124d467a0bb826768986e2fa05b46d6762f9"
     },
     {
-      "id": "exec-6e7aac38-4daf-4e65-b5b1-5c97b8b48305",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14f21-b6e0-7d13-a290-e61704418cb1",
-      "turn_started_at_utc": "2026-10-18T13:09:32Z",
+      "id": "generation-042",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-6e7aac38-4daf-4e65-b5b1-5c97b8b48305.png",
       "output_sha256": "b7135ebfa9f521a6f40848b064bf8189bb0b56aa54b6cebb93cf694f1532c09a",
-      "prompt_record": "ImageGenerationPrompts.md#exec-6e7aac38-4daf-4e65-b5b1-5c97b8b48305",
+      "prompt_record": "ImageGenerationPrompts.md#generation-042",
       "prompt_sha256": "b7821b2bb71fb3c879fd22175f1451ab74b812035ca60c9dece3879064487de9"
     },
     {
-      "id": "exec-6ecb32c5-d0bc-47b1-b6eb-08f407d0c18e",
-      "chat_id": "01a1012a-970b-72f2-9079-6fe657cbd35a",
-      "turn_id": "01a1012d-03fc-71d3-afe0-352aa989b13b",
-      "turn_started_at_utc": "2026-10-03T09:51:29Z",
+      "id": "generation-043",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-6ecb32c5-d0bc-47b1-b6eb-08f407d0c18e.png",
       "output_sha256": "7f76272dce8ad647335367936dc58158933f4b40f942d704e61b16b0929e367e",
-      "prompt_record": "ImageGenerationPrompts.md#exec-6ecb32c5-d0bc-47b1-b6eb-08f407d0c18e",
+      "prompt_record": "ImageGenerationPrompts.md#generation-043",
       "prompt_sha256": "0ced5c09235b8d1afe6082fee6529403d26264c2994cda3880e5d301f64dfdaf"
     },
     {
-      "id": "exec-706fb90e-04cd-4865-b3f6-bb000205d513",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e0c-51ce-7a33-9787-0e4fc9b8c448",
-      "turn_started_at_utc": "2026-10-18T08:06:32Z",
+      "id": "generation-044",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-706fb90e-04cd-4865-b3f6-bb000205d513.png",
       "output_sha256": "48c294dc3e1c56857eba86ea2d4b4ed67713f58639a1f17550a2143fe951b5fd",
-      "prompt_record": "ImageGenerationPrompts.md#exec-706fb90e-04cd-4865-b3f6-bb000205d513",
+      "prompt_record": "ImageGenerationPrompts.md#generation-044",
       "prompt_sha256": "3e8a6d95fc57cd8b7b39e2203dfd2a45102bde25da5c595b81a02e42f101a795"
     },
     {
-      "id": "exec-7274c7b0-cacc-4968-832e-334cf87441d1",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-045",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-7274c7b0-cacc-4968-832e-334cf87441d1.png",
       "output_sha256": "8d9757f40627c027b2519edc61a5643ba9a1e9a4c40fe40107cb54a2ed25a9c7",
-      "prompt_record": "ImageGenerationPrompts.md#exec-7274c7b0-cacc-4968-832e-334cf87441d1",
+      "prompt_record": "ImageGenerationPrompts.md#generation-045",
       "prompt_sha256": "432dea988ec4b78b581cfec8ea24fa08e87481d77f197a143991633f82d289ec"
     },
     {
-      "id": "exec-753564c8-0ee6-43ff-865e-7129ddedacd0",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14f21-b6e0-7d13-a290-e61704418cb1",
-      "turn_started_at_utc": "2026-10-18T13:09:32Z",
+      "id": "generation-046",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-753564c8-0ee6-43ff-865e-7129ddedacd0.png",
       "output_sha256": "1235963f5e990019fca88af74d246b54a8de7aefcc5921e78e7cc86d538b93c1",
-      "prompt_record": "ImageGenerationPrompts.md#exec-753564c8-0ee6-43ff-865e-7129ddedacd0",
+      "prompt_record": "ImageGenerationPrompts.md#generation-046",
       "prompt_sha256": "3d158db5fc8897b3b7fa584d9320d1162e55f1a39d8075fdebcac7529108703e"
     },
     {
-      "id": "exec-7cc2a459-8328-4c1a-bdf3-007f8445ca75",
-      "chat_id": "01a1878e-e607-7632-8a6f-e26f8da82526",
-      "turn_id": "01a18792-963d-7391-b54c-c618bf68720d",
-      "turn_started_at_utc": "2026-10-29T12:11:33Z",
+      "id": "generation-047",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-7cc2a459-8328-4c1a-bdf3-007f8445ca75.png",
       "output_sha256": "fbfd18fd22708dc07526fa1255a2c8457696893aeea1d06783e98f53b057237b",
-      "prompt_record": "ImageGenerationPrompts.md#exec-7cc2a459-8328-4c1a-bdf3-007f8445ca75",
+      "prompt_record": "ImageGenerationPrompts.md#generation-047",
       "prompt_sha256": "cac91c8fb5fb7d20c2c53cc1854b4be7e01b0097fc91b8e41041e9059c46068b"
     },
     {
-      "id": "exec-7e57ca15-2706-47f4-bdc2-a9803552d191",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a1177a-66af-7e11-b3cd-f6f4fd003df0",
-      "turn_started_at_utc": "2026-10-07T17:47:40Z",
+      "id": "generation-048",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-7e57ca15-2706-47f4-bdc2-a9803552d191.png",
       "output_sha256": "94d1ebf5b03a7f9f4dedbd0e9b4532c6fc1c8dead8f4401a2189e76cb5906803",
-      "prompt_record": "ImageGenerationPrompts.md#exec-7e57ca15-2706-47f4-bdc2-a9803552d191",
+      "prompt_record": "ImageGenerationPrompts.md#generation-048",
       "prompt_sha256": "ce35ae0351d98dca4722ccba57cd566b01fed1a025e2d053e802ef60f6788009"
     },
     {
-      "id": "exec-7fa89276-6ba4-4016-a310-9b0c8d149151",
-      "chat_id": "01a13f17-4d77-73d0-8df4-f54bb7af92e9",
-      "turn_id": "01a13f80-51b2-7ec1-952e-98a5d0b55919",
-      "turn_started_at_utc": "2026-10-15T12:18:56Z",
+      "id": "generation-049",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-7fa89276-6ba4-4016-a310-9b0c8d149151.png",
       "output_sha256": "27de24ee6a3b82b5c162db4bfbe2d49570dc2e5d274f49f348300f3292d69a0c",
-      "prompt_record": "ImageGenerationPrompts.md#exec-7fa89276-6ba4-4016-a310-9b0c8d149151",
+      "prompt_record": "ImageGenerationPrompts.md#generation-049",
       "prompt_sha256": "a14447e09689a49f4c3801a55fd3f4673d28e87562738718644cb27e4f7db2b9"
     },
     {
-      "id": "exec-8129b1b8-f693-4904-b037-855d6fa8fb2b",
-      "chat_id": "01a12af2-01e2-7b92-ab62-b53ad3710afd",
-      "turn_id": "01a12bb0-c700-7101-8d99-b4603ebc1313",
-      "turn_started_at_utc": "2026-10-11T15:59:28Z",
+      "id": "generation-050",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-8129b1b8-f693-4904-b037-855d6fa8fb2b.png",
       "output_sha256": "2994f647f174bad7387c95066d8e6adbbaf950f19d6f4caf09b3d81f73385287",
-      "prompt_record": "ImageGenerationPrompts.md#exec-8129b1b8-f693-4904-b037-855d6fa8fb2b",
+      "prompt_record": "ImageGenerationPrompts.md#generation-050",
       "prompt_sha256": "4965cf2c567d7f84fe80f90ac9414d814b985e674a49a7ff4204ebdd5ffbf589"
     },
     {
-      "id": "exec-8a7a8b5c-13d4-449b-9731-52155558b791",
-      "chat_id": "01a1256d-2bdf-7c61-8025-47c79539ae57",
-      "turn_id": "01a12a75-3478-7b72-b9eb-c9f73b0dca39",
-      "turn_started_at_utc": "2026-10-11T10:14:46Z",
+      "id": "generation-051",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-8a7a8b5c-13d4-449b-9731-52155558b791.png",
       "output_sha256": "33318b169230444047d1280712a2a41317d4b5cf70c4abf17b8ccec5f4ae1de5",
-      "prompt_record": "ImageGenerationPrompts.md#exec-8a7a8b5c-13d4-449b-9731-52155558b791",
+      "prompt_record": "ImageGenerationPrompts.md#generation-051",
       "prompt_sha256": "3ef86913980b81d73b0e25b0741272e399b7a1c383edb0a13d1ff3ac8df66a81"
     },
     {
-      "id": "exec-91bb3025-fd45-4ada-8119-d408c7a4e138",
-      "chat_id": "01a102e4-0863-7990-9122-85ef9c288e50",
-      "turn_id": "01a102e7-48cc-7a92-a2a2-0a4487443ffa",
-      "turn_started_at_utc": "2026-10-03T17:54:34Z",
+      "id": "generation-052",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-91bb3025-fd45-4ada-8119-d408c7a4e138.png",
       "output_sha256": "08a37d5110ee54327ba74ce79dff017d90f45c7a466b50fc7e3272a5117b5aa4",
-      "prompt_record": "ImageGenerationPrompts.md#exec-91bb3025-fd45-4ada-8119-d408c7a4e138",
+      "prompt_record": "ImageGenerationPrompts.md#generation-052",
       "prompt_sha256": "35b91059314cf16b27505114a5df4b7fce3b2da62fa2b226e941ad4b57a7e5c7"
     },
     {
-      "id": "exec-93181afe-bd30-4e27-be4b-33259ad9d252",
-      "chat_id": "01a0a54c-d821-78b3-8b54-ab8e26fe15eb",
-      "turn_id": "01a0a54f-1b78-7690-9c41-d167dcbd4ec6",
-      "turn_started_at_utc": "2026-09-15T13:43:40Z",
+      "id": "generation-053",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-93181afe-bd30-4e27-be4b-33259ad9d252.png",
       "output_sha256": "c43ad1f6c0108f5cbad747ae9d870eb55f19567420c9c0086046f61e45683c90",
-      "prompt_record": "ImageGenerationPrompts.md#exec-93181afe-bd30-4e27-be4b-33259ad9d252",
+      "prompt_record": "ImageGenerationPrompts.md#generation-053",
       "prompt_sha256": "5b91b8f83c8252e607ec092e30e5083ea90fc07a27e831996d111a8176f5cd8b"
     },
     {
-      "id": "exec-97877e2c-1a61-4793-823d-b902b2132c93",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-054",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-97877e2c-1a61-4793-823d-b902b2132c93.png",
       "output_sha256": "e39b30d1ebe139cec127ba7c763bf3d343138429dbc8c9b6d0f66df38cce6290",
-      "prompt_record": "ImageGenerationPrompts.md#exec-97877e2c-1a61-4793-823d-b902b2132c93",
+      "prompt_record": "ImageGenerationPrompts.md#generation-054",
       "prompt_sha256": "3eb23c41908cdc5069a637787451594358b8209ae45b193bde0470bbebd9dfd7"
     },
     {
-      "id": "exec-99349989-53c0-42da-bc94-6feeabb6f808",
-      "chat_id": "01a12bc6-180c-7d83-b934-2e0aabaf5167",
-      "turn_id": "01a12bcd-3903-7ee1-a56c-bab891669ac2",
-      "turn_started_at_utc": "2026-10-11T16:30:32Z",
+      "id": "generation-055",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-99349989-53c0-42da-bc94-6feeabb6f808.png",
       "output_sha256": "90b97ab4a04001e5b5189813610f43e98f19784b5d502b26d9a5d68b3558978c",
-      "prompt_record": "ImageGenerationPrompts.md#exec-99349989-53c0-42da-bc94-6feeabb6f808",
+      "prompt_record": "ImageGenerationPrompts.md#generation-055",
       "prompt_sha256": "da3971641cf64af438805e068b2e54a6786729f56f4dd4140e431406883e76c7"
     },
     {
-      "id": "exec-9f167e93-3ea3-4d15-8e7d-60ff1754f173",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-056",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-9f167e93-3ea3-4d15-8e7d-60ff1754f173.png",
       "output_sha256": "37531783836c35a71f625ee7dabb605bc83f34fc2698aa182fedbd448c0bdfce",
-      "prompt_record": "ImageGenerationPrompts.md#exec-9f167e93-3ea3-4d15-8e7d-60ff1754f173",
+      "prompt_record": "ImageGenerationPrompts.md#generation-056",
       "prompt_sha256": "0c0f895b8bd5d25800a43b389433991fff2b18bfb2de9832d219d13c3765a2a8"
     },
     {
-      "id": "exec-a0b9116c-724d-4f7f-837e-b997d1526bf8",
-      "chat_id": "01a13f17-4d77-73d0-8df4-f54bb7af92e9",
-      "turn_id": "01a13f74-91df-7bc2-8d06-16cc284a8e86",
-      "turn_started_at_utc": "2026-10-15T12:06:06Z",
+      "id": "generation-057",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-a0b9116c-724d-4f7f-837e-b997d1526bf8.png",
       "output_sha256": "782393c81cf44b0b90661c227fdb34ccd393cc7237507bfced1fc17a3d33bb92",
-      "prompt_record": "ImageGenerationPrompts.md#exec-a0b9116c-724d-4f7f-837e-b997d1526bf8",
+      "prompt_record": "ImageGenerationPrompts.md#generation-057",
       "prompt_sha256": "9d7d698a3fa876b551d10c1767efbcce9966564d1e817bd5502a495134aea95c"
     },
     {
-      "id": "exec-a120c2a1-e577-4b9d-8bf2-81dfba501737",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-058",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-a120c2a1-e577-4b9d-8bf2-81dfba501737.png",
       "output_sha256": "0a3d113a36ef21aa76ea4bbb4485126b8c19f4a3bd26d07209db6c1c86189010",
-      "prompt_record": "ImageGenerationPrompts.md#exec-a120c2a1-e577-4b9d-8bf2-81dfba501737",
+      "prompt_record": "ImageGenerationPrompts.md#generation-058",
       "prompt_sha256": "fdc352c1e08132d31a0dbf76f4e8889aa948938568302d55ef06540e0a74f3d1"
     },
     {
-      "id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
-      "chat_id": "01a12550-0004-74c0-a4e3-052b53565f22",
-      "turn_id": "01a12553-6c6c-7751-99c5-a89b2e650266",
-      "turn_started_at_utc": "2026-10-10T10:19:46Z",
+      "id": "generation-059",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04.png",
       "output_sha256": "3c972d0bf0cefc19812b1281bc234542e8d196c8b560a0b2bb75153acaa81e26",
-      "prompt_record": "ImageGenerationPrompts.md#exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+      "prompt_record": "ImageGenerationPrompts.md#generation-059",
       "prompt_sha256": "6825c909b2a649bd72e30ebc1df8c528002224ceed5577477a3a64ceda00334a"
     },
     {
-      "id": "exec-a5e17365-cfcf-4e22-b076-1e50d557d805",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11765-dc9e-7482-8bbf-a119ea3e1f4b",
-      "turn_started_at_utc": "2026-10-07T17:25:14Z",
+      "id": "generation-060",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-a5e17365-cfcf-4e22-b076-1e50d557d805.png",
       "output_sha256": "1d3e45a154a1176d4dbca261d4949ad4b4b19f5fe37ae58020ac669aaa60a63b",
-      "prompt_record": "ImageGenerationPrompts.md#exec-a5e17365-cfcf-4e22-b076-1e50d557d805",
+      "prompt_record": "ImageGenerationPrompts.md#generation-060",
       "prompt_sha256": "eb617a4018d132b4727cd50c27f31ef5ca5f6a132ab4bbf561d55ed9527167bb"
     },
     {
-      "id": "exec-a900917b-f469-427b-ac0e-5dc80ff898d4",
-      "chat_id": "01a10168-91b2-7801-8052-040ca3294f24",
-      "turn_id": "01a1016e-c6c7-7681-81c1-cd6c7a5229ec",
-      "turn_started_at_utc": "2026-10-03T11:03:19Z",
+      "id": "generation-061",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-a900917b-f469-427b-ac0e-5dc80ff898d4.png",
       "output_sha256": "009f2958f693b4cf95752de534a49ab4a348ac54861804e66588cd6f931248d0",
-      "prompt_record": "ImageGenerationPrompts.md#exec-a900917b-f469-427b-ac0e-5dc80ff898d4",
+      "prompt_record": "ImageGenerationPrompts.md#generation-061",
       "prompt_sha256": "2a41ba1b867b46caf823a0969cd05460f4bce7549ca457935c3ce0b359c72b24"
     },
     {
-      "id": "exec-aa957fc0-ce18-4a1b-a8d3-7d0f30b8d650",
-      "chat_id": "01a12550-0004-74c0-a4e3-052b53565f22",
-      "turn_id": "01a12551-db08-74f0-829a-07341a6f09f8",
-      "turn_started_at_utc": "2026-10-10T10:18:03Z",
+      "id": "generation-062",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-aa957fc0-ce18-4a1b-a8d3-7d0f30b8d650.png",
       "output_sha256": "cf02987d7f04a20cdb5e8afb96292f46706f89ddd5843537316f87e1da80c557",
-      "prompt_record": "ImageGenerationPrompts.md#exec-aa957fc0-ce18-4a1b-a8d3-7d0f30b8d650",
+      "prompt_record": "ImageGenerationPrompts.md#generation-062",
       "prompt_sha256": "d7b77ea9564ced63a0686746385c345bbb32f0f1abbac6a7b1b92b9abdcd84b8"
     },
     {
-      "id": "exec-adba149b-a0c1-48cc-a992-c801824d21b0",
-      "chat_id": "01a1012a-970b-72f2-9079-6fe657cbd35a",
-      "turn_id": "01a1012d-03fc-71d3-afe0-352aa989b13b",
-      "turn_started_at_utc": "2026-10-03T09:51:29Z",
+      "id": "generation-063",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-adba149b-a0c1-48cc-a992-c801824d21b0.png",
       "output_sha256": "69b3ffd8b3f9fa4352e0d37224269248b6a1a9953e215fe2392698e5e6895212",
-      "prompt_record": "ImageGenerationPrompts.md#exec-adba149b-a0c1-48cc-a992-c801824d21b0",
+      "prompt_record": "ImageGenerationPrompts.md#generation-063",
       "prompt_sha256": "7f9a96a5f53d300df6a378ba794e3b190af7eac98d33a342ab1b1d14eedc172e"
     },
     {
-      "id": "exec-af7b109c-bc12-4788-a654-e596801b0e31",
-      "chat_id": "01a1251f-d049-7801-91a2-646028a23ad6",
-      "turn_id": "01a12534-633c-79a3-8da4-70bfdcbe33ba",
-      "turn_started_at_utc": "2026-10-10T09:45:52Z",
+      "id": "generation-064",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-af7b109c-bc12-4788-a654-e596801b0e31.png",
       "output_sha256": "51519f492e2fe761f88a1fba976e3a0e6f98aa9e6ec726b54cf9f69d3a3b2d90",
-      "prompt_record": "ImageGenerationPrompts.md#exec-af7b109c-bc12-4788-a654-e596801b0e31",
+      "prompt_record": "ImageGenerationPrompts.md#generation-064",
       "prompt_sha256": "81ea653288c351fd95feb9e9a098ac5442163e8722736fe2395341204f79aeaf"
     },
     {
-      "id": "exec-b0e5100d-2d3b-4a56-b8fb-370589729ae9",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e0c-51ce-7a33-9787-0e4fc9b8c448",
-      "turn_started_at_utc": "2026-10-18T08:06:32Z",
+      "id": "generation-065",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-b0e5100d-2d3b-4a56-b8fb-370589729ae9.png",
       "output_sha256": "5ad5e1d6409e1bd3dc7edd02f6d0380705a1a5d407ce564639c4e86012c4b942",
-      "prompt_record": "ImageGenerationPrompts.md#exec-b0e5100d-2d3b-4a56-b8fb-370589729ae9",
+      "prompt_record": "ImageGenerationPrompts.md#generation-065",
       "prompt_sha256": "f8bfce226254151e649daacc055c17008f20dd8d8a1325846087da9b6813e60c"
     },
     {
-      "id": "exec-b6840309-ef65-4f21-8641-533c689bcbac",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14f21-b6e0-7d13-a290-e61704418cb1",
-      "turn_started_at_utc": "2026-10-18T13:09:32Z",
+      "id": "generation-066",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-b6840309-ef65-4f21-8641-533c689bcbac.png",
       "output_sha256": "8b688075b6dd0440e86b976504416ef9f60127ee076f208d09e80c739f8d67f6",
-      "prompt_record": "ImageGenerationPrompts.md#exec-b6840309-ef65-4f21-8641-533c689bcbac",
+      "prompt_record": "ImageGenerationPrompts.md#generation-066",
       "prompt_sha256": "3c587e539d367514c42d7dc4c73cc113aa3df421f38d548c96261f2e52ec8eba"
     },
     {
-      "id": "exec-bd0ce1a2-ba62-480f-8df2-9c5cf7dbacf6",
-      "chat_id": "01a1251f-d049-7801-91a2-646028a23ad6",
-      "turn_id": "01a1253b-3518-7360-b8d9-de09df809de6",
-      "turn_started_at_utc": "2026-10-10T09:53:19Z",
+      "id": "generation-067",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-bd0ce1a2-ba62-480f-8df2-9c5cf7dbacf6.png",
       "output_sha256": "92228a0ae5f483d52cd369c06822b17da7f714bf5393a8810f92c8d69a81c7c8",
-      "prompt_record": "ImageGenerationPrompts.md#exec-bd0ce1a2-ba62-480f-8df2-9c5cf7dbacf6",
+      "prompt_record": "ImageGenerationPrompts.md#generation-067",
       "prompt_sha256": "3be306442dcc9c5b00e8cf97e0b189e34c6ac3a777d803b0e41428db16c253e1"
     },
     {
-      "id": "exec-c523e625-a680-4cd1-b164-3810bc6cd708",
-      "chat_id": "01a1256d-2bdf-7c61-8025-47c79539ae57",
-      "turn_id": "01a12a70-3aca-7371-8b91-4b10e14f82bc",
-      "turn_started_at_utc": "2026-10-11T10:09:20Z",
+      "id": "generation-068",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-c523e625-a680-4cd1-b164-3810bc6cd708.png",
       "output_sha256": "41be04eb97565f4f17315af972efd076e4ec94c1b742ef75eb3692c7f308c9d5",
-      "prompt_record": "ImageGenerationPrompts.md#exec-c523e625-a680-4cd1-b164-3810bc6cd708",
+      "prompt_record": "ImageGenerationPrompts.md#generation-068",
       "prompt_sha256": "c131560735e28412fa30ad876e089e32f12be5f7243c5a5fcbafe9e9cad20d32"
     },
     {
-      "id": "exec-c5ea66e9-5b62-42e3-9952-0afde2577b0f",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11bd6-2559-7161-be5d-71e43b853c0e",
-      "turn_started_at_utc": "2026-10-08T14:06:21Z",
+      "id": "generation-069",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-c5ea66e9-5b62-42e3-9952-0afde2577b0f.png",
       "output_sha256": "15f2312e66be987a54e8e8d21631ff42272c69379cbd5841915727437f5ef4be",
-      "prompt_record": "ImageGenerationPrompts.md#exec-c5ea66e9-5b62-42e3-9952-0afde2577b0f",
+      "prompt_record": "ImageGenerationPrompts.md#generation-069",
       "prompt_sha256": "73642697873a316e2deb5f3b00f8dad8a2a54dfacde82e596b1a53ffd40c2d0b"
     },
     {
-      "id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a1176c-ab8f-7342-a668-09585957310d",
-      "turn_started_at_utc": "2026-10-07T17:32:40Z",
+      "id": "generation-070",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a.png",
       "output_sha256": "83048300a8943ed243189f88c6810562ec8bef6196483470ee49f7f157e0f060",
-      "prompt_record": "ImageGenerationPrompts.md#exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+      "prompt_record": "ImageGenerationPrompts.md#generation-070",
       "prompt_sha256": "a3e8d374f91b9845df55c842a9d40b5194d739e7bb997c565cb17843316d6f1b"
     },
     {
-      "id": "exec-ce12a14a-7b2c-4f8a-ae13-72d8a0d4a361",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-071",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-ce12a14a-7b2c-4f8a-ae13-72d8a0d4a361.png",
       "output_sha256": "7d40090d823dddcd9b2172e9b572400a2a7bc85fb53c2068969d884e66bd4a85",
-      "prompt_record": "ImageGenerationPrompts.md#exec-ce12a14a-7b2c-4f8a-ae13-72d8a0d4a361",
+      "prompt_record": "ImageGenerationPrompts.md#generation-071",
       "prompt_sha256": "3e234be2b3155b8ab8f9401f31ac29f70accfb5b04d448a1a5635928bdab3b6a"
     },
     {
-      "id": "exec-d126aa2b-71df-48bf-b596-21af25aec0b5",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e0c-51ce-7a33-9787-0e4fc9b8c448",
-      "turn_started_at_utc": "2026-10-18T08:06:32Z",
+      "id": "generation-072",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-d126aa2b-71df-48bf-b596-21af25aec0b5.png",
       "output_sha256": "1eda82c4ceb8485fe4c3906e491c7737a614c24400400380811e6cc7a6387ede",
-      "prompt_record": "ImageGenerationPrompts.md#exec-d126aa2b-71df-48bf-b596-21af25aec0b5",
+      "prompt_record": "ImageGenerationPrompts.md#generation-072",
       "prompt_sha256": "271e2e778335eee1297af0e9d48632552fa4b639b8c10866d0b2e0f5d5e7391a"
     },
     {
-      "id": "exec-d3aa91fc-ee09-4d18-a77d-932db1638694",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11762-4658-7ff3-ab3e-67977f992ff7",
-      "turn_started_at_utc": "2026-10-07T17:21:18Z",
+      "id": "generation-073",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-d3aa91fc-ee09-4d18-a77d-932db1638694.png",
       "output_sha256": "05e7f92aa190d4e6630336ec54ba21e33db2bf8ff143acc555d82d3e4959d217",
-      "prompt_record": "ImageGenerationPrompts.md#exec-d3aa91fc-ee09-4d18-a77d-932db1638694",
+      "prompt_record": "ImageGenerationPrompts.md#generation-073",
       "prompt_sha256": "030949703eeb76096812a558858b286477728ce52be498dac1d19d5f62741225"
     },
     {
-      "id": "exec-d78483e5-2a4c-4d33-8fd6-b83bebe238ce",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e0c-51ce-7a33-9787-0e4fc9b8c448",
-      "turn_started_at_utc": "2026-10-18T08:06:32Z",
+      "id": "generation-074",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-d78483e5-2a4c-4d33-8fd6-b83bebe238ce.png",
       "output_sha256": "eae699904c15c47398df3a972b262ad7f96882e7f7d0a06c5276abb1db5fca9b",
-      "prompt_record": "ImageGenerationPrompts.md#exec-d78483e5-2a4c-4d33-8fd6-b83bebe238ce",
+      "prompt_record": "ImageGenerationPrompts.md#generation-074",
       "prompt_sha256": "a70c6b33dc69cf4ebca46dd0fc406a8b25f2b7bda89566238414271d128da926"
     },
     {
-      "id": "exec-e284c8d3-3503-45b2-9b75-0a99fe2f3d65",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-075",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-e284c8d3-3503-45b2-9b75-0a99fe2f3d65.png",
       "output_sha256": "0c7627c05383f212359a528b55fc384b95da954953d5e116e7365e40c1385abd",
-      "prompt_record": "ImageGenerationPrompts.md#exec-e284c8d3-3503-45b2-9b75-0a99fe2f3d65",
+      "prompt_record": "ImageGenerationPrompts.md#generation-075",
       "prompt_sha256": "7a43d9f561c206662aceaa2d82264fcf6821cac2fc19bac093b5c669e09f1726"
     },
     {
-      "id": "exec-e8c8d6b9-ec24-4fa2-afc6-3838c601c920",
-      "chat_id": "01a116e2-26b6-7d71-9c98-7e706f04536a",
-      "turn_id": "01a116e2-2ca1-7a53-9527-320d2b4ff627",
-      "turn_started_at_utc": "2026-10-07T15:01:23Z",
+      "id": "generation-076",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-e8c8d6b9-ec24-4fa2-afc6-3838c601c920.png",
       "output_sha256": "be4acc3e6bed70dd6f90c5e25230271eba5f7c4d6f77407220fd69d62d79ff66",
-      "prompt_record": "ImageGenerationPrompts.md#exec-e8c8d6b9-ec24-4fa2-afc6-3838c601c920",
+      "prompt_record": "ImageGenerationPrompts.md#generation-076",
       "prompt_sha256": "c554a748407cffd32b2bc24519e92049597dae5e7196578b16d678fba5fa931e"
     },
     {
-      "id": "exec-ea46bd90-42cf-4a13-924e-f1709ce3dbbc",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14e10-c34a-7bf3-8457-38b335b1f979",
-      "turn_started_at_utc": "2026-10-18T08:11:23Z",
+      "id": "generation-077",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-ea46bd90-42cf-4a13-924e-f1709ce3dbbc.png",
       "output_sha256": "aa4aec5df5ef3f71fe3a563ae3112fce65d886cec906abda232b5dd9d95de8ea",
-      "prompt_record": "ImageGenerationPrompts.md#exec-ea46bd90-42cf-4a13-924e-f1709ce3dbbc",
+      "prompt_record": "ImageGenerationPrompts.md#generation-077",
       "prompt_sha256": "db13031dd177fe2b59a5aa60d236927281681f0272a84f10df65bb6091759c6f"
     },
     {
-      "id": "exec-eb1d812d-21bf-415e-8edc-09a9a2d0d71c",
-      "chat_id": "01a16ec9-baa7-72d1-8129-a0752bd4304c",
-      "turn_id": "01a16ef9-a522-7d73-87a9-bc2935e852c4",
-      "turn_started_at_utc": "2026-10-24T17:33:36Z",
+      "id": "generation-078",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-eb1d812d-21bf-415e-8edc-09a9a2d0d71c.png",
       "output_sha256": "5380d68c6816316c4d1daf59c1b69f7c46353817f34125aafc3e1cc4daea507f",
-      "prompt_record": "ImageGenerationPrompts.md#exec-eb1d812d-21bf-415e-8edc-09a9a2d0d71c",
+      "prompt_record": "ImageGenerationPrompts.md#generation-078",
       "prompt_sha256": "7826d617448c3e5b0d489b5c479d24d0ab700ae4c440736742409c1e403b0977"
     },
     {
-      "id": "exec-f0621cca-53ce-475e-83ba-0a98bab53c55",
-      "chat_id": "01a102e4-0863-7990-9122-85ef9c288e50",
-      "turn_id": "01a102e9-4c61-7e61-8576-3d9d1c9ac4c2",
-      "turn_started_at_utc": "2026-10-03T17:56:46Z",
+      "id": "generation-079",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-f0621cca-53ce-475e-83ba-0a98bab53c55.png",
       "output_sha256": "a9d7329f67ae17d2671c581578dedb63e35651fd083dd55cb499b47df94a8392",
-      "prompt_record": "ImageGenerationPrompts.md#exec-f0621cca-53ce-475e-83ba-0a98bab53c55",
+      "prompt_record": "ImageGenerationPrompts.md#generation-079",
       "prompt_sha256": "83bd058d5dbb558d4f2ac686040b0434021ff5e201bec5cb193f52bd67399bcc"
     },
     {
-      "id": "exec-f5a2c539-5c3a-42d1-b8b5-85875490ec5c",
-      "chat_id": "01a1175a-6f75-78c0-a53d-ff0429033330",
-      "turn_id": "01a11bce-5df3-75c0-8940-0692937d6351",
-      "turn_started_at_utc": "2026-10-08T13:57:51Z",
+      "id": "generation-080",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-f5a2c539-5c3a-42d1-b8b5-85875490ec5c.png",
       "output_sha256": "736c2ee8e51a75156c3ff3ba3981c793fe4d8942da04e00d9f9a661d47efeb25",
-      "prompt_record": "ImageGenerationPrompts.md#exec-f5a2c539-5c3a-42d1-b8b5-85875490ec5c",
+      "prompt_record": "ImageGenerationPrompts.md#generation-080",
       "prompt_sha256": "bdd49ac5edaa04d32cecca6fc7ff8a978d2a847a2c679ae43781773028fa5068"
     },
     {
-      "id": "exec-fe81618c-985a-4ec1-a67b-a97c5edfc101",
-      "chat_id": "01a14e08-0e08-7561-bc71-33b8f487f1d1",
-      "turn_id": "01a14f21-b6e0-7d13-a290-e61704418cb1",
-      "turn_started_at_utc": "2026-10-18T13:09:32Z",
+      "id": "generation-081",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-fe81618c-985a-4ec1-a67b-a97c5edfc101.png",
       "output_sha256": "303db98b9cf67c3e88ec900aad515fd98214a1cebcec1ec5cbb0ef3917c37f04",
-      "prompt_record": "ImageGenerationPrompts.md#exec-fe81618c-985a-4ec1-a67b-a97c5edfc101",
+      "prompt_record": "ImageGenerationPrompts.md#generation-081",
       "prompt_sha256": "d938edbee460619b0319dfc6d13c9872bb676c8c689c9787e2d26fe7862b81b8"
     },
     {
-      "id": "exec-ff2e0e48-138d-4e94-ad5a-2219d91b9ccf",
-      "chat_id": "01a09aef-f053-7013-acb7-dc0faf14a17b",
-      "turn_id": "01a09af0-f626-77b1-afe9-cd536d699d05",
-      "turn_started_at_utc": "2026-09-13T13:24:38Z",
+      "id": "generation-082",
       "status": "completed",
       "tool": "OpenAI built-in image generation",
       "image_model": null,
-      "output_basename": "exec-ff2e0e48-138d-4e94-ad5a-2219d91b9ccf.png",
       "output_sha256": "6fa6c324afb2c01a88641aa32e558ba306787ecdb95fa99e0810fe90f47eb153",
-      "prompt_record": "ImageGenerationPrompts.md#exec-ff2e0e48-138d-4e94-ad5a-2219d91b9ccf",
+      "prompt_record": "ImageGenerationPrompts.md#generation-082",
       "prompt_sha256": "18fccabb88af8aa269383402e335ed43b09110cca342b2124bad9b64d5ebeebd"
     }
   ],
@@ -1240,15 +769,12 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a0a54c-d821-78b3-8b54-ab8e26fe15eb"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/README.md"
       ],
       "generation_ids": [
-        "exec-93181afe-bd30-4e27-be4b-33259ad9d252"
+        "generation-053"
       ],
       "asset_count": 1
     },
@@ -1258,9 +784,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a09aef-f053-7013-acb7-dc0faf14a17b"
-      ],
       "references": [
         {
           "kind": "external_bitmap_reference",
@@ -1272,7 +795,7 @@
       ],
       "repository_evidence": [],
       "generation_ids": [
-        "exec-ff2e0e48-138d-4e94-ad5a-2219d91b9ccf"
+        "generation-082"
       ],
       "asset_count": 1
     },
@@ -1282,9 +805,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a1012a-970b-72f2-9079-6fe657cbd35a"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1296,10 +816,10 @@
         "RuntimeData/README.md"
       ],
       "generation_ids": [
-        "exec-629a7deb-3432-4942-96a9-0b018e97da98",
-        "exec-471dc5f0-520d-407b-8723-877316cd1420",
-        "exec-6ecb32c5-d0bc-47b1-b6eb-08f407d0c18e",
-        "exec-adba149b-a0c1-48cc-a992-c801824d21b0"
+        "generation-036",
+        "generation-026",
+        "generation-043",
+        "generation-063"
       ],
       "asset_count": 4
     },
@@ -1309,13 +829,10 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a1022d-1e07-7481-b673-617f8c65b611"
-      ],
       "references": [],
       "repository_evidence": [],
       "generation_ids": [
-        "exec-6345f6b9-af74-4d33-a9dc-e6140a03d6e2"
+        "generation-038"
       ],
       "asset_count": 1
     },
@@ -1325,9 +842,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a10168-91b2-7801-8052-040ca3294f24"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1337,8 +851,8 @@
       ],
       "repository_evidence": [],
       "generation_ids": [
-        "exec-a900917b-f469-427b-ac0e-5dc80ff898d4",
-        "exec-4c9ceb6d-05e5-4dd0-9bb8-12d62eca7845"
+        "generation-061",
+        "generation-028"
       ],
       "asset_count": 1
     },
@@ -1348,9 +862,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a102e4-0863-7990-9122-85ef9c288e50"
-      ],
       "references": [
         {
           "kind": "external_bitmap_reference",
@@ -1362,8 +873,8 @@
       ],
       "repository_evidence": [],
       "generation_ids": [
-        "exec-f0621cca-53ce-475e-83ba-0a98bab53c55",
-        "exec-91bb3025-fd45-4ada-8119-d408c7a4e138"
+        "generation-079",
+        "generation-052"
       ],
       "asset_count": 1
     },
@@ -1373,9 +884,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a116e2-26b6-7d71-9c98-7e706f04536a"
-      ],
       "references": [
         {
           "kind": "external_bitmap_references",
@@ -1402,14 +910,14 @@
       ],
       "note": "Current pixels reproduce the eight 2026-10-07 generation exports. The alternative eight-bottle sheet generated on 2026-10-16 was not used as evidence for the current files.",
       "generation_ids": [
-        "exec-e8c8d6b9-ec24-4fa2-afc6-3838c601c920",
-        "exec-1fb439f6-ec8d-495d-b52e-66c10bd1b45f",
-        "exec-5d676bea-deaa-4cab-adfa-98084a247547",
-        "exec-1174f034-f58e-4e61-9494-308a6a20562e",
-        "exec-e284c8d3-3503-45b2-9b75-0a99fe2f3d65",
-        "exec-089eebb2-07fa-4384-a03c-f9f93908dbd5",
-        "exec-3f3b4b82-5b00-4d5a-ae25-60ded411d74f",
-        "exec-35462c6e-f565-4362-8e22-157d09008791"
+        "generation-076",
+        "generation-011",
+        "generation-033",
+        "generation-004",
+        "generation-075",
+        "generation-002",
+        "generation-020",
+        "generation-018"
       ],
       "asset_count": 8
     },
@@ -1419,9 +927,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a14e08-0e08-7561-bc71-33b8f487f1d1"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1433,18 +938,18 @@
         "RuntimeData/templates/AutoHpMedicine.md"
       ],
       "generation_ids": [
-        "exec-fe81618c-985a-4ec1-a67b-a97c5edfc101",
-        "exec-b6840309-ef65-4f21-8641-533c689bcbac",
-        "exec-6e7aac38-4daf-4e65-b5b1-5c97b8b48305",
-        "exec-753564c8-0ee6-43ff-865e-7129ddedacd0",
-        "exec-4d2d88cc-1a14-4643-8e84-532098197cad",
-        "exec-ea46bd90-42cf-4a13-924e-f1709ce3dbbc",
-        "exec-63e0d741-226d-498c-b532-2056cf8751f4",
-        "exec-61ad31fd-cda9-42ef-9f91-3d3f885daa9c",
-        "exec-b0e5100d-2d3b-4a56-b8fb-370589729ae9",
-        "exec-d126aa2b-71df-48bf-b596-21af25aec0b5",
-        "exec-706fb90e-04cd-4865-b3f6-bb000205d513",
-        "exec-d78483e5-2a4c-4d33-8fd6-b83bebe238ce"
+        "generation-081",
+        "generation-066",
+        "generation-042",
+        "generation-046",
+        "generation-029",
+        "generation-077",
+        "generation-039",
+        "generation-034",
+        "generation-065",
+        "generation-072",
+        "generation-044",
+        "generation-074"
       ],
       "asset_count": 4
     },
@@ -1454,9 +959,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a1175a-6f75-78c0-a53d-ff0429033330"
-      ],
       "references": [
         {
           "kind": "external_layout_reference",
@@ -1470,20 +972,20 @@
         "RuntimeData/templates/dragon_hud/README.md"
       ],
       "generation_ids": [
-        "exec-7e57ca15-2706-47f4-bdc2-a9803552d191",
-        "exec-43e34182-c749-4fb4-9d7e-274117a25a08",
-        "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e",
-        "exec-1f4e4e34-b275-4043-85e7-5efdef56fb24",
-        "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
-        "exec-a5e17365-cfcf-4e22-b076-1e50d557d805",
-        "exec-29e738da-d56c-4edb-b98f-47652f564652",
-        "exec-d3aa91fc-ee09-4d18-a77d-932db1638694",
-        "exec-436c85cd-495a-4af4-9e01-e0a45b9196bf",
-        "exec-2617a6cd-b3c7-4327-a091-871774d06cd5",
-        "exec-c5ea66e9-5b62-42e3-9952-0afde2577b0f",
-        "exec-f5a2c539-5c3a-42d1-b8b5-85875490ec5c",
-        "exec-64900a8c-89b3-4f1e-8405-7600abea6d41",
-        "exec-11aa8fa7-9dff-41c5-9c3a-56fdb168eb5d"
+        "generation-048",
+        "generation-024",
+        "generation-006",
+        "generation-010",
+        "generation-070",
+        "generation-060",
+        "generation-015",
+        "generation-073",
+        "generation-023",
+        "generation-014",
+        "generation-069",
+        "generation-080",
+        "generation-040",
+        "generation-005"
       ],
       "asset_count": 20
     },
@@ -1493,9 +995,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a1251f-d049-7801-91a2-646028a23ad6"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1507,10 +1006,10 @@
         "RuntimeData/templates/dragon_minimap/README.md"
       ],
       "generation_ids": [
-        "exec-bd0ce1a2-ba62-480f-8df2-9c5cf7dbacf6",
-        "exec-af7b109c-bc12-4788-a654-e596801b0e31",
-        "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38",
-        "exec-218f38bc-d6c2-4455-9666-3e7916ceb474"
+        "generation-067",
+        "generation-064",
+        "generation-027",
+        "generation-012"
       ],
       "asset_count": 5
     },
@@ -1520,9 +1019,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a12550-0004-74c0-a4e3-052b53565f22"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1534,8 +1030,8 @@
         "RuntimeData/templates/dragon_menu/README.md"
       ],
       "generation_ids": [
-        "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
-        "exec-aa957fc0-ce18-4a1b-a8d3-7d0f30b8d650"
+        "generation-059",
+        "generation-062"
       ],
       "asset_count": 15
     },
@@ -1545,9 +1041,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a1256d-2bdf-7c61-8025-47c79539ae57"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1564,12 +1057,12 @@
         "RuntimeData/templates/dragon_dialog/README.md"
       ],
       "generation_ids": [
-        "exec-22ef8700-1c29-4cbd-8fa5-4463c4765d26",
-        "exec-2de6da1a-f2c3-473b-a2b3-e0e3103b7656",
-        "exec-8a7a8b5c-13d4-449b-9731-52155558b791",
-        "exec-c523e625-a680-4cd1-b164-3810bc6cd708",
-        "exec-093d4e53-9dd1-4313-b163-ce0791d8323e",
-        "exec-1e3d90bd-e2e7-4526-9f6c-01f70413122a"
+        "generation-013",
+        "generation-016",
+        "generation-051",
+        "generation-068",
+        "generation-003",
+        "generation-009"
       ],
       "asset_count": 24
     },
@@ -1579,9 +1072,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a12af2-01e2-7b92-ab62-b53ad3710afd"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1593,7 +1083,7 @@
         "RuntimeData/templates/dragon_dialog/README.md"
       ],
       "generation_ids": [
-        "exec-8129b1b8-f693-4904-b037-855d6fa8fb2b"
+        "generation-050"
       ],
       "asset_count": 7
     },
@@ -1603,9 +1093,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a13f17-4d77-73d0-8df4-f54bb7af92e9"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1623,10 +1110,10 @@
         "RuntimeData/templates/dragon_menu/README.md"
       ],
       "generation_ids": [
-        "exec-7fa89276-6ba4-4016-a310-9b0c8d149151",
-        "exec-32b7b01c-f682-4b52-80b2-5d6b90b1122f",
-        "exec-014d37e5-41b8-4b94-ab27-62d063a5f548",
-        "exec-a0b9116c-724d-4f7f-837e-b997d1526bf8"
+        "generation-049",
+        "generation-017",
+        "generation-001",
+        "generation-057"
       ],
       "asset_count": 7
     },
@@ -1636,9 +1123,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a12bc6-180c-7d83-b934-2e0aabaf5167"
-      ],
       "references": [
         {
           "kind": "project_artwork",
@@ -1650,7 +1134,7 @@
         "RuntimeData/templates/dragon_menu/README.md"
       ],
       "generation_ids": [
-        "exec-99349989-53c0-42da-bc94-6feeabb6f808"
+        "generation-055"
       ],
       "asset_count": 2
     },
@@ -1660,9 +1144,6 @@
       "origin_kind": "original_vector",
       "creator": "OpenKal contributors",
       "creation_tool": "Project-created vector drawing",
-      "chat_ids": [
-        "01a14f6c-c730-7290-a06d-cb2683361d61"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/templates/dragon_dialog/README.md"
@@ -1676,9 +1157,6 @@
       "origin_kind": "original_vector",
       "creator": "OpenKal contributors",
       "creation_tool": "Project-created vector drawing",
-      "chat_ids": [
-        "01a171d9-ad78-79c3-93d4-77e3a72452b4"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/templates/dragon_dialog/README.md"
@@ -1692,9 +1170,6 @@
       "origin_kind": "procedural_artwork",
       "creator": "OpenKal contributors",
       "creation_tool": "Project Python/Pillow/ImageMagick generator",
-      "chat_ids": [
-        "01a13ba4-6a84-7930-a7a1-b6c8cb1faef1"
-      ],
       "references": [],
       "repository_evidence": [
         "tools/generate_cursors.py"
@@ -1708,16 +1183,13 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a15427-3651-77d1-9c8a-2057b3bcd405"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/templates/talents/README.md",
         "RuntimeData/templates/talents/source/Prompt.txt"
       ],
       "generation_ids": [
-        "exec-546b3112-309d-4762-8be0-cb8628b9d076"
+        "generation-031"
       ],
       "asset_count": 13
     },
@@ -1727,16 +1199,13 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a152ce-afd3-7f23-a730-f89da13f0f6c"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/templates/PolishingStone.md"
       ],
       "note": "Retained template; current item definition selects a separate optional user-data icon. This record covers only the repository PNG.",
       "generation_ids": [
-        "exec-62e2c207-9916-4680-b19c-82d7ea5906b5"
+        "generation-037"
       ],
       "asset_count": 1
     },
@@ -1746,16 +1215,13 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a16e95-697b-7991-9f83-5713059b8679"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/templates/RevisionHammer.md"
       ],
       "generation_ids": [
-        "exec-4337628c-8379-404f-94aa-6a9ff148f715",
-        "exec-43fc4145-85b2-49c6-b2f3-12b710785268"
+        "generation-022",
+        "generation-025"
       ],
       "asset_count": 1
     },
@@ -1765,25 +1231,22 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a16ec9-baa7-72d1-8129-a0752bd4304c"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/templates/TalismanOfEnchantment.md"
       ],
       "generation_ids": [
-        "exec-1b0b4d85-7c35-4c32-9bf7-dc2c4070b497",
-        "exec-7274c7b0-cacc-4968-832e-334cf87441d1",
-        "exec-a120c2a1-e577-4b9d-8bf2-81dfba501737",
-        "exec-9f167e93-3ea3-4d15-8e7d-60ff1754f173",
-        "exec-3f91d67a-9531-499b-9435-0efd977a0d7f",
-        "exec-eb1d812d-21bf-415e-8edc-09a9a2d0d71c",
-        "exec-5bf23026-8511-4957-81fe-10d923d6edbd",
-        "exec-4d8ac92b-ac48-449b-bd02-74867e5f7d03",
-        "exec-97877e2c-1a61-4793-823d-b902b2132c93",
-        "exec-ce12a14a-7b2c-4f8a-ae13-72d8a0d4a361",
-        "exec-64cf1469-9baf-460c-b47f-db6c5533f360"
+        "generation-008",
+        "generation-045",
+        "generation-058",
+        "generation-056",
+        "generation-021",
+        "generation-078",
+        "generation-032",
+        "generation-030",
+        "generation-054",
+        "generation-071",
+        "generation-041"
       ],
       "asset_count": 6
     },
@@ -1793,9 +1256,6 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a18407-8fa8-7f81-8f58-570b5239e4f0"
-      ],
       "references": [
         {
           "kind": "project_procedural_artwork",
@@ -1807,7 +1267,7 @@
         "RuntimeData/models/plants/README.md"
       ],
       "generation_ids": [
-        "exec-1846eaad-1879-49ff-82d8-636b88f9e64f"
+        "generation-007"
       ],
       "asset_count": 1
     },
@@ -1817,16 +1277,13 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a1878e-e607-7632-8a6f-e26f8da82526"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/models/plants/README.md"
       ],
       "generation_ids": [
-        "exec-7cc2a459-8328-4c1a-bdf3-007f8445ca75",
-        "exec-62917dcf-35e7-44bd-a5ca-e2cc8afa74c9"
+        "generation-047",
+        "generation-035"
       ],
       "asset_count": 2
     },
@@ -1836,10 +1293,6 @@
       "origin_kind": "procedural_artwork",
       "creator": "OpenKal contributors",
       "creation_tool": "Project Python/Pillow/ImageMagick generator",
-      "chat_ids": [
-        "01a18407-8fa8-7f81-8f58-570b5239e4f0",
-        "01a1878e-e607-7632-8a6f-e26f8da82526"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/models/plants/README.md",
@@ -1855,14 +1308,9 @@
       "origin_kind": "procedural_artwork",
       "creator": "OpenKal contributors",
       "creation_tool": "Project Python/Pillow/ImageMagick generator",
-      "chat_ids": [
-        "01a1881b-e724-76e1-aa8e-5751361f960a"
-      ],
       "references": [],
       "repository_evidence": [],
       "authoring_event": {
-        "recorded_at_utc": "2026-10-29T15:01:32.311Z",
-        "call_id": "call_7de5430a6fdc42a582ad081ceb79aea8",
         "description": "Pillow polygons, rounded rectangle and line on a 128 by 128 RGB canvas, Lanczos reduction to 32 by 32; later lossless BMP-to-PNG conversion. Recovered drawing command reproduces both images."
       },
       "generation_ids": [],
@@ -1874,15 +1322,12 @@
       "origin_kind": "image_generation",
       "creator": "OpenKal contributors",
       "creation_tool": "OpenAI built-in image generation",
-      "chat_ids": [
-        "01a18d70-4a55-7cd1-bcc5-abc8a5e60c80"
-      ],
       "references": [],
       "repository_evidence": [
         "RuntimeData/templates/skinTicket.provenance.md"
       ],
       "generation_ids": [
-        "exec-3cc7310a-e77d-468d-a52b-ae7a981b4555"
+        "generation-019"
       ],
       "asset_count": 1
     },
@@ -1892,9 +1337,6 @@
       "origin_kind": "original_vector",
       "creator": "OpenKal contributors",
       "creation_tool": "Project-created vector drawing",
-      "chat_ids": [
-        "01a16257-84f5-70c3-b301-8f9162ae7310"
-      ],
       "references": [],
       "repository_evidence": [
         "docs/Party.md"
@@ -1946,7 +1388,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-93181afe-bd30-4e27-be4b-33259ad9d252"
+          "generation-053"
         ],
         "match": "sha256_bytes"
       }
@@ -2024,7 +1466,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-6345f6b9-af74-4d33-a9dc-e6140a03d6e2"
+          "generation-038"
         ],
         "match": "sha256_bytes"
       }
@@ -2045,7 +1487,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-1846eaad-1879-49ff-82d8-636b88f9e64f"
+          "generation-007"
         ],
         "match": "sha256_bytes"
       }
@@ -2066,7 +1508,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-62917dcf-35e7-44bd-a5ca-e2cc8afa74c9"
+          "generation-035"
         ],
         "match": "sha256_bytes"
       }
@@ -2885,7 +2327,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-1e3d90bd-e2e7-4526-9f6c-01f70413122a"
+          "generation-009"
         ],
         "match": "sha256_bytes"
       }
@@ -2906,7 +2348,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-a0b9116c-724d-4f7f-837e-b997d1526bf8"
+          "generation-057"
         ],
         "match": "sha256_bytes"
       }
@@ -2927,7 +2369,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-8a7a8b5c-13d4-449b-9731-52155558b791"
+          "generation-051"
         ],
         "match": "sha256_bytes"
       }
@@ -2948,7 +2390,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-c523e625-a680-4cd1-b164-3810bc6cd708"
+          "generation-068"
         ],
         "match": "sha256_bytes"
       }
@@ -3102,7 +2544,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-8129b1b8-f693-4904-b037-855d6fa8fb2b"
+          "generation-050"
         ],
         "match": "sha256_bytes"
       }
@@ -3143,7 +2585,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+          "generation_id": "generation-070",
           "transform": [
             "-crop",
             "1305x8+115+495",
@@ -3155,7 +2597,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c9222612-7c35-4df2-b45b-90db5447ac9a"
+          "generation-070"
         ]
       }
     },
@@ -3176,7 +2618,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-64900a8c-89b3-4f1e-8405-7600abea6d41",
+          "generation_id": "generation-040",
           "transform": [
             "-crop",
             "80x950+973+22",
@@ -3188,7 +2630,7 @@
           ]
         },
         "generation_ids": [
-          "exec-64900a8c-89b3-4f1e-8405-7600abea6d41"
+          "generation-040"
         ]
       }
     },
@@ -3209,7 +2651,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+          "generation_id": "generation-070",
           "transform": [
             "-crop",
             "1383x176+77+489",
@@ -3221,7 +2663,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c9222612-7c35-4df2-b45b-90db5447ac9a"
+          "generation-070"
         ]
       }
     },
@@ -3242,7 +2684,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-43e34182-c749-4fb4-9d7e-274117a25a08",
+          "generation_id": "generation-024",
           "transform": [
             "-crop",
             "636x778+0+160",
@@ -3254,7 +2696,7 @@
           ]
         },
         "generation_ids": [
-          "exec-43e34182-c749-4fb4-9d7e-274117a25a08"
+          "generation-024"
         ]
       }
     },
@@ -3275,7 +2717,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-43e34182-c749-4fb4-9d7e-274117a25a08",
+          "generation_id": "generation-024",
           "transform": [
             "-crop",
             "636x778+812+160",
@@ -3287,7 +2729,7 @@
           ]
         },
         "generation_ids": [
-          "exec-43e34182-c749-4fb4-9d7e-274117a25a08"
+          "generation-024"
         ]
       }
     },
@@ -3308,7 +2750,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+          "generation_id": "generation-070",
           "transform": [
             "-crop",
             "1345x17+95+903",
@@ -3320,7 +2762,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c9222612-7c35-4df2-b45b-90db5447ac9a"
+          "generation-070"
         ]
       }
     },
@@ -3341,7 +2783,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-7e57ca15-2706-47f4-bdc2-a9803552d191",
+          "generation_id": "generation-048",
           "transform": [
             "-crop",
             "1967x47+103+336",
@@ -3353,7 +2795,7 @@
           ]
         },
         "generation_ids": [
-          "exec-7e57ca15-2706-47f4-bdc2-a9803552d191"
+          "generation-048"
         ]
       }
     },
@@ -3374,7 +2816,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-11aa8fa7-9dff-41c5-9c3a-56fdb168eb5d",
+          "generation_id": "generation-005",
           "transform": [
             "-crop",
             "220x1162+455+121",
@@ -3386,7 +2828,7 @@
           ]
         },
         "generation_ids": [
-          "exec-11aa8fa7-9dff-41c5-9c3a-56fdb168eb5d"
+          "generation-005"
         ]
       }
     },
@@ -3407,7 +2849,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-64900a8c-89b3-4f1e-8405-7600abea6d41",
+          "generation_id": "generation-040",
           "transform": [
             "-crop",
             "324x950+465+22",
@@ -3419,7 +2861,7 @@
           ]
         },
         "generation_ids": [
-          "exec-64900a8c-89b3-4f1e-8405-7600abea6d41"
+          "generation-040"
         ]
       }
     },
@@ -3440,7 +2882,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-2617a6cd-b3c7-4327-a091-871774d06cd5",
+          "generation_id": "generation-014",
           "transform": [
             "-crop",
             "1402x351+329+207",
@@ -3452,7 +2894,7 @@
           ]
         },
         "generation_ids": [
-          "exec-2617a6cd-b3c7-4327-a091-871774d06cd5"
+          "generation-014"
         ]
       }
     },
@@ -3473,7 +2915,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-2617a6cd-b3c7-4327-a091-871774d06cd5",
+          "generation_id": "generation-014",
           "transform": [
             "-crop",
             "1402x351+329+207",
@@ -3486,7 +2928,7 @@
           ]
         },
         "generation_ids": [
-          "exec-2617a6cd-b3c7-4327-a091-871774d06cd5"
+          "generation-014"
         ]
       }
     },
@@ -3507,7 +2949,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e",
+          "generation_id": "generation-006",
           "transform": [
             "-crop",
             "640x634+1484+38",
@@ -3519,7 +2961,7 @@
           ]
         },
         "generation_ids": [
-          "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e"
+          "generation-006"
         ]
       }
     },
@@ -3540,7 +2982,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e",
+          "generation_id": "generation-006",
           "transform": [
             "-crop",
             "640x634+48+38",
@@ -3552,7 +2994,7 @@
           ]
         },
         "generation_ids": [
-          "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e"
+          "generation-006"
         ]
       }
     },
@@ -3573,7 +3015,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e",
+          "generation_id": "generation-006",
           "transform": [
             "-crop",
             "640x634+766+38",
@@ -3585,7 +3027,7 @@
           ]
         },
         "generation_ids": [
-          "exec-17cb2f44-a691-4ad8-a6c2-12ee47dd417e"
+          "generation-006"
         ]
       }
     },
@@ -3676,7 +3118,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c5ea66e9-5b62-42e3-9952-0afde2577b0f",
+          "generation_id": "generation-069",
           "transform": [
             "-crop",
             "1392x43+30+520",
@@ -3688,7 +3130,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c5ea66e9-5b62-42e3-9952-0afde2577b0f"
+          "generation-069"
         ]
       }
     },
@@ -3709,7 +3151,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+          "generation_id": "generation-070",
           "transform": [
             "-crop",
             "1305x8+115+495",
@@ -3721,7 +3163,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c9222612-7c35-4df2-b45b-90db5447ac9a"
+          "generation-070"
         ]
       }
     },
@@ -3742,7 +3184,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+          "generation_id": "generation-070",
           "transform": [
             "-crop",
             "356x106+1000+199",
@@ -3754,7 +3196,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c9222612-7c35-4df2-b45b-90db5447ac9a"
+          "generation-070"
         ]
       }
     },
@@ -3775,7 +3217,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+          "generation_id": "generation-070",
           "transform": [
             "-crop",
             "248x240+174+130",
@@ -3787,7 +3229,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c9222612-7c35-4df2-b45b-90db5447ac9a"
+          "generation-070"
         ]
       }
     },
@@ -3808,7 +3250,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-c9222612-7c35-4df2-b45b-90db5447ac9a",
+          "generation_id": "generation-070",
           "transform": [
             "-crop",
             "249x240+591+130",
@@ -3820,7 +3262,7 @@
           ]
         },
         "generation_ids": [
-          "exec-c9222612-7c35-4df2-b45b-90db5447ac9a"
+          "generation-070"
         ]
       }
     },
@@ -3841,7 +3283,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-f5a2c539-5c3a-42d1-b8b5-85875490ec5c",
+          "generation_id": "generation-080",
           "transform": [
             "-crop",
             "2117x78+30+316",
@@ -3853,7 +3295,7 @@
           ]
         },
         "generation_ids": [
-          "exec-f5a2c539-5c3a-42d1-b8b5-85875490ec5c"
+          "generation-080"
         ]
       }
     },
@@ -3931,13 +3373,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 11,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -3958,13 +3400,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 10,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -3985,13 +3427,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 12,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4012,13 +3454,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 2,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4081,13 +3523,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 7,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4108,13 +3550,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 13,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4135,13 +3577,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 14,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4162,13 +3604,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 3,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4189,13 +3631,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 8,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4218,7 +3660,7 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-99349989-53c0-42da-bc94-6feeabb6f808",
+          "generation_id": "generation-055",
           "transform": [
             "trim",
             "resize 22x22",
@@ -4226,7 +3668,7 @@
           ]
         },
         "generation_ids": [
-          "exec-99349989-53c0-42da-bc94-6feeabb6f808"
+          "generation-055"
         ]
       }
     },
@@ -4247,13 +3689,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 6,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4274,13 +3716,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 5,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4301,13 +3743,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 1,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4328,13 +3770,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 0,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4355,13 +3797,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 4,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4382,13 +3824,13 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04",
+          "generation_id": "generation-059",
           "sheet_cell": 9,
           "alpha_bounds_threshold": 20,
           "resize": "Lanczos, fit icons; stretch controls"
         },
         "generation_ids": [
-          "exec-a1dcd3a7-4305-438e-9c34-c2dab405db04"
+          "generation-059"
         ]
       }
     },
@@ -4408,7 +3850,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-7fa89276-6ba4-4016-a310-9b0c8d149151"
+          "generation-049"
         ],
         "match": "sha256_bytes"
       }
@@ -4429,7 +3871,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-99349989-53c0-42da-bc94-6feeabb6f808"
+          "generation-055"
         ],
         "match": "sha256_bytes"
       }
@@ -4451,12 +3893,20 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38",
-          "crop_ltrb": [704, 405, 1220, 525],
-          "output_size": [146, 30]
+          "generation_id": "generation-027",
+          "crop_ltrb": [
+            704,
+            405,
+            1220,
+            525
+          ],
+          "output_size": [
+            146,
+            30
+          ]
         },
         "generation_ids": [
-          "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38"
+          "generation-027"
         ]
       }
     },
@@ -4477,12 +3927,20 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-bd0ce1a2-ba62-480f-8df2-9c5cf7dbacf6",
-          "crop_ltrb": [69, 143, 2098, 538],
-          "output_size": [79, 27]
+          "generation_id": "generation-067",
+          "crop_ltrb": [
+            69,
+            143,
+            2098,
+            538
+          ],
+          "output_size": [
+            79,
+            27
+          ]
         },
         "generation_ids": [
-          "exec-bd0ce1a2-ba62-480f-8df2-9c5cf7dbacf6"
+          "generation-067"
         ]
       }
     },
@@ -4503,12 +3961,20 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38",
-          "crop_ltrb": [106, 1010, 592, 1144],
-          "output_size": [110, 28]
+          "generation_id": "generation-027",
+          "crop_ltrb": [
+            106,
+            1010,
+            592,
+            1144
+          ],
+          "output_size": [
+            110,
+            28
+          ]
         },
         "generation_ids": [
-          "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38"
+          "generation-027"
         ]
       }
     },
@@ -4529,12 +3995,20 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38",
-          "crop_ltrb": [26, 60, 680, 760],
-          "output_size": [241, 258]
+          "generation_id": "generation-027",
+          "crop_ltrb": [
+            26,
+            60,
+            680,
+            760
+          ],
+          "output_size": [
+            241,
+            258
+          ]
         },
         "generation_ids": [
-          "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38"
+          "generation-027"
         ]
       }
     },
@@ -4555,12 +4029,20 @@
         "kind": "reproduced_derivative",
         "match": "bytes",
         "method": {
-          "generation_id": "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38",
-          "crop_ltrb": [836, 930, 1066, 1159],
-          "output_size": [26, 26]
+          "generation_id": "generation-027",
+          "crop_ltrb": [
+            836,
+            930,
+            1066,
+            1159
+          ],
+          "output_size": [
+            26,
+            26
+          ]
         },
         "generation_ids": [
-          "exec-4c49160a-54bc-4ada-bc4a-1a61c5484d38"
+          "generation-027"
         ]
       }
     },
@@ -4581,7 +4063,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-f0621cca-53ce-475e-83ba-0a98bab53c55",
+          "generation_id": "generation-079",
           "transform": [
             "-filter",
             "Lanczos",
@@ -4590,7 +4072,7 @@
           ]
         },
         "generation_ids": [
-          "exec-f0621cca-53ce-475e-83ba-0a98bab53c55"
+          "generation-079"
         ]
       }
     },
@@ -4611,14 +4093,14 @@
         "kind": "reproduced_derivative",
         "match": "rgba_pixels_including_bmp_alpha",
         "method": {
-          "generation_id": "exec-4c9ceb6d-05e5-4dd0-9bb8-12d62eca7845",
+          "generation_id": "generation-028",
           "transform": [
             "flatten #0f0f0f",
             "exact floodfill exterior #000000"
           ]
         },
         "generation_ids": [
-          "exec-4c9ceb6d-05e5-4dd0-9bb8-12d62eca7845"
+          "generation-028"
         ]
       }
     },
@@ -4638,7 +4120,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-7cc2a459-8328-4c1a-bdf3-007f8445ca75"
+          "generation-047"
         ],
         "match": "sha256_bytes"
       }
@@ -4659,7 +4141,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-ff2e0e48-138d-4e94-ad5a-2219d91b9ccf"
+          "generation-082"
         ],
         "match": "sha256_bytes"
       }
@@ -4681,7 +4163,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-5d676bea-deaa-4cab-adfa-98084a247547",
+          "generation_id": "generation-033",
           "transform": [
             "-filter",
             "point",
@@ -4696,7 +4178,7 @@
           ]
         },
         "generation_ids": [
-          "exec-5d676bea-deaa-4cab-adfa-98084a247547"
+          "generation-033"
         ]
       }
     },
@@ -4717,7 +4199,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-1fb439f6-ec8d-495d-b52e-66c10bd1b45f",
+          "generation_id": "generation-011",
           "transform": [
             "-filter",
             "point",
@@ -4732,7 +4214,7 @@
           ]
         },
         "generation_ids": [
-          "exec-1fb439f6-ec8d-495d-b52e-66c10bd1b45f"
+          "generation-011"
         ]
       }
     },
@@ -4753,7 +4235,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-1174f034-f58e-4e61-9494-308a6a20562e",
+          "generation_id": "generation-004",
           "transform": [
             "-filter",
             "point",
@@ -4768,7 +4250,7 @@
           ]
         },
         "generation_ids": [
-          "exec-1174f034-f58e-4e61-9494-308a6a20562e"
+          "generation-004"
         ]
       }
     },
@@ -4789,7 +4271,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-e8c8d6b9-ec24-4fa2-afc6-3838c601c920",
+          "generation_id": "generation-076",
           "transform": [
             "-filter",
             "point",
@@ -4804,7 +4286,7 @@
           ]
         },
         "generation_ids": [
-          "exec-e8c8d6b9-ec24-4fa2-afc6-3838c601c920"
+          "generation-076"
         ]
       }
     },
@@ -4825,7 +4307,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-753564c8-0ee6-43ff-865e-7129ddedacd0",
+          "generation_id": "generation-046",
           "transform": [
             "-fuzz",
             "2%",
@@ -4838,7 +4320,7 @@
           ]
         },
         "generation_ids": [
-          "exec-753564c8-0ee6-43ff-865e-7129ddedacd0"
+          "generation-046"
         ]
       }
     },
@@ -4859,7 +4341,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-6e7aac38-4daf-4e65-b5b1-5c97b8b48305",
+          "generation_id": "generation-042",
           "transform": [
             "-fuzz",
             "2%",
@@ -4872,7 +4354,7 @@
           ]
         },
         "generation_ids": [
-          "exec-6e7aac38-4daf-4e65-b5b1-5c97b8b48305"
+          "generation-042"
         ]
       }
     },
@@ -4893,7 +4375,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-fe81618c-985a-4ec1-a67b-a97c5edfc101",
+          "generation_id": "generation-081",
           "transform": [
             "-fuzz",
             "2%",
@@ -4906,7 +4388,7 @@
           ]
         },
         "generation_ids": [
-          "exec-fe81618c-985a-4ec1-a67b-a97c5edfc101"
+          "generation-081"
         ]
       }
     },
@@ -4927,7 +4409,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-b6840309-ef65-4f21-8641-533c689bcbac",
+          "generation_id": "generation-066",
           "transform": [
             "-fuzz",
             "2%",
@@ -4940,7 +4422,7 @@
           ]
         },
         "generation_ids": [
-          "exec-b6840309-ef65-4f21-8641-533c689bcbac"
+          "generation-066"
         ]
       }
     },
@@ -4961,7 +4443,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-35462c6e-f565-4362-8e22-157d09008791",
+          "generation_id": "generation-018",
           "transform": [
             "-filter",
             "point",
@@ -4976,7 +4458,7 @@
           ]
         },
         "generation_ids": [
-          "exec-35462c6e-f565-4362-8e22-157d09008791"
+          "generation-018"
         ]
       }
     },
@@ -4997,7 +4479,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-3f3b4b82-5b00-4d5a-ae25-60ded411d74f",
+          "generation_id": "generation-020",
           "transform": [
             "-filter",
             "point",
@@ -5012,7 +4494,7 @@
           ]
         },
         "generation_ids": [
-          "exec-3f3b4b82-5b00-4d5a-ae25-60ded411d74f"
+          "generation-020"
         ]
       }
     },
@@ -5033,7 +4515,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-089eebb2-07fa-4384-a03c-f9f93908dbd5",
+          "generation_id": "generation-002",
           "transform": [
             "-filter",
             "point",
@@ -5048,7 +4530,7 @@
           ]
         },
         "generation_ids": [
-          "exec-089eebb2-07fa-4384-a03c-f9f93908dbd5"
+          "generation-002"
         ]
       }
     },
@@ -5069,7 +4551,7 @@
         "kind": "reproduced_derivative",
         "match": "decoded_rgba_pixels",
         "method": {
-          "generation_id": "exec-e284c8d3-3503-45b2-9b75-0a99fe2f3d65",
+          "generation_id": "generation-075",
           "transform": [
             "-filter",
             "point",
@@ -5084,7 +4566,7 @@
           ]
         },
         "generation_ids": [
-          "exec-e284c8d3-3503-45b2-9b75-0a99fe2f3d65"
+          "generation-075"
         ]
       }
     },
@@ -5104,7 +4586,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-62e2c207-9916-4680-b19c-82d7ea5906b5"
+          "generation-037"
         ],
         "match": "sha256_bytes"
       }
@@ -5125,7 +4607,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-43fc4145-85b2-49c6-b2f3-12b710785268"
+          "generation-025"
         ],
         "match": "sha256_bytes"
       }
@@ -5146,7 +4628,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-adba149b-a0c1-48cc-a992-c801824d21b0"
+          "generation-063"
         ],
         "match": "sha256_bytes"
       }
@@ -5167,7 +4649,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-629a7deb-3432-4942-96a9-0b018e97da98"
+          "generation-036"
         ],
         "match": "sha256_bytes"
       }
@@ -5188,7 +4670,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-471dc5f0-520d-407b-8723-877316cd1420"
+          "generation-026"
         ],
         "match": "sha256_bytes"
       }
@@ -5209,7 +4691,7 @@
       "evidence": {
         "kind": "reproduced_project_artwork",
         "match": "bytes",
-        "method": "Pillow drawing command recovered from chat 01a1881b-e724-76e1-aa8e-5751361f960a"
+        "method": "Reproduced from the recorded Pillow drawing command."
       }
     },
     {
@@ -5228,7 +4710,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-3cc7310a-e77d-468d-a52b-ae7a981b4555"
+          "generation-019"
         ],
         "match": "sha256_bytes"
       }
@@ -5249,7 +4731,7 @@
       "evidence": {
         "kind": "reproduced_project_artwork",
         "match": "bytes",
-        "method": "Pillow drawing command recovered from chat 01a1881b-e724-76e1-aa8e-5751361f960a"
+        "method": "Reproduced from the recorded Pillow drawing command."
       }
     },
     {
@@ -5268,7 +4750,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-6ecb32c5-d0bc-47b1-b6eb-08f407d0c18e"
+          "generation-043"
         ],
         "match": "sha256_bytes"
       }
@@ -5520,7 +5002,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-546b3112-309d-4762-8be0-cb8628b9d076"
+          "generation-031"
         ],
         "match": "sha256_bytes"
       }
@@ -5562,7 +5044,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-64cf1469-9baf-460c-b47f-db6c5533f360"
+          "generation-041"
         ],
         "match": "sha256_bytes"
       }
@@ -5583,7 +5065,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-eb1d812d-21bf-415e-8edc-09a9a2d0d71c"
+          "generation-078"
         ],
         "match": "sha256_bytes"
       }
@@ -5604,7 +5086,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-97877e2c-1a61-4793-823d-b902b2132c93"
+          "generation-054"
         ],
         "match": "sha256_bytes"
       }
@@ -5625,7 +5107,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-ce12a14a-7b2c-4f8a-ae13-72d8a0d4a361"
+          "generation-071"
         ],
         "match": "sha256_bytes"
       }
@@ -5646,7 +5128,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-5bf23026-8511-4957-81fe-10d923d6edbd"
+          "generation-032"
         ],
         "match": "sha256_bytes"
       }
@@ -5667,7 +5149,7 @@
       "evidence": {
         "kind": "exact_generated_output",
         "generation_ids": [
-          "exec-4d8ac92b-ac48-449b-bd02-74867e5f7d03"
+          "generation-030"
         ],
         "match": "sha256_bytes"
       }
