@@ -605,6 +605,26 @@ int main(int argc, char** argv) {
         create.command = protocol::GuildCommand::Create;
         create.request_id = 100;
         platform::Json before_creation;
+        // The periodic guild sync can change the revision after the party is formed.
+        const auto presence_deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+        bool founders_persisted = false;
+        do {
+            if (!pg.load_guilds(before_creation)) {
+                throw std::runtime_error("read founder presence from PostgreSQL");
+            }
+            const auto& characters = before_creation.at("characters").array();
+            const auto has_presence = [&](int id) {
+                return std::any_of(characters.begin(), characters.end(), [&](const auto& row) {
+                    return row.at("id").as_int() == id && row.at("last_connection").number() > 0;
+                });
+            };
+            founders_persisted = has_presence(aid) && has_presence(bid);
+            if (!founders_persisted) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+        } while (!founders_persisted && std::chrono::steady_clock::now() < presence_deadline);
+        require(founders_persisted, "guild sync persists both founders' presence");
+        // The store reads the revision and character state in separate queries.
         require(pg.load_guilds(before_creation), "read creation revision");
         create.revision = static_cast<std::uint64_t>(before_creation.at("revision").number());
         create.expected_fee = 100;
@@ -612,15 +632,36 @@ int main(int argc, char** argv) {
         auto rejected = create;
         rejected.request_id = 99;
         rejected.expected_fee = 99;
+        const auto first_rejection_frame = pa.history.size();
         require(pa.session->send_all(protocol::frame_guild_request(rejected)),
                 "send rejected creation while the guild window may be closed");
-        require(pa.wait([&](auto type, const auto& bytes) {
+        const bool received_price_rejection = pa.wait([&](auto type, const auto& bytes) {
             std::string sender, text;
             return type == static_cast<std::uint8_t>(protocol::S2C::Chatting) &&
                    protocol::Chatting::parse_s2c(bytes.data(), bytes.size(), sender, text) &&
                    sender == "Server" &&
                    text == "Creation price changed. Refresh the guild window.";
-        }),
+        });
+        if (!received_price_rejection) {
+            std::cerr << "Guild creation request " << rejected.request_id << " sent revision "
+                      << rejected.revision << '\n';
+            for (auto i = first_rejection_frame; i < pa.history.size(); ++i) {
+                const auto& [type, bytes] = pa.history[i];
+                std::string sender, text;
+                if (type == static_cast<std::uint8_t>(protocol::S2C::Chatting) &&
+                    protocol::Chatting::parse_s2c(bytes.data(), bytes.size(), sender, text)) {
+                    std::cerr << "Received chat from " << sender << ": " << text << '\n';
+                }
+                protocol::GuildResponse response;
+                if (type == static_cast<std::uint8_t>(protocol::S2C::Guild) &&
+                    protocol::parse_guild_response(bytes.data(), bytes.size(), response) &&
+                    response.request_id == rejected.request_id) {
+                    std::cerr << "Received guild revision " << response.data.at("revision").number()
+                              << ", status: " << response.data.at("status").as_string() << '\n';
+                }
+            }
+        }
+        require(received_price_rejection,
                 "guild rejection is visible in system chat independently of the guild window");
         require(pa.wait([&](auto type, const auto& bytes) {
             protocol::GuildResponse response;
