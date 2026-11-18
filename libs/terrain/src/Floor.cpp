@@ -767,8 +767,6 @@ namespace openkal::terrain {
     bool FloorField::query_stand(
         float world_x, float world_z, float fallback, float& out_y, bool from_sky) const {
         constexpr float kMaxHeight = 1000.0f;  // 100 * METER (GetFloor)
-        // Bridge planks can sit a little below the water plane.
-        constexpr float kWaterBridgeSlack = 48.0f;
         const bool have_terrain = m_height_field.covers(world_x, world_z);
         const float ground = m_height_field.sample(world_x, world_z, fallback);
         float origin_y = std::max(ground, fallback) + kMaxHeight;

@@ -22,12 +22,12 @@ namespace openkal::map {
 
     /** Area data for one 256 by 256 world-tile cell.
      *
-     * Tile attributes hold named zone flags. Blocked and not-moveable masks use
-     * independent four by four subcells per tile (eight pixels per subcell).
+     * Tile attributes hold named zone flags. Blocked uses four by four subcells
+     * per tile. The independent movement layer can resolve eight by eight subcells.
      */
     class AreaCell {
       public:
-        /** Number of blocked and not-moveable cells on one tile axis. */
+        /** Number of Blocked and legacy NotMoveable subcells on one tile axis. */
         inline static constexpr int kSubcellsPerTile = 4;
 
         static_assert(kTileSize % kSubcellsPerTile == 0,
@@ -207,10 +207,10 @@ namespace openkal::map {
          */
         void ensure_not_moveable_mask(bool fill = false);
 
-        /** Returns the packed four by four not-moveable mask for one tile.
+        /** Returns the packed four-by-four summary of restricted movement in one tile.
          * @param tx Local tile X.
          * @param ty Local tile Y.
-         * @return Packed mask, or all bits set outside the cell.
+         * @return One bit per eight-pixel subcell containing a restriction.
          */
         [[nodiscard]] SubcellMask not_moveable_mask(int tx, int ty) const;
 
@@ -278,6 +278,54 @@ namespace openkal::map {
          */
         void set_not_moveable_masks(std::vector<SubcellMask> masks);
 
+        /** Packed eight-by-eight player-movement mask for one tile. */
+        using MovementMask = std::uint64_t;
+
+        /** Reads a movement mask at four-pixel precision.
+         * @param tx Local tile X.
+         * @param ty Local tile Y.
+         * @return Packed mask, or all bits set outside the cell.
+         */
+        [[nodiscard]] MovementMask movement_mask(int tx, int ty) const;
+
+        /** Replaces one tile's four-pixel movement mask.
+         * @param tx Local tile X.
+         * @param ty Local tile Y.
+         * @param mask Packed movement mask.
+         */
+        void set_movement_mask(int tx, int ty, MovementMask mask);
+
+        /** Tests a four-pixel movement cell.
+         * @param sx Local movement cell X.
+         * @param sy Local movement cell Y.
+         * @return True when blocked for movement or outside the map cell.
+         */
+        [[nodiscard]] bool not_moveable_at_movement_cell(int sx, int sy) const;
+
+        /** Changes one four-pixel movement cell.
+         * @param sx Local movement cell X.
+         * @param sy Local movement cell Y.
+         * @param not_moveable New movement restriction value.
+         */
+        void set_not_moveable_at_movement_cell(int sx, int sy, bool not_moveable);
+
+        /** Returns the full movement array when four-pixel masks have been loaded or edited.
+         * @return One mask per tile, or an empty vector when using coarse masks.
+         */
+        [[nodiscard]] const std::vector<MovementMask>& movement_masks() const {
+            return m_movement_masks;
+        }
+
+        /** Replaces all four-pixel movement masks and rebuilds the coarse summary.
+         * @param masks One eight-by-eight mask for each tile.
+         */
+        void set_movement_masks(std::vector<MovementMask> masks);
+
+        /** Checks whether saving at the original resolution would lose information.
+         * @return True if any four-pixel cells differ inside an eight-pixel subcell.
+         */
+        [[nodiscard]] bool has_movement_detail() const;
+
         /** Calls fn(tx, ty, attr) for each tile in an inclusive local rectangle.
          * @param x0 Rectangle X start.
          * @param y0 Rectangle Y start.
@@ -308,6 +356,7 @@ namespace openkal::map {
         std::vector<std::uint32_t> m_attrs;
         std::vector<SubcellMask> m_blocked;
         std::vector<SubcellMask> m_not_moveable;
+        std::vector<MovementMask> m_movement_masks;
     };
 
 }  // namespace openkal::map

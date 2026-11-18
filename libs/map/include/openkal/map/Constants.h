@@ -32,6 +32,13 @@ namespace openkal::map {
     /** Sub-cells per area-map cell on one axis. */
     inline constexpr int kCellCount = kTileCount * kCellsPerTile;
 
+    /** Size of one editable player-movement cell in world pixels. */
+    inline constexpr int kMovementCellSize = 4;
+
+    /** Player-movement cells per tile and map cell, respectively. */
+    inline constexpr int kMovementCellsPerTile = kTileSize / kMovementCellSize;
+    inline constexpr int kMovementCellCount = kTileCount * kMovementCellsPerTile;
+
     /** Pixel extent of one area-map cell on one axis. */
     inline constexpr int kWorldSize = kTileSize * kTileCount;
 

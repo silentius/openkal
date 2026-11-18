@@ -385,8 +385,9 @@ mkdir -p "$OPENKAL_CONVERSION_ROOT/RuntimeData/areas"
 ```
 
 The coordinate pair is inferred from the input filename; `--cell 32 29` can
-supply it explicitly. `--smooth` is optional and changes the imported collision
-mask. Review the result before copying cells into
+supply it explicitly. Add `--player-collision` to apply the KSM collision
+subcells to player movement as well as navigation. `--smooth` is optional and
+changes the imported collision masks. Review the result before copying cells into
 `$OPENKAL_DATA_ROOT/RuntimeData/areas/`. Never overwrite hand-edited cells as a
 routine build step. See the [area-map format](docs/area-map-format.md).
 
@@ -471,10 +472,11 @@ python3 -m zipfile -l build-release/config.pak
 Look for your expected `config/monsters/`, `config/npcs/` and
 `RuntimeData/areas/*.akarea` entries. CMake does not require a complete playable
 data catalog, so a build with an empty external directory can still succeed.
-To rebuild just the archive after data changes:
+To update just the archive after data changes, build `config_pak` in the
+configured build directory:
 
 ```bash
-cmake --build build-release --target openkal_config_archive --parallel 2
+cmake --build build --target config_pak
 ```
 
 CMake tracks additions, removals and modifications in enabled data trees.

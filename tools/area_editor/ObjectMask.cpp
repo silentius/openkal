@@ -10,6 +10,8 @@
 
 #include "ObjectMask.h"
 
+#include "openkal/terrain/Floor.h"
+
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
@@ -47,7 +49,7 @@ namespace openkal::area_editor {
                           float patch_origin_x,
                           float patch_origin_z,
                           float patch_extent) {
-            const float scale = static_cast<float>(map::kCellCount) / patch_extent;
+            const float scale = static_cast<float>(map::kMovementCellCount) / patch_extent;
             return {(world.x - patch_origin_x) * scale, (world.z - patch_origin_z) * scale};
         }
 
@@ -63,8 +65,8 @@ namespace openkal::area_editor {
                 m_origin_y = min_y;
                 m_width = max_x - min_x + 1;
                 m_height = max_y - min_y + 1;
-                if (m_width <= 0 || m_height <= 0 || m_width > map::kCellCount ||
-                    m_height > map::kCellCount) {
+                if (m_width <= 0 || m_height <= 0 || m_width > map::kMovementCellCount ||
+                    m_height > map::kMovementCellCount) {
                     m_width = 0;
                     m_height = 0;
                     m_cells.clear();
@@ -75,8 +77,8 @@ namespace openkal::area_editor {
             }
 
             void set(int x, int y) {
-                if (m_width <= 0 || x < 0 || y < 0 || x >= map::kCellCount ||
-                    y >= map::kCellCount) {
+                if (m_width <= 0 || x < 0 || y < 0 || x >= map::kMovementCellCount ||
+                    y >= map::kMovementCellCount) {
                     return;
                 }
                 const int local_x = x - m_origin_x;
@@ -143,18 +145,19 @@ namespace openkal::area_editor {
             if (!(min_x <= max_x) || !(min_y <= max_y)) {
                 return false;
             }
-            if (max_x < 0.0f || max_y < 0.0f || min_x >= static_cast<float>(map::kCellCount) ||
-                min_y >= static_cast<float>(map::kCellCount)) {
+            if (max_x < 0.0f || max_y < 0.0f ||
+                min_x >= static_cast<float>(map::kMovementCellCount) ||
+                min_y >= static_cast<float>(map::kMovementCellCount)) {
                 return false;
             }
             const int left =
-                std::clamp(static_cast<int>(std::floor(min_x)) - 1, 0, map::kCellCount - 1);
+                std::clamp(static_cast<int>(std::floor(min_x)) - 1, 0, map::kMovementCellCount - 1);
             const int top =
-                std::clamp(static_cast<int>(std::floor(min_y)) - 1, 0, map::kCellCount - 1);
+                std::clamp(static_cast<int>(std::floor(min_y)) - 1, 0, map::kMovementCellCount - 1);
             const int right =
-                std::clamp(static_cast<int>(std::floor(max_x)) + 1, 0, map::kCellCount - 1);
+                std::clamp(static_cast<int>(std::floor(max_x)) + 1, 0, map::kMovementCellCount - 1);
             const int bottom =
-                std::clamp(static_cast<int>(std::floor(max_y)) + 1, 0, map::kCellCount - 1);
+                std::clamp(static_cast<int>(std::floor(max_y)) + 1, 0, map::kMovementCellCount - 1);
             grid.reset(left, top, right, bottom);
             return grid.width() > 0 && grid.height() > 0;
         }
@@ -189,9 +192,11 @@ namespace openkal::area_editor {
             const float min_y = std::min(triangle.a.y, std::min(triangle.b.y, triangle.c.y));
             const float max_y = std::max(triangle.a.y, std::max(triangle.b.y, triangle.c.y));
             const int x0 = std::max(0, static_cast<int>(std::floor(min_x)));
-            const int x1 = std::min(map::kCellCount - 1, static_cast<int>(std::floor(max_x)));
+            const int x1 =
+                std::min(map::kMovementCellCount - 1, static_cast<int>(std::floor(max_x)));
             const int y0 = std::max(0, static_cast<int>(std::floor(min_y)));
-            const int y1 = std::min(map::kCellCount - 1, static_cast<int>(std::floor(max_y)));
+            const int y1 =
+                std::min(map::kMovementCellCount - 1, static_cast<int>(std::floor(max_y)));
             for (int y = y0; y <= y1; ++y) {
                 for (int x = x0; x <= x1; ++x) {
                     const Point2 center{static_cast<float>(x) + 0.5f, static_cast<float>(y) + 0.5f};
@@ -460,12 +465,75 @@ namespace openkal::area_editor {
                         max_x = std::max(max_x, x);
                         max_y = std::max(max_y, y);
                     }
-                    cells.push_back(static_cast<std::uint32_t>(y * map::kCellCount + x));
+                    cells.push_back(static_cast<std::uint32_t>(y * map::kMovementCellCount + x));
                 }
             }
         }
 
+        enum class ClearanceSupport : std::uint8_t { Unknown, Dry, Deck, Missing };
+
+        [[nodiscard]] ClearanceSupport
+        clearance_support(const terrain::FloorField& floor, float world_x, float world_z) {
+            // Client movement truncates negative coordinates toward zero, so the first world
+            // pixel outside a subcell's lower edge can still belong to that subcell.
+            const float start_x = world_x - (world_x < 0.0f ? 1.0f : 0.0f);
+            const float start_z = world_z - (world_z < 0.0f ? 1.0f : 0.0f);
+            constexpr float inset = 0.0625f;
+            const float left = start_x + inset;
+            const float right = world_x + map::kMovementCellSize - inset;
+            const float top = start_z + inset;
+            const float bottom = world_z + map::kMovementCellSize - inset;
+            const auto terrain_height = [&](float x, float z) {
+                return floor.sample_terrain(x, z, std::numeric_limits<float>::quiet_NaN());
+            };
+            // Terrain height is interpolated from these vertices. A fully dry quad
+            // needs no collision samples.
+            constexpr float quad = map::kTerrainCellSize;
+            bool dry = true;
+            for (float z = std::floor(top / quad) * quad;
+                 z <= std::ceil(bottom / quad) * quad && dry;
+                 z += quad) {
+                for (float x = std::floor(left / quad) * quad; x <= std::ceil(right / quad) * quad;
+                     x += quad) {
+                    if (!(terrain_height(x, z) >= map::kWaterPosY)) {
+                        dry = false;
+                        break;
+                    }
+                }
+            }
+            if (dry) {
+                return ClearanceSupport::Dry;
+            }
+            constexpr float step = 0.5f;
+            bool over_water = false;
+            for (float sample_z = start_z - step / 2; sample_z < bottom + step; sample_z += step) {
+                const float z = std::clamp(sample_z, top, bottom);
+                for (float sample_x = start_x - step / 2; sample_x < right + step;
+                     sample_x += step) {
+                    const float x = std::clamp(sample_x, left, right);
+                    const float ground = terrain_height(x, z);
+                    if (!std::isfinite(ground)) {
+                        return ClearanceSupport::Missing;
+                    }
+                    if (ground >= map::kWaterPosY) {
+                        continue;
+                    }
+                    over_water = true;
+                    const float standing = floor.sample(x, z, ground);
+                    if (standing <= ground + terrain::FloorField::kStandableDeckEpsilon ||
+                        standing < map::kWaterPosY - terrain::FloorField::kWaterBridgeSlack) {
+                        return ClearanceSupport::Missing;
+                    }
+                }
+            }
+            return over_water ? ClearanceSupport::Deck : ClearanceSupport::Dry;
+        }
+
     }  // namespace
+
+    const std::vector<std::uint32_t>& ObjectMask::edit_cells(bool clear_movement) const {
+        return clear_movement && movement_clearance ? *movement_clearance : footprint_cells;
+    }
 
     ObjectMask build_object_mask(const std::string& name,
                                  const std::vector<ObjectMaskMesh>& meshes,
@@ -572,10 +640,95 @@ namespace openkal::area_editor {
         return result;
     }
 
+    void restrict_movement_clearance(std::vector<ObjectMask>& masks,
+                                     const terrain::FloorField& floor,
+                                     float patch_origin_x,
+                                     float patch_origin_z,
+                                     const std::function<void(std::size_t)>& progress) {
+        std::vector<ClearanceSupport> support(map::kMovementCellCount * map::kMovementCellCount,
+                                              ClearanceSupport::Unknown);
+        std::size_t completed = 0;
+        for (const ObjectMask& mask : masks) {
+            for (const std::uint32_t cell : mask.footprint_cells) {
+                if (support[cell] == ClearanceSupport::Unknown) {
+                    const float x =
+                        patch_origin_x + (cell % map::kMovementCellCount) * map::kMovementCellSize;
+                    const float z =
+                        patch_origin_z + (cell / map::kMovementCellCount) * map::kMovementCellSize;
+                    support[cell] = clearance_support(floor, x, z);
+                }
+            }
+            if (progress) {
+                progress(++completed);
+            }
+        }
+        // Check the union of footprints so adjoining sections share the same edge margin.
+        const auto has_margin = [&](std::uint32_t cell) {
+            const int x = static_cast<int>(cell % map::kMovementCellCount);
+            const int z = static_cast<int>(cell / map::kMovementCellCount);
+            if (x == 0 || z == 0 || x == map::kMovementCellCount - 1 ||
+                z == map::kMovementCellCount - 1) {
+                return false;
+            }
+            for (int dz = -1; dz <= 1; ++dz) {
+                for (int dx = -1; dx <= 1; ++dx) {
+                    const auto neighbor = support[(z + dz) * map::kMovementCellCount + x + dx];
+                    if (neighbor != ClearanceSupport::Dry && neighbor != ClearanceSupport::Deck) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        };
+        for (ObjectMask& mask : masks) {
+            std::vector<std::uint32_t> supported_cells;
+            supported_cells.reserve(mask.footprint_cells.size());
+            for (const std::uint32_t cell : mask.footprint_cells) {
+                if (support[cell] == ClearanceSupport::Dry ||
+                    (support[cell] == ClearanceSupport::Deck && has_margin(cell))) {
+                    supported_cells.push_back(cell);
+                }
+            }
+            if (supported_cells.size() != mask.footprint_cells.size()) {
+                mask.movement_clearance = std::move(supported_cells);
+            } else {
+                mask.movement_clearance.reset();
+            }
+            if (progress) {
+                progress(++completed);
+            }
+        }
+    }
+
+    std::vector<std::vector<ObjectMaskPoint>>
+    movement_clearance_contours(const std::vector<ObjectMask>& masks) {
+        int min_x = map::kMovementCellCount;
+        int min_y = map::kMovementCellCount;
+        int max_x = -1;
+        int max_y = -1;
+        for (const auto& mask : masks) {
+            if (!mask.edit_cells(true).empty()) {
+                min_x = std::min(min_x, mask.min_x);
+                min_y = std::min(min_y, mask.min_y);
+                max_x = std::max(max_x, mask.max_x);
+                max_y = std::max(max_y, mask.max_y);
+            }
+        }
+        CoverageGrid grid;
+        grid.reset(min_x, min_y, max_x, max_y);
+        for (const auto& mask : masks) {
+            for (const auto cell : mask.edit_cells(true)) {
+                grid.set(static_cast<int>(cell % map::kMovementCellCount),
+                         static_cast<int>(cell / map::kMovementCellCount));
+            }
+        }
+        return trace_contours(grid);
+    }
+
     const ObjectMask*
     pick_object_mask(const std::vector<ObjectMask>& masks, int subcell_x, int subcell_y) {
-        if (subcell_x < 0 || subcell_y < 0 || subcell_x >= map::kCellCount ||
-            subcell_y >= map::kCellCount) {
+        if (subcell_x < 0 || subcell_y < 0 || subcell_x >= map::kMovementCellCount ||
+            subcell_y >= map::kMovementCellCount) {
             return nullptr;
         }
         const float x = static_cast<float>(subcell_x) + 0.5f;
@@ -583,7 +736,7 @@ namespace openkal::area_editor {
         const ObjectMask* best = nullptr;
         float best_area = std::numeric_limits<float>::max();
         const std::uint32_t cell =
-            static_cast<std::uint32_t>(subcell_y * map::kCellCount + subcell_x);
+            static_cast<std::uint32_t>(subcell_y * map::kMovementCellCount + subcell_x);
         for (const ObjectMask& mask : masks) {
             if (mask.footprint_cells.empty() || !(mask.pick_area < best_area)) {
                 continue;
@@ -602,17 +755,20 @@ namespace openkal::area_editor {
         return best;
     }
 
-    std::vector<std::uint32_t>
-    clip_footprint_to_rect(const ObjectMask& mask, int min_x, int min_y, int max_x, int max_y) {
+    std::vector<std::uint32_t> clip_footprint_to_rect(
+        const ObjectMask& mask, int min_x, int min_y, int max_x, int max_y, bool clear_movement) {
         std::vector<std::uint32_t> cells;
         if (max_x < min_x || max_y < min_y || mask.max_x < mask.min_x || mask.max_x < min_x ||
             mask.min_x > max_x || mask.max_y < min_y || mask.min_y > max_y) {
             return cells;
         }
-        cells.reserve(mask.footprint_cells.size());
-        for (const std::uint32_t cell : mask.footprint_cells) {
-            const int x = static_cast<int>(cell % static_cast<std::uint32_t>(map::kCellCount));
-            const int y = static_cast<int>(cell / static_cast<std::uint32_t>(map::kCellCount));
+        const auto& footprint = mask.edit_cells(clear_movement);
+        cells.reserve(footprint.size());
+        for (const std::uint32_t cell : footprint) {
+            const int x =
+                static_cast<int>(cell % static_cast<std::uint32_t>(map::kMovementCellCount));
+            const int y =
+                static_cast<int>(cell / static_cast<std::uint32_t>(map::kMovementCellCount));
             if (x >= min_x && x <= max_x && y >= min_y && y <= max_y) {
                 cells.push_back(cell);
             }
@@ -621,10 +777,10 @@ namespace openkal::area_editor {
     }
 
     std::vector<std::uint32_t> subcells_in_rect(int min_x, int min_y, int max_x, int max_y) {
-        min_x = std::clamp(min_x, 0, map::kCellCount - 1);
-        min_y = std::clamp(min_y, 0, map::kCellCount - 1);
-        max_x = std::clamp(max_x, 0, map::kCellCount - 1);
-        max_y = std::clamp(max_y, 0, map::kCellCount - 1);
+        min_x = std::clamp(min_x, 0, map::kMovementCellCount - 1);
+        min_y = std::clamp(min_y, 0, map::kMovementCellCount - 1);
+        max_x = std::clamp(max_x, 0, map::kMovementCellCount - 1);
+        max_y = std::clamp(max_y, 0, map::kMovementCellCount - 1);
         std::vector<std::uint32_t> cells;
         if (max_x < min_x || max_y < min_y) {
             return cells;
@@ -633,7 +789,7 @@ namespace openkal::area_editor {
                       static_cast<std::size_t>(max_y - min_y + 1));
         for (int y = min_y; y <= max_y; ++y) {
             for (int x = min_x; x <= max_x; ++x) {
-                cells.push_back(static_cast<std::uint32_t>(y * map::kCellCount + x));
+                cells.push_back(static_cast<std::uint32_t>(y * map::kMovementCellCount + x));
             }
         }
         return cells;

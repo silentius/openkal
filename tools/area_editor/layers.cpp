@@ -14,10 +14,12 @@
 #include <cctype>
 #include <cmath>
 #include <cstdio>
+#include <iterator>
 #include <limits>
 
 namespace openkal::area_editor {
     namespace {
+        constexpr int kBlockedScale = map::kCellSize / map::kMovementCellSize;
 
         const LayerInfo kLayers[static_cast<int>(LayerId::Count)] = {
             {LayerId::Blocked, "Blocked", "1", 0, 0, 1.0f, 0.15f, 0.15f},
@@ -140,7 +142,7 @@ namespace openkal::area_editor {
             return grid_.blocked_mask(tx, ty) != 0;
         }
         if (id == LayerId::NotMoveable) {
-            return grid_.not_moveable_mask(tx, ty) != 0;
+            return grid_.movement_mask(tx, ty) != 0;
         }
         return (a & info.paint_set) != 0;
     }
@@ -148,7 +150,7 @@ namespace openkal::area_editor {
     void AttrEditor::push_undo_tile(int flat,
                                     std::uint32_t before_attr,
                                     map::AreaCell::SubcellMask before_blocked,
-                                    map::AreaCell::SubcellMask before_not_moveable,
+                                    map::AreaCell::MovementMask before_not_moveable,
                                     UndoStroke& stroke) {
         for (const UndoTile& tile : stroke.tiles) {
             if (tile.flat == flat) {
@@ -174,7 +176,7 @@ namespace openkal::area_editor {
         }
         if (a != before) {
             push_undo_tile(
-                flat, before, grid_.blocked_mask(tx, ty), grid_.not_moveable_mask(tx, ty), stroke);
+                flat, before, grid_.blocked_mask(tx, ty), grid_.movement_mask(tx, ty), stroke);
         }
     }
 
@@ -182,19 +184,19 @@ namespace openkal::area_editor {
         if (sx < 0 || sy < 0 || sx >= kOverlaySize || sy >= kOverlaySize) {
             return;
         }
-        const int tx = sx / map::AreaCell::kSubcellsPerTile;
-        const int ty = sy / map::AreaCell::kSubcellsPerTile;
+        const int tx = sx / map::kMovementCellsPerTile;
+        const int ty = sy / map::kMovementCellsPerTile;
         const int flat = ty * map::kTileCount + tx;
         const std::uint32_t before_attr = grid_.at(tx, ty);
         const map::AreaCell::SubcellMask before_blocked = grid_.blocked_mask(tx, ty);
-        const map::AreaCell::SubcellMask before_not_moveable = grid_.not_moveable_mask(tx, ty);
+        const map::AreaCell::MovementMask before_not_moveable = grid_.movement_mask(tx, ty);
         if (layers_.active == LayerId::Blocked) {
-            grid_.set_blocked_at_subcell(sx, sy, !erase);
+            grid_.set_blocked_at_subcell(sx / kBlockedScale, sy / kBlockedScale, !erase);
         } else {
-            grid_.set_not_moveable_at_subcell(sx, sy, !erase);
+            grid_.set_not_moveable_at_movement_cell(sx, sy, !erase);
         }
         if (grid_.blocked_mask(tx, ty) != before_blocked ||
-            grid_.not_moveable_mask(tx, ty) != before_not_moveable) {
+            grid_.movement_mask(tx, ty) != before_not_moveable) {
             push_undo_tile(flat, before_attr, before_blocked, before_not_moveable, stroke);
         }
     }
@@ -204,12 +206,13 @@ namespace openkal::area_editor {
         const int r = std::max(0, layers_.brush_radius);
         const int r2 = r * r;
         if (layer_uses_subcells(layers_.active)) {
+            const int scale = kOverlaySize / layer_grid_size(layers_.active);
             for (int dy = -r; dy <= r; ++dy) {
                 for (int dx = -r; dx <= r; ++dx) {
                     if (dx * dx + dy * dy > r2) {
                         continue;
                     }
-                    apply_subcell(cursor_x + dx, cursor_y + dy, erase, stroke);
+                    apply_subcell((cursor_x + dx) * scale, (cursor_y + dy) * scale, erase, stroke);
                 }
             }
         } else {
@@ -246,8 +249,8 @@ namespace openkal::area_editor {
                 if (sy < 0 || sy >= kOverlaySize) {
                     continue;
                 }
-                const int tx = sx / map::AreaCell::kSubcellsPerTile;
-                const int ty = sy / map::AreaCell::kSubcellsPerTile;
+                const int tx = sx / map::kMovementCellsPerTile;
+                const int ty = sy / map::kMovementCellsPerTile;
                 const int flat = ty * map::kTileCount + tx;
                 if (visited[static_cast<std::size_t>(flat)] != 0) {
                     continue;
@@ -261,10 +264,8 @@ namespace openkal::area_editor {
                     attr |= info.paint_set;
                 }
                 if (attr != before) {
-                    stroke.tiles.push_back({flat,
-                                            before,
-                                            grid_.blocked_mask(tx, ty),
-                                            grid_.not_moveable_mask(tx, ty)});
+                    stroke.tiles.push_back(
+                        {flat, before, grid_.blocked_mask(tx, ty), grid_.movement_mask(tx, ty)});
                     ++changed;
                 }
             }
@@ -275,14 +276,15 @@ namespace openkal::area_editor {
                 if (sy < 0 || sy >= kOverlaySize) {
                     continue;
                 }
-                const int tx = sx / map::AreaCell::kSubcellsPerTile;
-                const int ty = sy / map::AreaCell::kSubcellsPerTile;
+                const int tx = sx / map::kMovementCellsPerTile;
+                const int ty = sy / map::kMovementCellsPerTile;
                 const int flat = ty * map::kTileCount + tx;
                 const auto before_blocked = grid_.blocked_mask(tx, ty);
-                const auto before_not_moveable = grid_.not_moveable_mask(tx, ty);
-                const bool was_set = layers_.active == LayerId::Blocked
-                                         ? grid_.blocked_at_subcell(sx, sy)
-                                         : grid_.not_moveable_at_subcell(sx, sy);
+                const auto before_not_moveable = grid_.movement_mask(tx, ty);
+                const bool was_set =
+                    layers_.active == LayerId::Blocked
+                        ? grid_.blocked_at_subcell(sx / kBlockedScale, sy / kBlockedScale)
+                        : grid_.not_moveable_at_movement_cell(sx, sy);
                 if (was_set == !erase) {
                     continue;
                 }
@@ -292,9 +294,9 @@ namespace openkal::area_editor {
                     captured[static_cast<std::size_t>(flat)] = 1;
                 }
                 if (layers_.active == LayerId::Blocked) {
-                    grid_.set_blocked_at_subcell(sx, sy, !erase);
+                    grid_.set_blocked_at_subcell(sx / kBlockedScale, sy / kBlockedScale, !erase);
                 } else {
-                    grid_.set_not_moveable_at_subcell(sx, sy, !erase);
+                    grid_.set_not_moveable_at_movement_cell(sx, sy, !erase);
                 }
                 ++changed;
             }
@@ -318,17 +320,16 @@ namespace openkal::area_editor {
                 std::uint32_t& a = attr_ref(tx, ty);
                 const std::uint32_t before = a;
                 const map::AreaCell::SubcellMask before_blocked = grid_.blocked_mask(tx, ty);
-                const map::AreaCell::SubcellMask before_not_moveable =
-                    grid_.not_moveable_mask(tx, ty);
+                const map::AreaCell::MovementMask before_not_moveable = grid_.movement_mask(tx, ty);
                 if (layers_.active == LayerId::Blocked) {
                     grid_.set_blocked_mask(tx, ty, 0);
                 } else if (layers_.active == LayerId::NotMoveable) {
-                    grid_.set_not_moveable_mask(tx, ty, 0);
+                    grid_.set_movement_mask(tx, ty, 0);
                 } else {
                     a &= ~layer_info(layers_.active).paint_clear;
                 }
                 if (a != before || grid_.blocked_mask(tx, ty) != before_blocked ||
-                    grid_.not_moveable_mask(tx, ty) != before_not_moveable) {
+                    grid_.movement_mask(tx, ty) != before_not_moveable) {
                     stroke.tiles.push_back(
                         {ty * map::kTileCount + tx, before, before_blocked, before_not_moveable});
                     dirty_ = true;
@@ -355,20 +356,36 @@ namespace openkal::area_editor {
                 const int tx = tile.flat % map::kTileCount;
                 const int ty = tile.flat / map::kTileCount;
                 grid_.set_blocked_mask(tx, ty, tile.blocked);
-                grid_.set_not_moveable_mask(tx, ty, tile.not_moveable);
+                grid_.set_movement_mask(tx, ty, tile.not_moveable);
             }
         }
         dirty_ = true;
         return true;
     }
 
-    void AttrEditor::build_overlay_rgba(std::vector<std::uint8_t>& rgba) const {
-        const int n = kOverlaySize;
+    int AttrEditor::build_overlay_rgba(std::vector<std::uint8_t>& rgba) const {
+        const bool show_movement = layers_.visible[static_cast<int>(LayerId::NotMoveable)];
+        const bool show_blocked = layers_.visible[static_cast<int>(LayerId::Blocked)];
+        if (std::none_of(std::begin(layers_.visible), std::end(layers_.visible), [](bool visible) {
+                return visible;
+            })) {
+            rgba.clear();
+            return 0;
+        }
+        int n = map::kTileCount;
+        if (show_movement && grid_.has_movement_detail()) {
+            n = kOverlaySize;
+        } else if (show_blocked || show_movement) {
+            n = map::kCellCount;
+        }
+        const int scale = kOverlaySize / n;
         rgba.assign(static_cast<std::size_t>(n) * static_cast<std::size_t>(n) * 4, 0);
-        for (int sy = 0; sy < n; ++sy) {
-            for (int sx = 0; sx < n; ++sx) {
-                const int tx = sx / map::AreaCell::kSubcellsPerTile;
-                const int ty = sy / map::AreaCell::kSubcellsPerTile;
+        for (int y = 0; y < n; ++y) {
+            for (int x = 0; x < n; ++x) {
+                const int sx = x * scale;
+                const int sy = y * scale;
+                const int tx = sx / map::kMovementCellsPerTile;
+                const int ty = sy / map::kMovementCellsPerTile;
                 const std::uint32_t a = grid_.at(tx, ty);
 
                 float r = 0, g = 0, b = 0, w = 0;
@@ -379,9 +396,9 @@ namespace openkal::area_editor {
                     const LayerInfo& info = kLayers[li];
                     bool hit = false;
                     if (info.id == LayerId::Blocked) {
-                        hit = grid_.blocked_at_subcell(sx, sy);
+                        hit = grid_.blocked_at_subcell(sx / kBlockedScale, sy / kBlockedScale);
                     } else if (info.id == LayerId::NotMoveable) {
-                        hit = grid_.not_moveable_at_subcell(sx, sy);
+                        hit = grid_.not_moveable_at_movement_cell(sx, sy);
                     } else {
                         hit = (a & info.paint_set) != 0;
                     }
@@ -400,15 +417,14 @@ namespace openkal::area_editor {
                 g = std::min(1.0f, g / w);
                 b = std::min(1.0f, b / w);
                 const float alpha = std::min(0.55f, 0.28f + 0.12f * w);
-                const std::size_t i = (static_cast<std::size_t>(sy) * static_cast<std::size_t>(n) +
-                                       static_cast<std::size_t>(sx)) *
-                                      4;
+                const std::size_t i = (static_cast<std::size_t>(y) * n + x) * 4;
                 rgba[i + 0] = static_cast<std::uint8_t>(r * 255.0f);
                 rgba[i + 1] = static_cast<std::uint8_t>(g * 255.0f);
                 rgba[i + 2] = static_cast<std::uint8_t>(b * 255.0f);
                 rgba[i + 3] = static_cast<std::uint8_t>(alpha * 255.0f);
             }
         }
+        return n;
     }
 
     bool parse_patch_name(const std::string& path_or_name, int& patch_x, int& patch_y) {

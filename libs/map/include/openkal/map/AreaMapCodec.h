@@ -18,8 +18,8 @@ namespace openkal::map {
 
     /** Reads and writes the OpenKal `.akarea` area-cell format.
      *
-     * Version 2 stores tile flags and independent RLE-compressed four by four
-     * Blocked and NotMoveable masks for every tile.
+     * Version 2 uses four-by-four collision masks. Version 3 stores the same
+     * Blocked masks and eight-by-eight NotMoveable masks.
      */
     class AreaMapCodec final {
       public:

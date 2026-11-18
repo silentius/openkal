@@ -44,6 +44,7 @@ void AreaCanvas::set_tile(int patch_x, int patch_y, QImage bake, QImage overlay)
     tile.overlay = std::move(overlay);
     tile.preview = {};
     tile.collision_contours.clear();
+    tile.movement_clearance_contours.clear();
     tile.display_contours.clear();
     update();
 }
@@ -60,12 +61,14 @@ void AreaCanvas::set_tile_overlay(int patch_x, int patch_y, QImage overlay) {
 void AreaCanvas::set_tile_contours(int patch_x,
                                    int patch_y,
                                    std::vector<std::vector<QPointF>> collision,
+                                   std::vector<std::vector<QPointF>> movement_clearance,
                                    std::vector<std::vector<QPointF>> display) {
     const auto found = m_tiles.find(tile_key(patch_x, patch_y));
     if (found == m_tiles.end()) {
         return;
     }
     found->second.collision_contours = std::move(collision);
+    found->second.movement_clearance_contours = std::move(movement_clearance);
     found->second.display_contours = std::move(display);
     update();
 }
@@ -274,6 +277,9 @@ void AreaCanvas::paintEvent(QPaintEvent*) {
         return;
     }
 
+    const bool show_movement_clearance =
+        m_tool == Tool::Navigate || !m_layer_armed ||
+        (m_erase && m_layer == openkal::area_editor::LayerId::NotMoveable);
     for (const auto& [key, tile] : m_tiles) {
         const int patch_x = static_cast<int>(key >> 32);
         const int patch_y = static_cast<int>(key & 0xffffffffu);
@@ -294,8 +300,19 @@ void AreaCanvas::paintEvent(QPaintEvent*) {
         }
         if (m_contours_visible) {
             painter.setRenderHint(QPainter::Antialiasing, true);
-            draw_loops(painter, target, tile.display_contours, QColor(64, 220, 140, 210), 1.25);
-            draw_loops(painter, target, tile.collision_contours, QColor(255, 248, 220, 235), 1.8);
+            if (show_movement_clearance) {
+                if (tile.preview.isNull()) {
+                    draw_loops(painter,
+                               target,
+                               tile.movement_clearance_contours,
+                               QColor(255, 248, 220, 235),
+                               1.8);
+                }
+            } else {
+                draw_loops(painter, target, tile.display_contours, QColor(64, 220, 140, 210), 1.25);
+                draw_loops(
+                    painter, target, tile.collision_contours, QColor(255, 248, 220, 235), 1.8);
+            }
             painter.setRenderHint(QPainter::Antialiasing, false);
         }
         if (m_grid_visible) {
@@ -335,9 +352,7 @@ void AreaCanvas::paintEvent(QPaintEvent*) {
     if (!m_has_cursor || !m_layer_armed || !paint_tool(m_tool)) {
         return;
     }
-    const int grid = openkal::area_editor::layer_uses_subcells(m_layer)
-                         ? openkal::area_editor::kOverlaySize
-                         : openkal::map::kTileCount;
+    const int grid = openkal::area_editor::layer_grid_size(m_layer);
     int patch_x = 0;
     int patch_y = 0;
     int grid_x = 0;
@@ -578,9 +593,7 @@ void AreaCanvas::paint_at(const QPointF& position) {
     if (!m_paint_handler || !m_layer_armed || !paint_tool(m_tool)) {
         return;
     }
-    const int grid = openkal::area_editor::layer_uses_subcells(m_layer)
-                         ? openkal::area_editor::kOverlaySize
-                         : openkal::map::kTileCount;
+    const int grid = openkal::area_editor::layer_grid_size(m_layer);
     int patch_x = 0;
     int patch_y = 0;
     int grid_x = 0;

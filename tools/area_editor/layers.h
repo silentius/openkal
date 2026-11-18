@@ -42,8 +42,8 @@ namespace openkal::area_editor {
         float r, g, b;              // overlay tint
     };
 
-    // Overlay resolution: one texel per editable subcell (4x4 per tile).
-    inline constexpr int kOverlaySize = map::kTileCount * map::AreaCell::kSubcellsPerTile;
+    // Overlay resolution: one texel per four-pixel movement cell.
+    inline constexpr int kOverlaySize = map::kMovementCellCount;
 
     const LayerInfo& layer_info(LayerId id);
     const char* layer_name(LayerId id);
@@ -57,6 +57,17 @@ namespace openkal::area_editor {
     // Blocked and NotMoveable paint at subcell resolution.
     inline bool layer_uses_subcells(LayerId id) {
         return id == LayerId::Blocked || id == LayerId::NotMoveable;
+    }
+
+    /** Returns the brush grid for the active layer.
+     * @param id Layer to paint.
+     * @return Number of editable cells across one patch.
+     */
+    inline int layer_grid_size(LayerId id) {
+        if (id == LayerId::NotMoveable) {
+            return map::kMovementCellCount;
+        }
+        return id == LayerId::Blocked ? map::kCellCount : map::kTileCount;
     }
 
     struct LayerState {
@@ -73,7 +84,7 @@ namespace openkal::area_editor {
         int flat = 0;
         std::uint32_t attr = 0;
         map::AreaCell::SubcellMask blocked = 0;
-        map::AreaCell::SubcellMask not_moveable = 0;
+        map::AreaCell::MovementMask not_moveable = 0;
     };
 
     struct UndoStroke {
@@ -106,13 +117,12 @@ namespace openkal::area_editor {
         void set_active(LayerId id);
         void toggle_visibility(LayerId id);
 
-        // Cursor in subcell space (0..1023) for collision layers, tile space
-        // (0..255) for other layers.
+        // Cursor in the active layer's editing grid.
         void paint_at(int cursor_x, int cursor_y, bool erase);
 
         /** Applies a filled subcell mask to the active layer as one undo step.
          *
-         * @param subcells Flat 1024x1024 subcell indices.
+         * @param subcells Flat four-pixel subcell indices.
          * @param erase Whether to remove rather than set the active layer.
          * @return Number of changed subcells or tiles, depending on the active layer.
          */
@@ -121,8 +131,11 @@ namespace openkal::area_editor {
         void clear_active_layer();
         bool undo();
 
-        // Build kOverlaySize² RGBA overlay (visible layers only).
-        void build_overlay_rgba(std::vector<std::uint8_t>& rgba) const;
+        /** Builds the visible overlay at the minimum resolution that preserves its detail.
+         * @param rgba Receives the RGBA pixels.
+         * @return Overlay width and height, or zero when no layers are visible.
+         */
+        [[nodiscard]] int build_overlay_rgba(std::vector<std::uint8_t>& rgba) const;
 
         bool tile_has_layer(int tx, int ty, LayerId id) const;
 
@@ -132,7 +145,7 @@ namespace openkal::area_editor {
         void push_undo_tile(int flat,
                             std::uint32_t before_attr,
                             map::AreaCell::SubcellMask before_blocked,
-                            map::AreaCell::SubcellMask before_not_moveable,
+                            map::AreaCell::MovementMask before_not_moveable,
                             UndoStroke& stroke);
         std::uint32_t& attr_ref(int tx, int ty);
 

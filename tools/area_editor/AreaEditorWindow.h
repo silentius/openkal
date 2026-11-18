@@ -17,6 +17,7 @@
 #include <array>
 #include <cstdint>
 #include <deque>
+#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -56,14 +57,19 @@ struct AreaEditorOptions {
 /** Qt main window for streamed multi-area attribute editing. */
 class AreaEditorWindow final : public QMainWindow {
   public:
+    /** Reports the overall startup progress and the current task. */
+    using StartupProgress = std::function<void(int, const QString&)>;
+
     /** Creates the editor and loads the configured runtime profile.
      * @param engine Hidden OpenGL engine used for top-down bakes.
      * @param options Startup paths and bake resolution.
      * @param parent Optional Qt parent.
+     * @param progress Optional observer for the startup steps.
      */
     AreaEditorWindow(openkal::engine::IEngine& engine,
                      AreaEditorOptions options,
-                     QWidget* parent = nullptr);
+                     QWidget* parent = nullptr,
+                     const StartupProgress& progress = {});
 
   protected:
     void closeEvent(QCloseEvent* event) override;
@@ -89,9 +95,12 @@ class AreaEditorWindow final : public QMainWindow {
     void schedule_area_classification();
     void process_area_classification(std::uint64_t generation);
     void filter_area_list(const QString& filter);
-    [[nodiscard]] bool activate_area(const std::string& path, bool center);
-    [[nodiscard]] LoadedArea*
-    load_area_document(const std::string& path, bool show_errors, int bake_resolution);
+    [[nodiscard]] bool
+    activate_area(const std::string& path, bool center, const StartupProgress& progress = {});
+    [[nodiscard]] LoadedArea* load_area_document(const std::string& path,
+                                                 bool show_errors,
+                                                 int bake_resolution,
+                                                 const StartupProgress& progress = {});
     void reload_area();
     void rebake_area();
     void save_areas();
@@ -143,6 +152,7 @@ class AreaEditorWindow final : public QMainWindow {
     std::unordered_set<std::uint64_t> m_queued_areas;
     std::uint64_t m_active_area_key = 0;
     bool m_has_active_area = false;
+    bool m_starting = true;
     bool m_area_classification_scheduled = false;
     bool m_load_scheduled = false;
     std::uint64_t m_area_list_generation = 0;

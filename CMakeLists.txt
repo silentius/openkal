@@ -127,6 +127,8 @@ add_custom_command(
   VERBATIM)
 add_custom_target(openkal_config_archive ALL DEPENDS "${OPENKAL_CONFIG_ARCHIVE}")
 add_dependencies(openkal_config_archive openkal_runtime_icons)
+add_custom_target(config_pak)
+add_dependencies(config_pak openkal_config_archive)
 
 set(OPENKAL_ENGINE "gl" CACHE STRING "3D engine backend (null, gl)")
 set_property(CACHE OPENKAL_ENGINE PROPERTY STRINGS null gl)

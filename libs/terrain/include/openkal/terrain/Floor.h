@@ -419,6 +419,9 @@ namespace openkal::terrain {
          */
         static constexpr float kStandableDeckEpsilon = 1.5f;
 
+        /** Vertical tolerance for bridge decks near the water plane. */
+        static constexpr float kWaterBridgeSlack = 48.0f;
+
         /**
          * Highest standable river-bridge deck above the water plane. Narootuh
          * bridge_01's arch crown sits ~208 above water; roofs over a river stay out.

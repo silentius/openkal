@@ -15,6 +15,7 @@
 #include "openkal/platform/Log.h"
 #include "openkal/platform/Path.h"
 #include "openkal/terrain/EnvLoader.h"
+#include "openkal/terrain/Floor.h"
 #include "openkal/terrain/GbModel.h"
 #include "openkal/terrain/HeightPatch.h"
 #include "openkal/terrain/OplLoader.h"
@@ -362,8 +363,12 @@ namespace openkal::area_editor {
         return out;
     }
 
-    BakeResult bake_patch_topdown(
-        engine::IEngine& engine, const BakePaths& paths, int patch_x, int patch_y, int resolution) {
+    BakeResult bake_patch_topdown(engine::IEngine& engine,
+                                  const BakePaths& paths,
+                                  int patch_x,
+                                  int patch_y,
+                                  int resolution,
+                                  const BakeProgress& progress) {
         BakeResult result;
         result.patch_x = patch_x;
         result.patch_y = patch_y;
@@ -394,6 +399,9 @@ namespace openkal::area_editor {
             return result;
         }
 
+        if (progress) {
+            progress(BakeStage::Terrain, 0.0);
+        }
         std::vector<terrain::LayerInfo> env_layers;
         if (!env_path.empty()) {
             (void) terrain::load_env_layers(env_path, env_layers);
@@ -421,11 +429,21 @@ namespace openkal::area_editor {
         const float x0 = static_cast<float>(patch_x - map::kPatchGrid / 2) * extent;
         const float z0 = static_cast<float>(patch_y - map::kPatchGrid / 2) * extent;
 
+        terrain::FloorField floor;
+        floor.add_patch(std::move(patch));
         std::vector<DrawnProp> props;
+        if (progress) {
+            progress(BakeStage::Objects, 0.0);
+        }
         if (!opl_path.empty()) {
             terrain::OplFile opl;
             if (terrain::load_opl(opl_path, opl)) {
+                std::size_t processed = 0;
                 for (const auto& inst : opl.instances) {
+                    if (progress) {
+                        progress(BakeStage::Objects,
+                                 static_cast<double>(processed++) / opl.instances.size());
+                    }
                     if (inst.name.empty()) {
                         ++result.missing_gb;
                         continue;
@@ -436,14 +454,7 @@ namespace openkal::area_editor {
                         ++result.missing_gb;
                         continue;
                     }
-                    const GpuModel* gpu =
-                        get_or_load_gb(engine, gb_path, model_cache, prop_tex_cache);
-                    if (!gpu) {
-                        ++result.missing_gb;
-                        continue;
-                    }
                     DrawnProp p;
-                    p.gpu = gpu;
                     float wx = 0, wy = 0, wz = 0;
                     terrain::opl_world_translation(inst, patch_x, patch_y, wx, wy, wz);
                     const auto S = engine::Mat4::scaling(inst.sx, inst.sy, inst.sz);
@@ -451,9 +462,22 @@ namespace openkal::area_editor {
                         engine::Mat4::from_quaternion(inst.qx, inst.qy, inst.qz, inst.qw);
                     const auto T = engine::Mat4::translation(wx, wy, wz);
                     p.model = engine::Mat4::multiply(engine::Mat4::multiply(T, R), S);
+                    // Deck collision can come from an OPL instance with no visible mesh.
+                    floor.add_prop(gb_path, p.model, patch_x, patch_y);
+                    p.gpu = get_or_load_gb(engine, gb_path, model_cache, prop_tex_cache);
+                    if (!p.gpu) {
+                        ++result.missing_gb;
+                        continue;
+                    }
                     p.foliage_asset = is_foliage_asset_path(inst.name);
-                    ObjectMask mask = build_object_mask(
-                        inst.name, gpu->mask_meshes, p.model, x0, z0, extent, wy, p.foliage_asset);
+                    ObjectMask mask = build_object_mask(inst.name,
+                                                        p.gpu->mask_meshes,
+                                                        p.model,
+                                                        x0,
+                                                        z0,
+                                                        extent,
+                                                        wy,
+                                                        p.foliage_asset);
                     if (!mask.display_contours.empty() || !mask.footprint_cells.empty()) {
                         result.object_masks.push_back(std::move(mask));
                     }
@@ -462,7 +486,19 @@ namespace openkal::area_editor {
                 }
             }
         }
+        std::function<void(std::size_t)> clearance_progress;
+        if (progress && !result.object_masks.empty()) {
+            progress(BakeStage::MovementClearance, 0.0);
+            const auto passes = result.object_masks.size() * 2;
+            clearance_progress = [&, passes](std::size_t completed) {
+                progress(BakeStage::MovementClearance, static_cast<double>(completed) / passes);
+            };
+        }
+        restrict_movement_clearance(result.object_masks, floor, x0, z0, clearance_progress);
 
+        if (progress) {
+            progress(BakeStage::Render, 0.0);
+        }
         const float cx = x0 + extent * 0.5f;
         const float cz = z0 + extent * 0.5f;
         const float eye_y = 80000.0f;

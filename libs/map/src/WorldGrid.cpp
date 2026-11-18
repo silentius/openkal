@@ -70,7 +70,11 @@ namespace openkal::map {
                        (px & (kTileSize - 1)) / (kTileSize / AreaCell::kSubcellsPerTile);
         const int sy = local_ty * AreaCell::kSubcellsPerTile +
                        (py & (kTileSize - 1)) / (kTileSize / AreaCell::kSubcellsPerTile);
-        return !area->blocked_at_subcell(sx, sy) && !area->not_moveable_at_subcell(sx, sy);
+        const int mx =
+            local_tx * kMovementCellsPerTile + (px & (kTileSize - 1)) / kMovementCellSize;
+        const int my =
+            local_ty * kMovementCellsPerTile + (py & (kTileSize - 1)) / kMovementCellSize;
+        return !area->blocked_at_subcell(sx, sy) && !area->not_moveable_at_movement_cell(mx, my);
     }
 
     bool WorldGrid::not_moveable_world_pixel(int px, int py) const {
@@ -86,11 +90,11 @@ namespace openkal::map {
         if (area == nullptr) {
             return false;
         }
-        const int sx = local_tx * AreaCell::kSubcellsPerTile +
-                       (px & (kTileSize - 1)) / (kTileSize / AreaCell::kSubcellsPerTile);
-        const int sy = local_ty * AreaCell::kSubcellsPerTile +
-                       (py & (kTileSize - 1)) / (kTileSize / AreaCell::kSubcellsPerTile);
-        return area->not_moveable_at_subcell(sx, sy);
+        const int sx =
+            local_tx * kMovementCellsPerTile + (px & (kTileSize - 1)) / kMovementCellSize;
+        const int sy =
+            local_ty * kMovementCellsPerTile + (py & (kTileSize - 1)) / kMovementCellSize;
+        return area->not_moveable_at_movement_cell(sx, sy);
     }
 
     bool WorldGrid::has_attr_world_pixel(int px, int py, std::uint32_t mask) const {

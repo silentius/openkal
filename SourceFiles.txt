@@ -2036,6 +2036,7 @@ tests/guild/TwoMemberRules.json
 tests/map/GenerateAreaFixture.cpp
 tests/map/fixtures/README.md
 tests/map/fixtures/n_000_000.akarea
+tests/map/test_area_import.py
 tests/test_area_editor_object_mask.cpp
 tests/test_assets.cpp
 tests/test_audio.cpp
