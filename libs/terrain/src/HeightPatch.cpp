@@ -191,22 +191,25 @@ namespace openkal::terrain {
     }
 
     void HeightPatch::build_mesh(std::vector<Vertex>& vertices,
-                                 std::vector<std::uint32_t>& indices) const {
+                                 std::vector<std::uint32_t>& indices,
+                                 int sample_step) const {
         vertices.clear();
         indices.clear();
-        if (heights.size() != static_cast<std::size_t>(map::kHeightSamples) * map::kHeightSamples) {
+        if (sample_step <= 0 || map::kMapSize % sample_step != 0 ||
+            heights.size() != static_cast<std::size_t>(map::kHeightSamples) * map::kHeightSamples) {
             return;
         }
 
         const int x_off = (patch_x - map::kPatchGrid / 2) * map::kMapSize;
         const int y_off = (patch_y - map::kPatchGrid / 2) * map::kMapSize;
-        const int n = map::kHeightSamples;
+        const int side = map::kMapSize / sample_step;
+        const int n = side + 1;
         vertices.reserve(static_cast<std::size_t>(n) * n);
 
-        for (int z = 0; z < n; ++z) {
-            for (int x = 0; x < n; ++x) {
-                const std::uint16_t h =
-                    heights[static_cast<std::size_t>(z) * n + static_cast<std::size_t>(x)];
+        for (int z = 0; z <= map::kMapSize; z += sample_step) {
+            for (int x = 0; x <= map::kMapSize; x += sample_step) {
+                const std::uint16_t h = heights[static_cast<std::size_t>(z) * map::kHeightSamples +
+                                                static_cast<std::size_t>(x)];
                 Vertex v;
                 v.position.x = static_cast<float>((x + x_off) * map::kTerrainCellSize);
                 v.position.y = static_cast<float>(h);
@@ -218,9 +221,9 @@ namespace openkal::terrain {
             }
         }
 
-        indices.reserve(static_cast<std::size_t>(map::kMapSize) * map::kMapSize * 6);
-        for (int z = 0; z < map::kMapSize; ++z) {
-            for (int x = 0; x < map::kMapSize; ++x) {
+        indices.reserve(static_cast<std::size_t>(side) * side * 6);
+        for (int z = 0; z < side; ++z) {
+            for (int x = 0; x < side; ++x) {
                 const std::uint32_t i0 = static_cast<std::uint32_t>(z * n + x);
                 const std::uint32_t i1 = i0 + 1;
                 const std::uint32_t i2 = i0 + static_cast<std::uint32_t>(n);

@@ -95,8 +95,11 @@ namespace openkal::terrain {
         /** Builds the patch mesh.
          * @param vertices Destination vertex list.
          * @param indices Destination index list.
+         * @param sample_step Distance between mesh samples, a positive divisor of the patch size.
          */
-        void build_mesh(std::vector<Vertex>& vertices, std::vector<std::uint32_t>& indices) const;
+        void build_mesh(std::vector<Vertex>& vertices,
+                        std::vector<std::uint32_t>& indices,
+                        int sample_step = 1) const;
 
         /** Builds layer splats and loads detail textures.
          * @param tex_dir Texture directory.

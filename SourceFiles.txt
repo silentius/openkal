@@ -2295,3 +2295,14 @@ tools/uiEditor/MainWindow.h
 tools/uiEditor/UiCanvas.cpp
 tools/uiEditor/UiCanvas.h
 tools/uiEditor/main.cpp
+tools/world_editor/CMakeLists.txt
+tools/world_editor/Main.cpp
+tools/world_editor/PatchExport.cpp
+tools/world_editor/PatchExport.h
+tools/world_editor/WorldDocument.cpp
+tools/world_editor/WorldDocument.h
+tools/world_editor/WorldDocumentTest.cpp
+tools/world_editor/WorldEditorWindow.cpp
+tools/world_editor/WorldEditorWindow.h
+tools/world_editor/WorldViewport.cpp
+tools/world_editor/WorldViewport.h

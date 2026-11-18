@@ -1,0 +1,32 @@
+if(DEFINED ENV{QTDIR})
+  list(PREPEND CMAKE_PREFIX_PATH "$ENV{QTDIR}")
+endif()
+
+find_package(Qt6 6.9 REQUIRED COMPONENTS Widgets OpenGLWidgets)
+qt_standard_project_setup()
+
+add_library(openkal_world_document STATIC WorldDocument.cpp PatchExport.cpp)
+target_link_libraries(openkal_world_document PUBLIC Qt6::Gui openkal::terrain openkal::platform)
+openkal_target_warnings(openkal_world_document)
+
+add_executable(world_editor
+  Main.cpp
+  WorldEditorWindow.cpp
+  WorldViewport.cpp
+  ../object_view/ObjectCatalog.cpp
+)
+target_include_directories(world_editor PRIVATE ../object_view)
+target_link_libraries(world_editor PRIVATE openkal_world_document Qt6::OpenGLWidgets)
+openkal_target_warnings(world_editor)
+target_compile_definitions(world_editor PRIVATE OPENKAL_REPO_ROOT="${OPENKAL_RESOURCE_ROOT}")
+add_dependencies(world_editor openkal_config_archive)
+set_target_properties(world_editor PROPERTIES WIN32_EXECUTABLE ON)
+
+if(OPENKAL_BUILD_TESTS)
+  openkal_set_runtime_output("${CMAKE_BINARY_DIR}/tests")
+  add_executable(world_editor_document_test WorldDocumentTest.cpp)
+  target_compile_definitions(world_editor_document_test PRIVATE QT_NO_KEYWORDS)
+  target_include_directories(world_editor_document_test PRIVATE ${CMAKE_SOURCE_DIR}/tests)
+  target_link_libraries(world_editor_document_test PRIVATE openkal_world_document)
+  add_test(NAME world_editor_document_test COMMAND world_editor_document_test)
+endif()
