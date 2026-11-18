@@ -749,6 +749,65 @@ workflow. `area_import` and `area_info` are controlled separately by
 `OPENKAL_BUILD_AREA_TOOLS` and do not require Qt. Run tools with `--help` for
 arguments and profile selection.
 
+### 3D World Editor
+
+Build the optional outdoor world editor with Qt 6.9+ (Widgets and OpenGLWidgets).
+The viewport uses an OpenGL 3.3 core context. Use the Qt prefix from the setup
+above when Qt is installed outside CMake's search path.
+
+```bash
+cmake -S . -B build-tools -G Ninja -DOPENKAL_BUILD_WORLD_EDITOR=ON
+cmake --build build-tools --target world_editor
+build-tools/bin/tools/world_editor /path/to/openkal.profile
+```
+
+The World Editor loads profiles like the Area Editor. Choose **File → Open
+Profile** (Ctrl+O), pass a profile as shown above, or use `--profile FILE`.
+With no explicit path, the editor uses `OPENKAL_PROFILE` or the packaged default
+profile. The profile's `data_root` supplies the `MAPS` and `OBJECTS` directories.
+Use **File → Open Client Data** or `--data DIR` to open a directory directly.
+Select a chunk to center the camera on it. The editor loads chunks that enter
+the 3D view as you pan, rotate or zoom. Use **View → Fit World** to see the
+entire map. Wide views use simpler terrain meshes. Zoom in to see the full
+terrain detail and nearby objects.
+
+With the viewport focused, use **W** to zoom in at the pointer and **S** to zoom out. Use **A/D**
+to pan left or right, right-drag to pan in any direction, or hold both left and
+right buttons while dragging to orbit around the terrain point under the pointer
+when the gesture starts. Press **F** or
+choose **View → Walk Mode** to explore the terrain at eye level. Use WASD to walk
+and the mouse to look. Hold **Shift** to run. On Wayland,
+right-drag to look. Neighboring chunks load as you cross boundaries. Press
+**Esc** to return to the orbit camera at your current location. **View → Invert
+Mouse Y** reverses the vertical mouse input in both modes. Walk Mode follows
+the terrain surface. Placed objects are passable.
+
+**View → Show Water Surface** toggles the outdoor water preview at OpenKal's
+standard level (Y = 1584). Lower terrain below that level to reveal the surface.
+The preview uses the client water texture when available. Water and waterfall
+models in the object catalog can be placed separately and exported as OPL objects.
+
+Pick an editing tool and use the left mouse button on the terrain.
+Height strokes update every copy of a shared
+edge or corner height, including in adjacent chunks outside the preview.
+Texture painting uses the layers in `MAPS/n.env` and the textures in `MAPS/Tex`.
+Use **Replace Layer in Active Chunk** to substitute a texture across an entire
+chunk, including when its layer palette is full.
+
+Double-click a GB model in the searchable catalog and click the terrain to place
+it. In **Select / Move Object**, click an object and drag it to move it, including
+into another visible chunk. Set **Elevation (Y)** to move the selection vertically.
+Use **View → Show Invisible Placements** to locate and edit collision-only and
+other placements that have no visible mesh.
+Use **Delete** in the viewport to remove the selected
+object. Undo and redo cover complete gestures.
+
+**File → Export Changed Files** writes the edited KCM and OPL files into a new
+directory. To continue editing, open the original client root and choose
+**File → Open Export**, or pass `--overlay /path/to/export`. To use the edits in
+OpenKal, copy the export into `MAPS` in a working copy of the original client data.
+Use the Area Editor for server-side `.akarea` attributes.
+
 ## 11. Troubleshooting
 
 - **Qt6 6.9 cannot be found:** add `-DOPENKAL_BUILD_AREA_EDITOR=OFF` and leave
