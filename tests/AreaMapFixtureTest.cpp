@@ -11,6 +11,7 @@
 #include "fixture_util.h"
 #include "openkal/map/AreaMapCodec.h"
 #include "openkal/map/Attributes.h"
+#include "openkal/map/WorldGrid.h"
 #include "openkal/platform/File.h"
 #include "test_util.h"
 
@@ -147,6 +148,34 @@ int main() {
         const auto roundtrip = openkal::platform::File::read(output);
         expect(original && roundtrip && *original == *roundtrip,
                "all fixture layers serialize back to identical bytes");
+    }
+
+    auto refined = cell;
+    refined.set_not_moveable_at_movement_cell(7, 7, true);
+    expect(refined.has_movement_detail() && refined.movement_mask(0, 0) == (std::uint64_t{1} << 63),
+           "one 4x4 cell can change independently at the last bit of a tile");
+    expect(refined.movement_mask(3, 4) == ~std::uint64_t{0},
+           "refining an existing file preserves its coarse movement masks");
+
+    const std::string fine_path = openkal::test::temp_dir("area_map_fixture") + "/fine.akarea";
+    openkal::map::AreaCell fine;
+    const bool fine_loaded = openkal::map::AreaMapCodec::save(fine_path, refined) &&
+                             openkal::map::AreaMapCodec::load(fine_path, fine);
+    expect(fine_loaded, "save and reload a version 3 area");
+    if (fine_loaded) {
+        const auto bytes = openkal::platform::File::read(fine_path);
+        expect(bytes && bytes->size() >= 6 && (*bytes)[4] == 3 && (*bytes)[5] == 0,
+               "four-pixel movement detail uses version 3");
+        expect(fine.movement_masks() == refined.movement_masks() &&
+                   fine.blocked_masks() == cell.blocked_masks(),
+               "version 3 preserves both collision layers at their own resolution");
+        openkal::map::WorldGrid grid;
+        grid.set_cell(0, 0, std::move(fine));
+        expect(grid.not_moveable_world_pixel(28, 28) && grid.not_moveable_world_pixel(31, 31) &&
+                   !grid.not_moveable_world_pixel(27, 28) &&
+                   !grid.not_moveable_world_pixel(28, 32) && !grid.walkable_world_pixel(28, 28) &&
+                   grid.walkable_world_pixel(27, 28),
+               "server and player movement agree at four-pixel cell boundaries");
     }
 
     return openkal::test::g_failures == 0 ? 0 : 1;

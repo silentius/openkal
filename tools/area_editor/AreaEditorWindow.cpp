@@ -63,6 +63,7 @@
 #include <vector>
 
 namespace {
+    constexpr int kBlockedScale = openkal::map::kCellSize / openkal::map::kMovementCellSize;
 
     using openkal::area_editor::AttrEditor;
     using openkal::area_editor::BakeResult;
@@ -83,9 +84,8 @@ namespace {
 
     [[nodiscard]] QImage overlay_image(const AttrEditor& editor) {
         std::vector<std::uint8_t> rgba;
-        editor.build_overlay_rgba(rgba);
-        return rgba_image(
-            rgba, openkal::area_editor::kOverlaySize, openkal::area_editor::kOverlaySize);
+        const int size = editor.build_overlay_rgba(rgba);
+        return rgba_image(rgba, size, size);
     }
 
     void make_attribute_background(BakeResult& bake, int resolution) {
@@ -187,22 +187,11 @@ namespace {
         return rect;
     }
 
-    void expand_rect_to_tiles(LocalRect& rect) {
-        if (!rect.valid) {
-            return;
-        }
-        rect.min_x = rect.min_x / openkal::map::AreaCell::kSubcellsPerTile *
-                     openkal::map::AreaCell::kSubcellsPerTile;
-        rect.min_y = rect.min_y / openkal::map::AreaCell::kSubcellsPerTile *
-                     openkal::map::AreaCell::kSubcellsPerTile;
-        rect.max_x = std::min(openkal::area_editor::kOverlaySize - 1,
-                              (rect.max_x / openkal::map::AreaCell::kSubcellsPerTile) *
-                                      openkal::map::AreaCell::kSubcellsPerTile +
-                                  openkal::map::AreaCell::kSubcellsPerTile - 1);
-        rect.max_y = std::min(openkal::area_editor::kOverlaySize - 1,
-                              (rect.max_y / openkal::map::AreaCell::kSubcellsPerTile) *
-                                      openkal::map::AreaCell::kSubcellsPerTile +
-                                  openkal::map::AreaCell::kSubcellsPerTile - 1);
+    void expand_rect_to_grid(LocalRect& rect, int scale) {
+        rect.min_x = rect.min_x / scale * scale;
+        rect.min_y = rect.min_y / scale * scale;
+        rect.max_x = (rect.max_x / scale + 1) * scale - 1;
+        rect.max_y = (rect.max_y / scale + 1) * scale - 1;
     }
 
     [[nodiscard]] std::vector<std::vector<QPointF>>
@@ -235,7 +224,8 @@ namespace {
 
 AreaEditorWindow::AreaEditorWindow(openkal::engine::IEngine& engine,
                                    AreaEditorOptions options,
-                                   QWidget* parent)
+                                   QWidget* parent,
+                                   const StartupProgress& progress)
     : QMainWindow(parent), m_engine(engine), m_options(std::move(options)) {
     setWindowTitle("OpenKal Area Editor");
     resize(1480, 900);
@@ -281,14 +271,23 @@ AreaEditorWindow::AreaEditorWindow(openkal::engine::IEngine& engine,
 
     statusBar()->showMessage("Navigate mode — select a layer and Draw or Remove to edit");
     refresh_window_state();
+    if (progress) {
+        progress(10, QStringLiteral("Loading the active profile and area list…"));
+    }
     if (load_profile(m_options.profile_path)) {
         const std::string initial_area = m_options.initial_area_path.empty()
                                              ? narootuh_area_name()
                                              : m_options.initial_area_path;
-        if (activate_area(initial_area, true) && !m_options.initial_output_path.empty()) {
+        if (activate_area(initial_area, true, progress) && !m_options.initial_output_path.empty()) {
             active_area()->save_path = m_options.initial_output_path;
         }
     }
+    // Queue background work after the initial window is shown.
+    QTimer::singleShot(0, this, [this]() {
+        m_starting = false;
+        schedule_area_classification();
+        schedule_visible_areas();
+    });
 }
 
 void AreaEditorWindow::closeEvent(QCloseEvent* event) {
@@ -658,7 +657,7 @@ void AreaEditorWindow::refresh_area_list() {
 }
 
 void AreaEditorWindow::schedule_area_classification() {
-    if (m_area_classification_scheduled || m_area_classification_queue.empty()) {
+    if (m_starting || m_area_classification_scheduled || m_area_classification_queue.empty()) {
         return;
     }
     m_area_classification_scheduled = true;
@@ -699,7 +698,9 @@ void AreaEditorWindow::filter_area_list(const QString& filter) {
     m_area_count->setText(QString("%1 of %2 areas").arg(visible).arg(m_area_list->count()));
 }
 
-bool AreaEditorWindow::activate_area(const std::string& path, bool center) {
+bool AreaEditorWindow::activate_area(const std::string& path,
+                                     bool center,
+                                     const StartupProgress& progress) {
     const std::string resolved_path = resolve_area_path(path);
     int patch_x = 0;
     int patch_y = 0;
@@ -711,7 +712,8 @@ bool AreaEditorWindow::activate_area(const std::string& path, bool center) {
     const std::uint64_t key = area_key(patch_x, patch_y);
     if (m_loaded_areas.find(key) == m_loaded_areas.end()) {
         QApplication::setOverrideCursor(Qt::WaitCursor);
-        LoadedArea* loaded = load_area_document(resolved_path, true, m_options.bake_resolution);
+        LoadedArea* loaded =
+            load_area_document(resolved_path, true, m_options.bake_resolution, progress);
         QApplication::restoreOverrideCursor();
         if (!loaded) {
             return false;
@@ -726,9 +728,11 @@ bool AreaEditorWindow::activate_area(const std::string& path, bool center) {
     return true;
 }
 
-AreaEditorWindow::LoadedArea* AreaEditorWindow::load_area_document(const std::string& path,
-                                                                   bool show_errors,
-                                                                   int bake_resolution) {
+AreaEditorWindow::LoadedArea*
+AreaEditorWindow::load_area_document(const std::string& path,
+                                     bool show_errors,
+                                     int bake_resolution,
+                                     const StartupProgress& progress) {
     const std::string resolved_path = resolve_area_path(path);
     int patch_x = 0;
     int patch_y = 0;
@@ -741,6 +745,11 @@ AreaEditorWindow::LoadedArea* AreaEditorWindow::load_area_document(const std::st
         return existing->second.get();
     }
 
+    if (progress) {
+        progress(
+            20,
+            QStringLiteral("Loading %1…").arg(QFileInfo(compact_path(resolved_path)).fileName()));
+    }
     openkal::map::AreaCell cell;
     const bool source_exists = openkal::platform::file_exists(resolved_path);
     if (source_exists && !openkal::map::AreaMapCodec::load(resolved_path, cell)) {
@@ -762,8 +771,33 @@ AreaEditorWindow::LoadedArea* AreaEditorWindow::load_area_document(const std::st
 
     statusBar()->showMessage(QString("Streaming %1…").arg(compact_path(resolved_path)));
     const auto bake_paths = openkal::area_editor::resolve_bake_paths(resolved_path, m_data_root);
+    openkal::area_editor::BakeProgress bake_progress;
+    if (progress) {
+        bake_progress = [&](openkal::area_editor::BakeStage stage, double fraction) {
+            using openkal::area_editor::BakeStage;
+            switch (stage) {
+            case BakeStage::Terrain:
+                progress(24, QStringLiteral("Preparing terrain…"));
+                break;
+            case BakeStage::Objects:
+                progress(30 + static_cast<int>(32 * fraction),
+                         QStringLiteral("Loading objects and tracing footprints…"));
+                break;
+            case BakeStage::MovementClearance:
+                progress(62 + static_cast<int>(30 * fraction),
+                         QStringLiteral("Checking walkable surfaces…"));
+                break;
+            case BakeStage::Render:
+                progress(92, QStringLiteral("Rendering the map preview…"));
+                break;
+            }
+        };
+    }
     BakeResult bake = openkal::area_editor::bake_patch_topdown(
-        m_engine, bake_paths, patch_x, patch_y, bake_resolution);
+        m_engine, bake_paths, patch_x, patch_y, bake_resolution, bake_progress);
+    if (progress) {
+        progress(97, QStringLiteral("Preparing the editor view…"));
+    }
     if (!bake.error.empty() || bake.image.rgba.empty()) {
         make_attribute_background(bake, bake_resolution);
     }
@@ -1209,7 +1243,9 @@ void AreaEditorWindow::auto_paint_at(
         return;
     }
     area.editor->set_active(layer);
-    const std::size_t changed = area.editor->paint_subcell_mask(mask->footprint_cells, erase);
+    const bool clear_movement = erase && layer == LayerId::NotMoveable;
+    const std::size_t changed =
+        area.editor->paint_subcell_mask(mask->edit_cells(clear_movement), erase);
     if (changed != 0) {
         refresh_overlay(area);
         refresh_window_state();
@@ -1274,6 +1310,12 @@ void AreaEditorWindow::refresh_object_hover(
     QString layer_name = "no layer";
     const bool zone = layer_index >= 0 &&
                       !openkal::area_editor::layer_uses_subcells(static_cast<LayerId>(layer_index));
+    const int paint_grid =
+        layer_index < 0 ? openkal::area_editor::kOverlaySize
+                        : openkal::area_editor::layer_grid_size(static_cast<LayerId>(layer_index));
+    const int scale = openkal::area_editor::kOverlaySize / paint_grid;
+    const auto& cells =
+        mask->edit_cells(m_erase_tool && layer_index == static_cast<int>(LayerId::NotMoveable));
     if (layer_index >= 0) {
         const auto& info = openkal::area_editor::layer_info(static_cast<LayerId>(layer_index));
         layer_name = QString::fromUtf8(info.name);
@@ -1286,39 +1328,34 @@ void AreaEditorWindow::refresh_object_hover(
                  QImage::Format_RGBA8888);
     image.fill(Qt::transparent);
     int marked = 0;
-    if (zone) {
+    if (scale > 1) {
         QPainter painter(&image);
-        std::vector<std::uint8_t> tile_seen(
-            static_cast<std::size_t>(openkal::map::kTileCount) * openkal::map::kTileCount, 0);
-        for (const std::uint32_t cell : mask->footprint_cells) {
+        std::vector<std::uint8_t> tile_seen(static_cast<std::size_t>(paint_grid) * paint_grid, 0);
+        for (const std::uint32_t cell : cells) {
             const int x = static_cast<int>(
                 cell % static_cast<std::uint32_t>(openkal::area_editor::kOverlaySize));
             const int y = static_cast<int>(
                 cell / static_cast<std::uint32_t>(openkal::area_editor::kOverlaySize));
-            const int tile_x = x / openkal::map::AreaCell::kSubcellsPerTile;
-            const int tile_y = y / openkal::map::AreaCell::kSubcellsPerTile;
-            const std::size_t flat = static_cast<std::size_t>(tile_y) * openkal::map::kTileCount +
-                                     static_cast<std::size_t>(tile_x);
+            const int tile_x = x / scale;
+            const int tile_y = y / scale;
+            const std::size_t flat =
+                static_cast<std::size_t>(tile_y) * paint_grid + static_cast<std::size_t>(tile_x);
             if (tile_seen[flat] != 0) {
                 continue;
             }
             tile_seen[flat] = 1;
-            painter.fillRect(tile_x * openkal::map::AreaCell::kSubcellsPerTile,
-                             tile_y * openkal::map::AreaCell::kSubcellsPerTile,
-                             openkal::map::AreaCell::kSubcellsPerTile,
-                             openkal::map::AreaCell::kSubcellsPerTile,
-                             color);
+            painter.fillRect(tile_x * scale, tile_y * scale, scale, scale, color);
             ++marked;
         }
     } else {
-        for (const std::uint32_t cell : mask->footprint_cells) {
+        for (const std::uint32_t cell : cells) {
             const int x = static_cast<int>(
                 cell % static_cast<std::uint32_t>(openkal::area_editor::kOverlaySize));
             const int y = static_cast<int>(
                 cell / static_cast<std::uint32_t>(openkal::area_editor::kOverlaySize));
             mark_preview_cell(image, x, y, color);
         }
-        marked = static_cast<int>(mask->footprint_cells.size());
+        marked = static_cast<int>(cells.size());
     }
 
     m_canvas->clear_previews();
@@ -1353,7 +1390,11 @@ void AreaEditorWindow::publish_contours(const LoadedArea& area) {
                        std::make_move_iterator(display_loops.end()));
     }
     m_canvas->set_tile_contours(
-        area.patch_x, area.patch_y, std::move(collision), std::move(display));
+        area.patch_x,
+        area.patch_y,
+        std::move(collision),
+        contour_points(openkal::area_editor::movement_clearance_contours(area.bake.object_masks)),
+        std::move(display));
 }
 
 void AreaEditorWindow::refresh_selection_preview() {
@@ -1402,6 +1443,12 @@ void AreaEditorWindow::refresh_selection_preview() {
     }
     const bool zone = layer_index >= 0 &&
                       !openkal::area_editor::layer_uses_subcells(static_cast<LayerId>(layer_index));
+    const int paint_grid =
+        layer_index < 0 ? openkal::area_editor::kOverlaySize
+                        : openkal::area_editor::layer_grid_size(static_cast<LayerId>(layer_index));
+    const int scale = openkal::area_editor::kOverlaySize / paint_grid;
+    const bool clear_movement =
+        m_erase_tool && layer_index == static_cast<int>(LayerId::NotMoveable);
     m_canvas->set_selection_fill(false, false, QColor());
     m_canvas->clear_previews();
     int patches = 0;
@@ -1418,8 +1465,8 @@ void AreaEditorWindow::refresh_selection_preview() {
         image.fill(Qt::transparent);
         bool any = false;
         if (!fit) {
-            if (zone) {
-                expand_rect_to_tiles(rect);
+            if (scale > 1) {
+                expand_rect_to_grid(rect, scale);
             }
             QPainter painter(&image);
             painter.fillRect(QRect(rect.min_x,
@@ -1427,44 +1474,38 @@ void AreaEditorWindow::refresh_selection_preview() {
                                    rect.max_x - rect.min_x + 1,
                                    rect.max_y - rect.min_y + 1),
                              color);
-            marked += (rect.max_x - rect.min_x + 1) * (rect.max_y - rect.min_y + 1);
+            marked +=
+                ((rect.max_x - rect.min_x + 1) / scale) * ((rect.max_y - rect.min_y + 1) / scale);
             any = true;
         } else {
             std::vector<std::uint8_t> tile_seen;
-            if (zone) {
-                tile_seen.assign(static_cast<std::size_t>(openkal::map::kTileCount) *
-                                     openkal::map::kTileCount,
-                                 0);
+            if (scale > 1) {
+                tile_seen.assign(static_cast<std::size_t>(paint_grid) * paint_grid, 0);
             }
             for (const openkal::area_editor::ObjectMask& mask : area->bake.object_masks) {
                 const std::vector<std::uint32_t> cells =
                     openkal::area_editor::clip_footprint_to_rect(
-                        mask, rect.min_x, rect.min_y, rect.max_x, rect.max_y);
+                        mask, rect.min_x, rect.min_y, rect.max_x, rect.max_y, clear_movement);
                 for (const std::uint32_t cell : cells) {
                     const int x = static_cast<int>(
                         cell % static_cast<std::uint32_t>(openkal::area_editor::kOverlaySize));
                     const int y = static_cast<int>(
                         cell / static_cast<std::uint32_t>(openkal::area_editor::kOverlaySize));
-                    if (zone) {
-                        const int tile_x = x / openkal::map::AreaCell::kSubcellsPerTile;
-                        const int tile_y = y / openkal::map::AreaCell::kSubcellsPerTile;
-                        const std::size_t flat =
-                            static_cast<std::size_t>(tile_y) * openkal::map::kTileCount +
-                            static_cast<std::size_t>(tile_x);
+                    if (scale > 1) {
+                        const int tile_x = x / scale;
+                        const int tile_y = y / scale;
+                        const std::size_t flat = static_cast<std::size_t>(tile_y) * paint_grid +
+                                                 static_cast<std::size_t>(tile_x);
                         if (tile_seen[flat] != 0) {
                             continue;
                         }
                         tile_seen[flat] = 1;
-                        for (int offset_y = 0; offset_y < openkal::map::AreaCell::kSubcellsPerTile;
-                             ++offset_y) {
-                            for (int offset_x = 0;
-                                 offset_x < openkal::map::AreaCell::kSubcellsPerTile;
-                                 ++offset_x) {
-                                mark_preview_cell(
-                                    image,
-                                    tile_x * openkal::map::AreaCell::kSubcellsPerTile + offset_x,
-                                    tile_y * openkal::map::AreaCell::kSubcellsPerTile + offset_y,
-                                    color);
+                        for (int offset_y = 0; offset_y < scale; ++offset_y) {
+                            for (int offset_x = 0; offset_x < scale; ++offset_x) {
+                                mark_preview_cell(image,
+                                                  tile_x * scale + offset_x,
+                                                  tile_y * scale + offset_y,
+                                                  color);
                             }
                         }
                         ++marked;
@@ -1482,7 +1523,7 @@ void AreaEditorWindow::refresh_selection_preview() {
         }
     }
     const QString preview_kind = fit ? "Contour preview" : "Rectangle preview";
-    const QString unit = zone && fit ? "tiles" : "subcells";
+    const QString unit = zone ? "tiles" : "subcells";
     QString message = QString("%1: %2 %3 in %4 loaded areas")
                           .arg(preview_kind)
                           .arg(marked)
@@ -1513,6 +1554,8 @@ void AreaEditorWindow::apply_selection() {
             break;
         }
     }
+    const int scale =
+        openkal::area_editor::kOverlaySize / openkal::area_editor::layer_grid_size(layer);
     const bool zone = !openkal::area_editor::layer_uses_subcells(layer);
     const bool fit = m_fit_radio != nullptr && m_fit_radio->isChecked();
     const int patch_min_x = std::clamp(
@@ -1554,15 +1597,18 @@ void AreaEditorWindow::apply_selection() {
                      found->second->bake.object_masks) {
                     std::vector<std::uint32_t> clipped =
                         openkal::area_editor::clip_footprint_to_rect(
-                            mask, rect.min_x, rect.min_y, rect.max_x, rect.max_y);
+                            mask,
+                            rect.min_x,
+                            rect.min_y,
+                            rect.max_x,
+                            rect.max_y,
+                            m_erase_tool && layer == LayerId::NotMoveable);
                     cells.insert(cells.end(), clipped.begin(), clipped.end());
                 }
-            } else if (zone) {
-                expand_rect_to_tiles(rect);
-                for (int tile_y = rect.min_y; tile_y <= rect.max_y;
-                     tile_y += openkal::map::AreaCell::kSubcellsPerTile) {
-                    for (int tile_x = rect.min_x; tile_x <= rect.max_x;
-                         tile_x += openkal::map::AreaCell::kSubcellsPerTile) {
+            } else if (scale > 1) {
+                expand_rect_to_grid(rect, scale);
+                for (int tile_y = rect.min_y; tile_y <= rect.max_y; tile_y += scale) {
+                    for (int tile_x = rect.min_x; tile_x <= rect.max_x; tile_x += scale) {
                         cells.push_back(static_cast<std::uint32_t>(
                             tile_y * openkal::area_editor::kOverlaySize + tile_x));
                     }
@@ -1605,8 +1651,8 @@ void AreaEditorWindow::show_cursor_info(
     if (!valid || m_canvas->tool() != AreaCanvas::Tool::Navigate) {
         return;
     }
-    const int tile_x = subcell_x / openkal::map::AreaCell::kSubcellsPerTile;
-    const int tile_y = subcell_y / openkal::map::AreaCell::kSubcellsPerTile;
+    const int tile_x = subcell_x / openkal::map::kMovementCellsPerTile;
+    const int tile_y = subcell_y / openkal::map::kMovementCellsPerTile;
     QStringList layers;
     QString object_name = "none";
     const auto found = m_loaded_areas.find(area_key(patch_x, patch_y));
@@ -1614,10 +1660,10 @@ void AreaEditorWindow::show_cursor_info(
         object_name = "area not loaded";
     } else {
         const openkal::map::AreaCell& grid = found->second->editor->grid();
-        if (grid.blocked_at_subcell(subcell_x, subcell_y)) {
+        if (grid.blocked_at_subcell(subcell_x / kBlockedScale, subcell_y / kBlockedScale)) {
             layers << "Blocked";
         }
-        if (grid.not_moveable_at_subcell(subcell_x, subcell_y)) {
+        if (grid.not_moveable_at_movement_cell(subcell_x, subcell_y)) {
             layers << "NotMoveable";
         }
         const std::uint32_t attr = grid.at(tile_x, tile_y);
@@ -1755,7 +1801,7 @@ void AreaEditorWindow::view_changed(int min_x, int min_y, int max_x, int max_y) 
 }
 
 void AreaEditorWindow::schedule_visible_areas() {
-    if (m_visible_max_x < m_visible_min_x || m_visible_max_y < m_visible_min_y) {
+    if (m_starting || m_visible_max_x < m_visible_min_x || m_visible_max_y < m_visible_min_y) {
         return;
     }
     struct Candidate {

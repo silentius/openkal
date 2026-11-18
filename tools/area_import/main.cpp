@@ -25,9 +25,11 @@ namespace {
 
     void print_usage(const char* argv0) {
         std::fprintf(stderr,
-                     "Usage: %s <legacy.ksm> <output.akarea> [--smooth] [--cell X Y]\n"
+                     "Usage: %s <legacy.ksm> <output.akarea> [--player-collision] [--smooth] "
+                     "[--cell X Y]\n"
                      "\n"
                      "Imports a legacy KSM cell into OpenKal's .akarea format.\n"
+                     "--player-collision also imports KSM collision subcells into NotMoveable.\n"
                      "--smooth conservatively removes protrusions and convex corners.\n"
                      "Without --cell, coordinates are read from n_XXX_YYY.ksm.\n",
                      argv0);
@@ -50,8 +52,13 @@ int main(int argc, char** argv) {
     int cell_x = 0;
     int cell_y = 0;
     bool have_coordinates = parse_cell_coordinates(input, cell_x, cell_y);
+    bool player_collision = false;
     bool smooth = false;
     for (int index = 3; index < argc; ++index) {
+        if (std::strcmp(argv[index], "--player-collision") == 0) {
+            player_collision = true;
+            continue;
+        }
         if (std::strcmp(argv[index], "--smooth") == 0) {
             smooth = true;
             continue;
@@ -78,6 +85,9 @@ int main(int argc, char** argv) {
     openkal::map::AreaCell cell;
     if (!openkal::area_import::import_legacy_area(input, cell)) {
         return 1;
+    }
+    if (player_collision) {
+        cell.set_not_moveable_masks(cell.blocked_masks());
     }
     openkal::area_import::SmoothStats smooth_stats;
     if (smooth) {

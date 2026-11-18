@@ -14,7 +14,14 @@
 
 #include <GLFW/glfw3.h>
 #include <QApplication>
+#include <QCursor>
+#include <QEventLoop>
+#include <QFont>
+#include <QLabel>
 #include <QMessageBox>
+#include <QProgressBar>
+#include <QScreen>
+#include <QVBoxLayout>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -115,7 +122,52 @@ int main(int argc, char** argv) {
     QApplication::setApplicationDisplayName("OpenKal Area Editor");
     QApplication::setOrganizationName("OpenKal");
 
+    QWidget splash(nullptr, Qt::SplashScreen);
+    splash.setWindowTitle(QApplication::applicationDisplayName());
+    splash.setAttribute(Qt::WA_ShowWithoutActivating);
+    splash.setAttribute(Qt::WA_QuitOnClose, false);
+    auto* layout = new QVBoxLayout(&splash);
+    layout->setContentsMargins(24, 22, 24, 22);
+    layout->setSpacing(12);
+
+    auto* title = new QLabel(QApplication::applicationDisplayName(), &splash);
+    QFont title_font = title->font();
+    title_font.setPointSize(18);
+    title_font.setBold(true);
+    title->setFont(title_font);
+    layout->addWidget(title);
+
+    auto* status = new QLabel(&splash);
+    layout->addWidget(status);
+    auto* progress = new QProgressBar(&splash);
+    progress->setAccessibleName(QStringLiteral("Startup progress"));
+    progress->setTextVisible(false);
+    layout->addWidget(progress);
+
+    splash.setFixedWidth(420);
+    splash.adjustSize();
+    QScreen* screen = QApplication::screenAt(QCursor::pos());
+    if (!screen) {
+        screen = QApplication::primaryScreen();
+    }
+    if (screen) {
+        splash.move(screen->availableGeometry().center() - splash.rect().center());
+    }
+    splash.show();
+    const auto report = [&](int value, const QString& task) {
+        if (progress->value() == value && status->text() == task) {
+            return;
+        }
+        status->setText(task);
+        progress->setValue(value);
+        // Startup bakes use the main OpenGL thread, so deliver splash paint events here.
+        application.processEvents(QEventLoop::ExcludeUserInputEvents |
+                                  QEventLoop::ExcludeSocketNotifiers);
+    };
+    report(0, QStringLiteral("Starting the graphics backend…"));
+
     if (!glfwInit()) {
+        splash.hide();
         QMessageBox::critical(
             nullptr, "OpenGL initialization failed", "Could not initialize GLFW.");
         return 1;
@@ -123,6 +175,7 @@ int main(int argc, char** argv) {
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     std::unique_ptr<openkal::engine::IEngine> engine(openkal::engine::create_engine());
     if (!engine || !engine->init("OpenKal Area Editor Bake Backend", 64, 64)) {
+        splash.hide();
         QMessageBox::critical(nullptr,
                               "OpenGL initialization failed",
                               "Could not initialize the hidden area-bake backend.");
@@ -135,8 +188,10 @@ int main(int argc, char** argv) {
 
     int result = 0;
     {
-        AreaEditorWindow window(*engine, std::move(options));
+        AreaEditorWindow window(*engine, std::move(options), nullptr, report);
+        progress->setValue(100);
         window.show();
+        splash.close();
         result = application.exec();
     }
     engine->shutdown();

@@ -664,6 +664,18 @@ namespace openkal::client {
             std::vector<engine::VertexP3T2> vertices;
             std::vector<std::uint32_t> indices;
             const std::uint32_t mask = area_mask(layer);
+            const auto add_quad = [&](int x, int y, int size) {
+                append_ground_quad(vertices,
+                                   indices,
+                                   floor,
+                                   origin_patch,
+                                   is_indoor,
+                                   player_floor_y,
+                                   x,
+                                   y,
+                                   x + size,
+                                   y + size);
+            };
             for (int dy = -kAreaOverlayRadiusCells; dy <= kAreaOverlayRadiusCells; ++dy) {
                 for (int dx = -kAreaOverlayRadiusCells; dx <= kAreaOverlayRadiusCells; ++dx) {
                     const map::AreaCell* cell = grid.cell(cell_x + dx, cell_y + dy);
@@ -672,62 +684,44 @@ namespace openkal::client {
                     }
                     const int base_x = coords::cell_origin_pixels(cell->cell_x());
                     const int base_y = coords::cell_origin_pixels(cell->cell_y());
+                    constexpr std::size_t tile_count = map::kTileCount * map::kTileCount;
+                    const bool has_blocked_masks = cell->blocked_masks().size() == tile_count;
+                    const bool has_movement_masks = cell->not_moveable_masks().size() == tile_count;
+                    const bool fine_movement =
+                        layer == AreaLayer::NotMoveable && !cell->movement_masks().empty();
+                    const int cells_per_tile =
+                        fine_movement ? map::kMovementCellsPerTile : map::kCellsPerTile;
+                    const int cell_size = map::kTileSize / cells_per_tile;
+                    const std::uint64_t full_tile = fine_movement ? ~std::uint64_t{0} : 0xffffu;
                     for (int ty = 0; ty < map::kTileCount; ++ty) {
                         for (int tx = 0; tx < map::kTileCount; ++tx) {
                             const std::uint32_t attr = cell->at(tx, ty);
                             const int px = base_x + tx * map::kTileSize;
                             const int py = base_y + ty * map::kTileSize;
-                            if (layer != AreaLayer::Blocked) {
-                                if ((attr & mask) != 0) {
-                                    append_ground_quad(vertices,
-                                                       indices,
-                                                       floor,
-                                                       origin_patch,
-                                                       is_indoor,
-                                                       player_floor_y,
-                                                       px,
-                                                       py,
-                                                       px + map::kTileSize,
-                                                       py + map::kTileSize);
-                                }
+                            std::uint64_t subcells = 0;
+                            if (layer == AreaLayer::Blocked) {
+                                subcells = has_blocked_masks ? cell->blocked_mask(tx, ty)
+                                                             : attr & full_tile;
+                            } else if (layer == AreaLayer::NotMoveable && has_movement_masks) {
+                                subcells = fine_movement ? cell->movement_mask(tx, ty)
+                                                         : cell->not_moveable_mask(tx, ty);
+                            } else if ((attr & mask) != 0) {
+                                subcells = full_tile;
+                            }
+                            if (subcells == 0) {
                                 continue;
                             }
-                            const std::uint32_t blocked = attr & 0xffffu;
-                            if (blocked == 0) {
+                            if (subcells == full_tile) {
+                                add_quad(px, py, map::kTileSize);
                                 continue;
                             }
-                            if (blocked == 0xffffu) {
-                                append_ground_quad(vertices,
-                                                   indices,
-                                                   floor,
-                                                   origin_patch,
-                                                   is_indoor,
-                                                   player_floor_y,
-                                                   px,
-                                                   py,
-                                                   px + map::kTileSize,
-                                                   py + map::kTileSize);
-                                continue;
-                            }
-                            for (int sy = 0; sy < map::kCellsPerTile; ++sy) {
-                                for (int sx = 0; sx < map::kCellsPerTile; ++sx) {
-                                    const unsigned bit =
-                                        static_cast<unsigned>(sx + map::kCellsPerTile * sy);
-                                    if ((blocked & (1u << bit)) == 0) {
+                            for (int sy = 0; sy < cells_per_tile; ++sy) {
+                                for (int sx = 0; sx < cells_per_tile; ++sx) {
+                                    const int bit = sx + cells_per_tile * sy;
+                                    if ((subcells & (std::uint64_t{1} << bit)) == 0) {
                                         continue;
                                     }
-                                    const int sub_x = px + sx * map::kCellSize;
-                                    const int sub_y = py + sy * map::kCellSize;
-                                    append_ground_quad(vertices,
-                                                       indices,
-                                                       floor,
-                                                       origin_patch,
-                                                       is_indoor,
-                                                       player_floor_y,
-                                                       sub_x,
-                                                       sub_y,
-                                                       sub_x + map::kCellSize,
-                                                       sub_y + map::kCellSize);
+                                    add_quad(px + sx * cell_size, py + sy * cell_size, cell_size);
                                 }
                             }
                         }

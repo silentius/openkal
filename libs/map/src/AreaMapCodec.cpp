@@ -21,50 +21,57 @@
 namespace openkal::map {
     namespace {
 
-        constexpr std::uint16_t kFormatVersion = 2;
+        constexpr std::uint16_t kCoarseFormatVersion = 2;
+        constexpr std::uint16_t kFineFormatVersion = 3;
         constexpr std::uint16_t kHeaderBytes = 40;
         constexpr std::size_t kTileEntries = static_cast<std::size_t>(kTileCount) * kTileCount;
 
+        template <typename UInt> void append_uint(std::vector<std::uint8_t>& bytes, UInt value) {
+            for (unsigned shift = 0; shift < sizeof(UInt) * 8; shift += 8) {
+                bytes.push_back(static_cast<std::uint8_t>(value >> shift));
+            }
+        }
+
         void append_u16(std::vector<std::uint8_t>& bytes, std::uint16_t value) {
-            bytes.push_back(static_cast<std::uint8_t>(value));
-            bytes.push_back(static_cast<std::uint8_t>(value >> 8));
+            append_uint(bytes, value);
         }
 
         void append_u32(std::vector<std::uint8_t>& bytes, std::uint32_t value) {
-            for (unsigned shift = 0; shift < 32; shift += 8) {
-                bytes.push_back(static_cast<std::uint8_t>(value >> shift));
-            }
+            append_uint(bytes, value);
         }
 
         void append_i32(std::vector<std::uint8_t>& bytes, std::int32_t value) {
             append_u32(bytes, static_cast<std::uint32_t>(value));
         }
 
+        template <typename UInt>
+        [[nodiscard]] bool read_uint(const std::vector<std::uint8_t>& bytes,
+                                     std::size_t& offset,
+                                     std::size_t end,
+                                     UInt& out) {
+            if (offset > end || end - offset < sizeof(UInt)) {
+                return false;
+            }
+            std::uint64_t value = 0;
+            for (unsigned shift = 0; shift < sizeof(UInt) * 8; shift += 8) {
+                value |= static_cast<std::uint64_t>(bytes[offset++]) << shift;
+            }
+            out = static_cast<UInt>(value);
+            return true;
+        }
+
         [[nodiscard]] bool read_u16(const std::vector<std::uint8_t>& bytes,
                                     std::size_t& offset,
                                     std::size_t end,
                                     std::uint16_t& out) {
-            if (offset > end || end - offset < 2) {
-                return false;
-            }
-            out = static_cast<std::uint16_t>(bytes[offset]) |
-                  (static_cast<std::uint16_t>(bytes[offset + 1]) << 8);
-            offset += 2;
-            return true;
+            return read_uint(bytes, offset, end, out);
         }
 
         [[nodiscard]] bool read_u32(const std::vector<std::uint8_t>& bytes,
                                     std::size_t& offset,
                                     std::size_t end,
                                     std::uint32_t& out) {
-            if (offset > end || end - offset < 4) {
-                return false;
-            }
-            out = 0;
-            for (unsigned shift = 0; shift < 32; shift += 8) {
-                out |= static_cast<std::uint32_t>(bytes[offset++]) << shift;
-            }
-            return true;
+            return read_uint(bytes, offset, end, out);
         }
 
         [[nodiscard]] bool read_i32(const std::vector<std::uint8_t>& bytes,
@@ -102,13 +109,14 @@ namespace openkal::map {
             }
         }
 
-        void encode_blocked_runs(const AreaCell& cell, std::vector<std::uint8_t>& out) {
-            const std::vector<AreaCell::SubcellMask>& blocked = cell.blocked_masks();
-            const std::vector<AreaCell::SubcellMask>& not_moveable = cell.not_moveable_masks();
+        template <typename MovementMask>
+        void encode_collision_runs(const std::vector<AreaCell::SubcellMask>& blocked,
+                                   const std::vector<MovementMask>& not_moveable,
+                                   std::vector<std::uint8_t>& out) {
             std::size_t index = 0;
             while (index < blocked.size()) {
                 const AreaCell::SubcellMask blocked_value = blocked[index];
-                const AreaCell::SubcellMask not_moveable_value = not_moveable[index];
+                const MovementMask not_moveable_value = not_moveable[index];
                 std::uint32_t count = 1;
                 while (index + count < blocked.size() && blocked[index + count] == blocked_value &&
                        not_moveable[index + count] == not_moveable_value) {
@@ -116,7 +124,7 @@ namespace openkal::map {
                 }
                 append_u32(out, count);
                 append_u16(out, blocked_value);
-                append_u16(out, not_moveable_value);
+                append_uint(out, not_moveable_value);
                 index += count;
             }
         }
@@ -141,22 +149,23 @@ namespace openkal::map {
             return offset == end && index == kTileEntries;
         }
 
-        [[nodiscard]] bool decode_blocked_runs(const std::vector<std::uint8_t>& bytes,
-                                               std::size_t offset,
-                                               std::size_t end,
-                                               AreaCell& out) {
+        template <typename MovementMask>
+        [[nodiscard]] bool decode_collision_runs(const std::vector<std::uint8_t>& bytes,
+                                                 std::size_t offset,
+                                                 std::size_t end,
+                                                 AreaCell& out) {
             std::vector<AreaCell::SubcellMask> blocked;
-            std::vector<AreaCell::SubcellMask> not_moveable;
+            std::vector<MovementMask> not_moveable;
             blocked.reserve(kTileEntries);
             not_moveable.reserve(kTileEntries);
             while (offset < end) {
                 std::uint32_t count = 0;
                 AreaCell::SubcellMask blocked_value = 0;
-                AreaCell::SubcellMask not_moveable_value = 0;
+                MovementMask not_moveable_value = 0;
                 if (!read_u32(bytes, offset, end, count) || count == 0 ||
                     count > kTileEntries - blocked.size() ||
                     !read_u16(bytes, offset, end, blocked_value) ||
-                    !read_u16(bytes, offset, end, not_moveable_value)) {
+                    !read_uint(bytes, offset, end, not_moveable_value)) {
                     return false;
                 }
                 blocked.insert(blocked.end(), count, blocked_value);
@@ -167,7 +176,11 @@ namespace openkal::map {
                 return false;
             }
             out.set_blocked_masks(std::move(blocked));
-            out.set_not_moveable_masks(std::move(not_moveable));
+            if constexpr (sizeof(MovementMask) == sizeof(AreaCell::MovementMask)) {
+                out.set_movement_masks(std::move(not_moveable));
+            } else {
+                out.set_not_moveable_masks(std::move(not_moveable));
+            }
             return true;
         }
 
@@ -188,7 +201,12 @@ namespace openkal::map {
         std::vector<std::uint8_t> attrs;
         std::vector<std::uint8_t> blocked;
         encode_attr_runs(cell, attrs);
-        encode_blocked_runs(cell, blocked);
+        const bool fine = cell.has_movement_detail();
+        if (fine) {
+            encode_collision_runs(cell.blocked_masks(), cell.movement_masks(), blocked);
+        } else {
+            encode_collision_runs(cell.blocked_masks(), cell.not_moveable_masks(), blocked);
+        }
         const std::uint32_t attrs_size = static_cast<std::uint32_t>(attrs.size());
         const std::uint32_t blocked_size = static_cast<std::uint32_t>(blocked.size());
 
@@ -200,7 +218,7 @@ namespace openkal::map {
         std::vector<std::uint8_t> bytes;
         bytes.reserve(kHeaderBytes + payload.size());
         bytes.insert(bytes.end(), {'A', 'K', 'A', 'R'});
-        append_u16(bytes, kFormatVersion);
+        append_u16(bytes, fine ? kFineFormatVersion : kCoarseFormatVersion);
         append_u16(bytes, kHeaderBytes);
         append_i32(bytes, cell.cell_x());
         append_i32(bytes, cell.cell_y());
@@ -250,7 +268,8 @@ namespace openkal::map {
             !read_u32(*bytes, offset, bytes->size(), attrs_size) ||
             !read_u32(*bytes, offset, bytes->size(), blocked_size) ||
             !read_u32(*bytes, offset, bytes->size(), expected_checksum) ||
-            version != kFormatVersion || header_bytes != kHeaderBytes || tiles != kTileCount ||
+            (version != kCoarseFormatVersion && version != kFineFormatVersion) ||
+            header_bytes != kHeaderBytes || tiles != kTileCount ||
             blocked_cells != AreaCell::kSubcellsPerTile || attr_count != kTileEntries ||
             blocked_count != kTileEntries || offset != kHeaderBytes ||
             attrs_size > bytes->size() - offset ||
@@ -264,14 +283,20 @@ namespace openkal::map {
         std::vector<std::uint8_t> payload(bytes->begin() + static_cast<std::ptrdiff_t>(offset),
                                           bytes->begin() +
                                               static_cast<std::ptrdiff_t>(payload_end));
+        AreaCell decoded;
         if (checksum(payload) != expected_checksum ||
-            !decode_attr_runs(*bytes, offset, attrs_end, out) ||
-            !decode_blocked_runs(*bytes, attrs_end, payload_end, out)) {
+            !decode_attr_runs(*bytes, offset, attrs_end, decoded) ||
+            !(version == kFineFormatVersion ? decode_collision_runs<AreaCell::MovementMask>(
+                                                  *bytes, attrs_end, payload_end, decoded)
+                                            : decode_collision_runs<AreaCell::SubcellMask>(
+                                                  *bytes, attrs_end, payload_end, decoded))) {
             log::error("AreaMapCodec::load: corrupt payload in " + path_string);
             return false;
         }
-        out.set_cell_x(cell_x);
-        out.set_cell_y(cell_y);
+        decoded.set_cell_x(cell_x);
+        decoded.set_cell_y(cell_y);
+        decoded.set_version(out.version());
+        out = std::move(decoded);
         return true;
     }
 

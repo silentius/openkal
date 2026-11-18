@@ -14,6 +14,7 @@
 #include "openkal/engine/engine.h"
 #include "openkal/terrain/GtxLoader.h"
 
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -37,12 +38,26 @@ namespace openkal::area_editor {
     // Resolve maps dir from --data and/or the area path directory.
     BakePaths resolve_bake_paths(const std::string& area_path, const std::string& data_root_arg);
 
-    // One-shot orthographic top-down bake of KCM terrain + OPL props (2048² by
-    // default).
+    /** Stages of a top-down map bake. */
+    enum class BakeStage { Terrain, Objects, MovementClearance, Render };
+
+    /** Receives the current bake stage and its completed fraction between zero and one. */
+    using BakeProgress = std::function<void(BakeStage, double)>;
+
+    /** Bakes an orthographic view of the terrain and placed objects.
+     * @param engine OpenGL engine used on the calling thread.
+     * @param paths Terrain and asset directories.
+     * @param patch_x World patch X.
+     * @param patch_y World patch Y.
+     * @param resolution Length of each image edge in pixels.
+     * @param progress Optional observer called on the calling thread.
+     * @return Image and object masks, or an error explaining why the bake failed.
+     */
     BakeResult bake_patch_topdown(engine::IEngine& engine,
                                   const BakePaths& paths,
                                   int patch_x,
                                   int patch_y,
-                                  int resolution = 2048);
+                                  int resolution = 2048,
+                                  const BakeProgress& progress = {});
 
 }  // namespace openkal::area_editor

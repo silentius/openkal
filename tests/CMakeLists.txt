@@ -229,6 +229,12 @@ target_compile_definitions(openkal_test_area_map_fixture PRIVATE
 openkal_target_warnings(openkal_test_area_map_fixture)
 add_test(NAME area_map_fixture COMMAND openkal_test_area_map_fixture)
 
+if(TARGET area_import)
+  add_test(NAME area_import_player_collision
+    COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/map/test_area_import.py"
+      $<TARGET_FILE:area_import>)
+endif()
+
 add_executable(openkal_test_protocol test_protocol.cpp)
 target_link_libraries(openkal_test_protocol PRIVATE openkal::protocol)
 openkal_target_warnings(openkal_test_protocol)
@@ -271,11 +277,12 @@ add_executable(openkal_test_area_editor_object_mask
   ${CMAKE_SOURCE_DIR}/tools/area_editor/layers.cpp)
 target_include_directories(openkal_test_area_editor_object_mask PRIVATE
   ${CMAKE_SOURCE_DIR}/tools/area_editor)
-target_link_libraries(openkal_test_area_editor_object_mask PRIVATE openkal::engine openkal::map)
+target_link_libraries(openkal_test_area_editor_object_mask PRIVATE openkal::engine openkal::terrain)
 target_compile_definitions(openkal_test_area_editor_object_mask PRIVATE
   OPENKAL_REPO_ROOT="${CMAKE_SOURCE_DIR}")
 openkal_target_warnings(openkal_test_area_editor_object_mask)
 add_test(NAME area_editor_object_mask COMMAND openkal_test_area_editor_object_mask)
+add_test(NAME area_editor_user_data COMMAND openkal_test_area_editor_object_mask --user-data)
 
 add_executable(openkal_test_nameplate
   test_nameplate.cpp
@@ -1090,7 +1097,7 @@ add_test(NAME auto_hp_server COMMAND openkal_test_auto_hp_server)
 # configure a compatible optional data directory.
 set(OPENKAL_USER_DATA_TESTS
     map
-    area_editor_object_mask
+    area_editor_user_data
     player_movement
     server
     shop_catalog

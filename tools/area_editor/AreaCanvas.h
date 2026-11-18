@@ -81,11 +81,13 @@ class AreaCanvas final : public QWidget {
      * @param patch_x Outdoor patch X coordinate.
      * @param patch_y Outdoor patch Y coordinate.
      * @param collision Closed head-height collision loops in subcell coordinates.
+     * @param movement_clearance Closed loops for clearing the NotMoveable layer.
      * @param display Closed full-projection loops in subcell coordinates.
      */
     void set_tile_contours(int patch_x,
                            int patch_y,
                            std::vector<std::vector<QPointF>> collision,
+                           std::vector<std::vector<QPointF>> movement_clearance,
                            std::vector<std::vector<QPointF>> display);
 
     /** Replaces the transient selection highlight for one patch.
@@ -225,6 +227,7 @@ class AreaCanvas final : public QWidget {
         QImage overlay;
         QImage preview;
         std::vector<std::vector<QPointF>> collision_contours;
+        std::vector<std::vector<QPointF>> movement_clearance_contours;
         std::vector<std::vector<QPointF>> display_contours;
     };
 

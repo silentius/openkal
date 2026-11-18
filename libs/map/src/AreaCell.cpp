@@ -19,6 +19,44 @@ namespace openkal::map {
             return static_cast<std::size_t>(ty) * kTileCount + static_cast<std::size_t>(tx);
         }
 
+        constexpr int kMovementScale = kCellSize / kMovementCellSize;
+        static_assert(kMovementScale == 2);
+        constexpr AreaCell::MovementMask kMovementBlock = 0x0303u;
+
+        [[nodiscard]] unsigned movement_block_shift(unsigned x, unsigned y) {
+            return kMovementScale * (x + kMovementCellsPerTile * y);
+        }
+
+        [[nodiscard]] AreaCell::MovementMask expand_movement_mask(AreaCell::SubcellMask coarse) {
+            if (coarse == 0xffffu) {
+                return ~AreaCell::MovementMask{0};
+            }
+            AreaCell::MovementMask fine = 0;
+            for (unsigned y = 0; y < kCellsPerTile && coarse != 0; ++y) {
+                for (unsigned x = 0; x < kCellsPerTile; ++x) {
+                    if ((coarse & (1u << (y * kCellsPerTile + x))) != 0) {
+                        fine |= kMovementBlock << movement_block_shift(x, y);
+                    }
+                }
+            }
+            return fine;
+        }
+
+        [[nodiscard]] AreaCell::SubcellMask coarse_movement_mask(AreaCell::MovementMask fine) {
+            if (fine == ~AreaCell::MovementMask{0}) {
+                return 0xffffu;
+            }
+            AreaCell::SubcellMask coarse = 0;
+            for (unsigned y = 0; y < kCellsPerTile && fine != 0; ++y) {
+                for (unsigned x = 0; x < kCellsPerTile; ++x) {
+                    if ((fine & (kMovementBlock << movement_block_shift(x, y))) != 0) {
+                        coarse |= AreaCell::SubcellMask{1} << (y * kCellsPerTile + x);
+                    }
+                }
+            }
+            return coarse;
+        }
+
     }  // namespace
 
     std::uint32_t AreaCell::at(int tx, int ty) const {
@@ -80,6 +118,9 @@ namespace openkal::map {
         ensure_not_moveable_mask();
         const std::size_t index = tile_index(tx, ty);
         m_not_moveable[index] = mask;
+        if (!m_movement_masks.empty()) {
+            m_movement_masks[index] = expand_movement_mask(mask);
+        }
         if (mask != 0) {
             m_attrs[index] |= kAttrNotMoveable;
         } else {
@@ -144,6 +185,13 @@ namespace openkal::map {
         }
         const int tx = sx / kSubcellsPerTile;
         const int ty = sy / kSubcellsPerTile;
+        if (!m_movement_masks.empty()) {
+            const auto block = kMovementBlock << movement_block_shift(sx % kSubcellsPerTile,
+                                                                      sy % kSubcellsPerTile);
+            const auto current = movement_mask(tx, ty);
+            set_movement_mask(tx, ty, not_moveable ? current | block : current & ~block);
+            return;
+        }
         const unsigned bit = static_cast<unsigned>((sx % kSubcellsPerTile) +
                                                    kSubcellsPerTile * (sy % kSubcellsPerTile));
         SubcellMask mask = not_moveable_mask(tx, ty);
@@ -156,6 +204,7 @@ namespace openkal::map {
     }
 
     void AreaCell::import_legacy_blocked_masks() {
+        m_movement_masks.clear();
         ensure_blocked_mask();
         ensure_not_moveable_mask();
         for (int ty = 0; ty < kTileCount; ++ty) {
@@ -173,6 +222,7 @@ namespace openkal::map {
     }
 
     void AreaCell::set_not_moveable_masks(std::vector<SubcellMask> masks) {
+        m_movement_masks.clear();
         m_not_moveable = std::move(masks);
         if (m_not_moveable.size() != kAreaTileCount || m_attrs.size() != kAreaTileCount) {
             return;
@@ -184,6 +234,82 @@ namespace openkal::map {
                 m_attrs[index] &= ~kAttrNotMoveable;
             }
         }
+    }
+
+    AreaCell::MovementMask AreaCell::movement_mask(int tx, int ty) const {
+        if (tx < 0 || ty < 0 || tx >= kTileCount || ty >= kTileCount) {
+            return ~MovementMask{0};
+        }
+        if (m_not_moveable.size() != kAreaTileCount) {
+            return has_attr(at(tx, ty), kAttrNotMoveable) ? ~MovementMask{0} : 0;
+        }
+        const auto index = tile_index(tx, ty);
+        return m_movement_masks.empty() ? expand_movement_mask(m_not_moveable[index])
+                                        : m_movement_masks[index];
+    }
+
+    void AreaCell::set_movement_mask(int tx, int ty, MovementMask mask) {
+        if (tx < 0 || ty < 0 || tx >= kTileCount || ty >= kTileCount) {
+            return;
+        }
+        const auto coarse = coarse_movement_mask(mask);
+        if (m_movement_masks.empty() && expand_movement_mask(coarse) != mask) {
+            ensure_not_moveable_mask();
+            m_movement_masks.resize(kAreaTileCount);
+            std::transform(m_not_moveable.begin(),
+                           m_not_moveable.end(),
+                           m_movement_masks.begin(),
+                           expand_movement_mask);
+        }
+        set_not_moveable_mask(tx, ty, coarse);
+        if (!m_movement_masks.empty()) {
+            m_movement_masks[tile_index(tx, ty)] = mask;
+        }
+    }
+
+    bool AreaCell::not_moveable_at_movement_cell(int sx, int sy) const {
+        if (sx < 0 || sy < 0 || sx >= kMovementCellCount || sy >= kMovementCellCount) {
+            return true;
+        }
+        if (m_movement_masks.empty()) {
+            return not_moveable_at_subcell(sx / kMovementScale, sy / kMovementScale);
+        }
+        const int bit =
+            sx % kMovementCellsPerTile + kMovementCellsPerTile * (sy % kMovementCellsPerTile);
+        return (movement_mask(sx / kMovementCellsPerTile, sy / kMovementCellsPerTile) &
+                (MovementMask{1} << bit)) != 0;
+    }
+
+    void AreaCell::set_not_moveable_at_movement_cell(int sx, int sy, bool not_moveable) {
+        if (sx < 0 || sy < 0 || sx >= kMovementCellCount || sy >= kMovementCellCount) {
+            return;
+        }
+        const int tx = sx / kMovementCellsPerTile;
+        const int ty = sy / kMovementCellsPerTile;
+        const int bit =
+            sx % kMovementCellsPerTile + kMovementCellsPerTile * (sy % kMovementCellsPerTile);
+        const auto current = movement_mask(tx, ty);
+        const auto changed = MovementMask{1} << bit;
+        set_movement_mask(tx, ty, not_moveable ? current | changed : current & ~changed);
+    }
+
+    void AreaCell::set_movement_masks(std::vector<MovementMask> masks) {
+        if (masks.size() != kAreaTileCount) {
+            return;
+        }
+        std::vector<SubcellMask> coarse(kAreaTileCount);
+        std::transform(masks.begin(), masks.end(), coarse.begin(), coarse_movement_mask);
+        set_not_moveable_masks(std::move(coarse));
+        m_movement_masks = std::move(masks);
+    }
+
+    bool AreaCell::has_movement_detail() const {
+        for (std::size_t index = 0; index < m_movement_masks.size(); ++index) {
+            if (m_movement_masks[index] != expand_movement_mask(m_not_moveable[index])) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }  // namespace openkal::map

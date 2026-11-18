@@ -83,9 +83,12 @@ int main(int argc, char** argv) {
     std::printf("file: %s\n", area_path.c_str());
     std::printf("cell: %d, %d\n", grid.cell_x(), grid.cell_y());
     std::printf("tiles: %dx%d\n", openkal::map::kTileCount, openkal::map::kTileCount);
-    std::printf("Blocked/NotMoveable resolution: %dx%d subcells per tile\n",
-                openkal::map::AreaCell::kSubcellsPerTile,
-                openkal::map::AreaCell::kSubcellsPerTile);
+    const int movement_size =
+        grid.movement_masks().empty() ? openkal::map::kCellSize : openkal::map::kMovementCellSize;
+    std::printf("Blocked: %dx%d world pixels per subcell\n",
+                openkal::map::kCellSize,
+                openkal::map::kCellSize);
+    std::printf("NotMoveable: %dx%d world pixels per subcell\n", movement_size, movement_size);
 
     int hist[8] = {};
     int walkable = 0;

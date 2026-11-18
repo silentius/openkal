@@ -13,9 +13,16 @@
 #include "openkal/engine/engine.h"
 #include "openkal/map/Constants.h"
 
+#include <cstddef>
 #include <cstdint>
+#include <functional>
+#include <optional>
 #include <string>
 #include <vector>
+
+namespace openkal::terrain {
+    class FloorField;
+}
 
 namespace openkal::area_editor {
 
@@ -39,6 +46,9 @@ namespace openkal::area_editor {
     struct ObjectMask {
         std::string name;
         std::vector<std::uint32_t> footprint_cells;
+        /** Present when clearing movement requires a smaller footprint. */
+        std::optional<std::vector<std::uint32_t>> movement_clearance;
+
         /** Display-silhouette area in subcells. Smaller areas win object picking. */
         float pick_area = 0.0f;
         /** Inclusive footprint bounds. `max_x < min_x` means the footprint is empty. */
@@ -50,6 +60,12 @@ namespace openkal::area_editor {
         std::vector<std::vector<ObjectMaskPoint>> collision_contours;
         /** Closed full-projection loops, including roofs and foliage. */
         std::vector<std::vector<ObjectMaskPoint>> display_contours;
+
+        /** Returns the editable cells for an object operation.
+         * @param clear_movement Whether the operation clears the NotMoveable layer.
+         * @return The supported subset for clearing movement, or the ordinary footprint.
+         */
+        [[nodiscard]] const std::vector<std::uint32_t>& edit_cells(bool clear_movement) const;
     };
 
     /** Builds a top-down display outline and a filled head-height footprint.
@@ -64,6 +80,7 @@ namespace openkal::area_editor {
      * @param model Model-to-world transform for the OPL instance.
      * @param patch_origin_x World X coordinate at the patch's left edge.
      * @param patch_origin_z World Z coordinate at the patch's top edge.
+     * @param progress Optional callback receiving the cumulative number of completed object passes.
      * @param patch_extent World-space width and height of the patch.
      * @param base_world_y Ground height of the OPL instance.
      * @param foliage Whether alpha-tested foliage surfaces should be ignored for collision.
@@ -77,6 +94,25 @@ namespace openkal::area_editor {
                                                float patch_extent,
                                                float base_world_y,
                                                bool foliage);
+
+    /** Limits automatic movement clearance over water and keeps one subcell at the edge.
+     * @param masks Object footprints for the current patch.
+     * @param floor The patch terrain and the placed objects' gameplay floor geometry.
+     * @param patch_origin_x World X coordinate at the patch's left edge.
+     * @param patch_origin_z World Z coordinate at the patch's top edge.
+     */
+    void restrict_movement_clearance(std::vector<ObjectMask>& masks,
+                                     const terrain::FloorField& floor,
+                                     float patch_origin_x,
+                                     float patch_origin_z,
+                                     const std::function<void(std::size_t)>& progress = {});
+
+    /** Traces the union of the shapes eligible for clearing NotMoveable.
+     * @param masks Object footprints in the current patch.
+     * @return Closed outlines in four-pixel grid coordinates.
+     */
+    [[nodiscard]] std::vector<std::vector<ObjectMaskPoint>>
+    movement_clearance_contours(const std::vector<ObjectMask>& masks);
 
     /** Finds the most specific object under a subcell.
      *
@@ -99,10 +135,15 @@ namespace openkal::area_editor {
      * @param min_y Top subcell, inclusive.
      * @param max_x Right subcell, inclusive.
      * @param max_y Bottom subcell, inclusive.
+     * @param clear_movement Whether the operation clears the NotMoveable layer.
      * @return Matching footprint subcells. Empty when the rectangle misses the mask.
      */
-    [[nodiscard]] std::vector<std::uint32_t>
-    clip_footprint_to_rect(const ObjectMask& mask, int min_x, int min_y, int max_x, int max_y);
+    [[nodiscard]] std::vector<std::uint32_t> clip_footprint_to_rect(const ObjectMask& mask,
+                                                                    int min_x,
+                                                                    int min_y,
+                                                                    int max_x,
+                                                                    int max_y,
+                                                                    bool clear_movement = false);
 
     /** Lists every editable subcell inside an inclusive rectangle.
      *
