@@ -19,6 +19,7 @@
 #include <array>
 #include <cmath>
 #include <cstdio>
+#include <limits>
 #include <utility>
 
 namespace openkal::client {
@@ -528,9 +529,9 @@ namespace openkal::client {
         m_pose_clip = nullptr;
         m_upload_vertices.clear();
         m_last_skinned_time_ms = -1000.0f;
-        m_hit_flash_ms = 0.0f;
-        m_hit_flash_duration_ms = 0.0f;
-        m_hit_flash_peak = 0.0f;
+        m_hit_outline_ms = 0.0f;
+        m_hit_outline_duration_ms = 0.0f;
+        m_hit_outline_peak = 0.0f;
         m_blend_in_timer_ms = 0.0f;
         m_blend_in_time_ms = 0.0f;
     }
@@ -710,10 +711,16 @@ namespace openkal::client {
         m_last_skinned_time_ms = -1000.0f;
     }
 
-    void MonsterInstance::trigger_hit_flash(bool critical) {
-        m_hit_flash_duration_ms = critical ? 120.0f : 90.0f;
-        m_hit_flash_peak = critical ? 1.0f : 0.9f;
-        m_hit_flash_ms = m_hit_flash_duration_ms;
+    void MonsterInstance::trigger_hit_outline(bool critical) {
+        m_hit_outline_duration_ms = critical ? 180.0f : 140.0f;
+        m_hit_outline_peak = critical ? 1.0f : 0.85f;
+        m_hit_outline_ms = m_hit_outline_duration_ms;
+    }
+
+    void MonsterInstance::advance_hit_outline(float dt) {
+        if (m_hit_outline_ms > 0.0f) {
+            m_hit_outline_ms = std::max(0.0f, m_hit_outline_ms - dt * 1000.0f);
+        }
     }
 
     bool MonsterInstance::update(engine::IEngine& engine,
@@ -740,9 +747,6 @@ namespace openkal::client {
         const float dt_ms = dt * 1000.0f;
         if (m_blend_in_timer_ms > 0.0f && m_blend_in_time_ms < m_blend_in_timer_ms) {
             m_blend_in_time_ms = std::min(m_blend_in_timer_ms, m_blend_in_time_ms + dt_ms);
-        }
-        if (m_hit_flash_ms > 0.0f) {
-            m_hit_flash_ms = std::max(0.0f, m_hit_flash_ms - dt_ms);
         }
         constexpr float kDieSinkSec = 0.8f;
         constexpr float kDieSinkDepth = 14.0f;
@@ -1014,11 +1018,6 @@ namespace openkal::client {
             mul_g = 0.5f;
             mul_b = 0.5f;
         }
-        float white_mix = 0.0f;
-        if (m_hit_flash_ms > 0.0f && m_hit_flash_duration_ms > 0.0f) {
-            const float t = m_hit_flash_ms / m_hit_flash_duration_ms;
-            white_mix = t * t * m_hit_flash_peak;
-        }
         for (const auto& part : m_parts) {
             const bool use_blend = fading || part.alpha_blend();
             if (use_blend != want_alpha) {
@@ -1036,9 +1035,43 @@ namespace openkal::client {
                                       mul_r,
                                       mul_g,
                                       mul_b,
-                                      opacity,
-                                      white_mix);
+                                      opacity);
         }
+    }
+
+    void MonsterInstance::draw_hit_outline(engine::IEngine& engine,
+                                           const engine::Mat4& model) const {
+        const float model_opacity = blend_opacity();
+        if (!has_hit_outline() || model_opacity <= 0.0f) {
+            return;
+        }
+        const float remaining = m_hit_outline_ms / m_hit_outline_duration_ms;
+        const float radius = 1.0f + 4.0f * (1.0f - remaining * remaining);
+        const float opacity = m_hit_outline_peak * remaining * model_opacity;
+
+        constexpr float limit = std::numeric_limits<float>::max();
+        engine::Vec3 bounds_min{limit, limit, limit};
+        engine::Vec3 bounds_max{-limit, -limit, -limit};
+        for (const auto& mesh : m_working_meshes) {
+            for (std::size_t i = 0; i + 4 < mesh.pos_uv.size(); i += 5) {
+                bounds_min.x = std::min(bounds_min.x, mesh.pos_uv[i]);
+                bounds_min.y = std::min(bounds_min.y, mesh.pos_uv[i + 1]);
+                bounds_min.z = std::min(bounds_min.z, mesh.pos_uv[i + 2]);
+                bounds_max.x = std::max(bounds_max.x, mesh.pos_uv[i]);
+                bounds_max.y = std::max(bounds_max.y, mesh.pos_uv[i + 1]);
+                bounds_max.z = std::max(bounds_max.z, mesh.pos_uv[i + 2]);
+            }
+        }
+        if (!engine.begin_mesh_outline(model, bounds_min, bounds_max, radius, opacity)) {
+            return;
+        }
+        for (const auto& part : m_parts) {
+            const float alpha_cutoff =
+                part.alpha_blend() ? 0.125f : (part.alpha_test() ? 128.0f / 255.0f : 0.0f);
+            engine.draw_mesh_outline_part(
+                part.mesh(), part.texture(), part.two_sided(), alpha_cutoff);
+        }
+        engine.end_mesh_outline();
     }
 
     void MonsterInstance::draw_shadow(engine::IEngine& engine,

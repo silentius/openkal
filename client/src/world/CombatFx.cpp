@@ -1819,7 +1819,7 @@ namespace openkal::client {
             return;
         }
         if (arrow) {
-            // compatibility behavior hit SFX; texture tint is applied on the monster.
+            // Compatibility hit sound for arrows.
             play_sfx("efc007", x, y, z);
         }
         // Melee hit SFX (efc006) is keyed to (*EFFECT_MODEL effect_attack*) on the

@@ -26,7 +26,6 @@ set(OPENKAL_CLIENT_HEADERS
   include/openkal/client/ClickMarker.h
   include/openkal/client/RangeSkillDecal.h
   include/openkal/client/ArrowHitFeedback.h
-  include/openkal/client/HitSparks.h
   include/openkal/client/CombatFx.h
   include/openkal/client/CombatFloatText.h
   include/openkal/client/DebugOverlay.h
@@ -153,7 +152,6 @@ set(OPENKAL_CLIENT_SOURCES
   src/world/IndoorMapView.cpp
   src/world/Nameplate.cpp
   src/world/ArrowHitFeedback.cpp
-  src/world/HitSparks.cpp
   src/world/CombatFx.cpp
   src/world/CombatFloatText.cpp
   src/world/SpriteFx.cpp

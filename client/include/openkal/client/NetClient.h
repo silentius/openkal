@@ -1346,7 +1346,7 @@ namespace openkal::client {
         [[nodiscard]] bool take_transform_action(PendingTransformAction& out);
 
         /**
-         * Consumes a pending hit flash for a monster.
+         * Consumes pending hit feedback for a monster.
          * @param out Receives target id and S2C_ATTACK flags.
          * @return True if pending.
          */
@@ -2353,7 +2353,7 @@ namespace openkal::client {
         /** True when MSG_ENCHANTFAILED is waiting to be consumed. */
         bool m_enchant_failed = false;
 
-        /** Pending hit flashes on monsters. */
+        /** Pending hit feedback for monsters. */
         std::deque<PendingHitFx> m_pending_hit_fx;
         std::deque<PendingPlayerAttack> m_pending_player_attacks;
 

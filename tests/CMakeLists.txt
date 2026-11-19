@@ -169,10 +169,7 @@ if(OPENKAL_ENGINE STREQUAL "gl")
   add_test(NAME text_edit_input COMMAND openkal_test_text_edit_input)
   set_tests_properties(text_edit_input PROPERTIES SKIP_RETURN_CODE 77)
 
-  add_executable(openkal_test_hit_feedback
-    HitFeedbackTest.cpp
-    ${CMAKE_SOURCE_DIR}/client/src/world/HitSparks.cpp)
-  target_include_directories(openkal_test_hit_feedback PRIVATE ${CMAKE_SOURCE_DIR}/client/include)
+  add_executable(openkal_test_hit_feedback HitFeedbackTest.cpp)
   target_link_libraries(openkal_test_hit_feedback PRIVATE openkal::engine)
   openkal_target_warnings(openkal_test_hit_feedback)
   add_test(NAME hit_feedback COMMAND openkal_test_hit_feedback)

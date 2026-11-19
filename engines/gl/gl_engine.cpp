@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <cctype>
 #include <chrono>
+#include <cmath>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
@@ -296,6 +297,49 @@ void main() {
   vec2 pos = vec2((gl_VertexID << 1) & 2, gl_VertexID & 2);
   vUv = pos;
   gl_Position = vec4(pos * 2.0 - 1.0, 0.0, 1.0);
+}
+)";
+
+        const char* kOutlineMaskFragSrc = R"(#version 330 core
+in vec2 vUv;
+uniform sampler2D uTex;
+uniform float uAlphaCutoff;
+out float MaskDepth;
+void main() {
+  if (uAlphaCutoff > 0.0 && texture(uTex, vUv).a < uAlphaCutoff) discard;
+  MaskDepth = gl_FragCoord.z;
+}
+)";
+
+        const char* kOutlineFragSrc = R"(#version 330 core
+uniform sampler2D uMask;
+uniform ivec4 uBounds;
+uniform float uRadius;
+uniform float uOpacity;
+out vec4 FragColor;
+void main() {
+  ivec2 p = ivec2(gl_FragCoord.xy);
+  if (texelFetch(uMask, p, 0).r < 1.0) discard;
+
+  // Find the nearest point on the visible silhouette in a circular pixel neighborhood.
+  float reach = uRadius + 1.4;
+  float nearest = reach * reach;
+  float depth = 1.0;
+  int extent = int(ceil(reach));
+  for (int y = max(-extent, uBounds.y - p.y); y <= min(extent, uBounds.w - 1 - p.y); ++y) {
+    for (int x = max(-extent, uBounds.x - p.x); x <= min(extent, uBounds.z - 1 - p.x); ++x) {
+      float distanceSquared = float(x * x + y * y);
+      if (distanceSquared > nearest) continue;
+      float sampleDepth = texelFetch(uMask, p + ivec2(x, y), 0).r;
+      if (sampleDepth >= 1.0) continue;
+      depth = distanceSquared < nearest ? sampleDepth : min(depth, sampleDepth);
+      nearest = distanceSquared;
+    }
+  }
+  if (depth >= 1.0) discard;
+  float coverage = 1.0 - smoothstep(0.4, 1.4, abs(sqrt(nearest) - uRadius));
+  gl_FragDepth = depth;
+  FragColor = vec4(1.0, 1.0, 1.0, uOpacity * coverage);
 }
 )";
 
@@ -639,6 +683,17 @@ void main() {
                 u_bloom_strength_ = glGetUniformLocation(bloom_program_, "uStrength");
                 glGenVertexArrays(1, &post_vao_);
 
+                m_outline_mask_program = link_program(kMeshVertSrc, kOutlineMaskFragSrc);
+                m_outline_mvp_uniform = glGetUniformLocation(m_outline_mask_program, "uMVP");
+                m_outline_model_uniform = glGetUniformLocation(m_outline_mask_program, "uModel");
+                m_outline_camera_uniform = glGetUniformLocation(m_outline_mask_program, "uCamPos");
+                m_outline_alpha_uniform =
+                    glGetUniformLocation(m_outline_mask_program, "uAlphaCutoff");
+                m_outline_program = link_program(kPostVertSrc, kOutlineFragSrc);
+                m_outline_bounds_uniform = glGetUniformLocation(m_outline_program, "uBounds");
+                m_outline_radius_uniform = glGetUniformLocation(m_outline_program, "uRadius");
+                m_outline_opacity_uniform = glGetUniformLocation(m_outline_program, "uOpacity");
+
                 shadow_program_ = link_program(kShadowVertSrc, kShadowFragSrc);
                 u_shadow_vp_ = glGetUniformLocation(shadow_program_, "uViewProj");
                 u_shadow_model_ = glGetUniformLocation(shadow_program_, "uModel");
@@ -705,6 +760,7 @@ void main() {
 
             void shutdown() override {
                 destroy_shadow_target();
+                destroy_outline_target();
                 destroy_offscreen();
                 destroy_scene_target();
                 if (sprite_batch_vbo_) {
@@ -786,6 +842,14 @@ void main() {
                 if (m_shadow_composite_program) {
                     glDeleteProgram(m_shadow_composite_program);
                     m_shadow_composite_program = 0;
+                }
+                if (m_outline_mask_program) {
+                    glDeleteProgram(m_outline_mask_program);
+                    m_outline_mask_program = 0;
+                }
+                if (m_outline_program) {
+                    glDeleteProgram(m_outline_program);
+                    m_outline_program = 0;
                 }
                 if (post_vao_) {
                     glDeleteVertexArrays(1, &post_vao_);
@@ -1635,6 +1699,112 @@ void main() {
                 glEnable(GL_CULL_FACE);
             }
 
+            bool begin_mesh_outline(const Mat4& model,
+                                    const Vec3& bounds_min,
+                                    const Vec3& bounds_max,
+                                    float radius,
+                                    float opacity) override {
+                if (m_outline_active || !m_outline_mask_program || !m_outline_program ||
+                    fb_w_ <= 0 || fb_h_ <= 0 || !std::isfinite(radius) || radius <= 0.0f ||
+                    !std::isfinite(opacity) || opacity <= 0.0f || bounds_min.x > bounds_max.x ||
+                    bounds_min.y > bounds_max.y || bounds_min.z > bounds_max.z) {
+                    return false;
+                }
+                radius = std::min(radius, 5.0f);
+                const auto bounds = outline_screen_bounds(model, bounds_min, bounds_max, radius);
+                const auto [left, bottom, right, top] = bounds;
+                if (left >= right || bottom >= top) {
+                    return false;
+                }
+                glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &m_outline_draw_target);
+                if (!ensure_outline_target()) {
+                    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_outline_draw_target);
+                    return false;
+                }
+
+                GLint previous_read = 0;
+                glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &previous_read);
+                glBindFramebuffer(GL_READ_FRAMEBUFFER, m_outline_draw_target);
+                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_outline_fbo);
+                // Keep only parts of the silhouette visible against the opaque scene.
+                glBlitFramebuffer(left,
+                                  bottom,
+                                  right,
+                                  top,
+                                  left,
+                                  bottom,
+                                  right,
+                                  top,
+                                  GL_DEPTH_BUFFER_BIT,
+                                  GL_NEAREST);
+                glBindFramebuffer(GL_READ_FRAMEBUFFER, previous_read);
+                glEnable(GL_SCISSOR_TEST);
+                glScissor(left, bottom, right - left, top - bottom);
+                const GLfloat clear[] = {1.0f, 0.0f, 0.0f, 0.0f};
+                glClearBufferfv(GL_COLOR, 0, clear);
+                glDisable(GL_BLEND);
+                glEnable(GL_DEPTH_TEST);
+                glDepthMask(GL_TRUE);
+                glDepthFunc(GL_LEQUAL);
+
+                glUseProgram(m_outline_program);
+                glUniform4iv(m_outline_bounds_uniform, 1, bounds.data());
+                glUniform1f(m_outline_radius_uniform, radius);
+                glUniform1f(m_outline_opacity_uniform, std::min(opacity, 1.0f));
+                glUseProgram(m_outline_mask_program);
+                glUniformMatrix4fv(m_outline_mvp_uniform, 1, GL_FALSE, view_rot_proj_.m.data());
+                glUniformMatrix4fv(m_outline_model_uniform, 1, GL_FALSE, model.m.data());
+                glUniform3f(m_outline_camera_uniform, cam_pos_.x, cam_pos_.y, cam_pos_.z);
+                m_outline_active = true;
+                return true;
+            }
+
+            void draw_mesh_outline_part(MeshHandle mesh,
+                                        TextureHandle texture,
+                                        bool two_sided,
+                                        float alpha_cutoff) override {
+                const auto part = meshes_.find(mesh.id);
+                if (!m_outline_active || part == meshes_.end()) {
+                    return;
+                }
+                glUniform1f(m_outline_alpha_uniform, alpha_cutoff);
+                if (two_sided) {
+                    glDisable(GL_CULL_FACE);
+                } else {
+                    glEnable(GL_CULL_FACE);
+                }
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, resolve_tex(texture));
+                glBindVertexArray(part->second.vao);
+                glDrawElements(GL_TRIANGLES, part->second.index_count, GL_UNSIGNED_INT, nullptr);
+                glBindVertexArray(0);
+                ++draw_other_;
+            }
+
+            void end_mesh_outline() override {
+                if (!m_outline_active) {
+                    return;
+                }
+                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_outline_draw_target);
+                glDepthMask(GL_FALSE);
+                glDisable(GL_CULL_FACE);
+                glEnable(GL_BLEND);
+                glBlendEquation(GL_FUNC_ADD);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                glUseProgram(m_outline_program);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, m_outline_mask);
+                glBindVertexArray(post_vao_);
+                glDrawArrays(GL_TRIANGLES, 0, 3);
+                glBindVertexArray(0);
+                ++draw_other_;
+                glDisable(GL_SCISSOR_TEST);
+                glDisable(GL_BLEND);
+                glDepthMask(GL_TRUE);
+                glEnable(GL_CULL_FACE);
+                m_outline_active = false;
+            }
+
             void begin_shadow_pass() override {
                 if (m_shadow_pass_active) {
                     return;
@@ -2354,6 +2524,87 @@ void main() {
                 mesh = {};
             }
 
+            std::array<GLint, 4> outline_screen_bounds(const Mat4& model,
+                                                       const Vec3& bounds_min,
+                                                       const Vec3& bounds_max,
+                                                       float radius) const {
+                float left = 1.0f;
+                float bottom = 1.0f;
+                float right = -1.0f;
+                float top = -1.0f;
+                for (int corner = 0; corner < 8; ++corner) {
+                    Vec3 p = Mat4::transform_point(model,
+                                                   corner & 1 ? bounds_max.x : bounds_min.x,
+                                                   corner & 2 ? bounds_max.y : bounds_min.y,
+                                                   corner & 4 ? bounds_max.z : bounds_min.z);
+                    p.x -= cam_pos_.x;
+                    p.y -= cam_pos_.y;
+                    p.z -= cam_pos_.z;
+                    const auto& vp = view_rot_proj_.m;
+                    const float w = vp[3] * p.x + vp[7] * p.y + vp[11] * p.z + vp[15];
+                    if (w <= 0.0f) {
+                        // A box crossing the camera plane is not bounded by its projected corners.
+                        return {0, 0, fb_w_, fb_h_};
+                    }
+                    const float x = (vp[0] * p.x + vp[4] * p.y + vp[8] * p.z + vp[12]) / w;
+                    const float y = (vp[1] * p.x + vp[5] * p.y + vp[9] * p.z + vp[13]) / w;
+                    left = std::min(left, x);
+                    bottom = std::min(bottom, y);
+                    right = std::max(right, x);
+                    top = std::max(top, y);
+                }
+                const float pad = radius + 2.0f;
+                const auto pixel = [](float ndc, float padding, int size) {
+                    return std::clamp(
+                        (ndc + 1.0f) * 0.5f * size + padding, 0.0f, static_cast<float>(size));
+                };
+                return {static_cast<GLint>(std::floor(pixel(left, -pad, fb_w_))),
+                        static_cast<GLint>(std::floor(pixel(bottom, -pad, fb_h_))),
+                        static_cast<GLint>(std::ceil(pixel(right, pad, fb_w_))),
+                        static_cast<GLint>(std::ceil(pixel(top, pad, fb_h_)))};
+            }
+
+            bool ensure_outline_target() {
+                if (m_outline_fbo && m_outline_width == fb_w_ && m_outline_height == fb_h_) {
+                    return true;
+                }
+                destroy_outline_target();
+                glGenTextures(1, &m_outline_mask);
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, m_outline_mask);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, fb_w_, fb_h_, 0, GL_RED, GL_FLOAT, nullptr);
+                glGenRenderbuffers(1, &m_outline_depth);
+                glBindRenderbuffer(GL_RENDERBUFFER, m_outline_depth);
+                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, fb_w_, fb_h_);
+                glGenFramebuffers(1, &m_outline_fbo);
+                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_outline_fbo);
+                glFramebufferTexture2D(
+                    GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_outline_mask, 0);
+                glFramebufferRenderbuffer(
+                    GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_outline_depth);
+                if (glCheckFramebufferStatus(GL_DRAW_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+                    std::fprintf(stderr, "Failed to create the mesh outline framebuffer\n");
+                    destroy_outline_target();
+                    return false;
+                }
+                m_outline_width = fb_w_;
+                m_outline_height = fb_h_;
+                return true;
+            }
+
+            void destroy_outline_target() {
+                if (m_outline_fbo) {
+                    glDeleteFramebuffers(1, &m_outline_fbo);
+                    glDeleteTextures(1, &m_outline_mask);
+                    glDeleteRenderbuffers(1, &m_outline_depth);
+                    m_outline_fbo = 0;
+                    m_outline_mask = 0;
+                    m_outline_depth = 0;
+                }
+            }
+
             bool ensure_shadow_target(int width, int height) {
                 if (width <= 0 || height <= 0 || !shadow_program_ || !m_shadow_composite_program ||
                     !post_vao_) {
@@ -2668,6 +2919,22 @@ void main() {
             GLint u_bloom_blur_ = -1;
             GLint u_bloom_strength_ = -1;
             GLuint post_vao_ = 0;
+            GLuint m_outline_mask_program = 0;
+            GLint m_outline_mvp_uniform = -1;
+            GLint m_outline_model_uniform = -1;
+            GLint m_outline_camera_uniform = -1;
+            GLint m_outline_alpha_uniform = -1;
+            GLuint m_outline_program = 0;
+            GLint m_outline_bounds_uniform = -1;
+            GLint m_outline_radius_uniform = -1;
+            GLint m_outline_opacity_uniform = -1;
+            GLuint m_outline_fbo = 0;
+            GLuint m_outline_mask = 0;
+            GLuint m_outline_depth = 0;
+            GLint m_outline_draw_target = 0;
+            int m_outline_width = 0;
+            int m_outline_height = 0;
+            bool m_outline_active = false;
             GLuint shadow_program_ = 0;
             GLuint m_shadow_composite_program = 0;
             GLint m_shadow_mask_uniform = -1;

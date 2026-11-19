@@ -44,7 +44,6 @@
 #include "openkal/client/GameHud.h"
 #include "openkal/client/GameMenu.h"
 #include "openkal/client/GuildWindow.h"
-#include "openkal/client/HitSparks.h"
 #include "openkal/client/InGameWindowOrder.h"
 #include "openkal/client/IndoorMapView.h"
 #include "openkal/client/Inventory.h"
@@ -1394,10 +1393,6 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         }
         return model;
     };
-    client::HitSparks hit_sparks;
-    if (!hit_sparks.init(*engine)) {
-        log::warn("hit sparks init failed");
-    }
     client::CombatFx combat_fx;
     if (!combat_fx.init(*engine, profile.data_root())) {
         log::warn("combat FX init failed — lightning/arrow effects may be missing");
@@ -2555,30 +2550,14 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
 
     auto present_monster_hit = [&](std::uint32_t target,
                                    std::uint8_t flags,
-                                   const engine::Vec3& impact,
-                                   const engine::Vec3* origin,
-                                   float scale) {
+                                   const engine::Vec3& impact) {
         if ((flags & protocol::kAtkHit) == 0) {
             return;
         }
         const auto instance = monster_instances.find(target);
         if (instance != monster_instances.end()) {
             const bool critical = (flags & (protocol::kAtkFatal | protocol::kAtkExplosive)) != 0;
-            instance->second.trigger_hit_flash(critical);
-            if (origin) {
-                auto emission = impact;
-                float emission_scale = scale;
-                const auto monster = net.monsters().find(target);
-                if (monster != net.monsters().end()) {
-                    resolve_monster_impact(target,
-                                           monster->second,
-                                           emission.x,
-                                           emission.y,
-                                           emission.z,
-                                           emission_scale);
-                }
-                hit_sparks.spawn(emission, *origin, emission_scale, critical);
-            }
+            instance->second.trigger_hit_outline(critical);
         }
         if ((flags & protocol::kAtkExplosive) != 0) {
             const auto sounds =
@@ -2591,8 +2570,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
     auto present_arrow_feedback = [&] {
         client::ArrowHitFeedback::Impact impact;
         while (combat_fx.take_arrow_feedback(impact)) {
-            present_monster_hit(
-                impact.target, impact.flags, impact.position, &impact.origin, impact.scale);
+            present_monster_hit(impact.target, impact.flags, impact.position);
         }
     };
 
@@ -8872,7 +8850,9 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             player_spine_world(hx, hy, hz);
             combat_fx.set_homing_target(hx, hy, hz);
         }
-        hit_sparks.update(input.dt);
+        for (auto& [id, monster] : monster_instances) {
+            monster.advance_hit_outline(input.dt);
+        }
         combat_fx.update(
             *engine, input.dt, cam_yaw, cam_eye_early.x, cam_eye_early.y, cam_eye_early.z);
         present_arrow_feedback();
@@ -9634,18 +9614,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     if (archer_hit) {
                         pull_archer_impact_front(hx, hz, impact_scale);
                     }
-                    const engine::Vec3 origin = local_hit ? local_player.pos()
-                                                : remote_attacker
-                                                    ? engine::Vec3{remote_attacker->wx(),
-                                                                   remote_attacker->wy(),
-                                                                   remote_attacker->wz()}
-                                                    : engine::Vec3{};
                     if (!castle_player) {
-                        present_monster_hit(hit_fx.target_id,
-                                            hit_fx.flags,
-                                            {hx, hy, hz},
-                                            local_hit || remote_attacker ? &origin : nullptr,
-                                            impact_scale);
+                        present_monster_hit(hit_fx.target_id, hit_fx.flags, {hx, hy, hz});
                     }
                     combat_fx.spawn_hit(
                         *engine, hx, hy, hz, hit_fx.flags, impact_scale, archer_hit);
@@ -11725,6 +11695,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         // Monster/Clothes).
         constexpr float kMonsterDrawDist = 4000.0f;
         constexpr float kMonsterDrawDist2 = kMonsterDrawDist * kMonsterDrawDist;
+        std::vector<std::pair<const client::MonsterInstance*, engine::Mat4>> hit_outlines;
         for (int pass = 0; pass < 2; ++pass) {
             const bool want_alpha = pass == 1;
             for (const auto& [id, nm] : net.monsters()) {
@@ -11752,6 +11723,9 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 const auto T = engine::Mat4::translation(nm.wx(), my, nm.wz());
                 const auto model = engine::Mat4::multiply(T, engine::Mat4::multiply(R, S));
                 vit->second.draw(*engine, model, want_alpha);
+                if (want_alpha && vit->second.has_hit_outline()) {
+                    hit_outlines.emplace_back(&vit->second, model);
+                }
             }
         }
 
@@ -11789,10 +11763,12 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             }
         }
 
+        for (const auto& [monster, model] : hit_outlines) {
+            monster->draw_hit_outline(*engine, model);
+        }
         range_skill_decal.draw(*engine);
         combat_fx.draw(*engine);
         sprite_fx.draw(*engine);
-        hit_sparks.draw(*engine, cam.eye(local_player));
         select_marker.draw(*engine);
         click_marker.draw(*engine);
         {
@@ -13293,7 +13269,6 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
     }
     sprite_fx.detach(kWeaponMixFxEntity);
     bof_fx.detach(sprite_fx);
-    hit_sparks.destroy(*engine);
     sprite_fx.destroy(*engine);
     remote_players.destroy(*engine);
     player_actor.destroy(*engine);

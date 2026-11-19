@@ -560,6 +560,30 @@ namespace openkal::engine {
                                         float mul_a = 1.0f,
                                         float white_mix = 0.0f) = 0;
 
+        /** Begins a depth-tested screen-space outline for one multipart model.
+         * @param model World transform shared by all submitted parts.
+         * @param bounds_min Lower corner of the model-space bounds.
+         * @param bounds_max Upper corner of the model-space bounds.
+         * @param radius Distance from the silhouette to the line in framebuffer pixels.
+         * @param opacity Line opacity in the range 0..1.
+         * @return True when the backend is ready to accept parts and composite the outline.
+         */
+        [[nodiscard]] virtual bool
+        begin_mesh_outline(const Mat4&, const Vec3&, const Vec3&, float, float) {
+            return false;
+        }
+
+        /** Adds a textured mesh to the active outline silhouette.
+         * @param mesh Model part.
+         * @param texture Diffuse texture used when testing alpha.
+         * @param two_sided True to include both sides of the mesh.
+         * @param alpha_cutoff Minimum texture alpha included in the silhouette.
+         */
+        virtual void draw_mesh_outline_part(MeshHandle, TextureHandle, bool, float) {}
+
+        /** Composites the outline and restores scene rendering. */
+        virtual void end_mesh_outline() {}
+
         /** Begins a shared shadow mask. Overlapping silhouettes use maximum opacity. */
         virtual void begin_shadow_pass() {}
 

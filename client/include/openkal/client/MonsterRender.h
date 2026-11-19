@@ -797,10 +797,20 @@ namespace openkal::client {
         /** Starts the behead clip (AT_BEHEADED → action 4); plays once. */
         void trigger_behead();
 
-        /** Starts a short white flash when the monster is hit.
+        /** Starts the expanding silhouette contour when the monster is hit.
          * @param critical True for critical / explosive hits (stronger peak).
          */
-        void trigger_hit_flash(bool critical);
+        void trigger_hit_outline(bool critical);
+
+        /** Advances the hit contour independently of the monster's animation speed.
+         * @param dt Elapsed frame time in seconds.
+         */
+        void advance_hit_outline(float dt);
+
+        /** @return True while this monster has a mesh and an active hit contour. */
+        [[nodiscard]] bool has_hit_outline() const {
+            return m_hit_outline_ms > 0.0f && !m_parts.empty();
+        }
 
         /** @return True while a death / corpse clip is active or held. */
         [[nodiscard]] bool dying() const {
@@ -859,6 +869,12 @@ namespace openkal::client {
          * pass.
          */
         void draw(engine::IEngine& engine, const engine::Mat4& model, bool want_alpha) const;
+
+        /** Draws the active hit contour around the current skinned pose.
+         * @param engine Engine used to render the contour.
+         * @param model Monster world transform.
+         */
+        void draw_hit_outline(engine::IEngine& engine, const engine::Mat4& model) const;
 
         /** Draws the current skinned silhouette projected onto the ground.
          * @param engine Engine used to submit shadow draws.
@@ -1037,14 +1053,14 @@ namespace openkal::client {
         /** Last polled idle clip time in milliseconds; -1 after a clip change. */
         float m_last_idle_fx_time_ms = -1.0f;
 
-        /** Remaining hit-flash duration in milliseconds; 0 when idle. */
-        float m_hit_flash_ms = 0.0f;
+        /** Remaining hit-contour duration in milliseconds; 0 when idle. */
+        float m_hit_outline_ms = 0.0f;
 
-        /** Total hit-flash duration for the current envelope in milliseconds. */
-        float m_hit_flash_duration_ms = 0.0f;
+        /** Total duration of the current hit contour in milliseconds. */
+        float m_hit_outline_duration_ms = 0.0f;
 
-        /** Blend toward white at flash peak (0.9 normal, 1.0 critical). */
-        float m_hit_flash_peak = 0.0f;
+        /** Opacity of the hit contour before it starts fading. */
+        float m_hit_outline_peak = 0.0f;
 
         /** True while compatibility behavior ice slow tints the model cyan. */
         bool m_ice_slowed = false;
