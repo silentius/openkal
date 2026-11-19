@@ -268,7 +268,6 @@ client/include/openkal/client/GameHud.h
 client/include/openkal/client/GameMenu.h
 client/include/openkal/client/GeonColor.h
 client/include/openkal/client/GuildWindow.h
-client/include/openkal/client/HitSparks.h
 client/include/openkal/client/InGameWindowOrder.h
 client/include/openkal/client/IndoorMapView.h
 client/include/openkal/client/Inventory.h
@@ -461,7 +460,6 @@ client/src/world/CombatFx.cpp
 client/src/world/DebugOverlay.cpp
 client/src/world/DropItemVisual.cpp
 client/src/world/ExpEventBoard.cpp
-client/src/world/HitSparks.cpp
 client/src/world/IndoorMapView.cpp
 client/src/world/LoginMapStage.cpp
 client/src/world/Nameplate.cpp
