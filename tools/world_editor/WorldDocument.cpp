@@ -38,9 +38,9 @@ namespace openkal::world_editor {
         constexpr float kHalfWorld = terrain::kOplFullScale / 2.0f;
         constexpr std::size_t kHistoryLimit = 24;
 
-        QString case_path(const QString& root, const char* relative) {
+        QString case_path(const QString& root, const QString& relative) {
             return QString::fromStdString(
-                platform::resolve_path_case(root.toStdString(), relative));
+                platform::resolve_path_case(root.toStdString(), relative.toStdString()));
         }
 
         QByteArray read_file(const QString& path) {
@@ -110,15 +110,20 @@ namespace openkal::world_editor {
 
     }  // namespace
 
-    bool WorldDocument::open(const QString& root, const QString& overlay, QString& error) {
+    bool WorldDocument::open(const QString& root,
+                             const QString& overlay,
+                             QString& error,
+                             const QString& maps_subdirectory) {
         WorldDocument next;
         const QDir directory(root);
-        const bool is_maps = directory.dirName().compare("MAPS", Qt::CaseInsensitive) == 0;
+        const bool is_maps =
+            directory.dirName().compare(maps_subdirectory, Qt::CaseInsensitive) == 0;
         next.m_root =
             is_maps ? QFileInfo(directory.absolutePath()).absolutePath() : directory.absolutePath();
-        const auto maps = is_maps ? directory.absolutePath() : case_path(next.m_root, "MAPS");
+        const auto maps =
+            is_maps ? directory.absolutePath() : case_path(next.m_root, maps_subdirectory);
         if (root.isEmpty() || maps.isEmpty() || !QFileInfo(maps).isDir()) {
-            error = "Choose a client data directory containing MAPS.";
+            error = "Choose a client data directory containing " + maps_subdirectory + '.';
             return false;
         }
         if (!overlay.isEmpty() && !QFileInfo(overlay).isDir()) {

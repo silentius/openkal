@@ -749,6 +749,74 @@ workflow. `area_import` and `area_info` are controlled separately by
 `OPENKAL_BUILD_AREA_TOOLS` and do not require Qt. Run tools with `--help` for
 arguments and profile selection.
 
+### Game Content Editor
+
+Build the Qt content editor to manage NPCs, monsters, items, quest steps, dialogs,
+shops, task descriptions, drop groups, item groups and prefixes.
+
+```bash
+cmake -S . -B build-tools -DOPENKAL_BUILD_CONTENT_EDITOR=ON \
+  -DOPENKAL_DATA_ROOT="$OPENKAL_DATA_ROOT"
+cmake --build build-tools --target content_editor
+build-tools/bin/tools/content_editor --profile /path/to/openkal.profile
+```
+
+Pass the profile as a positional argument, use `--profile`, set `OPENKAL_PROFILE`,
+or choose **File → Open profile**. The editor uses the profile's client asset
+paths and writes to its loose `configuration_root`. If that setting is empty,
+the editor uses `OPENKAL_DATA_ROOT/config` when an external data directory is
+configured in the environment or development build. Packaged definitions from
+`config.pak` are available in read-only mode when no loose directory is selected.
+`--config` or **File → Open configuration** selects a different writable
+directory. `--client` or **File → Open client assets** overrides the client paths.
+
+A development build also shows definitions from its source checkout as read-only
+references when you open a different configuration. Use `--base-config` to
+choose another reference directory. Where both directories contain the same
+relative path, the active configuration takes precedence in the editor.
+
+Choose a catalog and filter records by name or ID. Use **New**, **Duplicate**,
+or edit the selected record in **Fields** or **JSON**, then select **Save
+definition**. Fields include templates for quest rules, dialog options, and
+drop-table entries. **Choose reference target** selects an item, quest step, or
+other linked definition. **Open reference** jumps to it. The editor checks known
+references in the loaded catalogs before deleting a definition. To edit the
+fallback files, open their configuration directory directly.
+
+The map uses the same outdoor imagery as the client's M key. Select
+**Overworld** or a dungeon/instance in the map selector. For a dungeon with
+multiple atlases, choose its region in the second selector. Scroll to zoom at the pointer,
+right-drag to pan, and use **Locate on map** to center the selected record.
+At close zoom, **Detailed map** renders outdoor terrain and placed buildings
+from the original client assets in a top-down view. The M atlas provides the
+overview and covers outdoor areas without matching geometry. A tile grid
+appears at close zoom for precise placement. Cyan markers represent NPCs.
+Gold markers show the spawn points and areas of the selected monster.
+
+Selecting an NPC or monster centers and zooms the map on its position.
+**Locate on map** frames a whole monster spawn area. The 3D preview below the
+map follows the selection. Left-drag to orbit, right-drag to pan, and scroll
+to zoom. NPCs use the current draft's position and facing. Monsters use the
+selected spawn, or their first spawn
+when no spawn is selected. A rectangular spawn is previewed at its center,
+with height sampled from the terrain or the dungeon floor. Creatures without
+a position can still be inspected in the preview. The view requires OpenGL 3.3
+and the corresponding model and map assets from the selected profile.
+
+- Select an NPC and choose **Place / move NPC**, then click the map. The editor
+  samples the outdoor KCM height or the dungeon floor geometry and writes the
+  server Z. If floors overlap, choose the intended height. A placement with
+  no available ground sample stays unchanged.
+- Select a monster and choose **New spawn**. Click for a point or drag for a
+  rectangle. Choose an existing spawn to redraw or remove it. The spawn's
+  count and respawn time are editable in **Fields**.
+- **Set teleport target** adds a destination for an NPC. Select an existing
+  entry in `teleports` to move it, or select a quest's teleport action to place
+  that action's destination.
+
+The editor writes individual loose JSON files. For a runtime configured to use
+`config.pak`, rebuild the archive and restart the runtime after saving changes.
+
 ### 3D World Editor
 
 Build the optional outdoor world editor with Qt 6.9+ (Widgets and OpenGLWidgets).

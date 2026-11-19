@@ -11,8 +11,10 @@
 #pragma once
 
 #include "WorldDocument.h"
+#include "openkal/terrain/GbModel.h"
 
 #include <QElapsedTimer>
+#include <QImage>
 #include <QMatrix4x4>
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLShaderProgram>
@@ -49,6 +51,44 @@ namespace openkal::world_editor {
             int material = -1;
             std::string asset;
         };
+
+        /** An already resolved model and transform in a preview scene. */
+        struct PreviewObject {
+            std::string path;
+            QMatrix4x4 transform;
+        };
+
+        /** Read-only preview of a creature and its surroundings. */
+        struct Preview {
+            bool outdoor = false;
+            QVector3D position;
+            float yaw = 0;
+            float scale = 1;
+            std::vector<std::string> parts;
+            std::string skeleton;
+            std::string motion;
+            std::vector<PreviewObject> surroundings;
+        };
+
+        /** Shows a read-only preview in this viewport.
+         * @param scene Creature and surrounding geometry.
+         * @param recenter Whether to frame the creature from its default camera angle.
+         */
+        void set_preview(Preview scene, bool recenter);
+
+        /** Clears the preview scene while keeping the viewport initialized. */
+        void clear_preview();
+
+        /** @return Whether a visible mesh was loaded for the current preview. */
+        bool preview_model_available() const;
+
+        /** Renders an orthographic terrain and object image with a dedicated offscreen context.
+         * Use an unshown viewport for this operation.
+         * @param area World X/Z bounds of the requested image. North is at the top.
+         * @param size Output dimensions in pixels.
+         * @return The rendered image, or an empty image if the terrain or OpenGL is unavailable.
+         */
+        [[nodiscard]] QImage render_map(const QRectF& area, QSize size);
 
         /** Creates the viewport and binds it to an existing document.
          * @param document World document with a lifetime longer than the view.
@@ -129,6 +169,7 @@ namespace openkal::world_editor {
         void focusOutEvent(QFocusEvent* event) override;
 
       private:
+        struct Offscreen;
         struct Ray {
             QVector3D origin;
             QVector3D direction;
@@ -203,6 +244,10 @@ namespace openkal::world_editor {
         void select(std::uint64_t id);
         [[nodiscard]] std::pair<const Placement*, QPoint> selection() const;
         void report_selection();
+        void frame_preview();
+        void initialize_renderer();
+        void destroy_renderer();
+        void render_scene(const QMatrix4x4& matrix, bool outdoor);
         void release_gl();
         void clear_scene_gl();
         void free_mesh(Mesh& mesh);
@@ -216,6 +261,11 @@ namespace openkal::world_editor {
         [[nodiscard]] GLuint upload_texture(const terrain::ImageRgba& image, bool repeat);
         [[nodiscard]] Detail detail(std::uint8_t material);
         [[nodiscard]] const Model& model(const std::string& name);
+        [[nodiscard]] const Model& preview_model(const std::string& key);
+        void add_model_parts(Model& result,
+                             const std::string& path,
+                             const terrain::GbModel* skeleton = nullptr,
+                             const terrain::GbModel* motion = nullptr);
         [[nodiscard]] bool shows_model(const Model& model) const;
         void update_terrain(TerrainGpu& gpu, const WorldChunk& chunk);
         void draw_terrain(const QMatrix4x4& camera_matrix);
@@ -244,6 +294,11 @@ namespace openkal::world_editor {
         QVector3D m_drag_offset;
         std::optional<QVector3D> m_hover;
         std::optional<QVector3D> m_last_stamp;
+        std::optional<Preview> m_preview;
+        std::string m_preview_key;
+        QRectF m_map_area;
+        std::unique_ptr<Offscreen> m_offscreen;
+        bool m_offscreen_attempted = false;
         std::uint64_t m_selected = 0;
         float m_distance = 16000;
         /** The default heading faces decreasing world Z in the outdoor map. */
@@ -260,6 +315,7 @@ namespace openkal::world_editor {
         bool m_water_visible = true;
         bool m_invisible_placements_visible = false;
         bool m_scene_reset = false;
+        bool m_frame_preview = false;
         std::unique_ptr<QOpenGLShaderProgram> m_program;
         std::map<std::pair<int, int>, TerrainGpu> m_terrain;
         std::unordered_map<unsigned, Detail> m_details;

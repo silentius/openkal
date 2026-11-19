@@ -38,6 +38,7 @@ option(OPENKAL_BUILD_AREA_TOOLS
 option(OPENKAL_BUILD_AREA_EDITOR
        "Build the interactive area editor (requires OPENKAL_ENGINE=gl)" ON)
 option(OPENKAL_BUILD_WORLD_EDITOR "Build the Qt OpenGL outdoor world editor" OFF)
+option(OPENKAL_BUILD_CONTENT_EDITOR "Build the Qt game content editor" OFF)
 option(OPENKAL_BUILD_LOOT_EDITOR "Build Qt loot/droplist editor" OFF)
 option(OPENKAL_BUILD_ITEM_VIEWER "Build Qt standalone item viewer" OFF)
 option(OPENKAL_BUILD_UI_EDITOR "Build Qt openkal.ui/v1 editor" OFF)
@@ -161,9 +162,14 @@ if(OPENKAL_BUILD_AREA_EDITOR)
   endif()
 endif()
 
-if(OPENKAL_BUILD_WORLD_EDITOR)
+if(OPENKAL_BUILD_WORLD_EDITOR OR OPENKAL_BUILD_CONTENT_EDITOR)
   openkal_set_runtime_output("${CMAKE_BINARY_DIR}/bin/tools")
   add_subdirectory(tools/world_editor)
+endif()
+
+if(OPENKAL_BUILD_CONTENT_EDITOR)
+  openkal_set_runtime_output("${CMAKE_BINARY_DIR}/bin/tools")
+  add_subdirectory(tools/content_editor)
 endif()
 
 if(OPENKAL_BUILD_TOOLS)

@@ -19,6 +19,10 @@
 #include <utility>
 #include <vector>
 
+namespace openkal::platform {
+    class Json;
+}
+
 namespace openkal::client {
 
     /** One GenNPC record: display name, where an NPC stands, and which way it
@@ -453,6 +457,12 @@ namespace openkal::client {
      */
     class NpcCatalog {
       public:
+        /** Reads a rig from a definition's appearance object.
+         * @param appearance JSON appearance data.
+         * @return The parsed rig with default values for omitted fields.
+         */
+        [[nodiscard]] static NpcRig read_appearance(const platform::Json& appearance);
+
         /** Loads JSON files from config/npcs (spawns, names, and appearance).
          * @param dir Directory holding the per-NPC json files.
          * @return True when at least one spawn was parsed.

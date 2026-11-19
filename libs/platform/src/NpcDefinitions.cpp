@@ -18,6 +18,54 @@
 #include <utility>
 
 namespace openkal::platform {
+    std::optional<Json> resolve_npc_placement(const Json& definition, const Json* anchor) {
+        const auto& placement = definition.at("placement");
+        if (!placement.is_object()) {
+            return definition;
+        }
+        const int dialog = placement.at("beside_dialog").as_int();
+        const auto& offset = placement.at("offset");
+        if (dialog <= 0 || !offset.is_array() || offset.array().size() != 3 || !anchor ||
+            anchor->at("placement").is_object() || anchor->at("html").as_int() != dialog ||
+            !anchor->at("xy").is_array() || anchor->at("xy").array().size() < 2) {
+            return std::nullopt;
+        }
+        Json positioned = definition;
+        for (const auto* key : {"map", "shape", "appearance"}) {
+            positioned.object()[key] = anchor->at(key);
+        }
+        const auto& explicit_xy = definition.at("xy");
+        const bool fixed_position = explicit_xy.is_array() && explicit_xy.array().size() == 3;
+        Json xy = Json::parse("[0,0,0]");
+        bool valid = true;
+        for (std::size_t i = 0; i < 3; ++i) {
+            const auto& coordinates = anchor->at("xy").array();
+            const long long value = fixed_position
+                                        ? explicit_xy.array()[i].as_int()
+                                        : (i < coordinates.size() ? coordinates[i].as_int() : 0LL) +
+                                              static_cast<long long>(offset.array()[i].as_int());
+            valid = valid && value >= std::numeric_limits<int>::min() &&
+                    value <= std::numeric_limits<int>::max();
+            xy.array()[i].set_number(static_cast<double>(value));
+        }
+        if (!valid) {
+            return std::nullopt;
+        }
+        positioned.object()["xy"] = std::move(xy);
+        const auto& facing = anchor->at("dir");
+        if (facing.is_array() && facing.array().size() >= 2) {
+            Json direction = facing;
+            for (std::size_t i = 0; i < 2; ++i) {
+                direction.array()[i].set_number(
+                    static_cast<double>(facing.array()[i].as_int()) +
+                    positioned.at("xy").array()[i].as_int() -
+                    static_cast<double>(anchor->at("xy").array()[i].as_int()));
+            }
+            positioned.object()["dir"] = std::move(direction);
+        }
+        return positioned;
+    }
+
     std::vector<Json> load_npc_definitions(const std::string& dir) {
         std::vector<Json> definitions;
         for (const auto& name : list_directory(dir)) {
@@ -41,54 +89,15 @@ namespace openkal::platform {
                 resolved.push_back(definition);
                 continue;
             }
-            const auto& placement = definition.at("placement");
-            const int dialog = placement.at("beside_dialog").as_int();
-            const auto& offset = placement.at("offset");
-            if (dialog <= 0 || !offset.is_array() || offset.array().size() != 3) {
-                continue;
-            }
+            const int dialog = definition.at("placement").at("beside_dialog").as_int();
             const auto anchor =
                 std::find_if(definitions.begin(), definitions.end(), [dialog](const Json& row) {
                     return !row.at("placement").is_object() && row.at("html").as_int() == dialog;
                 });
-            if (anchor == definitions.end() || !anchor->at("xy").is_array() ||
-                anchor->at("xy").array().size() < 2) {
-                continue;
+            if (auto positioned = resolve_npc_placement(
+                    definition, anchor == definitions.end() ? nullptr : &*anchor)) {
+                resolved.push_back(std::move(*positioned));
             }
-            Json positioned = definition;
-            for (const auto* key : {"map", "shape", "appearance"}) {
-                positioned.object()[key] = anchor->at(key);
-            }
-            const auto& explicit_xy = definition.at("xy");
-            const bool fixed_position = explicit_xy.is_array() && explicit_xy.array().size() == 3;
-            Json xy = Json::parse("[0,0,0]");
-            bool valid = true;
-            for (std::size_t i = 0; i < 3; ++i) {
-                const auto& coordinates = anchor->at("xy").array();
-                const long long value =
-                    fixed_position ? explicit_xy.array()[i].as_int()
-                                   : (i < coordinates.size() ? coordinates[i].as_int() : 0LL) +
-                                         static_cast<long long>(offset.array()[i].as_int());
-                valid = valid && value >= std::numeric_limits<int>::min() &&
-                        value <= std::numeric_limits<int>::max();
-                xy.array()[i].set_number(static_cast<double>(value));
-            }
-            if (!valid) {
-                continue;
-            }
-            positioned.object()["xy"] = std::move(xy);
-            const auto& facing = anchor->at("dir");
-            if (facing.is_array() && facing.array().size() >= 2) {
-                Json direction = facing;
-                for (std::size_t i = 0; i < 2; ++i) {
-                    direction.array()[i].set_number(
-                        static_cast<double>(facing.array()[i].as_int()) +
-                        positioned.at("xy").array()[i].as_int() -
-                        static_cast<double>(anchor->at("xy").array()[i].as_int()));
-                }
-                positioned.object()["dir"] = std::move(direction);
-            }
-            resolved.push_back(std::move(positioned));
         }
         return resolved;
     }

@@ -17,6 +17,10 @@
 #include <unordered_map>
 #include <vector>
 
+namespace openkal::platform {
+    class Json;
+}
+
 namespace openkal::client {
 
     /** Number of EFFECTBONE_* slots in a monsterbone (bone …) list. */
@@ -714,6 +718,12 @@ namespace openkal::client {
     /** Lookup table of monster appearance rigs and skeleton effect bones. */
     class MonsterCatalog {
       public:
+        /** Reads a rig from a definition's appearance object.
+         * @param appearance JSON appearance data.
+         * @return The parsed rig with default values for omitted fields.
+         */
+        [[nodiscard]] static MonsterRig read_appearance(const platform::Json& appearance);
+
         /** Loads JSON files from config/monsters, reading appearance and
          * hunt-quest slots.
          * @param dir Directory holding the per-monster json files and bones.json.

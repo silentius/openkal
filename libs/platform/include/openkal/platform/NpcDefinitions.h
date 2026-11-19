@@ -12,7 +12,17 @@
 
 #include "openkal/platform/Json.h"
 
+#include <optional>
+
 namespace openkal::platform {
+    /** Resolves the effective appearance and position of an NPC definition.
+     * @param definition The definition as stored in the catalog.
+     * @param anchor NPC referenced by beside_dialog, or nullptr.
+     * @return Effective definition, or no value if its relative placement cannot be resolved.
+     */
+    [[nodiscard]] std::optional<Json> resolve_npc_placement(const Json& definition,
+                                                            const Json* anchor);
+
     /** Loads NPC definitions and resolves optional relative placement in memory.
      * Relative definitions inherit the anchor's appearance, map and facing.
      * An explicit xy triple overrides the relative position, including height.
