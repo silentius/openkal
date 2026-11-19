@@ -23,18 +23,6 @@
 #include <vector>
 
 namespace openkal::client {
-    namespace {
-
-        [[nodiscard]] bool item_is_refresh(const ItemDb* items, int item_index) {
-            if (!items || item_index <= 0) {
-                return false;
-            }
-            const ItemDef* def = items->find(item_index);
-            return def && (def->refresh_hp() > 0 || def->refresh_mp() > 0);
-        }
-
-    }  // namespace
-
     void SkillBar::set_layout(const UiLayout* layout) {
         m_layout = layout;
         UiView::reload(m_document, layout);
@@ -137,8 +125,8 @@ namespace openkal::client {
     bool SkillBar::auto_hp_needed(std::int32_t hp, std::int32_t max_hp) const {
         return protocol::UseItem::auto_hp_eligible(hp, max_hp, m_auto_hp_percent) &&
                auto_hp_available() &&
-               (m_item_refresh_cd <= 0.0f || (m_item_refresh_cd_index != m_auto_hp_item_index &&
-                                              !item_is_refresh(m_items, m_item_refresh_cd_index)));
+               (!m_item_cooldowns ||
+                m_item_cooldowns->remaining_fraction(m_auto_hp_item_index) == 0.0f);
     }
 
     int SkillBar::hit_hotbar(float mx, float my) const {
@@ -429,26 +417,6 @@ namespace openkal::client {
         return BarResult::Ignored;
     }
 
-    void SkillBar::set_item_refresh_cooldown(float fraction, int item_index) {
-        m_item_refresh_cd = std::clamp(fraction, 0.0f, 1.0f);
-        if (m_item_refresh_cd <= 0.0f) {
-            m_item_refresh_cd_index = -1;
-        } else if (item_index > 0) {
-            m_item_refresh_cd_index = item_index;
-        }
-    }
-
-    bool SkillBar::item_shows_refresh_cd(int item_index) const {
-        if (m_item_refresh_cd <= 0.05f || item_index <= 0 || m_item_refresh_cd_index <= 0) {
-            return false;
-        }
-        if (item_index == m_item_refresh_cd_index) {
-            return true;
-        }
-        return item_is_refresh(m_items, item_index) &&
-               item_is_refresh(m_items, m_item_refresh_cd_index);
-    }
-
     void SkillBar::set_mortal_points(int points) {
         m_mortal_points = std::clamp(points, 0, 5);
     }
@@ -475,8 +443,9 @@ namespace openkal::client {
                 const float alpha = item_index == m_auto_hp_item_index && have <= 0 ? 0.35f : 1.0f;
                 ui.draw_item_tex(icon, ix, iy, iw, ih, alpha);
                 ui.draw_stack_count(count_font, ix, iy, iw, ih, m_scale, have);
-                if (item_shows_refresh_cd(item_index)) {
-                    ui.draw_cooldown_sweep(ix, iy, std::min(iw, ih), m_item_refresh_cd);
+                if (m_item_cooldowns) {
+                    ui.draw_cooldown_sweep(
+                        ix, iy, std::min(iw, ih), m_item_cooldowns->remaining_fraction(item_index));
                 }
                 return;
             }

@@ -1954,9 +1954,11 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         char_info_win.set_stats(net.char_info_stats());
     }
 
+    client::ItemCooldowns item_cooldowns(item_catalog);
     client::SkillBar skill_bar;
     skill_bar.set_catalog(&skill_catalog);
     skill_bar.set_items(&item_catalog);
+    skill_bar.set_item_cooldowns(&item_cooldowns);
     skill_bar.set_bag(&player_bag);
     skill_bar.set_player(&player_skills);
     skill_bar.set_skill_window(&skill_win);
@@ -2131,9 +2133,6 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         hud_layout_dirty = false;
     };
     float attack_cooldown = 0.0f;
-    float item_refresh_cd_sec = 0.0f;
-    float item_refresh_cd_total = 1.3f;
-    int item_refresh_cd_index = -1;
     enum class PendingSkillKind : std::uint8_t {
         None = 0,
         Mage,
@@ -4991,42 +4990,18 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         }
     }
 
-    auto item_is_refresh = [&](int item_index) {
-        const client::ItemDef* d = item_catalog.find(item_index);
-        return d && (d->refresh_hp() > 0 || d->refresh_mp() > 0);
-    };
-
-    auto begin_item_refresh_cooldown = [&](int item_index) {
-        const client::ItemDef* def = item_catalog.find(item_index);
-        const bool is_refresh = item_is_refresh(item_index);
-        const int cd_ms =
-            (def && def->cooltime_ms() > 0) ? def->cooltime_ms() : (is_refresh ? 1300 : 0);
-        if (cd_ms <= 0) {
-            return;
-        }
-        item_refresh_cd_index = item_index;
-        item_refresh_cd_total = static_cast<float>(cd_ms) / 1000.0f;
-        item_refresh_cd_sec = item_refresh_cd_total;
-        skill_bar.set_item_refresh_cooldown(1.0f, item_index);
-    };
-
-    auto try_use_refresh_item = [&](int item_index,
-                                    const char* via,
-                                    std::uint8_t auto_hp_percent = 0,
-                                    std::uint32_t requested_iid = 0) -> bool {
+    auto try_use_item = [&](int item_index,
+                            const char* via,
+                            std::uint8_t auto_hp_percent = 0,
+                            std::uint32_t requested_iid = 0) -> bool {
         if (item_index <= 0) {
             return false;
         }
         if (!want_net || !net.connected() || !net.handshook()) {
             return false;
         }
-        if (item_refresh_cd_sec > 0.0f) {
-            const bool same = item_index == item_refresh_cd_index;
-            const bool shared_refresh =
-                item_is_refresh(item_index) && item_is_refresh(item_refresh_cd_index);
-            if (same || shared_refresh) {
-                return false;
-            }
+        if (item_cooldowns.remaining_fraction(item_index) > 0.0f) {
+            return false;
         }
         const client::ItemDef* def = item_catalog.find(item_index);
         if (!def || !def->is_consumable()) {
@@ -5067,7 +5042,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         if (iid == 0 || !net.send_use_item(iid, auto_hp_percent)) {
             return false;
         }
-        begin_item_refresh_cooldown(item_index);
+        item_cooldowns.start(item_index);
         log::debug(std::string("use item request: index=") + std::to_string(item_index) +
                    " via=" + via);
         return true;
@@ -5205,7 +5180,6 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             game_hud.chat().blur();
             skill_win.clear_cooldowns();
             attack_cooldown = 0.0f;
-            skill_bar.set_item_refresh_cooldown(0.0f, -1);
             if (want_net && net.connected()) {
                 (void) net.send_chat("/reset");
                 return client::ClientChatCommandResult(true, {});
@@ -6229,7 +6203,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     const int item_index = protocol::shortcut_item_index(binding);
                     const client::ItemDef* def = item_catalog.find(item_index);
                     if (def) {
-                        (void) try_use_refresh_item(item_index, "hotbar");
+                        (void) try_use_item(item_index, "hotbar");
                     }
                 } else if (protocol::shortcut_is_skill(binding)) {
                     const auto kind =
@@ -6724,7 +6698,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     const int item_index = skill_bar.last_item_index();
                     const client::ItemDef* def = item_catalog.find(item_index);
                     if (def) {
-                        (void) try_use_refresh_item(item_index, "hotbar-click");
+                        (void) try_use_item(item_index, "hotbar-click");
                     }
                 } else if (bar_click == client::BarResult::DropItem) {
                     if (want_net && net.connected() && skill_bar.last_drop_iid() != 0) {
@@ -7190,8 +7164,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                             inv_win.complete_sort(player_bag, quest);
                         }
                     } else if (inv_click == client::ClickResult::Consumed) {
-                        (void) try_use_refresh_item(inv_win.last_consumed_index(),
-                                                    "inventory expansion");
+                        (void) try_use_item(inv_win.last_consumed_index(), "inventory expansion");
                     } else if (inv_click == client::ClickResult::Enchanted) {
                         enchant_overlay.begin_charge(inv_win.last_enchant_from_id(),
                                                      inv_win.last_enchant_to_id());
@@ -7217,10 +7190,10 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     if (inv_rclick != client::ClickResult::Ignored) {
                         ui_ate_click = true;
                         if (inv_rclick == client::ClickResult::Consumed) {
-                            (void) try_use_refresh_item(inv_win.last_consumed_index(),
-                                                        "inventory",
-                                                        0,
-                                                        inv_win.last_consumed_iid());
+                            (void) try_use_item(inv_win.last_consumed_index(),
+                                                "inventory",
+                                                0,
+                                                inv_win.last_consumed_iid());
                         }
                     }
                 }
@@ -8090,19 +8063,14 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         if (queued_skill_index >= 0) {
             flush_queued_target_skill();
         }
-        if (item_refresh_cd_sec > 0.0f) {
-            item_refresh_cd_sec = std::max(0.0f, item_refresh_cd_sec - input.dt);
-            skill_bar.set_item_refresh_cooldown(
-                item_refresh_cd_total > 0.0f ? item_refresh_cd_sec / item_refresh_cd_total : 0.0f,
-                item_refresh_cd_index);
-        }
+        item_cooldowns.advance(input.dt);
         if (chest_open_retry > 0.0f) {
             chest_open_retry = std::max(0.0f, chest_open_retry - input.dt);
         }
         if (!local_player.dead() && skill_bar.auto_hp_needed(player_hp, player_max_hp)) {
-            (void) try_use_refresh_item(skill_bar.auto_hp_item_index(),
-                                        "auto-hp",
-                                        static_cast<std::uint8_t>(skill_bar.auto_hp_percent()));
+            (void) try_use_item(skill_bar.auto_hp_item_index(),
+                                "auto-hp",
+                                static_cast<std::uint8_t>(skill_bar.auto_hp_percent()));
         }
 
         if (auto_attack && selected_player_id != 0 && want_net && net.connected() &&
@@ -12647,7 +12615,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         }
 
         inv_win.sync_fonts(*engine);
-        inv_win.draw(ui, *engine, player_bag);
+        inv_win.draw(ui, *engine, player_bag, &item_cooldowns);
         skill_win.sync_fonts(*engine);
         skill_win.draw(*engine, ui);
         skill_win.draw_drag_ghost(ui, input.mouse_x, input.mouse_y);

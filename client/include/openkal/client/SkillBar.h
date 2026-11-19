@@ -24,6 +24,7 @@
 namespace openkal::client {
 
     struct Bag;
+    class ItemCooldowns;
 
     /** Outcome of a click on the skill quickslot bar. */
     enum class BarResult {
@@ -341,14 +342,12 @@ namespace openkal::client {
          */
         [[nodiscard]] BarResult handle_click(float mx, float my);
 
-        /**
-         * Sets the usable-item cooldown overlay for the item that was just used.
-         * HP/MP refresh items share the overlay with each other; other items only
-         * overlay their own hotbar icon.
-         * @param fraction Remaining cooldown as 0..1 (1 = just started).
-         * @param item_index item definition index that started the cooldown, or -1.
+        /** Binds the cooldowns used for shortcut icons and Auto-HP activation.
+         * @param cooldowns Cooldowns; must outlive the bar. Pass nullptr to unbind.
          */
-        void set_item_refresh_cooldown(float fraction, int item_index = -1);
+        void set_item_cooldowns(const ItemCooldowns* cooldowns) {
+            m_item_cooldowns = cooldowns;
+        }
 
         /**
          * Draws skill icons over the quickslot panel.
@@ -415,13 +414,6 @@ namespace openkal::client {
          */
         [[nodiscard]] BarResult activate_binding(int binding);
 
-        /**
-         * Tests whether a hotbar item should show the current item cooldown overlay.
-         * @param item_index item definition index bound to the slot.
-         * @return True when this icon shares the cooldown of the item that was used.
-         */
-        [[nodiscard]] bool item_shows_refresh_cd(int item_index) const;
-
         /** Skill catalog used for icons and cast kinds; not owned. */
         const Catalog* m_catalog = nullptr;
 
@@ -458,11 +450,8 @@ namespace openkal::client {
         /** Stack count of the last DropItem result. */
         int m_last_drop_count = 0;
 
-        /** Remaining refresh-item cooldown as 0..1 for icon overlay. */
-        float m_item_refresh_cd = 0.0f;
-
-        /** item definition index that started the item cooldown overlay, or -1. */
-        int m_item_refresh_cd_index = -1;
+        /** Cooldowns shared with the inventory; not owned. */
+        const ItemCooldowns* m_item_cooldowns = nullptr;
 
         /** Layout document holding slot geometry; not owned. */
         const UiLayout* m_layout = nullptr;
