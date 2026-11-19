@@ -23,6 +23,7 @@
 #include <array>
 #include <chrono>
 #include <cstdint>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -50,6 +51,24 @@ namespace openkal::client {
 
     /** Minimum wait after unequip before the same item can be worn again. */
     inline constexpr std::uint64_t kEquipCooldownMs = 1000;
+
+    /** Shared category IDs and captions in inventory filter order. */
+    inline constexpr std::array<const char*, 6> kInventoryFilterIds{
+        "consumables", "weapons", "armors", "enchantment", "skins_pets", "other"};
+    inline constexpr std::array<const char*, 6> kInventoryFilterLabels{
+        "Consumables", "Weapons", "Armors", "Enchantment", "Skins & Pets", "Other items"};
+
+    /** Resolves an inventory filter ID.
+     * @param id Category ID.
+     * @return Category index, or -1 for an unknown ID.
+     */
+    [[nodiscard]] int inventory_filter_index(std::string_view id);
+
+    /** Classifies an item for the inventory filters.
+     * @param def Item definition, if known.
+     * @return Category index in inventory filter order.
+     */
+    [[nodiscard]] int inventory_filter_category(const ItemDef* def);
 
     /** Inventory views beside the permanently visible worn equipment columns. */
     enum class Tab : int { Normal = 0, Quest = 1 };
@@ -159,6 +178,18 @@ namespace openkal::client {
         /** True when the instance cannot leave its character or enter account storage. */
         bool character_bound = false;
     };
+
+    /** Compares two occupied stacks in inventory sort order.
+     * @param a First stack.
+     * @param b Second stack.
+     * @param a_name First item name.
+     * @param b_name Second item name.
+     * @return True if the first stack sorts before the second.
+     */
+    [[nodiscard]] bool inventory_stack_precedes(const ItemStack& a,
+                                                const ItemStack& b,
+                                                std::string_view a_name,
+                                                std::string_view b_name);
 
     // Starter weapons: knight/mage/archer from g_nItemIndex[]; thief = training
     // dagger (item definition 1404).

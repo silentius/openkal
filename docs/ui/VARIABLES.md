@@ -1346,39 +1346,54 @@ retains the selected stack limit.
 
 ## `storage`
 
-Shared account inventory (`config/ui/storage.json`, `StorageWindow`). The left
-pane shows a compact view of the character's unequipped General and Other
-consumable stacks, including items with no NPC sell value. The right pane is account-owned storage
-with six permanently enabled registers (216 slots). A single stack opens a
-quantity prompt for a specific amount or the complete stack. Deposits cost 60
-Geon per transfer. CTRL-click toggles multiple stacks on either side, matching
-the shop selection model; the matching action button queues every marked stack
-as a complete-stack transfer.
+Shared account inventory (`config/ui/storage.json`, `StorageWindow`). The
+Dragon dialog has independent scrolling and inventory category filters on both
+sides. The left pane shows unequipped General and Quest items. The right pane
+shows all 216 account slots when the filters are clear. Ctrl-click marks
+multiple stacks for a full-stack transfer. A single stack opens the amount
+picker. Each item deposit costs 60 Geon.
+
+The account Geon balance is shared by characters on the account. The Geon
+buttons open the amount picker and transfer without a fee. Withdrawals respect
+the 2,000,000,000 Geon wallet limit used by the absolute money update.
 
 | Key | Type | Notes |
 |---|---|---|
 | `storage.title` | string | Window caption |
 | `storage.inventory_label` | string | Character-inventory pane caption |
 | `storage.storage_label` | string | Account-storage pane caption |
-| `storage.inventory_tab` | string | Selected id of the fixed character-inventory header tab |
-| `storage.storage_tab` | string | Selected id of the fixed account-storage header tab |
-| `storage.inventory_page` | int | Zero-based character-inventory register |
-| `storage.page` | int | Zero-based account-storage register |
-| `storage.money` | int64 | Current character money |
+| `storage.sort_label` | string | Sort button caption |
+| `storage.inventory.scroll` | number | Character-inventory scroll offset in native pixels |
+| `storage.items.scroll` | number | Account-storage scroll offset in native pixels |
+| `storage.money` | int64 | Current character wallet |
+| `storage.account_money` | int64 or string | Account Geon balance or `-` while unavailable |
 | `storage.fee` | string | Deposit-fee hint |
 | `storage.count_text` | string | Used and total storage slots, e.g. `12/216` |
 | `storage.selected_name` | string | Selected item name |
 | `storage.quantity_open` | bool | Whether the modal transfer-quantity layer is visible |
 | `storage.quantity_prompt` | string | Direction-specific quantity prompt |
-| `storage.quantity` | uint32 | Editable amount selected for the transfer |
+| `storage.quantity_hint` | string | Keyboard entry and confirmation hint |
+| `storage.quantity` | uint64 | Editable item count or Geon amount |
 
-Grid binds: `storage.inventory`, `storage.items`. Header tab binds:
-`storage.inventory_tab`, `storage.storage_tab`. Register tab binds:
-`storage.inventory_page`, `storage.page`. Actions: `storage.deposit`,
-`storage.withdraw`, `storage.quantity.decrease`, `storage.quantity.increase`,
-`storage.quantity.all`, `storage.quantity.confirm`, `storage.quantity.cancel`.
-NPC dialog link type `storage` requests the current account-storage snapshot
-from the selected storage keeper.
+Grid, scroll, sort, and filter controls use the pane bindings `storage.inventory`
+and `storage.items`. The `storage.sort` action orders the selected pane by
+item name, definition ID, and descending stack size. Scrolling returns to the
+top of that pane. Scroll actions are `storage.scroll.up`,
+`storage.scroll.down` and `storage.scroll.track`. Both panes handle
+`storage.filter.<category>` with `consumables`, `weapons`, `armors`,
+`enchantment`, `skins_pets` and `other`. The matching
+`storage.inventory.filter.<category>` and `storage.items.filter.<category>`
+flags indicate selected categories.
+
+The item actions are `storage.deposit` and `storage.withdraw`. The Geon
+actions are `storage.money.deposit` and `storage.money.withdraw`. All four use
+`storage.quantity.decrease`, `storage.quantity.increase`,
+`storage.quantity.all`, `storage.quantity.confirm` and
+`storage.quantity.cancel`. Type digits to edit the amount and use Enter to
+confirm a positive value. The field displays comma-grouped thousands and
+accepts typing with commas or periods as group separators. The NPC dialog link
+type `storage` requests the item snapshot and account balance from the selected
+storage keeper.
 
 ---
 

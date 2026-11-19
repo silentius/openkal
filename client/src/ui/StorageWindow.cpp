@@ -10,13 +10,28 @@
 
 #include "openkal/client/StorageWindow.h"
 
+#include "openkal/client/TextWrap.h"
 #include "openkal/client/UiView.h"
 
 #include <algorithm>
+#include <cmath>
+#include <limits>
 #include <string>
 
 namespace openkal::client {
     namespace {
+        constexpr std::array<const char*, 2> kPaneBinds{"storage.inventory", "storage.items"};
+        constexpr std::array<const char*, 2> kGridIds{"inventory", "storage_items"};
+        constexpr std::array<const char*, 2> kTrackIds{"inventory_scroll_track",
+                                                       "storage_scroll_track"};
+        constexpr std::string_view kFilterAction = "storage.filter.";
+
+        int storage_filter_index(std::string_view action) {
+            return action.substr(0, kFilterAction.size()) == kFilterAction
+                       ? inventory_filter_index(action.substr(kFilterAction.size()))
+                       : -1;
+        }
+
         [[nodiscard]] ItemTipExtras item_tip_extras(const ItemStack& stack) {
             ItemTipExtras extras;
             extras.x_attack = stack.x_attack;
@@ -89,6 +104,9 @@ namespace openkal::client {
     void StorageWindow::close() {
         m_open = false;
         m_dragging = false;
+        m_scroll_drag = Side::None;
+        m_balance.reset();
+        m_pending_money.reset();
         m_selected_side = Side::None;
         m_selected_iid = 0;
         m_marked_inventory_iids.clear();
@@ -104,16 +122,24 @@ namespace openkal::client {
         const bool same_keeper = m_open && m_npc_id == info.npc_id;
         m_npc_id = info.npc_id;
         m_storage = {};
-        m_quantity_kind = QuantityKind::None;
-        m_quantity_iid = 0;
+        if (!same_keeper || m_quantity_kind == QuantityKind::Deposit ||
+            m_quantity_kind == QuantityKind::Withdraw) {
+            m_quantity_kind = QuantityKind::None;
+            m_quantity_iid = 0;
+        }
         for (const protocol::StorageItem& item : info.items) {
             if (item.slot < m_storage.size()) {
                 m_storage[item.slot] = item_stack_of(item);
             }
         }
         if (!same_keeper) {
-            m_inventory_page = 0;
-            m_storage_page = 0;
+            for (auto& pane : m_panes) {
+                pane.row = 0;
+                pane.filters = 0;
+            }
+            m_scroll_drag = Side::None;
+            m_balance.reset();
+            m_pending_money.reset();
             m_selected_side = Side::None;
             m_selected_iid = 0;
             m_marked_inventory_iids.clear();
@@ -139,11 +165,20 @@ namespace openkal::client {
         m_open = true;
     }
 
+    void StorageWindow::set_balance(const protocol::StorageBalance& balance) {
+        if (m_open && balance.npc_id == m_npc_id && balance.geon >= 0) {
+            m_balance = balance.geon;
+        }
+    }
+
     void StorageWindow::center_on_screen(float screen_w, float screen_h) {
         sync_from_layout();
         const float scale = std::max(0.25f, m_scale);
-        m_x = std::max(8.0f, (screen_w - m_w * scale) * 0.5f);
-        m_y = std::max(8.0f, (screen_h - m_h * scale) * 0.42f);
+        const auto frame = UiView::frame_style(m_v1);
+        const float outer_w = (m_w + frame.pad_left() + frame.pad_right()) * scale;
+        const float outer_h = (m_h + frame.pad_top() + frame.pad_bottom()) * scale;
+        m_x = frame.pad_left() * scale + std::max(0.0f, (screen_w - outer_w) * 0.5f);
+        m_y = frame.pad_top() * scale + std::max(0.0f, (screen_h - outer_h) * 0.5f);
     }
 
     bool StorageWindow::contains(float mx, float my) const {
@@ -156,29 +191,110 @@ namespace openkal::client {
             mx, my, m_x, m_y, m_w * scale, m_h * scale, scale, UiView::frame_style(m_v1));
     }
 
-    const ItemStack* StorageWindow::inventory_item(const Bag& bag, int cell) const {
-        int remaining = m_inventory_page * kSlotsPerPage + cell;
-        if (remaining < 0) {
-            return nullptr;
-        }
-        // The storage inventory keeps ordinary zero-value items. In particular,
-        // unequipped items with no NPC sell value must remain visible here.
-        for (const auto* section : {&bag.normal, &bag.quest}) {
-            const int first = 0;
-            for (int i = first; i < static_cast<int>(section->size()); ++i) {
-                const auto& item = (*section)[i];
-                if (item.iid == 0 || item.index <= 0 || item.count <= 0 || item.equipped) {
-                    continue;
-                }
-                if (section == &bag.quest && i >= kOtherSectionSlots) {
-                    continue;
-                }
-                if (remaining-- == 0) {
-                    return &item;
+    StorageWindow::Side StorageWindow::side_from_bind(std::string_view bind) {
+        const auto found = std::find(kPaneBinds.begin(), kPaneBinds.end(), bind);
+        return found == kPaneBinds.end() ? Side::None
+                                         : static_cast<Side>(found - kPaneBinds.begin());
+    }
+
+    StorageWindow::PaneViews StorageWindow::make_views(const Bag& bag,
+                                                       const ItemDb& catalog) const {
+        PaneViews views;
+        const auto matches = [&](const ItemStack& item, unsigned filters) {
+            return item.iid != 0 && item.index > 0 && item.count > 0 &&
+                   (filters == 0 ||
+                    (filters & (1u << inventory_filter_category(catalog.find(item.index)))) != 0);
+        };
+        auto& inventory = views[0];
+        const auto add_inventory = [&](const auto& section, int limit) {
+            const int count = std::min(limit, static_cast<int>(section.size()));
+            for (int i = 0; i < count; ++i) {
+                const auto& item = section[i];
+                if (!item.equipped && matches(item, m_panes[0].filters)) {
+                    inventory.items[inventory.slots++] = &item;
                 }
             }
+        };
+        add_inventory(bag.normal, kBagSlots);
+        add_inventory(bag.quest, kOtherSectionSlots);
+        if (m_panes[0].filters == 0) {
+            const int enabled =
+                static_cast<int>(std::count(std::begin(bag.compact_register_enabled),
+                                            std::end(bag.compact_register_enabled),
+                                            true));
+            inventory.slots = std::max(inventory.slots, enabled * kSlotsPerPage);
         }
-        return nullptr;
+        auto& storage = views[1];
+        for (int i = 0; i < protocol::kStorageCapacity; ++i) {
+            const auto& item = m_storage[i];
+            if (matches(item, m_panes[1].filters)) {
+                const int cell = m_panes[1].filters == 0 ? i : storage.slots++;
+                storage.items[cell] = &item;
+            }
+        }
+        if (m_panes[1].filters == 0) {
+            storage.slots = protocol::kStorageCapacity;
+        }
+        const auto name = [&catalog](const ItemStack& item) -> std::string_view {
+            const auto* definition = catalog.find(item.index);
+            return definition ? definition->name() : std::string_view{};
+        };
+        for (std::size_t i = 0; i < views.size(); ++i) {
+            if (!m_panes[i].sorted) {
+                continue;
+            }
+            auto& view = views[i];
+            const auto end = view.items.begin() + view.slots;
+            const auto occupied = std::remove(view.items.begin(), end, nullptr);
+            std::stable_sort(view.items.begin(), occupied, [&](const auto* a, const auto* b) {
+                return inventory_stack_precedes(*a, *b, name(*a), name(*b));
+            });
+            std::fill(occupied, end, nullptr);
+        }
+        return views;
+    }
+
+    int StorageWindow::visible_rows(Side side) const {
+        const auto* grid = m_v1.find_widget(kGridIds[static_cast<std::size_t>(side)]);
+        const auto* viewport = grid ? m_v1.find_widget(grid->viewport()) : nullptr;
+        if (!grid || !viewport || grid->pitch_y() <= 0) {
+            return 0;
+        }
+        const float available = viewport->h() - std::max(grid->frame_h(), grid->cell_h());
+        return available < 0 ? 0 : 1 + static_cast<int>(available / grid->pitch_y());
+    }
+
+    int StorageWindow::max_scroll_row(Side side, const PaneView& view) const {
+        const auto* grid = m_v1.find_widget(kGridIds[static_cast<std::size_t>(side)]);
+        const int visible = visible_rows(side);
+        if (!grid || grid->cols() <= 0 || visible <= 0) {
+            return 0;
+        }
+        const int rows = (view.slots + grid->cols() - 1) / grid->cols();
+        return std::max(0, std::min(grid->rows(), rows) - visible);
+    }
+
+    void StorageWindow::scroll_to_pointer(Side side, float my, const PaneView& view) {
+        const auto index = static_cast<std::size_t>(side);
+        const auto* track = m_v1.find_widget(kTrackIds[index]);
+        if (track && track->h() > 0) {
+            const float ratio = (my - m_y - track->y() * m_scale) / (track->h() * m_scale);
+            m_panes[index].row = static_cast<int>(
+                std::round(std::clamp(ratio, 0.0f, 1.0f) * max_scroll_row(side, view)));
+        }
+    }
+
+    std::uint64_t StorageWindow::max_money(Side side, const Bag& bag) const {
+        if (!m_balance) {
+            return 0;
+        }
+        const auto wallet = std::max<std::int64_t>(0, bag.money);
+        const auto maximum =
+            side == Side::Inventory
+                ? std::min(wallet, std::numeric_limits<std::int64_t>::max() - *m_balance)
+                : std::min(*m_balance,
+                           std::max<std::int64_t>(0, protocol::kStorageWalletLimit - wallet));
+        return static_cast<std::uint64_t>(maximum);
     }
 
     const ItemStack* StorageWindow::selected_item(const Bag& bag) const {
@@ -206,24 +322,54 @@ namespace openkal::client {
         m_hover_my = my;
     }
 
-    void StorageWindow::update_pointer(const engine::FrameInput& input, const Bag& bag) {
+    void StorageWindow::update_pointer(const engine::FrameInput& input,
+                                       const Bag& bag,
+                                       const ItemDb& catalog) {
+        m_hover_widget.clear();
+        m_pointer_pressed = input.mouse_left;
         set_hover(nullptr, input.mouse_x, input.mouse_y);
+        const bool editing_quantity = quantity_open();
+        if (!input.mouse_left || !m_open || editing_quantity) {
+            m_dragging = false;
+            m_scroll_drag = Side::None;
+        }
         if (!m_open) {
-            m_dragging = false;
             return;
         }
-        if (quantity_open()) {
-            m_dragging = false;
-            return;
-        }
-        if (!input.mouse_left) {
-            m_dragging = false;
-        } else if (m_dragging) {
+        if (m_dragging) {
             m_x = input.mouse_x - m_drag_dx;
             m_y = input.mouse_y - m_drag_dy;
             return;
         }
+
         reload_document();
+        const auto views = make_views(bag, catalog);
+        if (m_scroll_drag != Side::None) {
+            scroll_to_pointer(
+                m_scroll_drag, input.mouse_y, views[static_cast<std::size_t>(m_scroll_drag)]);
+            return;
+        }
+        for (std::size_t i = 0; i < views.size(); ++i) {
+            const auto side = static_cast<Side>(i);
+            const int maximum = max_scroll_row(side, views[i]);
+            auto& row = m_panes[i].row;
+            row = std::min(row, maximum);
+            if (editing_quantity || input.mouse_scroll == 0) {
+                continue;
+            }
+            const auto* grid = m_v1.find_widget(kGridIds[i]);
+            const auto* viewport = grid ? m_v1.find_widget(grid->viewport()) : nullptr;
+            if (viewport && WidgetTools::point_in_rect(input.mouse_x,
+                                                       input.mouse_y,
+                                                       m_x + viewport->x() * m_scale,
+                                                       m_y + viewport->y() * m_scale,
+                                                       viewport->w() * m_scale,
+                                                       viewport->h() * m_scale)) {
+                const int delta = static_cast<int>(std::copysign(
+                    std::max(1.0f, std::abs(input.mouse_scroll)), input.mouse_scroll));
+                row = std::clamp(row - delta, 0, maximum);
+            }
+        }
         const UiHit hit = UiView::hit(m_v1,
                                       nullptr,
                                       input.mouse_x,
@@ -233,35 +379,44 @@ namespace openkal::client {
                                       m_w * m_scale,
                                       m_h * m_scale,
                                       m_scale,
-                                      vars(bag),
+                                      vars(bag, views),
                                       nullptr,
                                       true);
-        if (hit.kind() != UiHitKind::IconGridCell) {
-            return;
+        if (hit.kind() == UiHitKind::Button &&
+            (!editing_quantity || hit.action() == "window.close" ||
+             hit.action().rfind("storage.quantity.", 0) == 0)) {
+            m_hover_widget = hit.widget_id();
         }
-        if (hit.bind() == "storage.inventory") {
-            set_hover(inventory_item(bag, hit.index()), input.mouse_x, input.mouse_y);
-        } else if (hit.bind() == "storage.items") {
-            const int absolute = m_storage_page * protocol::kStorageSlotsPerRegister + hit.index();
-            set_hover(absolute >= 0 && absolute < static_cast<int>(m_storage.size())
-                          ? &m_storage[static_cast<std::size_t>(absolute)]
-                          : nullptr,
-                      input.mouse_x,
-                      input.mouse_y);
+        const auto side = side_from_bind(hit.bind());
+        if (!editing_quantity && hit.kind() == UiHitKind::IconGridCell && side != Side::None &&
+            hit.index() >= 0) {
+            const auto& view = views[static_cast<std::size_t>(side)];
+            if (hit.index() < view.slots) {
+                set_hover(view.items[hit.index()], input.mouse_x, input.mouse_y);
+            }
         }
     }
 
-    UiVarMap StorageWindow::vars(const Bag& bag) const {
+    UiVarMap StorageWindow::vars(const Bag& bag, const PaneViews& views) const {
         UiVarMap values;
         values["storage.title"] = "Account Storage";
         values["storage.inventory_label"] = "Inventory";
         values["storage.storage_label"] = "Storage";
-        values["storage.inventory_tab"] = "inventory";
-        values["storage.storage_tab"] = "storage";
-        values["storage.inventory_page"] = std::to_string(m_inventory_page);
-        values["storage.page"] = std::to_string(m_storage_page);
+        values["storage.sort_label"] = "Sort";
         values["storage.money"] = std::to_string(std::max<std::int64_t>(0, bag.money));
-        values["storage.fee"] = "60 Geon per transfer · CTRL: select multiple";
+        values["storage.account_money"] = m_balance ? std::to_string(*m_balance) : "-";
+        values["storage.fee"] = "Item deposit: 60 Geon | Ctrl-click to mark more";
+        for (std::size_t i = 0; i < views.size(); ++i) {
+            const auto side = static_cast<Side>(i);
+            const auto* grid = m_v1.find_widget(kGridIds[i]);
+            const int row = std::min(m_panes[i].row, max_scroll_row(side, views[i]));
+            const std::string prefix = kPaneBinds[i];
+            values[prefix + ".scroll"] = std::to_string(grid ? row * grid->pitch_y() : 0.0f);
+            for (std::size_t f = 0; f < kInventoryFilterIds.size(); ++f) {
+                values[prefix + ".filter." + kInventoryFilterIds[f]] =
+                    (m_panes[i].filters & (1u << f)) ? "true" : "false";
+            }
+        }
         const int used = static_cast<int>(
             std::count_if(m_storage.begin(), m_storage.end(), [](const ItemStack& item) {
                 return item.iid != 0;
@@ -271,8 +426,21 @@ namespace openkal::client {
         values["storage.selected_name"] = "Select an item";
         values["storage.quantity"] = std::to_string(m_quantity);
         values["storage.quantity_open"] = quantity_open() ? "true" : "false";
-        values["storage.quantity_prompt"] =
-            m_quantity_kind == QuantityKind::Withdraw ? "Withdraw quantity" : "Deposit quantity";
+        values["storage.quantity_hint"] = "Type an amount, then press Enter";
+        switch (m_quantity_kind) {
+        case QuantityKind::DepositMoney:
+            values["storage.quantity_prompt"] = "Deposit Geon";
+            break;
+        case QuantityKind::WithdrawMoney:
+            values["storage.quantity_prompt"] = "Withdraw Geon";
+            break;
+        case QuantityKind::Withdraw:
+            values["storage.quantity_prompt"] = "Withdraw quantity";
+            break;
+        default:
+            values["storage.quantity_prompt"] = "Deposit quantity";
+            break;
+        }
         const std::size_t marked = m_selected_side == Side::Inventory
                                        ? m_marked_inventory_iids.size()
                                        : m_marked_storage_iids.size();
@@ -329,33 +497,41 @@ namespace openkal::client {
         return true;
     }
 
+    std::optional<protocol::StorageMoneyTransfer> StorageWindow::take_pending_money() {
+        return std::exchange(m_pending_money, std::nullopt);
+    }
+
     void
-    StorageWindow::begin_quantity(QuantityKind kind, std::uint32_t iid, std::uint32_t maximum) {
+    StorageWindow::begin_quantity(QuantityKind kind, std::uint32_t iid, std::uint64_t maximum) {
         m_quantity_kind = kind;
         m_quantity = 1;
-        m_quantity_max = std::max<std::uint32_t>(1, maximum);
+        m_quantity_max = std::max<std::uint64_t>(1, maximum);
         m_quantity_iid = iid;
         m_quantity_typing_started = false;
         m_dragging = false;
+        m_scroll_drag = Side::None;
     }
 
     StorageClickResult StorageWindow::confirm_quantity() {
-        if (m_quantity_kind == QuantityKind::None || m_quantity_iid == 0) {
+        if (!quantity_open() || m_quantity == 0) {
             return StorageClickResult::Consumed;
         }
+        const auto kind = std::exchange(m_quantity_kind, QuantityKind::None);
+        const std::uint64_t amount = std::clamp<std::uint64_t>(m_quantity, 1, m_quantity_max);
+        if (kind == QuantityKind::DepositMoney || kind == QuantityKind::WithdrawMoney) {
+            m_pending_money = protocol::StorageMoneyTransfer{
+                m_npc_id, kind == QuantityKind::DepositMoney, static_cast<std::int64_t>(amount)};
+            return StorageClickResult::MoneyTransfer;
+        }
         m_pending_transfers.clear();
-        m_pending_transfers.emplace_back(m_quantity_iid,
-                                         std::clamp(m_quantity, 1u, m_quantity_max));
-        const StorageClickResult result = m_quantity_kind == QuantityKind::Deposit
-                                              ? StorageClickResult::Deposit
-                                              : StorageClickResult::Withdraw;
+        m_pending_transfers.emplace_back(std::exchange(m_quantity_iid, 0),
+                                         static_cast<std::uint32_t>(amount));
         m_marked_inventory_iids.clear();
         m_marked_storage_iids.clear();
         m_selected_side = Side::None;
         m_selected_iid = 0;
-        m_quantity_kind = QuantityKind::None;
-        m_quantity_iid = 0;
-        return result;
+        return kind == QuantityKind::Deposit ? StorageClickResult::Deposit
+                                             : StorageClickResult::Withdraw;
     }
 
     StorageClickResult StorageWindow::handle_keyboard(const engine::FrameInput& input) {
@@ -369,35 +545,51 @@ namespace openkal::client {
         }
         if (input.key_backspace_pressed) {
             m_quantity_typing_started = true;
-            m_quantity = std::max<std::uint32_t>(1, m_quantity / 10);
+            m_quantity /= 10;
         }
         if (input.key_delete_pressed) {
-            m_quantity = 1;
+            m_quantity = 0;
             m_quantity_typing_started = false;
         }
-        for (int i = 0; i < input.text_char_count; ++i) {
-            const char ch = input.text_chars[i];
-            if (ch < '0' || ch > '9') {
-                continue;
-            }
+        const auto append_digit = [this](unsigned digit) {
             if (!m_quantity_typing_started) {
                 m_quantity = 0;
                 m_quantity_typing_started = true;
             }
-            const std::uint64_t next =
-                static_cast<std::uint64_t>(m_quantity) * 10u + static_cast<std::uint64_t>(ch - '0');
-            m_quantity =
-                static_cast<std::uint32_t>(std::clamp<std::uint64_t>(next, 1u, m_quantity_max));
+            m_quantity = m_quantity > m_quantity_max / 10
+                             ? m_quantity_max
+                             : std::min(m_quantity * 10 + digit, m_quantity_max);
+        };
+        if (!input.key_ctrl) {
+            if (input.text_char_count > 0) {
+                for (int i = 0; i < input.text_char_count; ++i) {
+                    const char ch = input.text_chars[i];
+                    if (ch >= '0' && ch <= '9') {
+                        append_digit(static_cast<unsigned>(ch - '0'));
+                    }
+                }
+            } else {
+                for (unsigned digit = 0; digit < 10; ++digit) {
+                    if (input.key_digit_pressed[digit]) {
+                        append_digit(digit);
+                    }
+                }
+            }
         }
         return input.key_enter_pressed ? confirm_quantity() : StorageClickResult::Consumed;
     }
 
-    StorageClickResult StorageWindow::handle_click(
-        float mx, float my, WidgetTools& ui, const Bag& bag, bool ctrl_pressed) {
+    StorageClickResult StorageWindow::handle_click(float mx,
+                                                   float my,
+                                                   WidgetTools& ui,
+                                                   const Bag& bag,
+                                                   const ItemDb& catalog,
+                                                   bool ctrl_pressed) {
         if (!m_open) {
             return StorageClickResult::Ignored;
         }
         reload_document();
+        const auto views = make_views(bag, catalog);
         const UiHit hit = UiView::hit(m_v1,
                                       &ui,
                                       mx,
@@ -407,7 +599,7 @@ namespace openkal::client {
                                       m_w * m_scale,
                                       m_h * m_scale,
                                       m_scale,
-                                      vars(bag),
+                                      vars(bag, views),
                                       nullptr,
                                       true);
         if (hit.kind() == UiHitKind::None) {
@@ -417,101 +609,101 @@ namespace openkal::client {
             close();
             return StorageClickResult::Close;
         }
-        if (hit.kind() == UiHitKind::TitleDrag && !quantity_open()) {
+        const auto& action = hit.action();
+        if (quantity_open()) {
+            if (action == "storage.quantity.decrease" && m_quantity > 1) {
+                --m_quantity;
+            } else if (action == "storage.quantity.increase" && m_quantity < m_quantity_max) {
+                ++m_quantity;
+            } else if (action == "storage.quantity.all") {
+                m_quantity = m_quantity_max;
+                m_quantity_typing_started = false;
+            } else if (hit.kind() == UiHitKind::Input && hit.bind() == "storage.quantity") {
+                m_quantity_typing_started = false;
+            } else if (action == "storage.quantity.cancel") {
+                m_quantity_kind = QuantityKind::None;
+                m_quantity_iid = 0;
+            } else if (action == "storage.quantity.confirm") {
+                return confirm_quantity();
+            }
+            return StorageClickResult::Consumed;
+        }
+        if (hit.kind() == UiHitKind::TitleDrag) {
             m_dragging = true;
             m_drag_dx = mx - m_x;
             m_drag_dy = my - m_y;
             return StorageClickResult::Consumed;
         }
-        if (quantity_open()) {
-            if (hit.action() == "storage.quantity.decrease" && m_quantity > 1) {
-                --m_quantity;
-            } else if (hit.action() == "storage.quantity.increase" && m_quantity < m_quantity_max) {
-                ++m_quantity;
-            } else if (hit.action() == "storage.quantity.all") {
-                m_quantity = m_quantity_max;
-            } else if (hit.action() == "storage.quantity.cancel") {
-                m_quantity_kind = QuantityKind::None;
-                m_quantity_iid = 0;
-            } else if (hit.action() == "storage.quantity.confirm") {
-                return confirm_quantity();
+        const auto side = side_from_bind(hit.bind());
+        if (side != Side::None) {
+            const auto i = static_cast<std::size_t>(side);
+            auto& pane = m_panes[i];
+            const auto& view = views[i];
+            auto& marked =
+                side == Side::Inventory ? m_marked_inventory_iids : m_marked_storage_iids;
+            if (const int category = storage_filter_index(action); category >= 0) {
+                pane.filters ^= 1u << category;
+                pane.row = 0;
+                marked.clear();
+                if (m_selected_side == side) {
+                    m_selected_side = Side::None;
+                    m_selected_iid = 0;
+                }
+            } else if (action == "storage.sort") {
+                pane.sorted = true;
+                pane.row = 0;
+            } else if (action == "storage.scroll.track") {
+                m_scroll_drag = side;
+                scroll_to_pointer(side, my, view);
+            } else if (action == "storage.scroll.up" || action == "storage.scroll.down") {
+                pane.row = std::clamp(pane.row + (action == "storage.scroll.up" ? -1 : 1),
+                                      0,
+                                      max_scroll_row(side, view));
+            } else if (hit.kind() == UiHitKind::IconGridCell && hit.index() >= 0 &&
+                       hit.index() < view.slots) {
+                if (const auto* item = view.items[hit.index()]) {
+                    auto& other =
+                        side == Side::Inventory ? m_marked_storage_iids : m_marked_inventory_iids;
+                    other.clear();
+                    const auto found = std::find(marked.begin(), marked.end(), item->iid);
+                    if (!ctrl_pressed) {
+                        marked.assign(1, item->iid);
+                    } else if (found == marked.end()) {
+                        marked.push_back(item->iid);
+                    } else {
+                        marked.erase(found);
+                    }
+                    m_selected_side = marked.empty() ? Side::None : side;
+                    m_selected_iid = marked.empty() ? 0 : marked.back();
+                }
             }
             return StorageClickResult::Consumed;
         }
-        if (hit.kind() == UiHitKind::IconGridCell && hit.bind() == "storage.inventory") {
-            if (const ItemStack* item = inventory_item(bag, hit.index())) {
-                m_marked_storage_iids.clear();
-                const auto marked = std::find(
-                    m_marked_inventory_iids.begin(), m_marked_inventory_iids.end(), item->iid);
-                if (!ctrl_pressed) {
-                    m_marked_inventory_iids.clear();
-                    m_marked_inventory_iids.push_back(item->iid);
-                } else if (marked == m_marked_inventory_iids.end()) {
-                    m_marked_inventory_iids.push_back(item->iid);
-                } else {
-                    m_marked_inventory_iids.erase(marked);
-                }
-                m_selected_side = Side::Inventory;
-                m_selected_iid =
-                    m_marked_inventory_iids.empty() ? 0 : m_marked_inventory_iids.back();
-                if (m_selected_iid == 0) {
-                    m_selected_side = Side::None;
-                }
-            }
-        } else if (hit.kind() == UiHitKind::IconGridCell && hit.bind() == "storage.items") {
-            const int absolute = m_storage_page * protocol::kStorageSlotsPerRegister + hit.index();
-            if (absolute >= 0 && absolute < static_cast<int>(m_storage.size())) {
-                const ItemStack& item = m_storage[static_cast<std::size_t>(absolute)];
-                if (item.iid != 0) {
-                    m_marked_inventory_iids.clear();
-                    const auto marked = std::find(
-                        m_marked_storage_iids.begin(), m_marked_storage_iids.end(), item.iid);
-                    if (!ctrl_pressed) {
-                        m_marked_storage_iids.clear();
-                        m_marked_storage_iids.push_back(item.iid);
-                    } else if (marked == m_marked_storage_iids.end()) {
-                        m_marked_storage_iids.push_back(item.iid);
-                    } else {
-                        m_marked_storage_iids.erase(marked);
-                    }
-                    m_selected_side = Side::Storage;
-                    m_selected_iid =
-                        m_marked_storage_iids.empty() ? 0 : m_marked_storage_iids.back();
-                    if (m_selected_iid == 0) {
-                        m_selected_side = Side::None;
-                    }
-                }
-            }
-        } else if (hit.kind() == UiHitKind::Tab && hit.bind() == "storage.inventory_page") {
-            const int page = hit.tab_id().empty() ? -1 : hit.tab_id()[0] - '0';
-            if (page >= 0 && page < kMaxRegisters && bag.compact_register_enabled[page]) {
-                m_inventory_page = page;
-            }
-        } else if (hit.kind() == UiHitKind::Tab && hit.bind() == "storage.page") {
-            const int page = hit.tab_id().empty() ? -1 : hit.tab_id()[0] - '0';
-            if (page >= 0 && page < protocol::kStorageRegisters) {
-                m_storage_page = page;
-            }
-        } else if (hit.action() == "storage.deposit" && m_selected_side == Side::Inventory) {
-            if (m_marked_inventory_iids.size() > 1) {
-                return queue_marked_deposits(bag) ? StorageClickResult::Deposit
-                                                  : StorageClickResult::Consumed;
-            }
-            if (const ItemStack* item = selected_item(bag); item && item->count > 1) {
+        if (action == "storage.money.deposit" || action == "storage.money.withdraw") {
+            const bool deposit = action == "storage.money.deposit";
+            const auto maximum = max_money(deposit ? Side::Inventory : Side::Storage, bag);
+            if (maximum > 0) {
                 begin_quantity(
-                    QuantityKind::Deposit, item->iid, static_cast<std::uint32_t>(item->count));
-            } else if (queue_marked_deposits(bag)) {
+                    deposit ? QuantityKind::DepositMoney : QuantityKind::WithdrawMoney, 0, maximum);
+            }
+        } else if (action == "storage.deposit" && m_selected_side == Side::Inventory) {
+            if (m_marked_inventory_iids.size() == 1) {
+                if (const auto* item = selected_item(bag); item && item->count > 1) {
+                    begin_quantity(QuantityKind::Deposit, item->iid, item->count);
+                    return StorageClickResult::Consumed;
+                }
+            }
+            if (queue_marked_deposits(bag)) {
                 return StorageClickResult::Deposit;
             }
-        } else if (hit.action() == "storage.withdraw" && m_selected_side == Side::Storage) {
-            if (m_marked_storage_iids.size() > 1) {
-                return queue_marked_withdrawals() ? StorageClickResult::Withdraw
-                                                  : StorageClickResult::Consumed;
+        } else if (action == "storage.withdraw" && m_selected_side == Side::Storage) {
+            if (m_marked_storage_iids.size() == 1) {
+                if (const auto* item = selected_item(bag); item && item->count > 1) {
+                    begin_quantity(QuantityKind::Withdraw, item->iid, item->count);
+                    return StorageClickResult::Consumed;
+                }
             }
-            if (const ItemStack* item = selected_item(bag); item && item->count > 1) {
-                begin_quantity(
-                    QuantityKind::Withdraw, item->iid, static_cast<std::uint32_t>(item->count));
-            } else if (queue_marked_withdrawals()) {
+            if (queue_marked_withdrawals()) {
                 return StorageClickResult::Withdraw;
             }
         }
@@ -547,25 +739,25 @@ namespace openkal::client {
             return;
         }
         reload_document();
+        const auto views = make_views(bag, catalog);
         class StorageHost final : public UiViewHost {
           public:
-            StorageHost(const StorageWindow& window, const Bag& bag, const ItemDb& catalog)
-                : m_window(window), m_bag(bag), m_catalog(catalog) {}
+            StorageHost(const StorageWindow& window,
+                        const Bag& bag,
+                        const ItemDb& catalog,
+                        const PaneViews& views)
+                : m_window(window), m_bag(bag), m_catalog(catalog), m_views(views) {
+                set_pointer_hit(window.m_hover_widget, window.m_pointer_pressed);
+            }
 
             [[nodiscard]] bool
             resolve_slot(std::string_view bind, int index, UiSlotIcon& out) const override {
-                const ItemStack* item = nullptr;
-                if (bind == "storage.inventory") {
-                    item = m_window.inventory_item(m_bag, index);
-                } else if (bind == "storage.items") {
-                    const int absolute =
-                        m_window.m_storage_page * protocol::kStorageSlotsPerRegister + index;
-                    if (absolute >= 0 && absolute < static_cast<int>(m_window.m_storage.size())) {
-                        item = &m_window.m_storage[static_cast<std::size_t>(absolute)];
-                    }
-                } else {
+                const auto side = side_from_bind(bind);
+                if (side == Side::None) {
                     return false;
                 }
+                const auto& view = m_views[static_cast<std::size_t>(side)];
+                const auto* item = index >= 0 && index < view.slots ? view.items[index] : nullptr;
                 if (!item || item->iid == 0 || item->index <= 0) {
                     out.set_empty(true);
                     return true;
@@ -575,8 +767,8 @@ namespace openkal::client {
                 out.set_account_bound(item->account_bound);
                 out.set_character_bound(item->character_bound);
                 out.set_enchant_protected(item->enchant_protected);
-                const auto& marked = bind == "storage.inventory" ? m_window.m_marked_inventory_iids
-                                                                 : m_window.m_marked_storage_iids;
+                const auto& marked = side == Side::Inventory ? m_window.m_marked_inventory_iids
+                                                             : m_window.m_marked_storage_iids;
                 out.set_selected(std::find(marked.begin(), marked.end(), item->iid) !=
                                  marked.end());
                 out.set_empty(out.file().empty());
@@ -584,6 +776,9 @@ namespace openkal::client {
             }
 
             [[nodiscard]] bool button_enabled(std::string_view action) const override {
+                if (action == "storage.quantity.confirm") {
+                    return m_window.m_quantity > 0;
+                }
                 if (action == "storage.deposit") {
                     return m_window.m_selected_side == Side::Inventory &&
                            !m_window.m_marked_inventory_iids.empty();
@@ -592,6 +787,11 @@ namespace openkal::client {
                     return m_window.m_selected_side == Side::Storage &&
                            !m_window.m_marked_storage_iids.empty();
                 }
+                if (action == "storage.money.deposit" || action == "storage.money.withdraw") {
+                    const auto side =
+                        action == "storage.money.deposit" ? Side::Inventory : Side::Storage;
+                    return m_window.max_money(side, m_bag) > 0;
+                }
                 return true;
             }
 
@@ -599,9 +799,10 @@ namespace openkal::client {
             const StorageWindow& m_window;
             const Bag& m_bag;
             const ItemDb& m_catalog;
+            const PaneViews& m_views;
         };
 
-        UiVarMap values = vars(bag);
+        UiVarMap values = vars(bag, views);
         const std::size_t marked = m_selected_side == Side::Inventory
                                        ? m_marked_inventory_iids.size()
                                        : m_marked_storage_iids.size();
@@ -612,8 +813,26 @@ namespace openkal::client {
                 }
             }
         }
-        const StorageHost host(*this, bag, catalog);
         const FreetypeFont& body = m_body_font.ready() ? m_body_font : font;
+        if (const auto* widget = m_v1.find_widget("selected_name");
+            widget && widget->w() > 0 && body.ready()) {
+            auto& name = values["storage.selected_name"];
+            const float text_scale =
+                widget->pixel_size() > 0
+                    ? static_cast<float>(widget->pixel_size()) / body.pixel_size()
+                    : 1.0f;
+            if (body.text_width(name, text_scale) > widget->w()) {
+                const float max_width =
+                    std::max(1.0f, widget->w() - body.text_width("...", text_scale));
+                const auto lines = layout_text_lines(body, name, max_width, text_scale);
+                name.resize(lines.front().length);
+                if (!name.empty() && name.back() == ' ') {
+                    name.pop_back();
+                }
+                name += "...";
+            }
+        }
+        const StorageHost host(*this, bag, catalog, views);
         UiView::draw(engine,
                      ui,
                      m_v1,
@@ -626,7 +845,29 @@ namespace openkal::client {
                      body,
                      m_title_font.ready() ? m_title_font : body,
                      &host,
-                     false);
+                     true);
+        if (!quantity_open()) {
+            for (std::size_t i = 0; i < views.size(); ++i) {
+                const auto* track = m_v1.find_widget(kTrackIds[i]);
+                const auto side = static_cast<Side>(i);
+                const int visible = visible_rows(side);
+                if (!track || visible == 0) {
+                    continue;
+                }
+                const int maximum = max_scroll_row(side, views[i]);
+                const float height = std::max(18.0f, track->h() * visible / (maximum + visible));
+                const int row = std::min(m_panes[i].row, maximum);
+                const float ratio = maximum > 0 ? static_cast<float>(row) / maximum : 0;
+                engine.draw_ui_rect(m_x + (track->x() + 2) * m_scale,
+                                    m_y + (track->y() + (track->h() - height) * ratio) * m_scale,
+                                    (track->w() - 4) * m_scale,
+                                    height * m_scale,
+                                    .65f,
+                                    .52f,
+                                    .32f,
+                                    1.0f);
+            }
+        }
     }
 
     void StorageWindow::draw_tooltip(WidgetTools& ui,
@@ -637,12 +878,25 @@ namespace openkal::client {
                                      float screen_h,
                                      int player_clazz,
                                      int player_level) const {
-        if (!m_open || m_hover_item_index <= 0) {
+        const FreetypeFont& tip = font.ready() ? font : m_body_font;
+        if (!m_open || !tip.ready()) {
             return;
         }
+        if (const auto* widget = m_v1.find_widget(m_hover_widget)) {
+            if (const int category = storage_filter_index(widget->action()); category >= 0) {
+                ItemTooltip::draw(ui,
+                                  engine,
+                                  tip,
+                                  ItemTooltip::parse_markup(kInventoryFilterLabels[category]),
+                                  m_hover_mx,
+                                  m_hover_my,
+                                  screen_w,
+                                  screen_h);
+                return;
+            }
+        }
         const ItemDef* def = catalog.find(m_hover_item_index);
-        const FreetypeFont& tip = font.ready() ? font : m_body_font;
-        if (!def || !tip.ready()) {
+        if (!def) {
             return;
         }
         const std::string markup = ItemTooltip::make_tip(*def,

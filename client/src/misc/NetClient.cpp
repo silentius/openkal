@@ -1026,6 +1026,20 @@ namespace openkal::client {
         return true;
     }
 
+    bool NetClient::send_storage_money(const protocol::StorageMoneyTransfer& transfer) {
+        return m_session && m_handshook &&
+               send_packet(protocol::Storage::frame_money_c2s(transfer));
+    }
+
+    bool NetClient::take_storage_balance(protocol::StorageBalance& out) {
+        if (m_pending_storage_balances.empty()) {
+            return false;
+        }
+        out = m_pending_storage_balances.front();
+        m_pending_storage_balances.pop_front();
+        return true;
+    }
+
     bool NetClient::send_talent_request(protocol::TalentCommand command,
                                         std::uint64_t expected,
                                         std::uint64_t desired) {
@@ -1512,6 +1526,7 @@ namespace openkal::client {
             m_session.reset();
         }
         clear_online_views();
+        m_pending_storage_balances.clear();
         m_monsters.clear();
         m_npcs.clear();
         m_pending_html.clear();
@@ -1844,6 +1859,13 @@ namespace openkal::client {
             protocol::StorageInfo info;
             if (protocol::Storage::parse_info_s2c(payload.data(), payload.size(), info)) {
                 m_pending_storage_info.push_back(std::move(info));
+            }
+            return true;
+        }
+        if (type == static_cast<std::uint8_t>(protocol::S2C::StorageMoney)) {
+            protocol::StorageBalance balance;
+            if (protocol::Storage::parse_money_s2c(payload.data(), payload.size(), balance)) {
+                m_pending_storage_balances.push_back(balance);
             }
             return true;
         }

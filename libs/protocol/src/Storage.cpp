@@ -20,6 +20,8 @@
 namespace openkal::protocol {
     namespace {
         constexpr std::size_t kStorageItemWireSize = 37;
+        constexpr std::size_t kFullStoragePayload = 5 + kStorageCapacity * kStorageItemWireSize;
+        static_assert(kStorageCapacity <= std::numeric_limits<std::uint8_t>::max());
     }
 
     std::vector<std::uint8_t> Storage::frame_info_c2s(std::uint32_t npc_id) {
@@ -41,7 +43,12 @@ namespace openkal::protocol {
         }
         PacketWriter writer;
         writer.write_u32(info.npc_id);
-        writer.write_u16(static_cast<std::uint16_t>(info.items.size()));
+        if (info.items.size() == kStorageCapacity) {
+            // The full snapshot needs a one-byte count to fit the existing frame limit.
+            writer.write_u8(static_cast<std::uint8_t>(info.items.size()));
+        } else {
+            writer.write_u16(static_cast<std::uint16_t>(info.items.size()));
+        }
         for (const StorageItem& item : info.items) {
             writer.write_u32(item.iid);
             writer.write_u16(item.index);
@@ -64,8 +71,17 @@ namespace openkal::protocol {
         }
         PacketReader reader(data, size);
         std::uint16_t count = 0;
-        if (!reader.read_u32(info.npc_id) || !reader.read_u16(count) || count > kStorageCapacity ||
-            size != 6u + count * kStorageItemWireSize) {
+        if (!reader.read_u32(info.npc_id)) {
+            return false;
+        }
+        if (size == kFullStoragePayload) {
+            std::uint8_t full_count = 0;
+            if (!reader.read_u8(full_count) || full_count != kStorageCapacity) {
+                return false;
+            }
+            count = full_count;
+        } else if (!reader.read_u16(count) || count > kStorageCapacity ||
+                   size != 6u + count * kStorageItemWireSize) {
             return false;
         }
         info.items.clear();
@@ -109,6 +125,56 @@ namespace openkal::protocol {
         PacketReader reader(data, size);
         return data && size == 12 && reader.read_u32(npc_id) && reader.read_u32(iid) &&
                reader.read_u32(count);
+    }
+
+    std::vector<std::uint8_t> Storage::frame_money_c2s(const StorageMoneyTransfer& transfer) {
+        if (transfer.npc_id == 0 || transfer.amount <= 0) {
+            return {};
+        }
+        PacketWriter writer;
+        writer.write_u32(transfer.npc_id);
+        writer.write_u8(transfer.deposit ? 1 : 0);
+        writer.write_u64(static_cast<std::uint64_t>(transfer.amount));
+        return writer.frame(static_cast<std::uint8_t>(C2S::StorageMoney));
+    }
+
+    bool Storage::parse_money_c2s(const std::uint8_t* data,
+                                  std::size_t size,
+                                  StorageMoneyTransfer& transfer) {
+        PacketReader reader(data, size);
+        std::uint32_t npc_id = 0;
+        std::uint8_t direction = 0;
+        std::uint64_t amount = 0;
+        if (!data || size != 13 || !reader.read_u32(npc_id) || !reader.read_u8(direction) ||
+            !reader.read_u64(amount) || npc_id == 0 || direction > 1 || amount == 0 ||
+            amount > std::numeric_limits<std::int64_t>::max()) {
+            return false;
+        }
+        transfer = {npc_id, direction == 1, static_cast<std::int64_t>(amount)};
+        return true;
+    }
+
+    std::vector<std::uint8_t> Storage::frame_money_s2c(const StorageBalance& balance) {
+        if (balance.npc_id == 0 || balance.geon < 0) {
+            return {};
+        }
+        PacketWriter writer;
+        writer.write_u32(balance.npc_id);
+        writer.write_u64(static_cast<std::uint64_t>(balance.geon));
+        return writer.frame(static_cast<std::uint8_t>(S2C::StorageMoney));
+    }
+
+    bool
+    Storage::parse_money_s2c(const std::uint8_t* data, std::size_t size, StorageBalance& balance) {
+        PacketReader reader(data, size);
+        std::uint32_t npc_id = 0;
+        std::uint64_t geon = 0;
+        if (!data || size != 12 || !reader.read_u32(npc_id) || !reader.read_u64(geon) ||
+            npc_id == 0 || geon > std::numeric_limits<std::int64_t>::max()) {
+            return false;
+        }
+        balance = {npc_id, static_cast<std::int64_t>(geon)};
+        return true;
     }
 
 }  // namespace openkal::protocol

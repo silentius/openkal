@@ -210,7 +210,7 @@ namespace {
                 draft.name = server::test_identity("TestPlayer", ordinal);
                 draft.map_x = draft.map_y = 1024;
                 draft.map_z = 0;
-                draft.money = ordinal == 1 ? 120 : 180;
+                draft.money = ordinal == 1 ? 123 : 180;
                 const auto account_name = server::test_identity("test", ordinal);
                 require(store->ensure_default_player(
                             account_name, server::test_identity("TestPassword", ordinal), draft),
@@ -308,8 +308,10 @@ namespace {
         int clocks = 0;
         int talents = 0;
         int storage_updates = 0;
+        int balance_updates = 0;
         int exit_acks = 0;
         protocol::StorageInfo storage;
+        protocol::StorageBalance balance;
 
         void send(const Bytes& frame) {
             require(session && session->send_all(frame), "send ordinary storage-test request");
@@ -365,6 +367,11 @@ namespace {
                                     payload.data(), payload.size(), storage),
                                 "parse complete storage snapshot");
                         ++storage_updates;
+                    } else if (opcode == protocol::S2C::StorageMoney) {
+                        require(protocol::Storage::parse_money_s2c(
+                                    payload.data(), payload.size(), balance),
+                                "parse authoritative account Geon balance");
+                        ++balance_updates;
                     } else if (opcode == protocol::S2C::InsertItem) {
                         const auto item = bag_item(packets.back());
                         if (item.iid == 0) {
@@ -409,9 +416,12 @@ namespace {
 
         void open(std::uint32_t keeper) {
             const int before = storage_updates;
+            const int balances_before = balance_updates;
             send(protocol::Storage::frame_info_c2s(keeper));
-            wait([&] { return storage_updates > before; }, "storage list");
-            require(storage.npc_id == keeper, "storage snapshot carries selected runtime keeper");
+            wait([&] { return storage_updates > before && balance_updates > balances_before; },
+                 "storage items and balance");
+            require(storage.npc_id == keeper && balance.npc_id == keeper,
+                    "storage snapshots carry the selected runtime keeper");
         }
 
         void transfer(bool deposit, std::uint32_t keeper, std::uint32_t iid, std::uint32_t count) {
@@ -419,6 +429,19 @@ namespace {
             packets.clear();
             send(protocol::Storage::frame_transfer_c2s(deposit, keeper, iid, count));
             wait([&] { return storage_updates > before; }, "successful storage transfer");
+        }
+
+        void transfer_money(bool deposit,
+                            std::uint32_t keeper,
+                            std::int64_t amount,
+                            int expected_wallet,
+                            std::int64_t expected_balance) {
+            const int before = balance_updates;
+            send(protocol::Storage::frame_money_c2s({keeper, deposit, amount}));
+            wait([&] { return balance_updates > before; }, "account Geon update");
+            require(balance.npc_id == keeper && balance.geon == expected_balance &&
+                        money == expected_wallet,
+                    "Geon transfer updates both balances with the exact amount");
         }
 
         std::vector<Packet> storage_packets() const {
@@ -589,8 +612,10 @@ namespace {
         }
         const auto keeper = a.npcs.at(60001);
         rejected(a, protocol::Storage::frame_transfer_c2s(true, keeper, 1001, 3));
+        rejected(a, protocol::Storage::frame_money_c2s({keeper, true, 1}));
         a.open(keeper);
-        require(a.storage.items.empty(), "first account does not list foreign storage");
+        require(a.storage.items.empty() && a.balance.geon == 0,
+                "first account has no stored items or Geon");
         protocol::PacketWriter trailing_info;
         trailing_info.write_u32(a.npcs.at(60002));
         trailing_info.write_u8(1);
@@ -600,6 +625,19 @@ namespace {
             row(fixture.store->load_storage_items(fixture.characters[1].account_id), 2001).count ==
                 9,
             "foreign storage IID cannot be withdrawn by first account");
+
+        a.transfer_money(true, keeper, 75, 48, 75);
+        a.transfer_money(false, keeper, 72, 120, 3);
+        const auto account = fixture.characters[0].account_id;
+        const auto character = fixture.characters[0].id;
+        const auto money_before = a.money_updates;
+        a.transfer_money(false, keeper, 4, 120, 3);
+        const auto saved_wallet = fixture.store->load_character(character);
+        require(a.money_updates == money_before && saved_wallet && saved_wallet->money == 120 &&
+                    fixture.store->load_storage_money(account) == 3,
+                "overdraw rolls back the wallet and preserves the stored balance");
+        require(fixture.store->load_storage_money(fixture.characters[1].account_id) == 0,
+                "account Geon is isolated from other accounts");
 
         a.transfer(true, keeper, 1001, 3);
         transfer_order(a, 1001, 7, 60);
@@ -710,6 +748,8 @@ namespace {
         same_metadata(row(inventory, 1002), fixture.gear);
         require(fixture.store->load_storage_items(fixture.characters[0].account_id).empty(),
                 "empty first-account storage survives shutdown");
+        require(fixture.store->load_storage_money(account) == 3,
+                "account Geon survives closing and reopening the backend");
         const auto other_storage =
             fixture.store->load_storage_items(fixture.characters[1].account_id);
         require(other_storage.size() == static_cast<std::size_t>(opts.postgres ? 2 : 1) &&
@@ -722,7 +762,7 @@ namespace {
         restored.open(restored.npcs.at(60001));
         const auto restored_character = fixture.store->load_character(fixture.characters[0].id);
         require(
-            restored_character && restored_character->money == 0 &&
+            restored_character && restored_character->money == 0 && restored.balance.geon == 3 &&
                 restored.storage.items.empty() && restored.money == 0 &&
                 restored.money_updates == 0 && restored.bag.size() == 4 &&
                 restored.bag.at(1001).count == 7 && restored.bag.at(first_withdrawal).count == 2 &&
@@ -733,6 +773,7 @@ namespace {
                     protocol::insert_max_end(restored.bag.at(1002).info) == fixture.gear.max_end &&
                     protocol::insert_account_bound(restored.bag.at(1002).info),
                 "ordinary reconnect presents persisted instance flags and endurance");
+        restored.transfer_money(false, restored.npcs.at(60001), 3, 3, 0);
         if (opts.postgres) {
             enter(restored_other, fixture, opts, fixture.characters[1].id);
             restored_other.open(restored_other.npcs.at(60001));

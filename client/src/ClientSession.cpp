@@ -5818,6 +5818,13 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             }
         };
         auto send_pending_storage_transfers = [&](client::StorageClickResult result) {
+            if (result == client::StorageClickResult::MoneyTransfer) {
+                if (const auto request = storage_win.take_pending_money();
+                    request && want_net && net.connected()) {
+                    (void) net.send_storage_money(*request);
+                }
+                return;
+            }
             std::uint32_t iid = 0;
             std::uint32_t count = 0;
             while (storage_win.take_pending_transfer(iid, count)) {
@@ -5831,33 +5838,32 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 }
             }
         };
-        const auto shop_keyboard = shop_win.handle_keyboard(input);
-        if (shop_keyboard == client::ShopClickResult::Buy && want_net && net.connected()) {
-            (void) net.send_buy_item(
-                shop_win.npc_id(), shop_win.pending_index(), shop_win.pending_quantity());
-        } else if (shop_keyboard == client::ShopClickResult::Sell) {
-            send_pending_shop_sales();
+        const bool storage_quantity_open = storage_win.quantity_open();
+        const bool shop_quantity_open = shop_win.quantity_open();
+        if (storage_quantity_open) {
+            const auto result = storage_win.handle_keyboard(input);
+            if (result == client::StorageClickResult::Deposit ||
+                result == client::StorageClickResult::Withdraw ||
+                result == client::StorageClickResult::MoneyTransfer) {
+                send_pending_storage_transfers(result);
+            }
+        } else if (shop_quantity_open) {
+            const auto result = shop_win.handle_keyboard(input);
+            if (result == client::ShopClickResult::Buy && want_net && net.connected()) {
+                (void) net.send_buy_item(
+                    shop_win.npc_id(), shop_win.pending_index(), shop_win.pending_quantity());
+            } else if (result == client::ShopClickResult::Sell) {
+                send_pending_shop_sales();
+            }
         }
-        if (shop_keyboard != client::ShopClickResult::Ignored || shop_win.quantity_open()) {
+        if (storage_quantity_open || shop_quantity_open) {
             client::mute_gameplay_input(input);
             input.key_escape = false;
             input.key_escape_pressed = false;
             input.key_enter = false;
             input.key_enter_pressed = false;
-            input.text_char_count = 0;
-        }
-        const auto storage_keyboard = storage_win.handle_keyboard(input);
-        if (storage_keyboard == client::StorageClickResult::Deposit ||
-            storage_keyboard == client::StorageClickResult::Withdraw) {
-            send_pending_storage_transfers(storage_keyboard);
-        }
-        if (storage_keyboard != client::StorageClickResult::Ignored ||
-            storage_win.quantity_open()) {
-            client::mute_gameplay_input(input);
-            input.key_escape = false;
-            input.key_escape_pressed = false;
-            input.key_enter = false;
-            input.key_enter_pressed = false;
+            input.key_backspace_pressed = false;
+            input.key_delete_pressed = false;
             input.text_char_count = 0;
         }
         if (fishing_active || cooking_active) {
@@ -6265,7 +6271,19 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         inv_win.set_register_unlock_expire_ms(inventory_unlock_expire_ms);
         player_bag.set_compact_register_enabled(inv_win.register_enabled());
         inv_win.layout_size(static_cast<float>(input.width), static_cast<float>(input.height));
-        inv_win.update_pointer(input, player_bag);
+        const bool wheel_moved =
+            input.mouse_scroll != 0 || (read_only_session && observer_look.mouse_scroll != 0);
+        const bool storage_owns_wheel =
+            wheel_moved && storage_win.contains(input.mouse_x, input.mouse_y);
+        const bool inventory_owns_wheel =
+            wheel_moved && inv_win.contains(input.mouse_x, input.mouse_y);
+        if (storage_owns_wheel) {
+            auto inventory_input = input;
+            inventory_input.mouse_scroll = 0;
+            inv_win.update_pointer(inventory_input, player_bag);
+        } else {
+            inv_win.update_pointer(input, player_bag);
+        }
         npc_talk_win.update_pointer(input);
         blacksmith_win.update_pointer(input);
         speed_medicine_win.update_pointer(input);
@@ -6275,7 +6293,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         mix_win.update_pointer(input);
         shop_win.update_pointer(input, player_bag, item_catalog);
         skin_shop_win.update_pointer(input);
-        storage_win.update_pointer(input, player_bag);
+        storage_win.update_pointer(input, player_bag, item_catalog);
         if (inv_win.open() && inv_win.capturing_pointer() && !input.mouse_left) {
             const client::UiHit riding_drop =
                 riding_hit_at(input.mouse_x, input.mouse_y, game_hud.scale());
@@ -6386,32 +6404,29 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 log::debug("inventory pointer release ignored");
             }
         }
-        bool inv_ate_scroll =
-            std::fabs(input.mouse_scroll) > 0.0f &&
-            riding_hit_at(input.mouse_x, input.mouse_y, game_hud.scale()).kind() !=
-                client::UiHitKind::None;
+        bool ui_ate_scroll =
+            storage_owns_wheel || inventory_owns_wheel ||
+            (input.mouse_scroll != 0 &&
+             riding_hit_at(input.mouse_x, input.mouse_y, game_hud.scale()).kind() !=
+                 client::UiHitKind::None);
         if ((npc_talk_win.contains(input.mouse_x, input.mouse_y) ||
              skin_shop_win.contains(input.mouse_x, input.mouse_y)) &&
             std::fabs(input.mouse_scroll) > 0.0f) {
-            inv_ate_scroll = true;
+            ui_ate_scroll = true;
         }
-        if (inv_win.open() && std::fabs(input.mouse_scroll) > 0.0f &&
-            inv_win.contains(input.mouse_x, input.mouse_y)) {
-            inv_ate_scroll = true;  // consume wheel over inventory (pages use register tabs)
-        }
-        if (!inv_ate_scroll && skill_win.open() && std::fabs(input.mouse_scroll) > 0.0f &&
+        if (!ui_ate_scroll && skill_win.open() && std::fabs(input.mouse_scroll) > 0.0f &&
             skill_win.contains(input.mouse_x, input.mouse_y)) {
-            inv_ate_scroll = true;  // consume wheel so it doesn't zoom camera
+            ui_ate_scroll = true;
         }
-        if (!inv_ate_scroll && transform_win.open() && std::fabs(input.mouse_scroll) > 0.0f &&
+        if (!ui_ate_scroll && transform_win.open() && std::fabs(input.mouse_scroll) > 0.0f &&
             transform_win.contains(input.mouse_x, input.mouse_y)) {
-            inv_ate_scroll = true;
+            ui_ate_scroll = true;
         }
-        if (!inv_ate_scroll && char_info_win.open() && std::fabs(input.mouse_scroll) > 0.0f &&
+        if (!ui_ate_scroll && char_info_win.open() && std::fabs(input.mouse_scroll) > 0.0f &&
             char_info_win.contains(input.mouse_x, input.mouse_y)) {
-            inv_ate_scroll = true;
+            ui_ate_scroll = true;
         }
-        if (!inv_ate_scroll && std::fabs(input.mouse_scroll) > 0.0f &&
+        if (!ui_ate_scroll && std::fabs(input.mouse_scroll) > 0.0f &&
             game_hud.chat().contains_pointer(input.mouse_x,
                                              input.mouse_y,
                                              chat_panel.x(),
@@ -6419,7 +6434,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                                              chat_panel.w(),
                                              chat_panel.h(),
                                              game_hud.scale())) {
-            inv_ate_scroll = true;  // chat history scroll, not camera zoom
+            ui_ate_scroll = true;
         }
 
         skill_win.update_pointer(input);
@@ -7049,12 +7064,15 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     }
                 }
                 const auto storage_click = storage_win.handle_click(
-                    input.mouse_x, input.mouse_y, ui, player_bag, input.key_ctrl);
+                    input.mouse_x, input.mouse_y, ui, player_bag, item_catalog, input.key_ctrl);
                 if (storage_click != client::StorageClickResult::Ignored) {
                     ui_ate_click = true;
                     if (storage_click == client::StorageClickResult::Deposit ||
-                        storage_click == client::StorageClickResult::Withdraw) {
+                        storage_click == client::StorageClickResult::Withdraw ||
+                        storage_click == client::StorageClickResult::MoneyTransfer) {
                         send_pending_storage_transfers(storage_click);
+                    } else if (storage_click == client::StorageClickResult::Close) {
+                        in_game_window_order.closed(client::InGameWindowId::Storage);
                     }
                 }
                 const auto smith_click = blacksmith_win.handle_click(
@@ -7165,8 +7183,11 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         refresh_player_visuals();
                         sync_equip_net(inv_win.last_equip_op(), inv_win.last_equip_iid());
                     } else if (inv_click == client::ClickResult::SortRequested) {
+                        const bool quest = inv_win.tab() == client::Tab::Quest;
                         if (want_net && net.connected()) {
-                            (void) net.send_inventory_sort(inv_win.tab() == client::Tab::Quest);
+                            (void) net.send_inventory_sort(quest);
+                        } else if (!want_net) {
+                            inv_win.complete_sort(player_bag, quest);
                         }
                     } else if (inv_click == client::ClickResult::Consumed) {
                         (void) try_use_refresh_item(inv_win.last_consumed_index(),
@@ -8357,7 +8378,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
 
         {
             engine::FrameInput look = read_only_session ? observer_look : input;
-            if (inv_ate_scroll) {
+            if (ui_ate_scroll) {
                 look.mouse_scroll = 0;
             }
             if (inv_win.open() && inv_win.contains(input.mouse_x, input.mouse_y)) {
@@ -9489,6 +9510,10 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         storage_win.center_on_screen(static_cast<float>(input.width),
                                                      static_cast<float>(input.height));
                     }
+                }
+                protocol::StorageBalance storage_balance;
+                while (net.take_storage_balance(storage_balance)) {
+                    storage_win.set_balance(storage_balance);
                 }
                 const bool quest_state_changed = net.take_quest_state_changed();
                 const bool quest_accepted = net.take_quest_accepted();

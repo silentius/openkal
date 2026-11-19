@@ -153,6 +153,10 @@ CREATE TABLE IF NOT EXISTS accounts (
   protocol_kicks INTEGER NOT NULL DEFAULT 0 CHECK(protocol_kicks BETWEEN 0 AND 3),
   banned INTEGER NOT NULL DEFAULT 0 CHECK(banned IN (0,1))
 );
+CREATE TABLE IF NOT EXISTS account_storage_money (
+  account_id INTEGER PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,
+  balance INTEGER NOT NULL CHECK(balance >= 0)
+);
 CREATE TABLE IF NOT EXISTS characters (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   account_id INTEGER NOT NULL,
@@ -2199,6 +2203,83 @@ INSERT INTO schema_version(version) VALUES(28);
         }
         sqlite3_finalize(stmt);
         return out;
+    }
+
+    std::optional<std::int64_t> SqliteStore::load_storage_money(std::int32_t account_id) {
+        if (!m_impl || !m_impl->db || account_id <= 0) {
+            return std::nullopt;
+        }
+        auto* stmt = m_impl->prepare(
+            "SELECT COALESCE(s.balance,0) FROM accounts a LEFT JOIN account_storage_money s "
+            "ON s.account_id=a.id WHERE a.id=?");
+        if (!stmt) {
+            return std::nullopt;
+        }
+        sqlite3_bind_int(stmt, 1, account_id);
+        std::optional<std::int64_t> balance;
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            balance = sqlite3_column_int64(stmt, 0);
+        }
+        sqlite3_finalize(stmt);
+        return balance;
+    }
+
+    std::optional<std::int64_t> SqliteStore::transfer_storage_money(std::int32_t account_id,
+                                                                    std::int32_t character_id,
+                                                                    std::int64_t wallet_after,
+                                                                    std::int64_t change) {
+        if (!m_impl || !m_impl->db || account_id <= 0 || character_id <= 0 || wallet_after < 0 ||
+            change == 0 || change == std::numeric_limits<std::int64_t>::min() ||
+            !m_impl->exec("BEGIN IMMEDIATE")) {
+            return std::nullopt;
+        }
+        const auto rollback = [&]() -> std::optional<std::int64_t> {
+            (void) m_impl->exec("ROLLBACK");
+            return std::nullopt;
+        };
+        auto* stmt = m_impl->prepare(
+            "UPDATE characters SET money=? WHERE id=? AND account_id=? AND deletion_state=0");
+        if (!stmt) {
+            return rollback();
+        }
+        sqlite3_bind_int64(stmt, 1, wallet_after);
+        sqlite3_bind_int(stmt, 2, character_id);
+        sqlite3_bind_int(stmt, 3, account_id);
+        const bool wallet_updated =
+            sqlite3_step(stmt) == SQLITE_DONE && sqlite3_changes(m_impl->db) == 1;
+        sqlite3_finalize(stmt);
+        if (!wallet_updated) {
+            return rollback();
+        }
+        stmt = m_impl->prepare("INSERT INTO account_storage_money(account_id,balance) VALUES(?,0) "
+                               "ON CONFLICT(account_id) DO NOTHING");
+        if (!stmt) {
+            return rollback();
+        }
+        sqlite3_bind_int(stmt, 1, account_id);
+        const bool initialized = sqlite3_step(stmt) == SQLITE_DONE;
+        sqlite3_finalize(stmt);
+        if (!initialized) {
+            return rollback();
+        }
+        stmt = m_impl->prepare("UPDATE account_storage_money SET balance=balance+? "
+                               "WHERE account_id=? AND balance BETWEEN ? AND ?");
+        if (!stmt) {
+            return rollback();
+        }
+        sqlite3_bind_int64(stmt, 1, change);
+        sqlite3_bind_int(stmt, 2, account_id);
+        sqlite3_bind_int64(stmt, 3, std::max<std::int64_t>(0, -change));
+        sqlite3_bind_int64(
+            stmt, 4, std::numeric_limits<std::int64_t>::max() - std::max<std::int64_t>(0, change));
+        const bool balance_updated =
+            sqlite3_step(stmt) == SQLITE_DONE && sqlite3_changes(m_impl->db) == 1;
+        sqlite3_finalize(stmt);
+        const auto balance = balance_updated ? load_storage_money(account_id) : std::nullopt;
+        if (!balance || !m_impl->exec("COMMIT")) {
+            return rollback();
+        }
+        return balance;
     }
 
     bool SqliteStore::consume_item_with_rewards(const ItemRecord& box,

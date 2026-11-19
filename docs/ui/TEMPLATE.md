@@ -800,7 +800,7 @@ Drop rules stay in JSON, not in per-window C++.
 | `quest_journal.json` | `window` | `nine_slice` `dragon_dialog` | wrapped `quest_journal` canvas, section headings, quest emblem, anchored footer close |
 | `blacksmith.json` | `window` | `nine_slice` `dragon_dialog` | framed `blacksmith.weapon` slot, bound upgrade details, Dragon action buttons and footer close |
 | `shop.json` | `window` | `nine_slice` `dragon_dialog` | two filtered `icon_grid`s, selection/price/money `text`, buy/sell and quantity `button`s |
-| `storage.json` | `window` | `nine_slice` `info_menu` | character and account `icon_grid`s, six-register `tabs`, deposit/withdraw `button`s |
+| `storage.json` | `window` | `nine_slice` `dragon_dialog` | independently scrolled `icon_grid`s, item filters and sorting, Geon balances and a keyboard-editable quantity picker with grouped amounts |
 | `speed_medicine.json` | `window` | `nine_slice` `dragon_dialog` | two recipe counters, five requirement rows with owned/required columns, Make `button` |
 | `consumable_crafting.json` | `window` | `nine_slice` `dragon_dialog` | up to four recipe rows with materials, owned counts and Make `button`; future-family empty state |
 | `game_menu.json` | `window` | `nine_slice` `info_menu` | modal ESC actions and close confirmation |

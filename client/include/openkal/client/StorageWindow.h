@@ -21,15 +21,24 @@
 
 #include <array>
 #include <cstdint>
+#include <optional>
+#include <string>
 #include <utility>
 #include <vector>
 
 namespace openkal::client {
 
     /** Result of a pointer action in the account-storage window. */
-    enum class StorageClickResult { Ignored = 0, Consumed, Close, Deposit, Withdraw };
+    enum class StorageClickResult {
+        Ignored = 0,
+        Consumed,
+        Close,
+        Deposit,
+        Withdraw,
+        MoneyTransfer
+    };
 
-    /** Two-pane account storage with six persistent pages of 36 items. */
+    /** Scrollable character inventory and shared account storage. */
     class StorageWindow final {
       public:
         /** @return True while the storage window is visible. */
@@ -44,6 +53,11 @@ namespace openkal::client {
          * @param info Account-storage state.
          */
         void show(const protocol::StorageInfo& info);
+
+        /** Updates the balance of the open account storage.
+         * @param balance Server-authoritative keeper and balance.
+         */
+        void set_balance(const protocol::StorageBalance& balance);
 
         /** Binds the JSON layout. @param layout Layout; must outlive the window. */
         void set_layout(const UiLayout* layout) {
@@ -64,9 +78,9 @@ namespace openkal::client {
         /** @return True when the pointer is over the storage frame. */
         [[nodiscard]] bool contains(float mx, float my) const;
 
-        /** @return True while the title is being dragged. */
+        /** @return True while the title or a scroll track is being dragged. */
         [[nodiscard]] bool dragging() const {
-            return m_dragging;
+            return m_dragging || m_scroll_drag != Side::None;
         }
 
         /** @return True while the transfer quantity layer owns keyboard input. */
@@ -74,11 +88,12 @@ namespace openkal::client {
             return m_quantity_kind != QuantityKind::None;
         }
 
-        /** Updates dragging and tooltip selection.
+        /** Updates scrolling, dragging and tooltip selection.
          * @param input Current input.
          * @param bag Current player inventory.
+         * @param catalog Item definitions used by the filters.
          */
-        void update_pointer(const engine::FrameInput& input, const Bag& bag);
+        void update_pointer(const engine::FrameInput& input, const Bag& bag, const ItemDb& catalog);
 
         /** Edits or confirms the modal transfer quantity using keyboard input.
          * @param input Current input.
@@ -91,12 +106,17 @@ namespace openkal::client {
          * @param my Pointer Y.
          * @param ui Texture-aware widget helper.
          * @param bag Current player inventory.
+         * @param catalog Item definitions used by the filters.
          * @param ctrl_pressed True while compatibility behavior is held to toggle an additional
          * item mark.
          * @return Consumed action or ready transfer.
          */
-        [[nodiscard]] StorageClickResult
-        handle_click(float mx, float my, WidgetTools& ui, const Bag& bag, bool ctrl_pressed);
+        [[nodiscard]] StorageClickResult handle_click(float mx,
+                                                      float my,
+                                                      WidgetTools& ui,
+                                                      const Bag& bag,
+                                                      const ItemDb& catalog,
+                                                      bool ctrl_pressed);
 
         /** @return Runtime storage-keeper id. */
         [[nodiscard]] std::uint32_t npc_id() const {
@@ -109,6 +129,9 @@ namespace openkal::client {
          * @return True when another transfer was queued.
          */
         [[nodiscard]] bool take_pending_transfer(std::uint32_t& iid, std::uint32_t& count);
+
+        /** @return The confirmed Geon request, if one was queued. */
+        [[nodiscard]] std::optional<protocol::StorageMoneyTransfer> take_pending_money();
 
         /** Loads the layout's FreeType sizes. @param engine Texture owner. */
         void sync_fonts(engine::IEngine& engine);
@@ -149,24 +172,41 @@ namespace openkal::client {
                           int player_level) const;
 
       private:
-        enum class Side { None = 0, Inventory, Storage };
-        enum class QuantityKind { None = 0, Deposit, Withdraw };
+        enum class Side { Inventory, Storage, None };
+        enum class QuantityKind { None, Deposit, Withdraw, DepositMoney, WithdrawMoney };
+
+        struct PaneState {
+            int row = 0;
+            unsigned filters = 0;
+            bool sorted = false;
+        };
+
+        struct PaneView {
+            std::array<const ItemStack*, kBagSlots + kOtherSectionSlots> items{};
+            int slots = 0;
+        };
+        using PaneViews = std::array<PaneView, 2>;
 
         void reload_document() const;
-        [[nodiscard]] UiVarMap vars(const Bag& bag) const;
-        [[nodiscard]] const ItemStack* inventory_item(const Bag& bag, int cell) const;
+        [[nodiscard]] static Side side_from_bind(std::string_view bind);
+        [[nodiscard]] PaneViews make_views(const Bag& bag, const ItemDb& catalog) const;
+        [[nodiscard]] UiVarMap vars(const Bag& bag, const PaneViews& views) const;
+        [[nodiscard]] int visible_rows(Side side) const;
+        [[nodiscard]] int max_scroll_row(Side side, const PaneView& view) const;
+        void scroll_to_pointer(Side side, float my, const PaneView& view);
+        [[nodiscard]] std::uint64_t max_money(Side side, const Bag& bag) const;
         [[nodiscard]] const ItemStack* selected_item(const Bag& bag) const;
         [[nodiscard]] bool queue_marked_deposits(const Bag& bag);
         [[nodiscard]] bool queue_marked_withdrawals();
-        void begin_quantity(QuantityKind kind, std::uint32_t iid, std::uint32_t maximum);
+        void begin_quantity(QuantityKind kind, std::uint32_t iid, std::uint64_t maximum);
         [[nodiscard]] StorageClickResult confirm_quantity();
         void set_hover(const ItemStack* item, float mx, float my);
 
         bool m_open = false;
         float m_x = 120.0f;
         float m_y = 80.0f;
-        float m_w = 552.0f;
-        float m_h = 433.0f;
+        float m_w = 680.0f;
+        float m_h = 450.0f;
         float m_scale = 1.0f;
         const UiLayout* m_layout = nullptr;
         mutable UiDocument m_v1;
@@ -174,18 +214,22 @@ namespace openkal::client {
         std::array<ItemStack, protocol::kStorageCapacity> m_storage{};
         Side m_selected_side = Side::None;
         std::uint32_t m_selected_iid = 0;
-        int m_inventory_page = 0;
-        int m_storage_page = 0;
+        std::array<PaneState, 2> m_panes;
+        Side m_scroll_drag = Side::None;
         std::vector<std::uint32_t> m_marked_inventory_iids;
         std::vector<std::uint32_t> m_marked_storage_iids;
         std::vector<std::pair<std::uint32_t, std::uint32_t>> m_pending_transfers;
+        std::optional<std::int64_t> m_balance;
+        std::optional<protocol::StorageMoneyTransfer> m_pending_money;
         QuantityKind m_quantity_kind = QuantityKind::None;
-        std::uint32_t m_quantity = 1;
-        std::uint32_t m_quantity_max = 1;
+        std::uint64_t m_quantity = 1;
+        std::uint64_t m_quantity_max = 1;
         std::uint32_t m_quantity_iid = 0;
         bool m_quantity_typing_started = false;
         FreetypeFont m_body_font;
         FreetypeFont m_title_font;
+        std::string m_hover_widget;
+        bool m_pointer_pressed = false;
         int m_hover_item_index = 0;
         int m_hover_item_count = 0;
         int m_hover_prefix = 0;

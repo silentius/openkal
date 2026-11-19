@@ -3480,16 +3480,17 @@ namespace {
             p.clear_audit();
             const bool end = p.info(storage_payload(protocol::Storage::frame_info_c2s(p.keeper())));
             const auto packets = p.drain();
-            expect(end && packets[0].size() == (count == 215 ? 1u : 0u) && p.audit().empty(),
-                   "215 storage rows fit while216 produce the existing empty-frame result");
-            if (count == 215 && packets[0].size() == 1) {
+            expect(end && packets[0].size() == 1 && p.audit().empty(),
+                   "the storage snapshot includes every occupied slot up to full capacity");
+            if (packets[0].size() == 1) {
                 protocol::StorageInfo info;
                 const auto& frame = packets[0].front();
-                expect(frame.size() == 7964 &&
+                expect(frame.size() == (count == 215 ? 7964u : 8000u) &&
                            protocol::Storage::parse_info_s2c(
                                frame.data() + 3, frame.size() - 3, info) &&
-                           info.items.size() == 215 && info.items.front().iid == 1000 &&
-                           info.items.back().iid == 1214 &&
+                           info.items.size() == static_cast<std::size_t>(count) &&
+                           info.items.front().iid == 1000 &&
+                           info.items.back().iid == static_cast<std::uint32_t>(999 + count) &&
                            info.items.front().charm.x_attack == 11 &&
                            info.items.front().transform_level == 5 &&
                            info.items.front().transform_exp == 234,
