@@ -5697,7 +5697,7 @@ namespace openkal::server {
                 return;
             }
             const int amount = static_cast<int>(
-                std::min<std::int64_t>(std::max<std::int64_t>(c.money, 0), 2000000000));
+                std::clamp<std::int64_t>(c.money, 0, protocol::kStorageWalletLimit));
             c.sock->enqueue(frame_insert_item(0,
                                               static_cast<std::uint16_t>(kMoneyItemIndex),
                                               0,
@@ -9359,6 +9359,47 @@ namespace openkal::server {
             c.active_storage_npc_id = npc_id;
             send_storage_info(store, c);
             return true;
+        }
+
+        void handle_storage_money_request(ClientSession& c,
+                                          const std::vector<std::uint8_t>& payload,
+                                          const NpcRegistry& npcs,
+                                          IDataStore* store) {
+            protocol::StorageMoneyTransfer request;
+            if (!protocol::Storage::parse_money_c2s(payload.data(), payload.size(), request) ||
+                request.npc_id != c.active_storage_npc_id || !store || !c.sock ||
+                c.character_id <= 0 || c.account_id <= 0) {
+                return;
+            }
+            const NpcEntity* npc = npcs.find(request.npc_id);
+            if (!npc || !npc->storage_keeper || npc->map != c.map ||
+                !in_npc_talk_range(c.px, c.py, npc->x, npc->y)) {
+                return;
+            }
+            if (c.money < 0 ||
+                (request.deposit ? request.amount > c.money
+                                 : request.amount > protocol::kStorageWalletLimit - c.money)) {
+                send_system_chat(c,
+                                 request.deposit ? "You do not have that much Geon."
+                                                 : "Your wallet cannot hold that much Geon.");
+                send_money_absolute(c);
+                return;
+            }
+            const auto change = request.deposit ? request.amount : -request.amount;
+            const auto wallet_after = c.money - change;
+            const auto balance =
+                store->transfer_storage_money(c.account_id, c.character_id, wallet_after, change);
+            if (!balance) {
+                send_system_chat(c, "The storage Geon transfer could not be completed.");
+                if (const auto saved_balance = store->load_storage_money(c.account_id)) {
+                    c.sock->enqueue(
+                        protocol::Storage::frame_money_s2c({request.npc_id, *saved_balance}));
+                }
+                return;
+            }
+            c.money = wallet_after;
+            send_money_absolute(c);
+            c.sock->enqueue(protocol::Storage::frame_money_s2c({request.npc_id, *balance}));
         }
 
         /** Returns false only where the previous frame route continued; true is not business success. */
@@ -15371,6 +15412,15 @@ namespace openkal::server {
                         if (!handle_storage_info_request(c, payload, m_npcs, m_store.get())) {
                             continue;
                         }
+                        if (m_store && c.sock) {
+                            if (const auto balance = m_store->load_storage_money(c.account_id)) {
+                                c.sock->enqueue(protocol::Storage::frame_money_s2c(
+                                    {c.active_storage_npc_id, *balance}));
+                            }
+                        }
+                    } else if (c.phase == SessionPhase::Playing &&
+                               type == static_cast<std::uint8_t>(protocol::C2S::StorageMoney)) {
+                        handle_storage_money_request(c, payload, m_npcs, m_store.get());
                     } else if (c.phase == SessionPhase::Playing &&
                                type == static_cast<std::uint8_t>(protocol::C2S::PutInStorage)) {
                         if (!handle_storage_deposit_request(

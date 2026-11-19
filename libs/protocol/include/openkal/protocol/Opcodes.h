@@ -133,6 +133,7 @@ namespace openkal::protocol {
         TradingPostPickup,      // OpenKal committed market pickup receipt.
         ClockSync,              // OpenKal server clock, session duration and event schedule.
         SortInventory,          // Request: section byte; reply: section byte and committed flag.
+        StorageMoney,           // OpenKal account storage balance.
         End,
     };
 
@@ -241,6 +242,7 @@ namespace openkal::protocol {
         PlayerOptions,  // OpenKal selected-player context actions.
         TradingPost,    // OpenKal anonymous marketplace.
         SortInventory,  // Request: section byte; reply: section byte and committed flag.
+        StorageMoney,   // OpenKal account storage Geon transfer.
         End,
     };
 

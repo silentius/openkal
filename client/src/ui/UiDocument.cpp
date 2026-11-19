@@ -1506,16 +1506,17 @@ namespace openkal::client {
         vars["storage.title"] = "Account Storage";
         vars["storage.inventory_label"] = "Inventory";
         vars["storage.storage_label"] = "Storage";
-        vars["storage.inventory_tab"] = "inventory";
-        vars["storage.storage_tab"] = "storage";
-        vars["storage.inventory_page"] = "0";
-        vars["storage.page"] = "0";
+        vars["storage.sort_label"] = "Sort";
+        vars["storage.inventory.scroll"] = "0";
+        vars["storage.items.scroll"] = "0";
         vars["storage.money"] = "12345";
-        vars["storage.fee"] = "60 Geon per transfer · CTRL: select multiple";
+        vars["storage.account_money"] = "5000";
+        vars["storage.fee"] = "Item deposit: 60 Geon | Ctrl-click to mark more";
         vars["storage.count_text"] = "12/216";
         vars["storage.selected_name"] = "Select an item";
         vars["storage.quantity_open"] = "false";
         vars["storage.quantity_prompt"] = "Deposit quantity";
+        vars["storage.quantity_hint"] = "Type an amount, then press Enter";
         vars["storage.quantity"] = "1";
     }
 

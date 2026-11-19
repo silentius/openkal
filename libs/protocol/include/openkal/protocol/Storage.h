@@ -27,6 +27,9 @@ namespace openkal::protocol {
     /** Total number of item cells in account storage. */
     inline constexpr int kStorageCapacity = kStorageRegisters * kStorageSlotsPerRegister;
 
+    /** Highest wallet balance represented by the existing absolute Geon packet. */
+    inline constexpr std::int64_t kStorageWalletLimit = 2'000'000'000;
+
     /** One item instance in an account-storage snapshot. */
     struct StorageItem {
         std::uint32_t iid = 0;
@@ -44,6 +47,19 @@ namespace openkal::protocol {
     struct StorageInfo {
         std::uint32_t npc_id = 0;
         std::vector<StorageItem> items;
+    };
+
+    /** Account Geon balance associated with an open keeper. */
+    struct StorageBalance {
+        std::uint32_t npc_id = 0;
+        std::int64_t geon = 0;
+    };
+
+    /** Geon transfer requested at an open keeper. */
+    struct StorageMoneyTransfer {
+        std::uint32_t npc_id = 0;
+        bool deposit = false;
+        std::int64_t amount = 0;
     };
 
     /** Encodes and decodes account-storage packets. */
@@ -93,6 +109,38 @@ namespace openkal::protocol {
                                                      std::uint32_t& npc_id,
                                                      std::uint32_t& iid,
                                                      std::uint32_t& count);
+
+        /** Builds a Geon transfer request.
+         * @param transfer Keeper, direction and positive amount.
+         * @return Framed packet or empty for invalid fields.
+         */
+        [[nodiscard]] static std::vector<std::uint8_t>
+        frame_money_c2s(const StorageMoneyTransfer& transfer);
+
+        /** Parses a Geon transfer request.
+         * @param data Payload.
+         * @param size Payload size.
+         * @param transfer Decoded request.
+         * @return True for a valid request.
+         */
+        [[nodiscard]] static bool
+        parse_money_c2s(const std::uint8_t* data, std::size_t size, StorageMoneyTransfer& transfer);
+
+        /** Builds an account balance update.
+         * @param balance Keeper and current account balance.
+         * @return Framed packet or empty for invalid fields.
+         */
+        [[nodiscard]] static std::vector<std::uint8_t>
+        frame_money_s2c(const StorageBalance& balance);
+
+        /** Parses an account balance update.
+         * @param data Payload.
+         * @param size Payload size.
+         * @param balance Decoded balance.
+         * @return True for a valid balance.
+         */
+        [[nodiscard]] static bool
+        parse_money_s2c(const std::uint8_t* data, std::size_t size, StorageBalance& balance);
     };
 
 }  // namespace openkal::protocol

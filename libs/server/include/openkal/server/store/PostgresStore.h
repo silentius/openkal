@@ -147,6 +147,17 @@ namespace openkal::server {
         [[nodiscard]] std::vector<ItemRecord> load_items(std::int32_t character_id) override;
         [[nodiscard]] std::vector<ItemRecord> load_storage_items(std::int32_t account_id) override;
 
+        /** @copydoc IDataStore::load_storage_money */
+        [[nodiscard]] std::optional<std::int64_t>
+        load_storage_money(std::int32_t account_id) override;
+
+        /** @copydoc IDataStore::transfer_storage_money */
+        [[nodiscard]] std::optional<std::int64_t>
+        transfer_storage_money(std::int32_t account_id,
+                               std::int32_t character_id,
+                               std::int64_t wallet_after,
+                               std::int64_t change) override;
+
         /** Inserts one inventory row.
          * @param item Inventory item state.
          * @return True on success.

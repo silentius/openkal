@@ -328,7 +328,7 @@ namespace {
     }
 
     void categories() {
-        expect(item_filter_category(nullptr) == 5, "unknown item definitions belong to Other");
+        expect(inventory_filter_category(nullptr) == 5, "unknown item definitions belong to Other");
         for (const auto& row : std::vector<std::pair<std::string, int>>{{"skin", 4},
                                                                         {"pet", 4},
                                                                         {"limitedpet", 4},
@@ -342,13 +342,13 @@ namespace {
             def.set_index(91000);
             def.set_class_big(row.first);
             def.set_class_small(row.first == "skin" ? "helmet" : "normal");
-            expect(item_filter_category(&def) == row.second,
+            expect(inventory_filter_category(&def) == row.second,
                    "each supported class reaches its inventory category");
         }
         for (const char* part : {"face", "mask"}) {
             ItemDef def;
             def.set_class_small(part);
-            expect(item_filter_category(&def) == 4,
+            expect(inventory_filter_category(&def) == 4,
                    "face and mask use the cosmetic category before defense");
         }
         for (int variant = 0; variant < 3; ++variant) {
@@ -362,7 +362,7 @@ namespace {
             if (variant == 2) {
                 def.set_bof(true);
             }
-            expect(item_filter_category(&def) == 3,
+            expect(inventory_filter_category(&def) == 3,
                    "each metadata-defined upgrade uses Enchantment");
         }
         // These are existing semantic IDs, exercised as in-memory values only.
@@ -370,17 +370,19 @@ namespace {
         for (int index : {23017, 23018, 23019, 23020, 23021, 23022, 23026, 24003, 24057, 24062}) {
             ItemDef def;
             def.set_index(index);
-            expect(item_filter_category(&def) == 3, "each special upgrade family uses Enchantment");
+            expect(inventory_filter_category(&def) == 3,
+                   "each special upgrade family uses Enchantment");
         }
         ItemDef medicine;
         medicine.set_refresh_hp(1);
-        expect(item_filter_category(&medicine) == 0, "consumables use their distinct category");
+        expect(inventory_filter_category(&medicine) == 0,
+               "consumables use their distinct category");
         medicine.set_class_big("weapon");
-        expect(item_filter_category(&medicine) == 1,
+        expect(inventory_filter_category(&medicine) == 1,
                "specific equipment classification precedes consumable metadata");
         expect(filter_button_index("unknown") == -1, "unknown filter button has no category");
         for (int i = 0; i < 6; ++i) {
-            expect(filter_button_index(std::string("filter.") + kFilterIds[i]) == i,
+            expect(filter_button_index(std::string("filter.") + kInventoryFilterIds[i]) == i,
                    "every filter button maps to the documented category order");
         }
     }
@@ -448,7 +450,7 @@ namespace {
         for (int i = 0; i < 6; ++i) {
             if (window.filter_active(i) != ((mask & (1u << i)) != 0)) {
                 const auto point =
-                    control(window, document, std::string("filter.") + kFilterIds[i]);
+                    control(window, document, std::string("filter.") + kInventoryFilterIds[i]);
                 expect(window.handle_click(point.first, point.second, bag, wear) ==
                            ClickResult::Handled,
                        "filter click changes one category without mutating bag items");

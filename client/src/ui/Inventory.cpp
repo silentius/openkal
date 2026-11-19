@@ -30,49 +30,58 @@
 #include <utility>
 
 namespace openkal::client {
-    namespace {
+    int inventory_filter_index(std::string_view id) {
+        const auto found = std::find(kInventoryFilterIds.begin(), kInventoryFilterIds.end(), id);
+        return found == kInventoryFilterIds.end()
+                   ? -1
+                   : static_cast<int>(found - kInventoryFilterIds.begin());
+    }
 
-        constexpr std::array<const char*, 6> kFilterIds{
-            "consumables", "weapons", "armors", "enchantment", "skins_pets", "other"};
-        constexpr std::array<const char*, 6> kFilterLabels{
-            "Consumables", "Weapons", "Armors", "Enchantment", "Skins & Pets", "Other items"};
-
-        int filter_button_index(std::string_view id) {
-            for (int i = 0; i < static_cast<int>(kFilterIds.size()); ++i) {
-                if (id == std::string("filter.") + kFilterIds[i]) {
-                    return i;
-                }
-            }
-            return -1;
+    int inventory_filter_category(const ItemDef* def) {
+        if (!def) {
+            return 5;
         }
+        if (def->is_skin() || def->is_pet() || def->is_transform() || def->is_ride() ||
+            def->class_small() == "face" || def->class_small() == "mask") {
+            return 4;
+        }
+        if (def->is_weapon()) {
+            return 1;
+        }
+        if (def->is_defense() || def->is_ornament()) {
+            return 2;
+        }
+        if (def->has_changeprefix() || def->has_charming() || def->has_bof() ||
+            server::Qigong::is_perforation_shot(def->index()) ||
+            server::Qigong::is_talisman(def->index()) ||
+            server::DragonFusing::is_scroll(def->index()) ||
+            server::enchantment_talisman_grade(def->index()) != 0 ||
+            def->index() == server::kRevisionHammerIndex ||
+            def->index() == server::kPolishingStoneIndex ||
+            server::collection_def(def->index()).material ||
+            server::collection_def(def->index()).kind == server::CollectionKind::Essence ||
+            def->index() == server::kYeoijuFortification) {
+            return 3;
+        }
+        return def->is_consumable() ? 0 : 5;
+    }
 
-        int item_filter_category(const ItemDef* def) {
-            if (!def) {
-                return 5;
-            }
-            if (def->is_skin() || def->is_pet() || def->is_transform() || def->is_ride() ||
-                def->class_small() == "face" || def->class_small() == "mask") {
-                return 4;
-            }
-            if (def->is_weapon()) {
-                return 1;
-            }
-            if (def->is_defense() || def->is_ornament()) {
-                return 2;
-            }
-            if (def->has_changeprefix() || def->has_charming() || def->has_bof() ||
-                server::Qigong::is_perforation_shot(def->index()) ||
-                server::Qigong::is_talisman(def->index()) ||
-                server::DragonFusing::is_scroll(def->index()) ||
-                server::enchantment_talisman_grade(def->index()) != 0 ||
-                def->index() == server::kRevisionHammerIndex ||
-                def->index() == server::kPolishingStoneIndex ||
-                server::collection_def(def->index()).material ||
-                server::collection_def(def->index()).kind == server::CollectionKind::Essence ||
-                def->index() == server::kYeoijuFortification) {
-                return 3;
-            }
-            return def->is_consumable() ? 0 : 5;
+    bool inventory_stack_precedes(const ItemStack& a,
+                                  const ItemStack& b,
+                                  std::string_view a_name,
+                                  std::string_view b_name) {
+        if (a_name != b_name) {
+            return a_name < b_name;
+        }
+        if (a.index != b.index) {
+            return a.index < b.index;
+        }
+        return a.count > b.count;
+    }
+
+    namespace {
+        int filter_button_index(std::string_view id) {
+            return id.substr(0, 7) == "filter." ? inventory_filter_index(id.substr(7)) : -1;
         }
 
         /** Steady clock ms for equip cooldown checks. */
@@ -810,15 +819,9 @@ namespace openkal::client {
                              }
                              const auto* ad = catalog ? catalog->find(a.index) : nullptr;
                              const auto* bd = catalog ? catalog->find(b.index) : nullptr;
-                             const std::string an = ad ? ad->name() : std::string{};
-                             const std::string bn = bd ? bd->name() : std::string{};
-                             if (an != bn) {
-                                 return an < bn;
-                             }
-                             if (a.index != b.index) {
-                                 return a.index < b.index;
-                             }
-                             return a.count > b.count;
+                             const std::string_view an = ad ? ad->name() : std::string_view{};
+                             const std::string_view bn = bd ? bd->name() : std::string_view{};
+                             return inventory_stack_precedes(a, b, an, bn);
                          });
     }
 
@@ -1032,13 +1035,7 @@ namespace openkal::client {
             }
         }
         std::stable_sort(items.begin(), items.end(), [](const NamedStack& a, const NamedStack& b) {
-            if (a.name != b.name) {
-                return a.name < b.name;
-            }
-            if (a.stack.index != b.stack.index) {
-                return a.stack.index < b.stack.index;
-            }
-            return a.stack.count > b.stack.count;
+            return inventory_stack_precedes(a.stack, b.stack, a.name, b.name);
         });
         std::size_t next = 0;
         for (int i = 0; i < kBagSlots; ++i) {
@@ -1469,8 +1466,8 @@ namespace openkal::client {
                 }
                 const auto& item = bag.normal[source];
                 if (item.index != 0 && item.count > 0 &&
-                    filter_active(
-                        item_filter_category(m_catalog ? m_catalog->find(item.index) : nullptr))) {
+                    filter_active(inventory_filter_category(m_catalog ? m_catalog->find(item.index)
+                                                                      : nullptr))) {
                     m_general_projection[cells[display++]] = source;
                 }
             }
@@ -2599,7 +2596,8 @@ namespace openkal::client {
                     : "false";
         }
         for (int category = 0; category < 6; ++category) {
-            const std::string key = std::string("inventory.filter.") + kFilterIds[category];
+            const std::string key =
+                std::string("inventory.filter.") + kInventoryFilterIds[category];
             vars[key] = filter_active(category) ? "true" : "false";
             vars[key + "_visible"] =
                 m_tab == Tab::Normal && filter_active(category) ? "true" : "false";
@@ -2756,7 +2754,7 @@ namespace openkal::client {
                                                             : nullptr;
             if (tip) {
                 std::vector<TipLine> lines(3);
-                lines[0].add(kFilterLabels[category], .9f, .8f, .6f);
+                lines[0].add(kInventoryFilterLabels[category], .9f, .8f, .6f);
                 lines[1].add(filter_active(category) ? "Selected - click to turn off"
                                                      : "Click to select this category",
                              .9f,

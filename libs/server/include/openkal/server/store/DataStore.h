@@ -528,6 +528,26 @@ namespace openkal::server {
         [[nodiscard]] virtual std::vector<ItemRecord>
         load_storage_items(std::int32_t account_id) = 0;
 
+        /** Loads the saved Geon balance for an account.
+         * @param account_id Owning account.
+         * @return Balance, zero for a new account, or empty on failure.
+         */
+        [[nodiscard]] virtual std::optional<std::int64_t>
+        load_storage_money(std::int32_t account_id) = 0;
+
+        /** Commits the account balance change and character wallet as a single transaction.
+         * @param account_id Owning account.
+         * @param character_id Active character.
+         * @param wallet_after Server-authoritative wallet after the transfer.
+         * @param change Signed change to the account balance.
+         * @return Committed account balance, or empty if either change was rejected.
+         */
+        [[nodiscard]] virtual std::optional<std::int64_t>
+        transfer_storage_money(std::int32_t account_id,
+                               std::int32_t character_id,
+                               std::int64_t wallet_after,
+                               std::int64_t change) = 0;
+
         /** Inserts one inventory row. */
         [[nodiscard]] virtual bool insert_item(const ItemRecord& item) = 0;
 
@@ -833,6 +853,17 @@ namespace openkal::server {
         /** Loads inventory rows. */
         [[nodiscard]] std::vector<ItemRecord> load_items(std::int32_t character_id) override;
         [[nodiscard]] std::vector<ItemRecord> load_storage_items(std::int32_t account_id) override;
+
+        /** @copydoc IDataStore::load_storage_money */
+        [[nodiscard]] std::optional<std::int64_t>
+        load_storage_money(std::int32_t account_id) override;
+
+        /** @copydoc IDataStore::transfer_storage_money */
+        [[nodiscard]] std::optional<std::int64_t>
+        transfer_storage_money(std::int32_t account_id,
+                               std::int32_t character_id,
+                               std::int64_t wallet_after,
+                               std::int64_t change) override;
 
         /** Inserts one inventory row. */
         [[nodiscard]] bool insert_item(const ItemRecord& item) override;

@@ -398,43 +398,75 @@ int main() {
     {
         UiDocument doc;
         if (load_v1("storage", doc)) {
-            expect(doc.chrome_preset() == "info_menu", "storage preset");
-            expect(doc.find_widget("inventory") != nullptr, "storage player grid");
-            expect(doc.find_widget("storage_items") != nullptr, "storage account grid");
-            expect(doc.find_widget("inventory_registers") != nullptr,
-                   "storage inventory registers");
+            expect(doc.chrome_preset() == "dragon_dialog" &&
+                       doc.chrome_kind() == openkal::client::UiChromeKind::NineSlice &&
+                       !doc.chrome_close_button(),
+                   "storage uses the Dragon frame with a footer close control");
             UiDocument roundtrip;
-            expect(roundtrip.load(doc.to_json()), "storage texture round-trip load");
-            const auto* texture = roundtrip.find_widget("background");
-            expect(texture && texture->repeat() && texture->source().x == 5 &&
-                       texture->source().y == 378 && texture->source().w == 232 &&
-                       texture->source().h == 36,
-                   "editor save preserves texture crop and native tiling");
-            const auto* inventory_header = doc.find_widget("inventory_header_tab");
-            const auto* storage_header = doc.find_widget("storage_header_tab");
-            expect(inventory_header && inventory_header->bind() == "storage.inventory_tab" &&
-                       inventory_header->tabs().size() == 1,
-                   "storage inventory header tab");
-            expect(storage_header && storage_header->bind() == "storage.storage_tab" &&
-                       storage_header->tabs().size() == 1,
-                   "storage account header tab");
-            const auto* registers = doc.find_widget("storage_registers");
-            expect(registers && registers->tabs().size() == 6, "storage exposes all six registers");
-            expect(registers && registers->tabs()[0].x() == 303.0f &&
-                       registers->tabs()[5].x() == 483.0f,
-                   "storage registers use right-pane coordinates");
-            expect(doc.find_widget("deposit") != nullptr, "storage deposit action");
-            expect(doc.find_widget("withdraw") != nullptr, "storage withdraw action");
-            expect(doc.find_widget("inventory_hint_background") != nullptr,
-                   "storage hides inventory destroy affordance");
-            expect(doc.find_widget("storage_hint_background") != nullptr,
-                   "storage hides account-storage destroy affordance");
-            const auto* quantity = doc.find_widget("quantity");
-            expect(quantity && quantity->bind() == "storage.quantity",
-                   "storage quantity input binding");
-            expect(doc.find_widget("quantity_all") != nullptr, "storage quantity all action");
-            expect(doc.find_widget("quantity_confirm") != nullptr,
-                   "storage quantity confirm action");
+            expect(roundtrip.load(doc.to_json()), "storage layout survives editor roundtrip");
+            const auto verify_pane = [&](const char* grid_id,
+                                         const std::string& bind,
+                                         const std::string& prefix,
+                                         int rows) {
+                const auto* grid = roundtrip.find_widget(grid_id);
+                expect(grid && grid->bind() == bind && grid->cols() == 6 && grid->rows() == rows &&
+                           grid->frame_file() == "dragon_hud/slot_normal.bmp" &&
+                           grid->scroll_bind() == bind + ".scroll",
+                       "storage grid preserves its own scroll binding");
+                const auto* sort = roundtrip.find_widget(prefix + "_sort");
+                expect(sort && sort->action() == "storage.sort" && sort->bind() == bind,
+                       "storage sort targets only its own pane");
+                if (grid) {
+                    const auto visible = openkal::client::ui_scrolled_widget(
+                        *grid, roundtrip, {{grid->scroll_bind(), std::to_string((rows - 5) * 46)}});
+                    expect(visible.visible() && visible.rows() == 5 &&
+                               visible.first_slot() == (rows - 5) * 6,
+                           "storage scrolls to every cell and clips the other rows");
+                }
+                for (const auto* category :
+                     {"consumables", "weapons", "armors", "enchantment", "skins_pets", "other"}) {
+                    const auto* button = roundtrip.find_widget(prefix + "_filter_" + category);
+                    const auto* active =
+                        roundtrip.find_widget(prefix + "_filter_selected_" + category);
+                    expect(button && button->bind() == bind &&
+                               button->action() == std::string("storage.filter.") + category &&
+                               active && active->visible_when() == bind + ".filter." + category,
+                           "storage filter remains independent on each side");
+                }
+            };
+            verify_pane("inventory", "storage.inventory", "inventory", 42);
+            verify_pane("storage_items", "storage.items", "storage", 36);
+            const auto* header = roundtrip.find_widget("inventory_label");
+            const auto* emblem = roundtrip.find_widget("dialog_icon");
+            expect(header && emblem && header->y() > emblem->y() + emblem->h(),
+                   "inventory header sits below the frame emblem");
+            const auto* deposit = roundtrip.find_widget("deposit");
+            const auto* withdraw = roundtrip.find_widget("withdraw");
+            expect(deposit && deposit->action() == "storage.deposit" && withdraw &&
+                       withdraw->action() == "storage.withdraw",
+                   "storage actions survive editor roundtrip");
+            const auto* deposit_money = roundtrip.find_widget("deposit_money");
+            const auto* withdraw_money = roundtrip.find_widget("withdraw_money");
+            expect(deposit_money && deposit_money->action() == "storage.money.deposit" &&
+                       withdraw_money && withdraw_money->action() == "storage.money.withdraw",
+                   "wallet and account each have a separate Geon action");
+            const auto* close = roundtrip.find_widget("close");
+            expect(close && close->action() == "window.close" && close->y_from_bottom() == 0,
+                   "storage footer closes the window");
+            const auto* panel = roundtrip.find_widget("quantity_panel_texture");
+            const auto* quantity = roundtrip.find_widget("quantity");
+            expect(quantity &&
+                       ui_interpolate(quantity->text(), {{"storage.quantity", "2000000000"}}) ==
+                           "2,000,000,000",
+                   "storage amount input displays thousands separators");
+            const auto* all = roundtrip.find_widget("quantity_all");
+            const auto* confirm = roundtrip.find_widget("quantity_confirm");
+            expect(panel && panel->file() == "dragon_dialog/panel_background.bmp" &&
+                       panel->visible_when() == "storage.quantity_open" && quantity &&
+                       quantity->bind() == "storage.quantity" && all &&
+                       all->action() == "storage.quantity.all" && confirm &&
+                       confirm->action() == "storage.quantity.confirm",
+                   "storage keeps the Dragon quantity layer and its controls");
         }
     }
     {

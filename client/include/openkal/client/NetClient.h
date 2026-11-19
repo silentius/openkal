@@ -1193,6 +1193,18 @@ namespace openkal::client {
          */
         [[nodiscard]] bool take_storage_info(protocol::StorageInfo& out);
 
+        /** Sends a Geon transfer at an open keeper.
+         * @param transfer Keeper, direction and amount.
+         * @return True if sent.
+         */
+        [[nodiscard]] bool send_storage_money(const protocol::StorageMoneyTransfer& transfer);
+
+        /** Consumes one pending account balance.
+         * @param out Decoded balance.
+         * @return True if pending.
+         */
+        [[nodiscard]] bool take_storage_balance(protocol::StorageBalance& out);
+
         /** Sends a talent-tree request.
          * @param command Request operation.
          * @param expected Last authoritative mask.
@@ -2280,6 +2292,7 @@ namespace openkal::client {
 
         /** Pending server-authoritative account-storage snapshots. */
         std::deque<protocol::StorageInfo> m_pending_storage_info;
+        std::deque<protocol::StorageBalance> m_pending_storage_balances;
 
         /** Latest server-authoritative system-mail inbox. */
         std::vector<protocol::MailEntry> m_mail;
