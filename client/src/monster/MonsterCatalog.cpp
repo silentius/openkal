@@ -321,6 +321,10 @@ namespace openkal::client {
         }
     }
 
+    MonsterRig MonsterCatalog::read_appearance(const platform::Json& appearance) {
+        return rig_from_appearance(appearance);
+    }
+
     bool MonsterCatalog::load_json_dir(const std::string& dir) {
         m_rigs.clear();
         m_bones.clear();
@@ -369,7 +373,7 @@ namespace openkal::client {
                 pending.push_back(std::move(row));
                 continue;
             }
-            m_rigs[index] = rig_from_appearance(app);
+            m_rigs[index] = read_appearance(app);
             if (m_rigs[index].clothes_index() <= 0) {
                 m_rigs[index].set_clothes_index(index);
             }

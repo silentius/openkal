@@ -17,10 +17,13 @@
 
 #include <QApplication>
 #include <QCursor>
+#include <QFileInfo>
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QOffscreenSurface>
 #include <QOpenGLContext>
+#include <QOpenGLFramebufferObject>
 #include <QQuaternion>
 
 #include <algorithm>
@@ -46,11 +49,14 @@ layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 uv;
 uniform mat4 uCamera;
 uniform mat4 uModel;
+uniform vec3 uLightingOrigin;
 out vec2 texcoord;
 out vec3 world;
+out vec3 lightingPosition;
 void main() {
     vec4 p = uModel * vec4(position, 1.0);
     world = p.xyz;
+    lightingPosition = p.xyz - uLightingOrigin;
     texcoord = uv;
     gl_Position = uCamera * p;
 }
@@ -59,6 +65,7 @@ void main() {
         constexpr char kFragmentShader[] = R"(#version 330 core
 in vec2 texcoord;
 in vec3 world;
+in vec3 lightingPosition;
 uniform sampler2D uColor;
 uniform sampler2D uDetail;
 uniform bool uTerrain;
@@ -66,6 +73,7 @@ uniform bool uBase;
 uniform bool uCutout;
 uniform bool uSelected;
 uniform bool uActive;
+uniform bool uPatchEdges;
 uniform bool uWater;
 uniform float uRepeat;
 uniform float uWaterUvScale;
@@ -88,15 +96,17 @@ void main() {
     if (uCutout && color.a < 0.45) {
         discard;
     }
-    vec3 normal = normalize(cross(dFdx(world), dFdy(world)));
+    vec3 normal = normalize(cross(dFdx(lightingPosition), dFdy(lightingPosition)));
     float lighting = 0.68 + 0.32 * abs(dot(normal, normalize(vec3(-0.38, 0.85, 0.35))));
     if (uTerrain) {
         vec3 detail = texture(uDetail, texcoord * uRepeat).rgb;
         color.rgb = min(color.rgb * detail * 2.0, 1.0) * lighting;
-        vec2 edge = min(texcoord, 1.0 - texcoord) / max(fwidth(texcoord), vec2(1e-6));
-        float border = 1.0 - smoothstep(0.7, 1.8, min(edge.x, edge.y));
-        vec3 line = uActive ? vec3(0.26, 0.85, 1.0) : vec3(0.40, 0.62, 0.69);
-        color.rgb = mix(color.rgb, line, border * 0.86);
+        if (uPatchEdges) {
+            vec2 edge = min(texcoord, 1.0 - texcoord) / max(fwidth(texcoord), vec2(1e-6));
+            float border = 1.0 - smoothstep(0.7, 1.8, min(edge.x, edge.y));
+            vec3 line = uActive ? vec3(0.26, 0.85, 1.0) : vec3(0.40, 0.62, 0.69);
+            color.rgb = mix(color.rgb, line, border * 0.86);
+        }
         if (uRadius > 0.0) {
             float d = distance(world.xz, uBrush);
             float aa = max(1.0, fwidth(d));
@@ -273,6 +283,11 @@ void main() {
 
     }  // namespace
 
+    struct WorldViewport::Offscreen {
+        QOpenGLContext context;
+        QOffscreenSurface surface;
+    };
+
     WorldViewport::WorldViewport(WorldDocument& document, QWidget* parent)
         : QOpenGLWidget(parent), m_document(document) {
         setMinimumSize(550, 400);
@@ -294,7 +309,98 @@ void main() {
         if (context()) {
             QObject::disconnect(context(), nullptr, this, nullptr);
         }
-        release_gl();
+        if (m_offscreen) {
+            auto* previous = QOpenGLContext::currentContext();
+            auto* surface = previous ? previous->surface() : nullptr;
+            if (m_offscreen->context.makeCurrent(&m_offscreen->surface)) {
+                destroy_renderer();
+                m_offscreen->context.doneCurrent();
+                if (previous && surface) {
+                    previous->makeCurrent(surface);
+                }
+            }
+        } else {
+            release_gl();
+        }
+    }
+
+    QImage WorldViewport::render_map(const QRectF& area, QSize size) {
+        if (area.isEmpty() || size.isEmpty() || context() || isVisible()) {
+            return {};
+        }
+        if (!m_offscreen_attempted) {
+            m_offscreen_attempted = true;
+            auto target = std::make_unique<Offscreen>();
+            QSurfaceFormat format;
+            format.setVersion(3, 3);
+            format.setProfile(QSurfaceFormat::CoreProfile);
+            target->context.setFormat(format);
+            if (target->context.create() && !target->context.isOpenGLES()) {
+                target->surface.setFormat(target->context.format());
+                target->surface.create();
+                if (target->surface.isValid()) {
+                    m_offscreen = std::move(target);
+                }
+            }
+        }
+        if (!m_offscreen) {
+            return {};
+        }
+
+        // Include objects whose geometry crosses the boundary of the view.
+        constexpr float margin = 768.0f;
+        const auto props = area.adjusted(-margin, -margin, margin, margin);
+        const auto first = WorldDocument::coordinate_at(props.left(), props.top());
+        const auto last = WorldDocument::coordinate_at(props.right(), props.bottom());
+        m_visible.clear();
+        for (const auto& cell : m_available_chunks) {
+            if (cell.x() >= first.x() && cell.x() <= last.x() && cell.y() >= first.y() &&
+                cell.y() <= last.y() && m_document.load(cell)) {
+                m_visible.push_back(cell);
+            }
+        }
+        m_document.evict_distant(m_visible);
+        if (m_visible.empty()) {
+            return {};
+        }
+
+        auto* previous = QOpenGLContext::currentContext();
+        auto* previous_surface = previous ? previous->surface() : nullptr;
+        if (!m_offscreen->context.makeCurrent(&m_offscreen->surface)) {
+            return {};
+        }
+        if (!m_program) {
+            initialize_renderer();
+        }
+        QImage image;
+        if (m_program) {
+            QOpenGLFramebufferObject frame(size, QOpenGLFramebufferObject::CombinedDepthStencil);
+            if (frame.isValid() && frame.bind()) {
+                m_map_area = props;
+                m_target = {static_cast<float>(area.center().x()),
+                            0,
+                            static_cast<float>(area.center().y())};
+                m_terrain_step = 1;
+                glViewport(0, 0, size.width(), size.height());
+                QMatrix4x4 view;
+                view.scale(-1, 1, 1);
+                view.lookAt(eye(), m_target, {0, 0, 1});
+                QMatrix4x4 projection;
+                projection.ortho(-area.width() / 2,
+                                 area.width() / 2,
+                                 -area.height() / 2,
+                                 area.height() / 2,
+                                 1,
+                                 150000);
+                render_scene(projection * view, true);
+                image = frame.toImage();
+            }
+        }
+        m_offscreen->context.doneCurrent();
+        if (previous && previous_surface) {
+            previous->makeCurrent(previous_surface);
+        }
+        return image;
     }
 
     void WorldViewport::set_brush(Brush value) {
@@ -303,6 +409,40 @@ void main() {
         }
         m_brush = std::move(value);
         update();
+    }
+
+    void WorldViewport::set_preview(Preview scene, bool recenter) {
+        const bool changed_environment = m_preview && m_preview->outdoor != scene.outdoor;
+        if (!m_preview || recenter) {
+            m_frame_preview = true;
+            m_yaw = 0.45f - scene.yaw;
+            m_pitch = 0.33f;
+        } else {
+            m_target += scene.position - m_preview->position;
+        }
+        if (changed_environment && !scene.outdoor) {
+            m_chunk_timer.stop();
+            m_chunk_queue.clear();
+            m_requested_chunks.clear();
+            m_visible.clear();
+        }
+        m_preview_key = "preview:" + scene.skeleton + '|' + scene.motion;
+        for (const auto& path : scene.parts) {
+            m_preview_key += '|' + path;
+        }
+        m_preview = std::move(scene);
+        update();
+    }
+
+    void WorldViewport::clear_preview() {
+        set_preview({}, false);
+        m_frame_preview = false;
+    }
+
+    bool WorldViewport::preview_model_available() const {
+        const auto found = m_models.find(m_preview_key);
+        return m_preview && found != m_models.end() &&
+               found->second.geometry == ModelGeometry::Mesh;
     }
 
     void WorldViewport::focus_chunk(QPoint coordinate) {
@@ -437,6 +577,9 @@ void main() {
     }
 
     bool WorldViewport::shows_objects(QPoint coordinate) const {
+        if (!m_map_area.isEmpty()) {
+            return true;
+        }
         if (!m_walking && m_distance > 6 * kExtent) {
             return false;
         }
@@ -594,6 +737,9 @@ void main() {
     }
 
     QVector3D WorldViewport::eye() const {
+        if (!m_map_area.isEmpty()) {
+            return m_target + QVector3D(0, 80000, 0);
+        }
         if (m_walking) {
             return m_walking_feet + QVector3D(0, kWalkEyeHeight, 0);
         }
@@ -651,6 +797,11 @@ void main() {
     }
 
     void WorldViewport::zoom_camera(QPointF anchor, float scale) {
+        if (m_preview) {
+            m_distance = std::clamp(m_distance * scale, 3.0f, 900.0f);
+            update();
+            return;
+        }
         const float distance = std::clamp(m_distance * scale, 90.0f, kMaxOrbitDistance);
         if (m_walking || m_editing || m_left_press || m_available_chunks.empty() ||
             distance == m_distance) {
@@ -900,6 +1051,9 @@ void main() {
     void WorldViewport::mousePressEvent(QMouseEvent* event) {
         m_last_mouse = event->position();
         setFocus(Qt::MouseFocusReason);
+        if (m_preview) {
+            return;
+        }
         if (m_walking) {
             return;
         }
@@ -947,6 +1101,17 @@ void main() {
         const QPointF previous = m_last_mouse;
         QPointF delta = event->position() - previous;
         m_last_mouse = event->position();
+        if (m_preview) {
+            if (event->buttons().testFlag(Qt::LeftButton)) {
+                orbit_camera(delta);
+            } else if (event->buttons().testFlag(Qt::RightButton)) {
+                const auto speed = m_distance / std::max(1, height());
+                pan_camera(-speed * static_cast<float>(delta.x()),
+                           speed * static_cast<float>(delta.y()));
+            }
+            update();
+            return;
+        }
         if (m_walking) {
             if (m_walk_mouse_captured) {
                 const auto center = mapToGlobal(rect().center());
@@ -1024,6 +1189,9 @@ void main() {
 
     void WorldViewport::mouseReleaseEvent(QMouseEvent* event) {
         m_last_mouse = event->position();
+        if (m_preview) {
+            return;
+        }
         if (event->button() == Qt::LeftButton || event->button() == Qt::RightButton) {
             m_orbit_pivot.reset();
         }
@@ -1108,6 +1276,15 @@ void main() {
     }
 
     void WorldViewport::initializeGL() {
+        connect(context(),
+                &QOpenGLContext::aboutToBeDestroyed,
+                this,
+                &WorldViewport::release_gl,
+                Qt::DirectConnection);
+        initialize_renderer();
+    }
+
+    void WorldViewport::initialize_renderer() {
         if (!initializeOpenGLFunctions()) {
             if (on_message) {
                 on_message("The viewport requires an OpenGL 3.3 core context.");
@@ -1115,11 +1292,6 @@ void main() {
             return;
         }
 
-        connect(context(),
-                &QOpenGLContext::aboutToBeDestroyed,
-                this,
-                &WorldViewport::release_gl,
-                Qt::DirectConnection);
         auto program = std::make_unique<QOpenGLShaderProgram>();
         if (!program->addShaderFromSourceCode(QOpenGLShader::Vertex, kVertexShader) ||
             !program->addShaderFromSourceCode(QOpenGLShader::Fragment, kFragmentShader) ||
@@ -1155,12 +1327,16 @@ void main() {
             return;
         }
         makeCurrent();
+        destroy_renderer();
+        doneCurrent();
+    }
+
+    void WorldViewport::destroy_renderer() {
         clear_scene_gl();
         free_mesh(m_marker);
         free_mesh(m_water);
         free_texture(m_white);
         m_program.reset();
-        doneCurrent();
     }
 
     void WorldViewport::clear_scene_gl() {
@@ -1303,17 +1479,48 @@ void main() {
         result.maximum = {36, 100, 36};
 
         const auto path =
-            platform::resolve_client_asset(m_document.root().toStdString(), name, ".gb");
-        terrain::GbModel source;
+            QFileInfo(QString::fromStdString(name)).isAbsolute()
+                ? name
+                : platform::resolve_client_asset(m_document.root().toStdString(), name, ".gb");
         if (path.empty()) {
             result.geometry = ModelGeometry::Invisible;
-            return result;
+        } else {
+            add_model_parts(result, path);
         }
+        return result;
+    }
+
+    const WorldViewport::Model& WorldViewport::preview_model(const std::string& key) {
+        auto [entry, inserted] = m_models.try_emplace(key);
+        if (inserted) {
+            terrain::GbModel skeleton;
+            terrain::GbModel motion;
+            const bool rigged = !m_preview->skeleton.empty() && !m_preview->motion.empty() &&
+                                terrain::load_gb(m_preview->skeleton, skeleton) &&
+                                terrain::load_gb(m_preview->motion, motion);
+            for (const auto& path : m_preview->parts) {
+                add_model_parts(
+                    entry->second, path, rigged ? &skeleton : nullptr, rigged ? &motion : nullptr);
+            }
+        }
+        return entry->second;
+    }
+
+    void WorldViewport::add_model_parts(Model& result,
+                                        const std::string& path,
+                                        const terrain::GbModel* skeleton,
+                                        const terrain::GbModel* motion) {
+        terrain::GbModel source;
         if (!platform::file_exists(path) || !terrain::load_gb(path, source)) {
-            return result;
+            return;
         }
-        result.geometry = ModelGeometry::Invisible;
-        terrain::GbSkin::apply_embedded_idle(source);
+        if (result.geometry == ModelGeometry::Unavailable) {
+            result.geometry = ModelGeometry::Invisible;
+        }
+        if (!skeleton || !motion ||
+            !terrain::GbSkin::skin_with_skeleton_anim(source, *skeleton, *motion)) {
+            terrain::GbSkin::apply_embedded_idle(source);
+        }
         for (const auto& mesh : source.meshes) {
             if (mesh.pos_uv.size() < 15 || mesh.indices.empty()) {
                 continue;
@@ -1353,7 +1560,22 @@ void main() {
                 }
             }
         }
-        return result;
+    }
+
+    void WorldViewport::frame_preview() {
+        const auto& asset = preview_model(m_preview_key);
+        const auto& scene = *m_preview;
+        m_target = scene.position + QVector3D(0, 8, 0);
+        m_distance = 48;
+        if (asset.geometry == ModelGeometry::Mesh) {
+            const auto center_y = (asset.minimum.y() + asset.maximum.y()) * scene.scale * 0.5f;
+            m_target.setY(scene.position.y() + center_y);
+            m_distance = std::clamp(
+                (asset.maximum - asset.minimum).length() * scene.scale * 1.65f, 16.0f, 650.0f);
+        } else if (on_message) {
+            on_message("No renderable model was found for this selection.");
+        }
+        m_frame_preview = false;
     }
 
     bool WorldViewport::shows_model(const Model& model) const {
@@ -1493,6 +1715,22 @@ void main() {
             glBindTexture(GL_TEXTURE_2D, part.texture ? part.texture : m_white);
             draw_mesh(part.mesh);
         };
+        const auto enqueue = [&](const Model& resource,
+                                 const QMatrix4x4& matrix,
+                                 QVector3D position,
+                                 bool selected) {
+            for (const auto& part : resource.parts) {
+                if (part.blend) {
+                    transparent.push_back(
+                        {&part,
+                         matrix,
+                         QVector3D::dotProduct(position - eye_position, view_forward),
+                         selected});
+                } else {
+                    draw(part, matrix, selected);
+                }
+            }
+        };
         for (const auto coordinate : m_visible) {
             if (!shows_objects(coordinate)) {
                 continue;
@@ -1504,6 +1742,14 @@ void main() {
                     !std::isfinite(position.z())) {
                     continue;
                 }
+                constexpr float preview_radius = 1200;
+                if (m_preview && (position - m_preview->position).lengthSquared() >
+                                     preview_radius * preview_radius) {
+                    continue;
+                }
+                if (!m_map_area.isEmpty() && !m_map_area.contains(position.x(), position.z())) {
+                    continue;
+                }
                 visible_models.insert(object.name);
                 const auto& resource = model(object.name);
                 if (!shows_model(resource)) {
@@ -1512,21 +1758,24 @@ void main() {
                 const auto matrix = transform(position, object);
                 const bool selected = placement.id == m_selected;
                 if (resource.geometry == ModelGeometry::Mesh) {
-                    for (const auto& part : resource.parts) {
-                        if (part.blend) {
-                            transparent.push_back(
-                                {&part,
-                                 matrix,
-                                 QVector3D::dotProduct(position - eye_position, view_forward),
-                                 selected});
-                        } else {
-                            draw(part, matrix, selected);
-                        }
-                    }
+                    enqueue(resource, matrix, position, selected);
                 } else {
                     draw(Part{m_marker, 0, false, false}, matrix, selected);
                 }
             }
+        }
+        if (m_preview) {
+            for (const auto& object : m_preview->surroundings) {
+                visible_models.insert(object.path);
+                enqueue(
+                    model(object.path), object.transform, object.transform.map(QVector3D{}), false);
+            }
+            visible_models.insert(m_preview_key);
+            QMatrix4x4 matrix;
+            matrix.translate(m_preview->position);
+            matrix.rotate(m_preview->yaw * (180.0f / 3.14159265f), 0, 1, 0);
+            matrix.scale(m_preview->scale);
+            enqueue(preview_model(m_preview_key), matrix, m_preview->position, false);
         }
         std::sort(transparent.begin(), transparent.end(), [](const Draw& a, const Draw& b) {
             return a.depth > b.depth;
@@ -1606,19 +1855,14 @@ void main() {
             clear_scene_gl();
             m_scene_reset = false;
         }
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);
-        glDisable(GL_CULL_FACE);
-        // Keep the framebuffer opaque for Qt's premultiplied window composition.
-        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        glClearColor(0.085f, 0.115f, 0.15f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        m_program->bind();
-        m_program->setUniformValue("uColor", 0);
-        m_program->setUniformValue("uDetail", 1);
-        m_program->setUniformValue("uWater", 0);
+        if (m_frame_preview) {
+            frame_preview();
+        }
         const auto matrix = camera();
-        update_visible_chunks(matrix);
+        const bool outdoor = !m_preview || m_preview->outdoor;
+        if (outdoor) {
+            update_visible_chunks(matrix);
+        }
         const auto count = m_requested_chunks.size();
         // Use a common sample step so adjacent patches share the same edge vertices.
         if (m_walking || (m_distance <= 2.5f * kExtent && count <= 18)) {
@@ -1630,9 +1874,34 @@ void main() {
         } else {
             m_terrain_step = 8;
         }
-        draw_terrain(matrix);
+        render_scene(matrix, outdoor);
+    }
+
+    void WorldViewport::render_scene(const QMatrix4x4& matrix, bool outdoor) {
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        glDisable(GL_CULL_FACE);
+        // Map images can have gaps where the original atlas should show through.
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        const bool map = !m_map_area.isEmpty();
+        glClearColor(
+            map ? 0.0f : 0.085f, map ? 0.0f : 0.115f, map ? 0.0f : 0.15f, map ? 0.0f : 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        m_program->bind();
+        m_program->setUniformValue("uColor", 0);
+        m_program->setUniformValue("uDetail", 1);
+        m_program->setUniformValue("uWater", 0);
+        m_program->setUniformValue("uPatchEdges", !map);
+        // Keep derivatives precise when inspecting a small object far from world origin.
+        m_program->setUniformValue("uLightingOrigin",
+                                   map ? m_target : (m_preview ? eye() : QVector3D{}));
+        if (outdoor) {
+            draw_terrain(matrix);
+        }
         draw_objects(matrix);
-        draw_water();
+        if (outdoor) {
+            draw_water();
+        }
         glBindVertexArray(0);
         m_program->release();
     }

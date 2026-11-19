@@ -50,9 +50,13 @@ namespace openkal::world_editor {
          * @param root Client data directory containing MAPS and optionally OBJECTS.
          * @param overlay Optional previously exported patch directory.
          * @param error Destination error message on failure.
+         * @param maps_subdirectory Terrain directory relative to the client data root.
          * @return True when at least one chunk is available.
          */
-        [[nodiscard]] bool open(const QString& root, const QString& overlay, QString& error);
+        [[nodiscard]] bool open(const QString& root,
+                                const QString& overlay,
+                                QString& error,
+                                const QString& maps_subdirectory = "MAPS");
 
         /** @return Available outdoor chunk coordinates in file order. */
         [[nodiscard]] std::vector<QPoint> coordinates() const;

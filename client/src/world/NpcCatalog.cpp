@@ -115,6 +115,10 @@ namespace openkal::client {
 
     }  // namespace
 
+    NpcRig NpcCatalog::read_appearance(const platform::Json& appearance) {
+        return rig_from_appearance(appearance);
+    }
+
     bool NpcCatalog::load_json_dir(const std::string& dir) {
         m_spawns.clear();
         m_rigs.clear();
@@ -166,7 +170,7 @@ namespace openkal::client {
 
             const platform::Json& app = root.at("appearance");
             if (shape > 0 && app.is_object() && m_rigs.find(shape) == m_rigs.end()) {
-                m_rigs[shape] = rig_from_appearance(app);
+                m_rigs[shape] = read_appearance(app);
             }
         }
         std::sort(m_spawns.begin(), m_spawns.end(), [](const NpcSpawn& a, const NpcSpawn& b) {
