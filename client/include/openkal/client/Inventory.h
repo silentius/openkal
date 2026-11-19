@@ -232,6 +232,40 @@ namespace openkal::client {
         int refresh_mp = 0;
     };
 
+    /** Tracks active item-use cooldowns by definition, with one shared HP/MP refresh cooldown. */
+    class ItemCooldowns {
+      public:
+        /** Binds the item definitions used to resolve durations and shared cooldowns.
+         * @param catalog Item definitions; must outlive the cooldowns.
+         */
+        explicit ItemCooldowns(const ItemDb& catalog) : m_catalog(catalog) {}
+
+        /** Starts the configured cooldown for a requested item use.
+         * @param item_index Item definition index.
+         */
+        void start(int item_index);
+
+        /** Advances active cooldowns and removes expired entries.
+         * @param elapsed Seconds since the previous update.
+         */
+        void advance(float elapsed);
+
+        /** Looks up the active cooldown for an item.
+         * @param item_index Item definition index.
+         * @return Remaining fraction from 0 (ready) to 1 (just started).
+         */
+        [[nodiscard]] float remaining_fraction(int item_index) const;
+
+      private:
+        struct Timer {
+            float remaining;
+            float duration;
+        };
+
+        const ItemDb& m_catalog;
+        std::unordered_map<int, Timer> m_active;
+    };
+
     /** Pure data record for player bag contents (intentional DTO). */
     struct Bag {
         std::vector<ItemStack> normal;
@@ -1164,8 +1198,12 @@ namespace openkal::client {
          * @param ui UI asset helper.
          * @param engine Engine used for quads.
          * @param bag Player bag contents.
+         * @param cooldowns Active item-use cooldowns, if available.
          */
-        void draw(UiAssets& ui, engine::IEngine& engine, const Bag& bag) const;
+        void draw(UiAssets& ui,
+                  engine::IEngine& engine,
+                  const Bag& bag,
+                  const ItemCooldowns* cooldowns = nullptr) const;
 
         /**
          * Draws the hover item tip on top of the soft cursor.

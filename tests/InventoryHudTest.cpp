@@ -847,10 +847,12 @@ namespace {
         PlayerSkills player;
         Bag bag;
         bag.normal.resize(kBagSlots);
+        ItemCooldowns cooldowns(catalog);
         SkillBar bar;
         bar.set_catalog(&skills);
         bar.set_player(&player);
         bar.set_items(&catalog);
+        bar.set_item_cooldowns(&cooldowns);
         bar.set_bag(&bag);
         bar.set_layout(&layout);
         for (float scale : {0.75f, 1.0f, 1.5f}) {
@@ -907,13 +909,17 @@ namespace {
             expect(bar.auto_hp_percent() == 75, "separate single clicks do not cycle");
             bar.update_pointer(pointer);
             expect(!bar.auto_hp_needed(0, 1000), "dead player never takes medicine");
-            bar.set_item_refresh_cooldown(0.01f, 23000);
+            cooldowns.start(23000);
+            cooldowns.advance(1.29f);
             expect(!bar.auto_hp_needed(1, 1000), "manual medicine shares the entire cooldown");
-            bar.set_item_refresh_cooldown(1.0f, 23004);
+            cooldowns.start(23004);
             expect(!bar.auto_hp_needed(1, 1000), "mana medicine also shares cooldown");
-            bar.set_item_refresh_cooldown(1.0f, 447);
-            expect(bar.auto_hp_needed(1, 1000), "unrelated items do not block auto hp");
-            bar.set_item_refresh_cooldown(0.0f);
+            cooldowns.start(23012);
+            expect(!bar.auto_hp_needed(1, 1000), "an essence box preserves the shared cooldown");
+            cooldowns.advance(1.375f);
+            expect(cooldowns.remaining_fraction(23012) > 0.0f && bar.auto_hp_needed(1, 1000),
+                   "an active essence box cooldown does not block auto hp");
+            cooldowns.advance(0.125f);
             bag.normal[0] = {};
             expect(!bar.auto_hp_available() && !bar.auto_hp_needed(1, 1000),
                    "depleted stack stops automatic use");
@@ -929,6 +935,28 @@ namespace {
                    "dragging back unbinds without consuming or dropping medicine");
             bag.normal[4] = {};
         }
+    }
+
+    void verify_item_use_cooldowns(const ItemDb& catalog) {
+        ItemCooldowns cooldowns(catalog);
+        cooldowns.start(23012);
+        cooldowns.start(23013);
+        expect(cooldowns.remaining_fraction(23012) == 1.0f &&
+                   cooldowns.remaining_fraction(23013) == 0.0f,
+               "only items with a configured cooldown start a timer");
+        cooldowns.advance(0.75f);
+        cooldowns.start(23000);
+        expect(cooldowns.remaining_fraction(23012) == 0.5f &&
+                   cooldowns.remaining_fraction(23000) == 1.0f &&
+                   cooldowns.remaining_fraction(23004) == 1.0f &&
+                   cooldowns.remaining_fraction(23008) == 1.0f,
+               "box and refresh timers progress independently across item types");
+        cooldowns.advance(0.75f);
+        expect(cooldowns.remaining_fraction(23012) == 0.0f &&
+                   cooldowns.remaining_fraction(23000) > 0.0f,
+               "one item cooldown can expire while another remains active");
+        cooldowns.advance(0.625f);
+        expect(cooldowns.remaining_fraction(23000) == 0.0f, "shared refresh cooldown expires");
     }
 
     void capture_polishing(ItemDb& catalog, const std::string& path) {
@@ -2338,6 +2366,7 @@ int main(int argc, char** argv) {
     verify_emotes();
     verify_social_actions();
     verify_auto_hp_persistence(catalog);
+    verify_item_use_cooldowns(catalog);
     verify_auto_hp(catalog);
     verify_filters(layout, doc, catalog);
     verify_input(win, doc);

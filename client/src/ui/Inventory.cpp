@@ -30,6 +30,54 @@
 #include <utility>
 
 namespace openkal::client {
+    namespace {
+        constexpr int kRefreshCooldownKey = 0;
+
+        int item_cooldown_key(const ItemDef& item) {
+            return item.refresh_hp() > 0 || item.refresh_mp() > 0 ? kRefreshCooldownKey
+                                                                  : item.index();
+        }
+    }  // namespace
+
+    void ItemCooldowns::start(int item_index) {
+        const ItemDef* item = m_catalog.find(item_index);
+        if (!item || item_index <= 0) {
+            return;
+        }
+        const int key = item_cooldown_key(*item);
+        int duration_ms = item->cooltime_ms();
+        if (duration_ms <= 0 && key == kRefreshCooldownKey) {
+            duration_ms = 1300;
+        }
+        if (duration_ms > 0) {
+            const float seconds = static_cast<float>(duration_ms) / 1000.0f;
+            m_active[key] = {seconds, seconds};
+        }
+    }
+
+    void ItemCooldowns::advance(float elapsed) {
+        for (auto it = m_active.begin(); it != m_active.end();) {
+            it->second.remaining -= elapsed;
+            if (it->second.remaining <= 0.0f) {
+                it = m_active.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    float ItemCooldowns::remaining_fraction(int item_index) const {
+        if (m_active.empty() || item_index <= 0) {
+            return 0.0f;
+        }
+        const ItemDef* item = m_catalog.find(item_index);
+        if (!item) {
+            return 0.0f;
+        }
+        const auto it = m_active.find(item_cooldown_key(*item));
+        return it == m_active.end() ? 0.0f : it->second.remaining / it->second.duration;
+    }
+
     int inventory_filter_index(std::string_view id) {
         const auto found = std::find(kInventoryFilterIds.begin(), kInventoryFilterIds.end(), id);
         return found == kInventoryFilterIds.end()
@@ -438,10 +486,11 @@ namespace openkal::client {
             InventoryHost(const Window& window,
                           const Bag& bag,
                           const std::array<std::uint32_t, 5>* riding,
+                          const ItemCooldowns* cooldowns,
                           std::string_view hovered,
                           bool pressed)
-                : m_window(window), m_bag(bag), m_riding(riding), m_hovered(hovered),
-                  m_pressed(pressed) {}
+                : m_window(window), m_bag(bag), m_riding(riding), m_cooldowns(cooldowns),
+                  m_hovered(hovered), m_pressed(pressed) {}
 
             bool resolve_slot(std::string_view bind, int index, UiSlotIcon& out) const override {
                 out.set_empty(true);
@@ -468,6 +517,9 @@ namespace openkal::client {
                         return true;
                     }
                     fill_icon(out, item.index, item.transform_level);
+                    if (m_cooldowns) {
+                        out.set_cooldown_fraction(m_cooldowns->remaining_fraction(item.index));
+                    }
                     out.set_count(item.count);
                     out.set_high_contrast_count(true);
                     out.set_account_bound(item.account_bound);
@@ -543,6 +595,7 @@ namespace openkal::client {
             const Window& m_window;
             const Bag& m_bag;
             const std::array<std::uint32_t, 5>* m_riding;
+            const ItemCooldowns* m_cooldowns;
             std::string_view m_hovered;
             bool m_pressed;
         };
@@ -2634,7 +2687,10 @@ namespace openkal::client {
         return vars;
     }
 
-    void Window::draw(UiAssets& ui, engine::IEngine& engine, const Bag& bag) const {
+    void Window::draw(UiAssets& ui,
+                      engine::IEngine& engine,
+                      const Bag& bag,
+                      const ItemCooldowns* cooldowns) const {
         refresh_general_projection(bag);
         if (!m_open) {
             return;
@@ -2643,7 +2699,8 @@ namespace openkal::client {
             draw_chrome(ui);
             return;
         }
-        InventoryHost host(*this, bag, m_riding_equipment_iids, m_hovered_button, m_pointer_down);
+        InventoryHost host(
+            *this, bag, m_riding_equipment_iids, cooldowns, m_hovered_button, m_pointer_down);
         if (collection_progress() > 0.001f && m_collection_layout.loaded()) {
             UiView::draw(engine,
                          ui,

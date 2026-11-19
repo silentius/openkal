@@ -136,6 +136,16 @@ namespace openkal::client {
             m_grayscale = v;
         }
 
+        /** @return Remaining fraction of the item-use cooldown. */
+        [[nodiscard]] float cooldown_fraction() const {
+            return m_cooldown_fraction;
+        }
+
+        /** @param fraction Remaining fraction from 0 (ready) to 1 (just started). */
+        void set_cooldown_fraction(float fraction) {
+            m_cooldown_fraction = fraction;
+        }
+
       private:
         /** Icon BMP. */
         std::string m_file;
@@ -169,6 +179,9 @@ namespace openkal::client {
 
         /** Grayscale presentation flag. */
         bool m_grayscale = false;
+
+        /** Remaining fraction of the item-use cooldown. */
+        float m_cooldown_fraction = 0.0f;
     };
 
     /** One row for a list widget. */

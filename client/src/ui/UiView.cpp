@@ -648,6 +648,7 @@ namespace openkal::client {
                     } else {
                         ui.draw_tex(slot.file(), sx, sy, sw, sh);
                     }
+                    ui.draw_cooldown_sweep(sx, sy, std::min(sw, sh), slot.cooldown_fraction());
                     if (slot.enchant_protected()) {
                         const double seconds =
                             std::chrono::duration<double>(
@@ -728,6 +729,7 @@ namespace openkal::client {
                         } else {
                             ui.draw_tex(slot.file(), sx, sy, sw, sh);
                         }
+                        ui.draw_cooldown_sweep(sx, sy, std::min(sw, sh), slot.cooldown_fraction());
                     }
                     if (slot.enchant_protected()) {
                         const double seconds =
