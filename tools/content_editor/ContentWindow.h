@@ -12,17 +12,21 @@
 
 #include "Catalog.h"
 #include "MapView.h"
+#include "ContentAudit.h"
 
 #include <QMainWindow>
 
 class QAction;
+class QCheckBox;
 class QCloseEvent;
 class QComboBox;
 class QLabel;
 class QLineEdit;
 class QListWidget;
 class QListWidgetItem;
+class QPushButton;
 class QTimer;
+class QTreeWidget;
 
 namespace openkal::content_editor {
     class JsonEditor;
@@ -72,9 +76,10 @@ namespace openkal::content_editor {
         void open_profile();
         void refresh_list();
         void filter_list();
+        void sync_list_selection(bool reveal);
         void open_record(const QString& path, int spawn = -1);
         void show_record(std::optional<Record> record, int spawn = -1);
-        void create_record(bool duplicate = false);
+        void create_record(bool duplicate = false, bool same_quest = false);
         void delete_record();
         [[nodiscard]] bool save();
         [[nodiscard]] bool confirm_leave();
@@ -85,6 +90,9 @@ namespace openkal::content_editor {
         void populate_maps();
         void populate_regions(int previous = 0);
         void refresh_selection();
+        void refresh_npc_quests(const QJsonObject& object);
+        void open_npc_quest();
+        void set_npc_quest();
         void refresh_markers();
         [[nodiscard]] bool set_map(int index, QPoint center);
         void locate(bool close = false);
@@ -93,7 +101,9 @@ namespace openkal::content_editor {
         void draw_spawn(QPoint first, QPoint last);
         void remove_spawn();
         void edit_teleport();
+        void edit_quest_teleport(const JsonPath& path);
         void open_shop();
+        void show_content_audit();
         void show_references();
         void select_reference(bool replace);
         void description(const QString& text);
@@ -101,6 +111,7 @@ namespace openkal::content_editor {
 
         Workspace m_workspace;
         Catalog m_catalog;
+        ContentAudit m_content_audit;
         std::optional<Record> m_record;
         QString m_last_path;
         QStringList m_diagnostics;
@@ -110,12 +121,19 @@ namespace openkal::content_editor {
         JsonPath m_teleport_path;
         QComboBox* m_category;
         QLineEdit* m_search;
+        QCheckBox* m_only_orphans;
         QListWidget* m_list;
         QLabel* m_title;
         QLabel* m_file;
         QLabel* m_map_hint;
         QLabel* m_coordinates;
+        QWidget* m_npc_quests;
+        QTreeWidget* m_quest_links;
+        QPushButton* m_open_quest;
+        QPushButton* m_set_quest;
+        QJsonObject m_npc_quest_fields;
         JsonEditor* m_editor;
+        QWidget* m_map_panel;
         MapView* m_map;
         PlacementPreview* m_preview;
         QComboBox* m_maps;

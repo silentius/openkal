@@ -18,14 +18,17 @@
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
+#include <QHash>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QQueue>
 #include <QRegularExpression>
 #include <QSaveFile>
 #include <QSet>
 
 #include <algorithm>
 #include <array>
+#include <charconv>
 #include <limits>
 #include <utility>
 
@@ -64,6 +67,17 @@ namespace openkal::content_editor {
 
         QString padded(const QString& id, int width) {
             return id.rightJustified(width, '0');
+        }
+
+        std::optional<int> dialog_link_id(const QString& type) {
+            const auto text = type.toLatin1();
+            const auto* end = text.constData() + text.size();
+            int id = 0;
+            const auto [next, error] = std::from_chars(text.constData(), end, id);
+            if (error == std::errc{} && next == end && id > 0) {
+                return id;
+            }
+            return std::nullopt;
         }
 
         void add_ref(QVector<Reference>& refs,
@@ -161,9 +175,12 @@ namespace openkal::content_editor {
         return id;
     }
 
-    QString title(const Record& record) {
-        const auto name =
+    QString title(const Record& record, const QString& fallback_name) {
+        auto name =
             record.object.value(record.kind == Kind::Dialog ? "caption" : "name").toString();
+        if (name.isEmpty()) {
+            name = fallback_name;
+        }
         const auto id = identity(record.kind, record.object);
         return name.isEmpty() ? id : id + "  " + name;
     }
@@ -367,8 +384,14 @@ namespace openkal::content_editor {
         case Kind::Dialog: {
             const auto links = record.object.value("links").toArray();
             for (int i = 0; i < links.size(); ++i) {
-                const JsonPath path{"links", QString::number(i), "quest"};
-                add(Kind::Quest, path + JsonPath{"0"}, path + JsonPath{"1"});
+                const JsonPath path{"links", QString::number(i)};
+                const auto type = links.at(i).toObject().value("type").toString();
+                if (type == "quest") {
+                    add(Kind::Quest, path + JsonPath{"quest", "0"}, path + JsonPath{"quest", "1"});
+                } else if (const auto id = dialog_link_id(type)) {
+                    result.append(
+                        {Kind::Dialog, QString::number(*id), path + JsonPath{"type"}, {}});
+                }
             }
             break;
         }
@@ -481,6 +504,147 @@ namespace openkal::content_editor {
                 return record.kind == kind && matches(kind, identity(kind, record.object), id);
             });
         return result == m_records.end() ? nullptr : &*result;
+    }
+
+    QHash<int, QString> Catalog::quest_names() const {
+        QHash<int, QString> names;
+        for (const auto& record : m_records) {
+            if (record.kind == Kind::Task) {
+                const auto name = record.object.value("name").toString();
+                const auto key = record.object.value("key").toInt();
+                if (!name.isEmpty() && !names.contains(key)) {
+                    names.insert(key, name);
+                }
+            }
+        }
+        return names;
+    }
+
+    QVector<NpcQuest> Catalog::npc_quests(const QJsonObject& npc) const {
+        QHash<QString, const Record*> steps;
+        QHash<QString, const Record*> dialogs;
+        QMultiHash<int, QString> by_quest;
+        for (const auto& record : m_records) {
+            if (record.kind == Kind::Quest) {
+                const auto key = identity(record.kind, record.object);
+                if (!steps.contains(key)) {
+                    steps.insert(key, &record);
+                    by_quest.insert(record.object.value("index").toInt(), key);
+                }
+            } else if (record.kind == Kind::Dialog) {
+                const auto id = identity(record.kind, record.object);
+                if (!dialogs.contains(id)) {
+                    dialogs.insert(id, &record);
+                }
+            }
+        }
+
+        QHash<QString, NpcQuest> related;
+        QQueue<QString> pending_steps;
+        QQueue<QString> pending_dialogs;
+        QSet<QString> visited_dialogs;
+        const auto add_step = [&](const QString& key, const QString& source) {
+            if (key.isEmpty() || key == "0:0") {
+                return;
+            }
+            if (!related.contains(key)) {
+                const auto* step = steps.value(key);
+                related.insert(key, {key, step ? step->path : QString{}, {}});
+                if (step) {
+                    pending_steps.enqueue(key);
+                }
+            }
+            auto& sources = related[key].sources;
+            if (!sources.contains(source)) {
+                sources.append(source);
+            }
+        };
+        const auto add_dialog = [&](const QString& id) {
+            if (dialogs.contains(id) && !visited_dialogs.contains(id)) {
+                visited_dialogs.insert(id);
+                pending_dialogs.enqueue(id);
+            }
+        };
+        for (const auto& ref : references({Kind::Npc, {}, npc, {}})) {
+            if (ref.kind == Kind::Quest && ref.id.contains(':')) {
+                add_step(ref.id, "NPC entry");
+            } else if (ref.kind == Kind::Dialog) {
+                add_dialog(ref.id);
+            }
+        }
+        while (!pending_steps.isEmpty() || !pending_dialogs.isEmpty()) {
+            if (!pending_dialogs.isEmpty()) {
+                const auto id = pending_dialogs.dequeue();
+                for (const auto& ref : references(*dialogs.value(id))) {
+                    if (ref.kind == Kind::Quest && ref.id.contains(':')) {
+                        add_step(ref.id, "Dialog " + id);
+                    } else if (ref.kind == Kind::Dialog) {
+                        add_dialog(ref.id);
+                    }
+                }
+                continue;
+            }
+            const auto key = pending_steps.dequeue();
+            const auto& step = *steps.value(key);
+            for (const auto& ref : references(step)) {
+                if (ref.path.value(2) != "then") {
+                    continue;
+                }
+                const auto action = value_at(step.object, ref.path.mid(0, 4)).toObject();
+                if (action.value("raw").isArray()) {
+                    continue;
+                }
+                if (ref.kind == Kind::Dialog) {
+                    add_dialog(ref.id);
+                } else if (ref.kind == Kind::Quest && action.value("op") == "link" &&
+                           ref.id.contains(':')) {
+                    add_step(ref.id, "Linked from " + key);
+                }
+            }
+        }
+
+        const auto npc_id = npc.value("index").toInteger(-1);
+        for (const auto& record : m_records) {
+            if (record.kind != Kind::Task || npc_id <= 0) {
+                continue;
+            }
+            const auto quest = record.object.value("key").toInt();
+            const auto journal_label = "Journal · " + title(record);
+            const auto add_journal = [&](const QString& key) {
+                if (!related.contains(key)) {
+                    const auto* step = steps.value(key);
+                    related.insert(key, {key, step ? step->path : record.path, {}});
+                }
+                auto& sources = related[key].sources;
+                if (!sources.contains(journal_label)) {
+                    sources.append(journal_label);
+                }
+            };
+            if (record.object.value("npcIndex").toInteger(-1) == npc_id) {
+                const auto keys = by_quest.values(quest);
+                if (keys.isEmpty()) {
+                    add_journal(QString::number(quest));
+                }
+                for (const auto& key : keys) {
+                    add_journal(key);
+                }
+            }
+            for (const auto& value : record.object.value("flags").toArray()) {
+                const auto stage = value.toObject();
+                if (stage.value("npcIndex").toInteger(-1) == npc_id) {
+                    add_journal(QString("%1:%2").arg(quest).arg(stage.value("key").toInt()));
+                }
+            }
+        }
+
+        auto result = related.values();
+        std::sort(result.begin(), result.end(), [](const NpcQuest& left, const NpcQuest& right) {
+            const auto l = left.step.split(':');
+            const auto r = right.step.split(':');
+            return std::make_pair(l.front().toInt(), l.value(1, "-1").toInt()) <
+                   std::make_pair(r.front().toInt(), r.value(1, "-1").toInt());
+        });
+        return result;
     }
 
     std::optional<QJsonObject> Catalog::resolve_npc(const QJsonObject& definition) const {

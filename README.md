@@ -776,12 +776,30 @@ choose another reference directory. Where both directories contain the same
 relative path, the active configuration takes precedence in the editor.
 
 Choose a catalog and filter records by name or ID. Use **New**, **Duplicate**,
-or edit the selected record in **Fields** or **JSON**, then select **Save
-definition**. Fields include templates for quest rules, dialog options, and
-drop-table entries. **Choose reference target** selects an item, quest step, or
-other linked definition. **Open reference** jumps to it. The editor checks known
-references in the loaded catalogs before deleting a definition. To edit the
-fallback files, open their configuration directory directly.
+or edit the selected record, then select **Save definition**. **NPC quests**
+lists the NPC's entry step, linked quests and journal assignments. Double-click
+a row to open it, or use **Set entry step** to change the NPC's direct quest.
+
+Quest steps open in **Quest graph**. Cases run from top to bottom. The first
+case whose conditions all pass runs its actions and rewards in order. Use the
+node menus to reorder cases or actions, and **New step** to add another step to
+the current quest. The step selector and links open related definitions.
+**Fields** and **JSON** are also available for every definition.
+
+**Choose reference target** selects an item, quest step, or other linked
+definition. **Open reference** jumps to it. The editor checks known references
+in the loaded catalogs before deleting a definition. To edit the fallback
+files, open their configuration directory directly.
+
+In **Quests**, **Dialogs**, **Item groups**, **Drop groups**, **Tasks** and
+**Shops**, a pale red background marks possible orphans. Use **Possible
+orphans only** to show those entries. **Definition → Audit content references**
+also lists missing targets and definitions with no known entry or loot source.
+The audit follows monster drops, quest rewards and item group links. It matches
+journal tasks by quest key and shops by NPC ID. Open a finding to jump to its
+definition or the affected field. The audit uses saved definitions from the
+loaded configuration and updates after saves, deletions and reloads. Events and
+client scripts may provide additional entry points.
 
 The map uses the same outdoor imagery as the client's M key. Select
 **Overworld** or a dungeon/instance in the map selector. For a dungeon with

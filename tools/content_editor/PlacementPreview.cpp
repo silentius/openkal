@@ -265,7 +265,7 @@ namespace openkal::content_editor {
             const auto y = spawn_center(rect.at(1), rect.at(3));
             if (x && y) {
                 coordinates = QPoint(*x, *y);
-                index = placement.value("map").toInt();
+                index = map.spawn_map(placement.value("map").toInt(), *coordinates);
             }
         }
 

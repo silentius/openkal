@@ -12,17 +12,22 @@
 
 #include "JsonEditor.h"
 #include "PlacementPreview.h"
+#include "QuestEditor.h"
 #include "openkal/map/Constants.h"
 #include "openkal/platform/RuntimeProfile.h"
 
 #include <QAction>
 #include <QCheckBox>
 #include <QCloseEvent>
+#include <QColor>
 #include <QComboBox>
+#include <QDialog>
+#include <QDialogButtonBox>
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QFont>
+#include <QHeaderView>
 #include <QHBoxLayout>
 #include <QInputDialog>
 #include <QJsonArray>
@@ -32,11 +37,14 @@
 #include <QListWidget>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QPushButton>
+#include <QScrollBar>
 #include <QSignalBlocker>
 #include <QSplitter>
 #include <QStatusBar>
 #include <QTimer>
 #include <QToolBar>
+#include <QTreeWidget>
 #include <QVBoxLayout>
 
 #include <algorithm>
@@ -176,9 +184,13 @@ namespace openkal::content_editor {
         m_search->setClearButtonEnabled(true);
         m_search->setPlaceholderText("Filter by name or ID");
         browser_layout->addWidget(m_search);
+        m_only_orphans = new QCheckBox("Possible orphans only", browser);
+        m_only_orphans->setToolTip("Show entries with no known use in the loaded definitions.");
+        browser_layout->addWidget(m_only_orphans);
         m_list = new QListWidget(browser);
         m_list->setAlternatingRowColors(true);
         m_list->setUniformItemSizes(true);
+        m_list->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
         browser_layout->addWidget(m_list, 1);
 
         auto* inspector = new QWidget(split);
@@ -196,10 +208,33 @@ namespace openkal::content_editor {
         m_file->setTextFormat(Qt::PlainText);
         m_file->setTextInteractionFlags(Qt::TextSelectableByMouse);
         inspector_layout->addWidget(m_file);
+        m_npc_quests = new QWidget(inspector);
+        auto* quest_layout = new QVBoxLayout(m_npc_quests);
+        quest_layout->setContentsMargins(0, 4, 0, 4);
+        auto* quest_header = new QHBoxLayout;
+        quest_header->addWidget(new QLabel("NPC quests", m_npc_quests));
+        quest_header->addStretch();
+        m_open_quest = new QPushButton("Open", m_npc_quests);
+        m_set_quest = new QPushButton("Set entry step…", m_npc_quests);
+        quest_header->addWidget(m_open_quest);
+        quest_header->addWidget(m_set_quest);
+        quest_layout->addLayout(quest_header);
+        m_quest_links = new QTreeWidget(m_npc_quests);
+        m_quest_links->setObjectName("NpcQuests");
+        m_quest_links->setHeaderLabels({"Step", "Connection"});
+        m_quest_links->setRootIsDecorated(false);
+        m_quest_links->setAlternatingRowColors(true);
+        m_quest_links->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+        m_quest_links->setMinimumHeight(84);
+        m_quest_links->setMaximumHeight(145);
+        quest_layout->addWidget(m_quest_links);
+        inspector_layout->addWidget(m_npc_quests);
         m_editor = new JsonEditor(inspector);
+        m_editor->set_catalog(&m_catalog);
         inspector_layout->addWidget(m_editor, 1);
 
-        auto* map_panel = new QWidget(split);
+        m_map_panel = new QWidget(split);
+        auto* map_panel = m_map_panel;
         auto* map_layout = new QVBoxLayout(map_panel);
         auto* options = new QHBoxLayout;
         m_maps = new QComboBox(map_panel);
@@ -250,6 +285,21 @@ namespace openkal::content_editor {
             m_save->setEnabled(m_record && m_record->writable);
             m_edits->start();
         });
+        connect(m_editor, &JsonEditor::open_record_requested, this, [this](const QString& path) {
+            open_record(path);
+        });
+        connect(m_editor, &JsonEditor::new_step_requested, this, [this] {
+            create_record(false, true);
+        });
+        connect(
+            m_editor, &JsonEditor::teleport_requested, this, &ContentWindow::edit_quest_teleport);
+        connect(m_open_quest, &QPushButton::clicked, this, &ContentWindow::open_npc_quest);
+        connect(m_set_quest, &QPushButton::clicked, this, &ContentWindow::set_npc_quest);
+        connect(m_quest_links, &QTreeWidget::itemActivated, this, &ContentWindow::open_npc_quest);
+        connect(
+            m_quest_links, &QTreeWidget::currentItemChanged, this, [this](QTreeWidgetItem* item) {
+                m_open_quest->setEnabled(item && !item->data(0, Qt::UserRole).toString().isEmpty());
+            });
         connect(m_category, &QComboBox::currentIndexChanged, this, [this] {
             if (!confirm_leave() && m_record) {
                 set_category(m_record->kind);
@@ -260,10 +310,16 @@ namespace openkal::content_editor {
             refresh_list();
         });
         connect(m_search, &QLineEdit::textChanged, this, &ContentWindow::filter_list);
+        connect(m_only_orphans, &QCheckBox::toggled, this, &ContentWindow::filter_list);
         connect(m_list, &QListWidget::currentItemChanged, this, [this](QListWidgetItem* item) {
             if (item) {
                 const auto path = item->data(Qt::UserRole).toString();
-                QTimer::singleShot(0, this, [this, path] { open_record(path); });
+                QTimer::singleShot(0, this, [this, path] {
+                    const auto* current = m_list->currentItem();
+                    if (current && !current->isHidden() && current->data(Qt::UserRole) == path) {
+                        open_record(path);
+                    }
+                });
             }
         });
         connect(m_list, &QListWidget::itemClicked, this, [this](QListWidgetItem* item) {
@@ -323,6 +379,8 @@ namespace openkal::content_editor {
         m_link =
             edit->addAction("Choose reference target…", this, [this] { select_reference(true); });
         m_shop = edit->addAction("Open or create NPC shop…", this, &ContentWindow::open_shop);
+        edit->addSeparator();
+        edit->addAction("Audit content references…", this, &ContentWindow::show_content_audit);
 
         auto* map = menuBar()->addMenu("&Map");
         m_locate = map->addAction("Locate on map", this, [this] { locate(); });
@@ -369,6 +427,7 @@ namespace openkal::content_editor {
         }
         m_diagnostics =
             m_catalog.load(m_workspace.config, m_workspace.base, m_workspace.archived_config);
+        m_content_audit = audit_content_references(m_catalog);
         if (!archive_error.empty()) {
             m_diagnostics.prepend(QString::fromStdString(archive_error));
         }
@@ -469,10 +528,15 @@ namespace openkal::content_editor {
 
     void ContentWindow::refresh_list() {
         const QSignalBlocker blocker(m_list);
+        const int scroll = m_list->verticalScrollBar()->value();
+        const auto category = kind();
+        m_only_orphans->setVisible(supports_orphan_audit(category));
+        const auto quest_names =
+            category == Kind::Quest ? m_catalog.quest_names() : QHash<int, QString>{};
         m_list->clear();
         QVector<const Record*> records;
         for (const auto& record : m_catalog.records()) {
-            if (record.kind == kind()) {
+            if (record.kind == category) {
                 records.append(&record);
             }
         }
@@ -493,25 +557,71 @@ namespace openkal::content_editor {
             return a->path < b->path;
         });
         for (const auto* record : records) {
-            auto* item = new QListWidgetItem(title(*record), m_list);
+            const auto name = quest_names.value(record->object.value("index").toInt());
+            auto* item = new QListWidgetItem(title(*record, name), m_list);
             item->setData(Qt::UserRole, record->path);
-            item->setToolTip(record->path);
-            if (m_record && m_record->path == record->path) {
-                m_list->setCurrentItem(item);
+            const auto reason = m_content_audit.orphan_reasons.value(record->path);
+            if (!reason.isEmpty()) {
+                item->setBackground(QColor(220, 66, 84, 42));
+                item->setToolTip("Possible orphan\n" + reason + '\n' + record->path);
+                item->setData(Qt::AccessibleDescriptionRole, "Possible orphan. " + reason);
+            } else {
+                item->setToolTip(record->path);
             }
         }
         filter_list();
+        sync_list_selection(false);
+        m_list->doItemsLayout();
+        m_list->verticalScrollBar()->setValue(scroll);
     }
 
     void ContentWindow::filter_list() {
         const auto filter = m_search->text().simplified().split(' ', Qt::SkipEmptyParts);
+        const bool only_orphans = m_only_orphans->isChecked() && supports_orphan_audit(kind());
         for (int i = 0; i < m_list->count(); ++i) {
             auto* item = m_list->item(i);
             item->setHidden(
+                (only_orphans &&
+                 !m_content_audit.orphan_reasons.contains(item->data(Qt::UserRole).toString())) ||
                 !std::all_of(filter.cbegin(), filter.cend(), [item](const QString& word) {
                     return item->text().contains(word, Qt::CaseInsensitive);
                 }));
         }
+    }
+
+    void ContentWindow::sync_list_selection(bool reveal) {
+        const QSignalBlocker blocker(m_list);
+        if (m_record) {
+            if (const auto* item = m_list->currentItem();
+                item && item->data(Qt::UserRole) == m_record->path &&
+                (!reveal || !item->isHidden())) {
+                return;
+            }
+            for (int i = 0; i < m_list->count(); ++i) {
+                auto* item = m_list->item(i);
+                if (item->data(Qt::UserRole) != m_record->path) {
+                    continue;
+                }
+                if (reveal && item->isHidden()) {
+                    if (!m_content_audit.orphan_reasons.contains(m_record->path)) {
+                        m_only_orphans->setChecked(false);
+                    }
+                    if (item->isHidden()) {
+                        m_search->clear();
+                    }
+                }
+                const int scroll = m_list->verticalScrollBar()->value();
+                m_list->setCurrentItem(item);
+                if (reveal) {
+                    m_list->scrollToItem(item);
+                } else {
+                    m_list->verticalScrollBar()->setValue(scroll);
+                }
+                return;
+            }
+        }
+        m_list->setCurrentItem(nullptr);
+        m_list->clearSelection();
     }
 
     void ContentWindow::open_record(const QString& path, int spawn) {
@@ -519,6 +629,7 @@ namespace openkal::content_editor {
             if (spawn >= 0) {
                 m_spawn_index = spawn;
             }
+            sync_list_selection(true);
             locate(true);
             return;
         }
@@ -530,15 +641,22 @@ namespace openkal::content_editor {
         }
         const Record next = *exists;
         if (!confirm_leave()) {
-            refresh_list();
+            sync_list_selection(false);
             return;
         }
-        if (kind() != next.kind) {
+        const bool category_changed = kind() != next.kind;
+        if (category_changed) {
             set_category(next.kind);
             m_search->clear();
         }
         show_record(next, spawn);
-        refresh_list();
+        if (category_changed) {
+            refresh_list();
+        }
+        sync_list_selection(true);
+        if (category_changed) {
+            m_list->scrollToItem(m_list->currentItem());
+        }
         locate(true);
     }
 
@@ -575,18 +693,41 @@ namespace openkal::content_editor {
         return answer == QMessageBox::Discard || (answer == QMessageBox::Save && save());
     }
 
-    void ContentWindow::create_record(bool duplicate) {
+    void ContentWindow::create_record(bool duplicate, bool same_quest) {
         if (m_catalog.root().isEmpty() || (duplicate && !m_record)) {
             return;
         }
-        const auto id = new_id(this, kind());
+        const auto quest = same_quest ? current_object() : std::optional<QJsonObject>{};
+        if (same_quest && !quest) {
+            return;
+        }
+        const auto id =
+            quest ? QString::number(quest->value("index").toInt()) : new_id(this, kind());
+        const int current_flag = quest ? quest->value("flag").toInt(-1) : -1;
         if (id.isEmpty()) {
             return;
         }
         int flag = 0;
         if (kind() == Kind::Quest) {
+            int suggested = 1;
+            if (same_quest) {
+                const int first = std::clamp(current_flag, -1, 255) + 1;
+                suggested = -1;
+                for (int offset = 0; offset < 256; ++offset) {
+                    const int candidate = (first + offset) % 256;
+                    if (candidate != current_flag &&
+                        !m_catalog.find(Kind::Quest, id + ':' + QString::number(candidate))) {
+                        suggested = candidate;
+                        break;
+                    }
+                }
+                if (suggested < 0) {
+                    description("All steps for this quest ID are in use.");
+                    return;
+                }
+            }
             bool ok = false;
-            flag = QInputDialog::getInt(this, "Quest step", "Flag", 1, 0, 255, 1, &ok);
+            flag = QInputDialog::getInt(this, "Quest step", "Flag", suggested, 0, 255, 1, &ok);
             if (!ok) {
                 return;
             }
@@ -608,7 +749,8 @@ namespace openkal::content_editor {
             }
             object = copy;
         }
-        if (m_catalog.find(kind(), identity(kind(), object))) {
+        if (m_catalog.find(kind(), identity(kind(), object)) ||
+            (same_quest && flag == current_flag)) {
             error("This identifier is already in use.");
             return;
         }
@@ -665,6 +807,7 @@ namespace openkal::content_editor {
         candidate.original = serialize(*object);
         m_record = candidate;
         m_last_path = candidate.path;
+        m_content_audit = audit_content_references(m_catalog);
         refresh_list();
         refresh_selection();
         description("Saved " + title(candidate));
@@ -694,6 +837,7 @@ namespace openkal::content_editor {
             error(problem);
             return;
         }
+        m_content_audit = audit_content_references(m_catalog);
         show_record(std::nullopt);
         refresh_list();
         description("Definition deleted.");
@@ -756,6 +900,13 @@ namespace openkal::content_editor {
         m_link->setEnabled(writable);
         m_shop->setVisible(npc);
         m_shop->setEnabled(!m_catalog.root().isEmpty());
+        m_npc_quests->setVisible(npc);
+        m_set_quest->setEnabled(npc && writable);
+        if (npc) {
+            refresh_npc_quests(object);
+        } else {
+            m_npc_quest_fields = {};
+        }
         m_teleport->setVisible(npc || (selected && m_record->kind == Kind::Quest));
         m_teleport->setEnabled(writable);
         const auto spawns = object.value("spawns").toArray();
@@ -769,9 +920,17 @@ namespace openkal::content_editor {
         m_spawns->addItem("Select a spawn", -1);
         for (int i = 0; i < spawns.size(); ++i) {
             const auto spawn = spawns.at(i).toObject();
-            m_spawns->addItem(QString("#%1  ·  Map %2  ·  Count %3  ·  Respawn %4 s")
+            const int configured_map = spawn.value("map").toInt();
+            auto location =
+                configured_map == 0 ? QString("Overworld") : QString("Map %1").arg(configured_map);
+            if (const auto bounds = spawn_bounds(spawn);
+                bounds && configured_map != 0 &&
+                m_map->spawn_map(configured_map, (bounds->first + bounds->second) / 2) == 0) {
+                location = QString("Overworld (configured map %1)").arg(configured_map);
+            }
+            m_spawns->addItem(QString("#%1  ·  %2  ·  Count %3  ·  Respawn %4 s")
                                   .arg(i + 1)
-                                  .arg(spawn.value("map").toInt())
+                                  .arg(location)
                                   .arg(spawn.value("max").toInt())
                                   .arg(spawn.value("cycle").toInt()),
                               i);
@@ -785,6 +944,79 @@ namespace openkal::content_editor {
         } else {
             m_preview->clear();
         }
+    }
+
+    void ContentWindow::refresh_npc_quests(const QJsonObject& object) {
+        const QJsonObject fields{
+            {"index", object.value("index")},
+            {"quest", object.value("quest")},
+            {"html", object.value("html")},
+            {"beside_dialog", value_at(object, {"placement", "beside_dialog"})}};
+        if (m_npc_quest_fields == fields) {
+            return;
+        }
+        m_npc_quest_fields = fields;
+        const auto* current = m_quest_links->currentItem();
+        const QString selected = current ? current->text(0) : QString{};
+        m_quest_links->clear();
+        m_open_quest->setEnabled(false);
+        for (const auto& quest : m_catalog.npc_quests(object)) {
+            auto sources = quest.sources.join(" · ");
+            if (quest.path.isEmpty()) {
+                sources += " · Step not loaded";
+            }
+            auto* row = new QTreeWidgetItem(m_quest_links, {quest.step, sources});
+            row->setData(0, Qt::UserRole, quest.path);
+            row->setToolTip(1, sources);
+            if (quest.step == selected) {
+                m_quest_links->setCurrentItem(row);
+            }
+        }
+        if (m_quest_links->topLevelItemCount() == 0) {
+            auto* row = new QTreeWidgetItem(m_quest_links, {"No quests found"});
+            row->setFlags(Qt::NoItemFlags);
+        } else if (!m_quest_links->currentItem()) {
+            m_quest_links->setCurrentItem(m_quest_links->topLevelItem(0));
+        }
+    }
+
+    void ContentWindow::open_npc_quest() {
+        if (const auto* row = m_quest_links->currentItem()) {
+            const auto path = row->data(0, Qt::UserRole).toString();
+            if (!path.isEmpty()) {
+                open_record(path);
+            }
+        }
+    }
+
+    void ContentWindow::set_npc_quest() {
+        const auto draft = current_object();
+        if (!draft) {
+            return;
+        }
+        const auto current = draft->value("quest").toArray();
+        const auto key =
+            current.size() >= 2
+                ? QString("%1:%2").arg(current.at(0).toInt()).arg(current.at(1).toInt())
+                : QString{};
+        const auto selected = pick_definition(this, m_catalog, Kind::Quest, key, "No entry step");
+        if (!selected || *selected == key) {
+            return;
+        }
+        auto updated = *draft;
+        if (selected->isEmpty()) {
+            updated.remove("quest");
+        } else {
+            const auto* step = m_catalog.find(Kind::Quest, *selected);
+            if (*selected == "0:0" || (step && step->object.value("linked").toBool())) {
+                error("Choose a step that can run directly from an NPC.");
+                return;
+            }
+            const auto parts = selected->split(':');
+            updated["quest"] = QJsonArray{parts.front().toInt(), parts.value(1).toInt()};
+        }
+        m_editor->apply(updated);
+        refresh_npc_quests(updated);
     }
 
     void ContentWindow::refresh_markers() {
@@ -817,12 +1049,13 @@ namespace openkal::content_editor {
                 const auto name = title(active);
                 for (int i = 0; i < spawns.size(); ++i) {
                     const auto spawn = spawns.at(i).toObject();
-                    if (spawn.value("map").toInt() != map_id) {
+                    const auto bounds = spawn_bounds(spawn);
+                    if (!bounds) {
                         continue;
                     }
-                    if (const auto bounds = spawn_bounds(spawn);
-                        bounds &&
-                        (!district || m_map->region_at(map_id, bounds->first) == region)) {
+                    const auto center = (bounds->first + bounds->second) / 2;
+                    if (m_map->spawn_map(spawn.value("map").toInt(), center) == map_id &&
+                        (!district || m_map->region_at(map_id, center) == region)) {
                         markers.append({active.path,
                                         name,
                                         bounds->first,
@@ -877,7 +1110,7 @@ namespace openkal::content_editor {
             const auto spawn = spawns.at(index).toObject();
             if (const auto bounds = spawn_bounds(spawn)) {
                 const QPoint center = (bounds->first + bounds->second) / 2;
-                if (set_map(spawn.value("map").toInt(), center)) {
+                if (set_map(m_map->spawn_map(spawn.value("map").toInt(), center), center)) {
                     if (close) {
                         m_map->focus(center, {}, close_margin);
                     } else {
@@ -896,6 +1129,8 @@ namespace openkal::content_editor {
         m_placement_row = row;
         m_cancel_placement->setEnabled(mode != MapView::Mode::Select);
         m_map->set_mode(mode);
+        m_map_panel->setVisible(!m_record || m_record->kind != Kind::Quest ||
+                                mode == MapView::Mode::PlaceTeleport);
         switch (mode) {
         case MapView::Mode::Select:
             m_map_hint->setText(
@@ -1055,13 +1290,17 @@ namespace openkal::content_editor {
                                                                              : -1);
             return;
         }
+        edit_quest_teleport(path);
+    }
+
+    void ContentWindow::edit_quest_teleport(const JsonPath& path) {
         const auto object = current_object();
         if (!object) {
             return;
         }
         m_teleport_path = path.mid(0, 4);
         if (value_at(*object, m_teleport_path).toObject().value("op").toString() != "teleport") {
-            description("Select a teleport action from a quest step's then list.");
+            description("Choose a teleport action in the quest graph or in Fields.");
             return;
         }
         begin_placement(MapView::Mode::PlaceTeleport);
@@ -1085,6 +1324,110 @@ namespace openkal::content_editor {
             m_search->clear();
             show_record(m_catalog.draft(Kind::Shop, initial_object(Kind::Shop, id)));
             refresh_list();
+        }
+    }
+
+    void ContentWindow::show_content_audit() {
+        QDialog dialog(this);
+        dialog.setWindowTitle("Content reference audit");
+        dialog.resize(860, 560);
+        auto* layout = new QVBoxLayout(&dialog);
+        auto* scope = new QLabel(
+            "Checks saved definitions in the loaded configuration. Events and client scripts can "
+            "provide additional entry points.",
+            &dialog);
+        scope->setWordWrap(true);
+        layout->addWidget(scope);
+
+        auto* controls = new QHBoxLayout;
+        auto* group = new QComboBox(&dialog);
+        group->setAccessibleName("Audit findings");
+        const auto add_group = [&](ContentFindingKind kind, const QString& caption) {
+            const auto count =
+                std::count_if(m_content_audit.findings.cbegin(),
+                              m_content_audit.findings.cend(),
+                              [kind](const ContentFinding& entry) { return entry.kind == kind; });
+            group->addItem(QString("%1 (%2)").arg(caption).arg(count), static_cast<int>(kind));
+        };
+        add_group(ContentFindingKind::PossibleOrphan, "Possible orphans");
+        add_group(ContentFindingKind::NoKnownRoute, "No known route");
+        add_group(ContentFindingKind::MissingTarget, "Missing link targets");
+        controls->addWidget(group);
+        auto* search = new QLineEdit(&dialog);
+        search->setPlaceholderText("Filter findings");
+        search->setClearButtonEnabled(true);
+        controls->addWidget(search, 1);
+        layout->addLayout(controls);
+
+        auto* results = new QTreeWidget(&dialog);
+        results->setObjectName("ContentAuditResults");
+        results->setHeaderLabels({"Definition", "Finding"});
+        results->setRootIsDecorated(false);
+        results->setAlternatingRowColors(true);
+        results->setUniformRowHeights(true);
+        results->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+        layout->addWidget(results, 1);
+
+        auto* buttons = new QDialogButtonBox(QDialogButtonBox::Close, &dialog);
+        auto* open = buttons->addButton("Open definition", QDialogButtonBox::AcceptRole);
+        layout->addWidget(buttons);
+        const auto update_open = [&] {
+            const auto* current = results->currentItem();
+            open->setEnabled(current && !current->isHidden());
+        };
+        const auto filter = [&] {
+            const auto words = search->text().simplified().split(' ', Qt::SkipEmptyParts);
+            for (int i = 0; i < results->topLevelItemCount(); ++i) {
+                auto* item = results->topLevelItem(i);
+                const auto text = item->text(0) + ' ' + item->text(1);
+                item->setHidden(
+                    !std::all_of(words.cbegin(), words.cend(), [&](const QString& word) {
+                        return text.contains(word, Qt::CaseInsensitive);
+                    }));
+            }
+            update_open();
+        };
+        const auto show_group = [&] {
+            results->clear();
+            const auto kind = static_cast<ContentFindingKind>(group->currentData().toInt());
+            for (const auto& finding : m_content_audit.findings) {
+                if (finding.kind != kind) {
+                    continue;
+                }
+                auto* item = new QTreeWidgetItem(results, {finding.definition, finding.detail});
+                item->setData(0, Qt::UserRole, finding.record_path);
+                item->setData(0, Qt::UserRole + 1, finding.field);
+                item->setToolTip(0, finding.record_path);
+                item->setToolTip(1, finding.detail);
+            }
+            results->sortItems(0, Qt::AscendingOrder);
+            filter();
+        };
+        connect(group, &QComboBox::currentIndexChanged, &dialog, show_group);
+        connect(search, &QLineEdit::textChanged, &dialog, filter);
+        connect(results, &QTreeWidget::currentItemChanged, &dialog, update_open);
+        connect(results, &QTreeWidget::itemActivated, &dialog, &QDialog::accept);
+        connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+        connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+        show_group();
+
+        if (dialog.exec() != QDialog::Accepted) {
+            return;
+        }
+        const auto* selected = results->currentItem();
+        if (!selected || selected->isHidden()) {
+            return;
+        }
+        const auto path = selected->data(0, Qt::UserRole).toString();
+        const auto field = selected->data(0, Qt::UserRole + 1).toStringList();
+        open_record(path);
+        if (m_record && m_record->path == path && !field.isEmpty()) {
+            const auto draft = m_editor->object();
+            if (draft && value_at(*draft, field) == value_at(m_record->object, field)) {
+                m_editor->select_path(field);
+            } else {
+                description("Save the definition to refresh this audit finding.");
+            }
         }
     }
 
@@ -1175,7 +1518,10 @@ namespace openkal::content_editor {
             return;
         }
         const auto parts = keys.value(target).split(':');
-        auto updated = replace_at(*current, field.path, parts.front().toInt()).toObject();
+        const auto ref_value = active.kind == Kind::Dialog && field.kind == Kind::Dialog
+                                   ? QJsonValue(parts.front())
+                                   : QJsonValue(parts.front().toInt());
+        auto updated = replace_at(*current, field.path, ref_value).toObject();
         if (!field.flag_path.isEmpty()) {
             updated = replace_at(updated, field.flag_path, parts.value(1).toInt()).toObject();
         }
