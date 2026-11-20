@@ -111,11 +111,23 @@ namespace openkal::client {
          * @param gb_path Path of the skill .gb mesh.
          * @param tex_cache Texture cache shared across the effect system, keyed by
          * texture name.
+         * @param animate_materials Enable material keyframes for a one-shot effect.
          * @return True when the model was loaded and is ready to spawn.
          */
         [[nodiscard]] bool load(engine::IEngine& engine,
                                 const std::string& gb_path,
-                                std::unordered_map<std::string, engine::TextureHandle>& tex_cache);
+                                std::unordered_map<std::string, engine::TextureHandle>& tex_cache,
+                                bool animate_materials = false);
+
+        /** Samples a submesh's material during one-shot playback.
+         * @param part_index Submesh in load order.
+         * @param time_ms Clip time in milliseconds.
+         * @param u Destination horizontal texture offset.
+         * @param v Destination vertical texture offset.
+         * @param opacity Destination opacity.
+         */
+        void sample_material(
+            std::size_t part_index, float time_ms, float& u, float& v, float& opacity) const;
 
         /** @return True once the model is loaded and can be spawned. */
         [[nodiscard]] bool ready() const {
@@ -162,6 +174,10 @@ namespace openkal::client {
 
         /** Render state per bind-pose mesh. */
         std::vector<SkillModelPart> m_parts;
+
+        /** Material frames and their shared key times for one-shot effects. */
+        std::vector<terrain::GbMaterial> m_materials;
+        std::vector<std::uint16_t> m_material_key_times;
 
         /** Skeleton bones in skeleton order. */
         std::vector<terrain::GbBone> m_bones;
@@ -508,7 +524,6 @@ namespace openkal::client {
          * @param y World Y.
          * @param z World Z.
          * @param follow True to re-position every frame via follow_attached().
-         * @param life_ms Playback window; the clip is time-scaled to fit.
          * @param entity Optional recipient followed through character bone updates.
          */
         void spawn_level_up(engine::IEngine& engine,
@@ -516,7 +531,6 @@ namespace openkal::client {
                             float y,
                             float z,
                             bool follow = true,
-                            float life_ms = 1200.0f,
                             std::uint32_t entity = 0);
 
         /**

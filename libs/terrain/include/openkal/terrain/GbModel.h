@@ -90,6 +90,7 @@ namespace openkal::terrain {
      * @param out_u Destination horizontal offset.
      * @param out_v Destination vertical offset.
      * @param out_opacity Destination opacity.
+     * @param loop True to repeat the keys, false to hold the first and last frames.
      * @return True when the material has animation data.
      */
     [[nodiscard]] bool sample_material_uv(const GbMaterial& mat,
@@ -97,7 +98,8 @@ namespace openkal::terrain {
                                           float time_ms,
                                           float& out_u,
                                           float& out_v,
-                                          float& out_opacity);
+                                          float& out_opacity,
+                                          bool loop = true);
 
     /** Bind-pose vertex used for compatibility behavior skinning. */
     struct GbSkinVert {
