@@ -513,7 +513,8 @@ namespace openkal::terrain {
                             float time_ms,
                             float& out_u,
                             float& out_v,
-                            float& out_opacity) {
+                            float& out_opacity,
+                            bool loop) {
         out_u = 0.0f;
         out_v = 0.0f;
         out_opacity = 1.0f;
@@ -532,7 +533,8 @@ namespace openkal::terrain {
             out_opacity = mat.frames[0].opacity;
             return true;
         }
-        float t = std::fmod(time_ms, duration);
+        const float start = std::min(static_cast<float>(key_times.front()), duration);
+        float t = loop ? std::fmod(time_ms, duration) : std::clamp(time_ms, start, duration);
         if (t < 0.0f) {
             t += duration;
         }

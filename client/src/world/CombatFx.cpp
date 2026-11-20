@@ -280,7 +280,8 @@ namespace openkal::client {
 
     bool SkillModelCache::load(engine::IEngine& engine,
                                const std::string& gb_path,
-                               std::unordered_map<std::string, engine::TextureHandle>& tex_cache) {
+                               std::unordered_map<std::string, engine::TextureHandle>& tex_cache,
+                               bool animate_materials) {
         *this = SkillModelCache{};
         terrain::GbModel cpu;
         if (!terrain::load_gb(gb_path, cpu) || cpu.meshes.empty()) {
@@ -325,8 +326,26 @@ namespace openkal::client {
                 part.set_texture(engine.create_texture_rgba8(px, 1, 1, true));
             }
         }
+        if (animate_materials) {
+            m_materials = std::move(cpu.materials);
+            m_material_key_times = std::move(cpu.material_key_times);
+        }
         m_ready = true;
         return true;
+    }
+
+    void SkillModelCache::sample_material(
+        std::size_t part_index, float time_ms, float& u, float& v, float& opacity) const {
+        const int index = m_bind_meshes[part_index].material_index;
+        if (index >= 0 && static_cast<std::size_t>(index) < m_materials.size()) {
+            (void) terrain::sample_material_uv(m_materials[static_cast<std::size_t>(index)],
+                                               m_material_key_times,
+                                               time_ms,
+                                               u,
+                                               v,
+                                               opacity,
+                                               false);
+        }
     }
 
     CombatFx::Bolt::Bolt(float ax,
@@ -989,7 +1008,26 @@ namespace openkal::client {
             if (!m_live_meshes[i] || !part.texture()) {
                 continue;
             }
-            engine.draw_mesh_textured(m_live_meshes[i], part.texture(), M, true, true, false, true);
+            float u = 0.0f;
+            float v = 0.0f;
+            float opacity = 1.0f;
+            m_model->sample_material(i, m_age_ms * m_anim_rate, u, v, opacity);
+            if (opacity <= 0.0f) {
+                continue;
+            }
+            engine.draw_mesh_textured(m_live_meshes[i],
+                                      part.texture(),
+                                      M,
+                                      true,
+                                      true,
+                                      false,
+                                      true,
+                                      u,
+                                      v,
+                                      1.0f,
+                                      1.0f,
+                                      1.0f,
+                                      opacity);
         }
     }
 
@@ -1106,7 +1144,7 @@ namespace openkal::client {
 
         const std::string level_up_gb =
             platform::join_path(platform::join_path(data_root, "Effect"), "effect_levelup.gb");
-        if (!m_level_up.load(engine, level_up_gb, m_tex_cache)) {
+        if (!m_level_up.load(engine, level_up_gb, m_tex_cache, true)) {
             log::warn("combat FX: failed to load level-up effect " + level_up_gb);
         }
 
@@ -1153,18 +1191,14 @@ namespace openkal::client {
         m_clip_loop_sound_ids[entity].push_back(handle.id());
     }
 
-    void CombatFx::spawn_level_up(engine::IEngine& engine,
-                                  float x,
-                                  float y,
-                                  float z,
-                                  bool follow,
-                                  float life_ms,
-                                  std::uint32_t entity) {
+    void CombatFx::spawn_level_up(
+        engine::IEngine& engine, float x, float y, float z, bool follow, std::uint32_t entity) {
         if (!m_ready || !m_level_up.ready()) {
             return;
         }
+        constexpr float kPlaybackMs = 1500.0f;
         spawn_skill_instance(
-            engine, m_level_up, x, y, z, 0.0f, 1.0f, life_ms, false, follow && entity == 0);
+            engine, m_level_up, x, y, z, 0.0f, 1.0f, kPlaybackMs, false, follow && entity == 0);
         if (entity != 0) {
             m_skill_anims.back().set_clip_follow_entity(entity);
         }

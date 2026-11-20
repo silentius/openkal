@@ -93,6 +93,23 @@ int main() {
         expect(openkal::terrain::is_water_surface_texture("water_001.dds"), "water surface detect");
     }
 
+    // Project-owned material keys for a one-shot effect with an invisible final frame.
+    {
+        openkal::terrain::GbMaterial mat;
+        mat.frames = {{0.25f, 0.0f, 0.0f}, {1.0f, 0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}};
+        const std::vector<std::uint16_t> times = {0, 500, 1000};
+        float u = 0, v = 0, opacity = 1;
+        expect(openkal::terrain::sample_material_uv(mat, times, 750.0f, u, v, opacity, false) &&
+                   u == 0.75f && opacity == 0.5f,
+               "one-shot material interpolates opacity and UV together");
+        expect(openkal::terrain::sample_material_uv(mat, times, 1200.0f, u, v, opacity, false) &&
+                   u == 1.0f && opacity == 0.0f,
+               "one-shot material holds the faded final key");
+        expect(openkal::terrain::sample_material_uv(mat, times, 1000.0f, u, v, opacity) &&
+                   u == 0.0f && opacity == 0.25f,
+               "looping material still returns to the first key");
+    }
+
     // Tiny 2-bone skinning: mid-time pose differs from kf0; (*LOOP) wrap
     // semantics.
     {

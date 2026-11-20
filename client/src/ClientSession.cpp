@@ -5243,7 +5243,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             }
             if (next > current) {
                 const auto pos = local_player.pos();
-                combat_fx.spawn_level_up(*engine, pos.x, pos.y, pos.z, true, 1200.0f);
+                combat_fx.spawn_level_up(*engine, pos.x, pos.y, pos.z);
             }
             if (parsed.op == protocol::LevelOp::Add) {
                 return client::ClientChatCommandResult(
@@ -9844,15 +9844,10 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     while (net.take_level_up_effect(fx_id)) {
                         if (fx_id == net.local_player_id() && fx_id != 0) {
                             const auto& pos = local_player.pos();
-                            combat_fx.spawn_level_up(*engine, pos.x, pos.y, pos.z, true, 1200.0f);
+                            combat_fx.spawn_level_up(*engine, pos.x, pos.y, pos.z);
                         } else if (const auto* remote = remote_players.find(fx_id)) {
-                            combat_fx.spawn_level_up(*engine,
-                                                     remote->wx(),
-                                                     remote->wy(),
-                                                     remote->wz(),
-                                                     false,
-                                                     1200.0f,
-                                                     fx_id);
+                            combat_fx.spawn_level_up(
+                                *engine, remote->wx(), remote->wy(), remote->wz(), false, fx_id);
                         }
                     }
                 }
