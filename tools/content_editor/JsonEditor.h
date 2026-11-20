@@ -21,6 +21,7 @@ class QTreeWidget;
 class QTreeWidgetItem;
 
 namespace openkal::content_editor {
+    class QuestEditor;
 
     /** Structured editing of all JSON fields, with a source view for bulk changes. */
     class JsonEditor : public QWidget {
@@ -31,6 +32,9 @@ namespace openkal::content_editor {
          * @param parent Owning widget.
          */
         explicit JsonEditor(QWidget* parent = nullptr);
+
+        /** @param catalog Definitions available to the quest editor and reference pickers. */
+        void set_catalog(const Catalog* catalog);
 
         /** Replaces the editor contents for a selected definition.
          * @param kind Definition category.
@@ -61,6 +65,15 @@ namespace openkal::content_editor {
         /** The current definition has changed. */
         void changed();
 
+        /** @param path Related definition selected in the quest graph. */
+        void open_record_requested(const QString& path);
+
+        /** Requests a new step for the current quest. */
+        void new_step_requested();
+
+        /** @param path Teleport action selected in the graph. */
+        void teleport_requested(const JsonPath& path);
+
       private:
         void rebuild(const JsonPath& selected, bool reset);
         void append(QTreeWidgetItem* parent,
@@ -75,9 +88,13 @@ namespace openkal::content_editor {
         void tab_changed(int index);
 
         Kind m_kind = Kind::Npc;
+        const Catalog* m_catalog = nullptr;
         QJsonObject m_object;
         bool m_writable = false;
         QTabWidget* m_tabs;
+        QWidget* m_previous_tab = nullptr;
+        QWidget* m_fields;
+        QuestEditor* m_quest;
         QTreeWidget* m_tree;
         QPlainTextEdit* m_source;
         QPushButton* m_edit;

@@ -11,6 +11,7 @@
 #pragma once
 
 #include <QByteArray>
+#include <QHash>
 #include <QJsonObject>
 #include <QString>
 #include <QStringList>
@@ -43,6 +44,13 @@ namespace openkal::content_editor {
         JsonPath flag_path;
     };
 
+    /** Quest step or journal entry associated with an NPC. */
+    struct NpcQuest {
+        QString step;
+        QString path;
+        QStringList sources;
+    };
+
     /** @return Catalogs in display order. */
     [[nodiscard]] QVector<Kind> kinds();
 
@@ -63,9 +71,10 @@ namespace openkal::content_editor {
     [[nodiscard]] QString identity(Kind kind, const QJsonObject& object);
 
     /** @param record Definition to describe.
+     * @param fallback_name Display name to use when the definition has no name of its own.
      * @return Identifier and any available display name.
      */
-    [[nodiscard]] QString title(const Record& record);
+    [[nodiscard]] QString title(const Record& record, const QString& fallback_name = {});
 
     /** @param kind Catalog category.
      * @param id Identifier typed by the user.
@@ -121,6 +130,14 @@ namespace openkal::content_editor {
          * @return First matching loaded definition, or nullptr.
          */
         [[nodiscard]] const Record* find(Kind kind, const QString& id) const;
+
+        /** @return Loaded journal titles by quest ID. */
+        [[nodiscard]] QHash<int, QString> quest_names() const;
+
+        /** @param npc NPC definition, including any unsaved entry or dialog changes.
+         * @return Quest links from the NPC, its dialogs and quest flow, and journal assignments.
+         */
+        [[nodiscard]] QVector<NpcQuest> npc_quests(const QJsonObject& npc) const;
 
         /** @param definition NPC draft, possibly with a relative placement.
          * @return Effective definition, or no value if its anchor is missing or invalid.

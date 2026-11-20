@@ -82,6 +82,13 @@ namespace openkal::content_editor {
         /** @return Current logical map ID. */
         [[nodiscard]] int map_id() const;
 
+        /** Applies the server's overworld binding for monster spawn rectangles.
+         * @param configured_map Map ID stored in the monster definition.
+         * @param center Center of the spawn rectangle in server pixels.
+         * @return Overworld for cells assigned to map 0; otherwise the configured map ID.
+         */
+        [[nodiscard]] int spawn_map(int configured_map, QPoint center) const;
+
         /** Changes the displayed atlas.
          * @param index Logical map ID.
          * @param region Atlas region index within the selected map.

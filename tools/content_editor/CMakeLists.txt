@@ -7,12 +7,13 @@ qt_standard_project_setup()
 
 add_library(openkal_content_editor STATIC
   Catalog.cpp JsonEditor.cpp JsonEditor.h MapView.cpp MapView.h
-  PlacementPreview.cpp PlacementPreview.h
+  PlacementPreview.cpp PlacementPreview.h ContentAudit.cpp QuestEditor.cpp QuestEditor.h
   ${CMAKE_SOURCE_DIR}/client/src/monster/MonsterCatalog.cpp
   ${CMAKE_SOURCE_DIR}/client/src/world/NpcCatalog.cpp
   ${CMAKE_SOURCE_DIR}/client/src/ui/MinimapAreaName.cpp)
 target_link_libraries(openkal_content_editor PUBLIC Qt6::Widgets openkal::terrain openkal_world_viewport)
-target_include_directories(openkal_content_editor PRIVATE ${CMAKE_SOURCE_DIR}/client/include)
+target_include_directories(openkal_content_editor PRIVATE
+  ${CMAKE_SOURCE_DIR}/client/include ${CMAKE_SOURCE_DIR}/libs/server/include)
 openkal_target_warnings(openkal_content_editor)
 
 add_executable(content_editor Main.cpp ContentWindow.cpp)

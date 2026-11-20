@@ -214,6 +214,13 @@ namespace openkal::content_editor {
         return m_index;
     }
 
+    int MapView::spawn_map(int configured_map, QPoint center) const {
+        if (configured_map != 0 && m_maps.cell_index_at_pixel(center.x(), center.y()) == 0) {
+            return 0;
+        }
+        return configured_map;
+    }
+
     int MapView::region_at(int index, QPoint position) const {
         const auto options = atlas_regions(index);
         const auto* info =

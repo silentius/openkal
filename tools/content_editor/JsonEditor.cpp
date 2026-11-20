@@ -10,6 +10,8 @@
 
 #include "JsonEditor.h"
 
+#include "QuestEditor.h"
+
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QFontDatabase>
@@ -95,7 +97,7 @@ namespace openkal::content_editor {
         }
 
         std::optional<QJsonValue>
-        new_array_entry(QWidget* parent, Kind kind, const JsonPath& path) {
+        new_array_entry(QWidget* parent, const Catalog* catalog, Kind kind, const JsonPath& path) {
             const QString field = path.value(path.size() - 1);
             if (kind == Kind::Npc && field == "teleports") {
                 return QJsonArray{0, 0, 0};
@@ -117,64 +119,10 @@ namespace openkal::content_editor {
                 return QJsonObject{{"if", QJsonArray()}, {"then", QJsonArray()}};
             }
             if (kind == Kind::Quest && (field == "if" || field == "then")) {
-                const QStringList choices = field == "if" ? QStringList{"level",
-                                                                        "class",
-                                                                        "item",
-                                                                        "quest",
-                                                                        "clear",
-                                                                        "notclear",
-                                                                        "specialty",
-                                                                        "gstate",
-                                                                        "contribute",
-                                                                        "party"}
-                                                          : QStringList{"html",
-                                                                        "item",
-                                                                        "exp",
-                                                                        "link",
-                                                                        "save",
-                                                                        "clear",
-                                                                        "teleport",
-                                                                        "itemrand",
-                                                                        "contribute",
-                                                                        "supoint",
-                                                                        "specialty",
-                                                                        "gstate",
-                                                                        "guide",
-                                                                        "redistribute"};
-                bool ok = false;
-                const auto op = QInputDialog::getItem(
-                    parent, "Quest rule", "Operation", choices, 0, false, &ok);
-                if (!ok) {
-                    return std::nullopt;
+                if (const auto result = edit_quest_rule(parent, catalog, field == "if")) {
+                    return *result;
                 }
-                QJsonObject result{{"op", op}};
-                if (op == "item" && field == "if") {
-                    result["items"] = QJsonArray();
-                } else if (op == "item") {
-                    result["in"] = QJsonArray();
-                    result["out"] = QJsonArray();
-                } else if (op == "html") {
-                    result["id"] = 0;
-                } else if (op == "teleport") {
-                    result["map"] = 0;
-                    result["x"] = 0;
-                    result["y"] = 0;
-                } else if (op == "quest" || op == "link" || op == "save" || op == "clear" ||
-                           op == "notclear") {
-                    result["quest"] = 0;
-                    if (op == "quest" || op == "link" || op == "save" ||
-                        (op == "clear" && field == "then")) {
-                        result["flag"] = 0;
-                    }
-                } else if (op == "itemrand") {
-                    result["group"] = 0;
-                } else if (op != "redistribute") {
-                    result[op] = 0;
-                    if (op == "gstate") {
-                        result["value"] = 0;
-                    }
-                }
-                return result;
+                return std::nullopt;
             }
             if (kind == Kind::Quest && path.size() >= 5) {
                 if (field == "in") {
@@ -232,7 +180,10 @@ namespace openkal::content_editor {
         layout->setContentsMargins(0, 0, 0, 0);
         m_tabs = new QTabWidget(this);
         layout->addWidget(m_tabs);
-        auto* fields = new QWidget(m_tabs);
+        m_quest = new QuestEditor(m_tabs);
+        m_tabs->addTab(m_quest, "Quest graph");
+        m_fields = new QWidget(m_tabs);
+        auto* fields = m_fields;
         auto* fields_layout = new QVBoxLayout(fields);
         auto* buttons = new QHBoxLayout;
         m_edit = new QPushButton("Edit value", fields);
@@ -269,7 +220,18 @@ namespace openkal::content_editor {
         connect(m_up, &QPushButton::clicked, this, [this] { move_array_entry(-1); });
         connect(m_down, &QPushButton::clicked, this, [this] { move_array_entry(1); });
         connect(m_source, &QPlainTextEdit::textChanged, this, &JsonEditor::changed);
+        connect(m_quest, &QuestEditor::changed, this, &JsonEditor::apply);
+        connect(m_quest, &QuestEditor::field_requested, this, &JsonEditor::select_path);
+        connect(
+            m_quest, &QuestEditor::open_record_requested, this, &JsonEditor::open_record_requested);
+        connect(m_quest, &QuestEditor::new_step_requested, this, &JsonEditor::new_step_requested);
+        connect(m_quest, &QuestEditor::teleport_requested, this, &JsonEditor::teleport_requested);
         load(Kind::Npc, {}, false);
+    }
+
+    void JsonEditor::set_catalog(const Catalog* catalog) {
+        m_catalog = catalog;
+        m_quest->set_catalog(catalog);
     }
 
     void JsonEditor::load(Kind kind, const QJsonObject& object, bool writable) {
@@ -277,13 +239,19 @@ namespace openkal::content_editor {
         m_object = object;
         m_writable = writable;
         const QSignalBlocker blocker(m_tabs);
-        m_tabs->setCurrentIndex(0);
+        const bool quest = kind == Kind::Quest && !object.isEmpty();
+        m_tabs->setTabVisible(m_tabs->indexOf(m_quest), quest);
+        m_tabs->setCurrentWidget(quest ? static_cast<QWidget*>(m_quest) : m_fields);
+        m_previous_tab = m_tabs->currentWidget();
         m_source->setReadOnly(!writable);
         rebuild({}, true);
+        if (quest) {
+            m_quest->load(m_object, m_writable, true);
+        }
     }
 
     std::optional<QJsonObject> JsonEditor::object(QString* error) const {
-        if (m_tabs->currentIndex() == 0) {
+        if (m_tabs->currentWidget() != m_source) {
             return m_object;
         }
         QJsonParseError parse_error;
@@ -299,23 +267,29 @@ namespace openkal::content_editor {
 
     void JsonEditor::apply(const QJsonObject& object) {
         const auto path = selected_path();
-        if (m_tabs->currentIndex() == 1) {
+        if (m_tabs->currentWidget() == m_source) {
             const QSignalBlocker blocker(m_source);
             m_source->setPlainText(QString::fromUtf8(serialize(object)));
         }
         m_object = object;
         rebuild(path, false);
+        if (m_tabs->currentWidget() == m_quest) {
+            m_quest->load(m_object, m_writable, false);
+        }
         emit changed();
     }
 
     JsonPath JsonEditor::selected_path() const {
         const auto* item = m_tree->currentItem();
-        return item ? item->data(0, Qt::UserRole).toStringList() : JsonPath{};
+        return item && m_tabs->currentWidget() == m_fields
+                   ? item->data(0, Qt::UserRole).toStringList()
+                   : JsonPath{};
     }
 
     void JsonEditor::select_path(const JsonPath& path) {
-        if (m_tabs->currentIndex() != 0) {
-            m_tabs->setCurrentIndex(0);
+        m_tabs->setCurrentWidget(m_fields);
+        if (m_tabs->currentWidget() != m_fields) {
+            return;
         }
         for (QTreeWidgetItemIterator it(m_tree); *it; ++it) {
             auto* item = *it;
@@ -412,7 +386,7 @@ namespace openkal::content_editor {
         }
         if (container.isArray()) {
             auto array = container.toArray();
-            if (const auto entry = new_array_entry(this, m_kind, path)) {
+            if (const auto entry = new_array_entry(this, m_catalog, m_kind, path)) {
                 if (m_kind == Kind::Monster && path == JsonPath{"stats", "quests"} &&
                     !array.isEmpty() && !array.first().isArray()) {
                     array = QJsonArray{array};
@@ -495,22 +469,27 @@ namespace openkal::content_editor {
     }
 
     void JsonEditor::tab_changed(int index) {
-        if (index == 1) {
+        auto* current = m_tabs->widget(index);
+        if (current == m_source) {
             const QSignalBlocker blocker(m_source);
             m_source->setPlainText(QString::fromUtf8(serialize(m_object)));
-            return;
+        } else if (m_previous_tab == m_source) {
+            QJsonParseError error;
+            const auto doc = QJsonDocument::fromJson(m_source->toPlainText().toUtf8(), &error);
+            if (error.error != QJsonParseError::NoError || !doc.isObject()) {
+                const QSignalBlocker blocker(m_tabs);
+                m_tabs->setCurrentWidget(m_source);
+                QMessageBox::warning(
+                    this, "JSON source", "Expected a JSON object. " + error.errorString());
+                return;
+            }
+            m_object = doc.object();
+            rebuild({}, false);
         }
-        QJsonParseError error;
-        const auto doc = QJsonDocument::fromJson(m_source->toPlainText().toUtf8(), &error);
-        if (error.error != QJsonParseError::NoError || !doc.isObject()) {
-            const QSignalBlocker blocker(m_tabs);
-            m_tabs->setCurrentIndex(1);
-            QMessageBox::warning(
-                this, "JSON source", "Expected a JSON object. " + error.errorString());
-            return;
+        m_previous_tab = current;
+        if (current == m_quest) {
+            m_quest->load(m_object, m_writable, false);
         }
-        m_object = doc.object();
-        rebuild({}, false);
     }
 
 }  // namespace openkal::content_editor
