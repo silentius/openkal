@@ -139,6 +139,7 @@ namespace openkal::client {
             def.set_name(root.at("name").as_string());
             def.set_image(root.at("image").as_string());
             def.set_wearable(root.at("wear").as_int(0) != 0);
+            def.set_assassin_mask(root.at("assassin_mask").boolean());
             def.set_skin_costume_mesh(root.at("skin").at("costume_mesh").boolean());
             def.set_skin_keep_hair(root.at("skin").at("keep_hair").boolean());
             def.set_skin_replace_face(root.at("skin").at("replace_face").boolean());

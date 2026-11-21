@@ -13,7 +13,9 @@
 #include "openkal/server/HarvestPlants.h"
 #include "openkal/server/net/Transport.h"
 
+#include <array>
 #include <optional>
+#include <vector>
 #include <string>
 
 namespace openkal::server {
@@ -35,6 +37,8 @@ namespace openkal::server {
         std::string guild_rules_path;
         /** Optional private Castle War rules, resolved relative to server.json. */
         std::string castle_war_path;
+        /** Inclusive Assassin-safe rectangles in server pixels. */
+        std::vector<std::array<int, 5>> assassin_safe_areas;
         /** Server-owned user role policy, resolved relative to server.json. */
         std::string user_roles_path;
         /** Optional local management endpoint and private authentication secret. */

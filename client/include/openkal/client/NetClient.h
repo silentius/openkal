@@ -27,6 +27,7 @@
 #include "openkal/protocol/MapState.h"
 #include "openkal/protocol/Party.h"
 #include "openkal/protocol/PlayerOptions.h"
+#include "openkal/protocol/Pvp.h"
 #include "openkal/protocol/Quest.h"
 #include "openkal/protocol/Riding.h"
 #include "openkal/protocol/Shop.h"
@@ -46,6 +47,7 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -746,10 +748,12 @@ namespace openkal::client {
         std::optional<std::array<float, 3>> color;
     };
 
-    /** A remote player's normal attack, including misses. */
+    /** A confirmed normal attack to present, including misses. */
     struct PendingPlayerAttack {
         std::uint32_t attacker_id = 0;
         std::uint32_t target_id = 0;
+        /** True when the confirmed swing targets another player. */
+        bool player_target = false;
     };
 
     /** Pending monster hit feedback; normal Archer attacks also include misses for matching. */
@@ -1044,6 +1048,24 @@ namespace openkal::client {
          */
         [[nodiscard]] bool castle_defeated(std::uint32_t player) const;
 
+        /** Displays PvP state for a visible player from the local player's perspective.
+         * @param player Runtime player ID.
+         * @return Current combat and nameplate state.
+         */
+        [[nodiscard]] protocol::PvpStatus pvp_status(std::uint32_t player) const;
+
+        /** Consumes a duel defeat even if recovery arrived in the same network poll.
+         * @param player Runtime player ID.
+         * @return Whether a defeat was pending.
+         */
+        [[nodiscard]] bool take_duel_defeat(std::uint32_t player);
+
+        /** Reports whether this player is a currently attackable opponent.
+         * @param player Runtime player ID.
+         * @return Whether the server permits attacking the player.
+         */
+        [[nodiscard]] bool pvp_can_attack(std::uint32_t player) const;
+
         /** @return Latest authoritative party snapshot. */
         const protocol::PartyState& party() const {
             return m_party;
@@ -1144,6 +1166,11 @@ namespace openkal::client {
          * @return True if pending.
          */
         [[nodiscard]] bool take_send_html(std::int32_t& out, std::uint32_t* npc_id = nullptr);
+
+        /** Consumes the latest Town Board reply.
+         * @return The board snapshot, if one was received.
+         */
+        [[nodiscard]] std::optional<protocol::AssassinList> take_assassin_list();
 
         /** Sends C2S_ITEMLIST for an NPC. @param npc_id Runtime NPC id. @return True if sent. */
         [[nodiscard]] bool send_shop_item_list(std::uint32_t npc_id);
@@ -1352,8 +1379,8 @@ namespace openkal::client {
          */
         [[nodiscard]] bool take_hit_fx(PendingHitFx& out);
 
-        /** Consumes a remote normal attack for actor presentation.
-         * @param out Receives attacker and target.
+        /** Consumes a confirmed normal attack for actor presentation.
+         * @param out Receives the attacker, target and target type.
          * @return True when an attack was available.
          */
         [[nodiscard]] bool take_player_attack(PendingPlayerAttack& out);
@@ -2286,6 +2313,7 @@ namespace openkal::client {
 
         /** Pending dialog ids paired with their source NPC entities. */
         std::deque<std::pair<std::int32_t, std::uint32_t>> m_pending_html;
+        std::optional<protocol::AssassinList> m_pending_assassin_list;
 
         /** Pending server-authoritative NPC shop inventories. */
         std::deque<protocol::ShopItemList> m_pending_shop_lists;
@@ -2309,6 +2337,8 @@ namespace openkal::client {
         std::deque<platform::Json> m_pending_guild_views;
         std::deque<protocol::PlayerOptionsState> m_pending_player_options;
         std::unordered_map<std::uint32_t, platform::Json> m_guild_displays;
+        std::unordered_map<std::uint32_t, protocol::PvpStatus> m_pvp_status;
+        std::unordered_set<std::uint32_t> m_pending_duel_defeats;
         std::uint64_t m_guild_serial = 0, m_guild_request = 0;
         std::deque<protocol::PartyItemNotice> m_pending_party_items;
         protocol::TalentState m_talent_state;

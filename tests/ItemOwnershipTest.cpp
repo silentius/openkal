@@ -326,6 +326,33 @@ COMMIT;
     expect(receipts && receipts->entries.size() == 1 && receipts->entries.front().item.count == 3 &&
                store.trading_post_collect(second, receipts->entries.front().id).committed,
            "seller cleanup retains purchased item rows referenced by another character");
+    second.hp = 0;
+    server::ItemRecord mask;
+    mask.character_id = second.id;
+    mask.index = 1036;
+    mask.count = 1;
+    mask.slot = server::kAssassinMaskSlot;
+    for (std::size_t index = 0; index <= protocol::kAssassinListLimit; ++index) {
+        mask.iid = 500 + static_cast<int>(index);
+        expect(store.insert_item(mask) &&
+                   store.commit_assassin_death(second, {mask}, "Killer" + std::to_string(index)),
+               "persist a masked player's PvP defeat");
+    }
+    ++mask.iid;
+    expect(store.insert_item(mask) && store.commit_assassin_death(second, {mask}, ""),
+           "a masked player's non-PvP death still removes the mask");
+    store.close();
+    expect(store.open(path), "reopen the persisted Assassin List");
+    const auto list = store.load_assassin_list();
+    expect(list && list->size() == protocol::kAssassinListLimit &&
+               list->front().assassin == "SecondOwner" && list->front().last_hitter == "Killer50" &&
+               list->back().last_hitter == "Killer1",
+           "the board retains the latest PvP entries after restart");
+    expect(sqlite3_open(path.c_str(), &db) == SQLITE_OK, "inspect retained board rows");
+    expect(scalar(db, "SELECT COUNT(*) FROM assassin_list") ==
+               static_cast<std::int64_t>(protocol::kAssassinListLimit),
+           "the oldest rows are deleted from SQLite storage");
+    sqlite3_close(db);
     store.close();
     std::filesystem::remove(path);
     std::filesystem::remove(path + "-wal");

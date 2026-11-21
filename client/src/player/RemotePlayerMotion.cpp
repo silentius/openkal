@@ -52,6 +52,14 @@ namespace openkal::client {
         }
     }
 
+    void RemotePlayerMotion::finish_stop() {
+        if (!m_network_moving) {
+            m_position = m_target;
+            m_start = m_target;
+            m_elapsed = kInterpolationSeconds;
+        }
+    }
+
     void RemotePlayerMotion::face_target(float x, float z) {
         const float dx = x - m_position.x;
         const float dz = z - m_position.z;

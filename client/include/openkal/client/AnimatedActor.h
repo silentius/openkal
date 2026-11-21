@@ -341,6 +341,11 @@ namespace openkal::client {
          * last frame. */
         void trigger_die();
 
+        /** Checks whether the actor can leave its death pose without interrupting the clip.
+         * @return Whether the clip finished or there is no death clip playing.
+         */
+        [[nodiscard]] bool death_animation_finished() const;
+
         /** Leaves the death pose and returns to idle. */
         void clear_die();
 

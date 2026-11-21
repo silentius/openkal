@@ -129,6 +129,15 @@ int main(int argc, char** argv) {
     expect(result && result->castle_war_path ==
                          (working_config.parent_path() / "owner/castle_war.json").string(),
            "Castle War policy is resolved relative to the selected server.json");
+    write(working_config,
+          R"({"allow_client_registration":false,"assassin_safe_areas":[[0, 100, 200, 300, 400]]})");
+    result = load_server_startup(options, error);
+    expect(result && result->assassin_safe_areas.size() == 1 &&
+               result->assassin_safe_areas.front() == std::array<int, 5>{0, 100, 200, 300, 400},
+           "read inclusive Assassin safe areas in server coordinates");
+    write(working_config,
+          R"({"allow_client_registration":false,"assassin_safe_areas":[[0, 300, 200, 100, 400]]})");
+    expect(!load_server_startup(options, error), "reject inverted Assassin safe area bounds");
     write(working_config, R"({"allow_client_registration":false,"castle_war_file":false})");
     expect(!load_server_startup(options, error), "Castle War policy requires a file path");
     write(working_config,

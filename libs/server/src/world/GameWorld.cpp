@@ -26,6 +26,7 @@
 #include "openkal/server/CollectionEquipment.h"
 #include "openkal/server/Combat.h"
 #include "openkal/server/MonsterStrength.h"
+#include "openkal/server/store/DataStore.h"
 #include "openkal/server/world/FindPath.h"
 #include "openkal/server/world/WorldOccupancyIndex.h"
 
@@ -785,6 +786,8 @@ namespace openkal::server {
                 }
             }
 
+            def.assassin_mask = root.at("assassin_mask").boolean() && def.wearable &&
+                                def.is_defense && def.class_small == "mask";
             const platform::Json& limit = root.at("limit");
             if (limit.is_object()) {
                 const std::string lc = limit.at("class").as_string();
@@ -1076,6 +1079,9 @@ namespace openkal::server {
     }
 
     WearKind wear_kind_of(const ItemCombatDef& def) {
+        if (def.assassin_mask) {
+            return WearKind::AssassinMask;
+        }
         if (def.skin_slot != protocol::SkinSlot::None) {
             return static_cast<WearKind>(static_cast<int>(WearKind::SkinWeapon) +
                                          static_cast<int>(def.skin_slot));
@@ -1142,6 +1148,8 @@ namespace openkal::server {
             return 4;
         case WearKind::Ride:
             return 5;
+        case WearKind::AssassinMask:
+            return kAssassinMaskSlot;
         case WearKind::None:
             return 0;
         default:

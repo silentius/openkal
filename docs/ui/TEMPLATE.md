@@ -891,7 +891,7 @@ business rules are stored in the UI JSON.
 
 The selected-player context (`player_options.json`) is a universal Dragon window.
 Its host repeats `player_option_row.json`, a frameless HUD strip with a bound button,
-for the server's available action list. The host sizes and scales the window to
+for the server's available party, guild and duel actions. The host sizes and scales the window to
 the row count and screen, using FreeType for all text. No new widget kind is
 needed; both documents roundtrip through the editor. Bindings and actions use
 `player_options.*` from `VARIABLES.md`.

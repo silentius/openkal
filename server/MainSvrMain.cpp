@@ -239,6 +239,7 @@ int main(int argc, char** argv) {
         cfg.database_dsn = startup->database_dsn;
         cfg.guild_rules_path = startup->guild_rules_path;
         cfg.castle_war_path = startup->castle_war_path;
+        cfg.assassin_safe_areas = startup->assassin_safe_areas;
         cfg.user_roles_path = startup->user_roles_path;
         cfg.management_socket = startup->management_socket;
         cfg.management_token = startup->management_token;

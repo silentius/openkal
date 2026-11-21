@@ -1170,6 +1170,10 @@ for navigation.
 Response hitboxes use native coordinates on the active page, so moving or
 scaling the window does not leave stale clickable areas.
 
+The Assassin List uses the shared NPC layout and the caption and empty state
+from dialog 400001. The Town Board response supplies the newest-first entries
+through `npc.body`, with the same paging controls as ordinary dialogs.
+
 NPC dialogue captions, body lines and link labels accept `${player.name}`. It is
 resolved to the active character name when the dialogue opens, before FreeType
 wrapping and link layout. The shared dialogue definition remains a template.
@@ -1863,10 +1867,10 @@ membership loss dismisses the dialog. Background refreshes preserve drafts.
 
 ## Player options (`player_options.json`, `player_option_row.json`)
 
-O opens a modal context for the selected online player. Available party/guild
-action rows come from the server and refresh while open; unavailable actions
-have no row. A separate Send PM button becomes available when the authenticated
-context supplies the player's name, including when no group actions are offered.
+O opens a modal context for the selected online player. The server supplies
+available party, guild and duel actions while the window is open. A separate
+Send PM button becomes available when the authenticated context supplies the
+player's name.
 
 - `player_options.title`, `.target`: caption and selected player's name.
 - `player_options.empty`, `.empty_label`: empty-action state and explanation.
@@ -1877,12 +1881,14 @@ context supplies the player's name, including when no group actions are offered.
 `player_options.send_pm` closes the context and opens a focused `@Partner `
 chat draft using the authenticated target name. This is a local compose action;
 only submitting the chat sends a message. It does not add a protocol action.
-`player_options.choose` submits the group action represented by that row.
+`player_options.choose` submits the server-provided action represented by that row.
 `window.close`, Escape, O, or clicking outside closes the dialog. The current
-rows are Invite to party and Request to join the selected member's guild. The
-latter carries the displayed application price and creates a normal persistent
+rows include **Invite to party**, guild application, and **Challenge to Duel**.
+With an active invitation from the selected player, this row is replaced by
+**Accept Duel** and **Decline Duel** as eligibility permits. The guild action
+carries the displayed application price and creates a normal persistent
 application. Selection and request IDs prevent late replies from changing a
-newly opened context. Future action kinds reuse the same row layout and host.
+newly opened context.
 
 
 ## `crafting`

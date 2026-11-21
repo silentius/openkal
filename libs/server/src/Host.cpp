@@ -47,6 +47,7 @@
 #include "openkal/protocol/Opcodes.h"
 #include "openkal/protocol/PacketReader.h"
 #include "openkal/protocol/PlayerOptions.h"
+#include "openkal/protocol/Pvp.h"
 #include "openkal/protocol/Progression.h"
 #include "openkal/protocol/Property.h"
 #include "openkal/protocol/Quest.h"
@@ -303,6 +304,13 @@ namespace openkal::server {
 
         thread_local GuildService* g_guilds = nullptr;
         thread_local CastleWarService* g_castle_war = nullptr;
+        thread_local const GameWorld* g_pvp_world = nullptr;
+        thread_local const ServerConfig* g_pvp_config = nullptr;
+        constexpr int kAssassinVictimExpPercent = 5;
+        constexpr int kAssassinExpPercent = 15;
+        constexpr int kAssassinWarningRange = 512;
+        constexpr std::uint64_t kDuelInviteLifetimeMs = 30000;
+        constexpr std::uint64_t kDuelRecoveryDelayMs = 1500;
         constexpr std::uint16_t kCastleWarQuest = 64990;
         constexpr int kCastleGuardDialog = 990330;
         constexpr int kCastleMasterDialog = 990331;
@@ -348,6 +356,18 @@ namespace openkal::server {
             std::unordered_map<std::uint32_t, std::vector<std::uint8_t>> guild_displays;
             std::array<int, 3> guild_bonuses{};
             CastleWarSide castle_side = CastleWarSide::None;
+            std::uint32_t duel_peer = 0;
+            std::uint32_t duel_inviter = 0;
+            std::uint64_t duel_invitation_until = 0;
+            std::uint64_t next_duel_invite_ms = 0;
+            /** Automatic recovery deadline after a duel defeat. */
+            std::uint64_t duel_recovery_at_ms = 0;
+            int pvp_death_exp_percent = 0;
+            bool pvp_death_unsaved = false;
+            /** Real name of the player who landed the fatal hit, until the defeat commits. */
+            std::string assassin_last_hitter;
+            bool assassin_warning_active = false;
+            std::unordered_map<std::uint32_t, std::uint8_t> pvp_displays;
             CastleWarPosition castle_return{};
             bool castle_return_pending = false;
             std::uint64_t castle_return_deadline_ms = 0;
@@ -420,7 +440,7 @@ namespace openkal::server {
             /** Owned ordinary instances: inventory followed by dedicated WearKind cells.
              * Only [0, kBagSlots) participates in capacity checks or compaction.
              */
-            static constexpr int kOwnedSlots = kBagSlots + static_cast<int>(WearKind::SkinFace);
+            static constexpr int kOwnedSlots = kBagSlots + static_cast<int>(WearKind::AssassinMask);
             std::array<BagSlot, kOwnedSlots> bag{};
             /** Collection instances occupy their own storage, outside inventory registers. */
             std::array<BagSlot, kCollectionSlots> collection{};
@@ -698,6 +718,33 @@ namespace openkal::server {
             /** True while /godmode is on: no incoming damage, no HP/MP spend. */
             bool godmode = false;
         };
+
+        int current_assassin_mask_index(int index, int clazz) {
+            // Keep instances of retired activation items and of the prototype mask usable.
+            switch (index) {
+            case 658:
+                return 1036;
+            case 659:
+                return 1037;
+            case 660:
+                return 1038;
+            case 23031: {
+                constexpr std::array<int, 4> class_masks{1036, 1038, 1037, 1681};
+                return class_masks[static_cast<std::size_t>(std::clamp(clazz, 0, 3))];
+            }
+            default:
+                return index;
+            }
+        }
+
+        [[nodiscard]] bool is_assassin(const ClientSession& c) {
+            return c.bag.back().iid != 0;
+        }
+
+        [[nodiscard]] const std::string& public_player_name(const ClientSession& c) {
+            static const std::string assassin_name(protocol::kAssassinName);
+            return is_assassin(c) ? assassin_name : c.name;
+        }
 
         /** @return Number of bag slots currently usable by this session. */
         [[nodiscard]] int unlocked_bag_slot_count(const ClientSession& c) {
@@ -1057,6 +1104,9 @@ namespace openkal::server {
 
         void begin_session_teleport(
             ClientSession& c, int map, int x, int y, int z, bool castle_transfer = false) {
+            if (is_assassin(c)) {
+                return;
+            }
             if (!castle_transfer &&
                 (c.castle_side != CastleWarSide::None || c.castle_return_pending ||
                  (g_castle_war && g_castle_war->rules().contains(map, x, y) &&
@@ -1097,9 +1147,10 @@ namespace openkal::server {
                 rec.map_z = c.castle_return.z;
             }
             rec.revival_point = c.revival_point;
+            rec.pvp_death_exp_percent = c.pvp_death_exp_percent;
             rec.level = c.level;
             rec.exp = c.exp;
-            rec.hp = c.cur_hp;
+            rec.hp = c.duel_recovery_at_ms != 0 ? c.max_hp : c.cur_hp;
             rec.max_hp = c.max_hp;
             rec.mp = c.cur_mp;
             rec.max_mp = c.max_mp;
@@ -1166,6 +1217,38 @@ namespace openkal::server {
             rec.account_bound = slot.account_bound;
             rec.character_bound = slot.character_bound;
             rec.enchant_protected = slot.enchant_protected;
+        }
+
+        [[nodiscard]] ClientSession::BagSlot bag_slot_from_record(const ItemRecord& item) {
+            ClientSession::BagSlot slot;
+            slot.iid = static_cast<std::uint32_t>(item.iid);
+            slot.index = item.index;
+            slot.prefix = item.prefix;
+            slot.count = item.count;
+            slot.cur_end = item.cur_end;
+            slot.max_end = item.max_end;
+            slot.x_attack = item.x_attack;
+            slot.x_magic = item.x_magic;
+            slot.x_hit = item.x_hit;
+            slot.x_defense = item.x_defense;
+            slot.x_dodge = item.x_dodge;
+            slot.upgrade_level = item.upgrade_level;
+            slot.upgrade_rate = item.upgrade_rate;
+            slot.mix_type = item.mix_type;
+            slot.bof = item.bof;
+            slot.qigong_perforated = item.qigong_perforated;
+            slot.qigong_effect = item.qigong_effect;
+            slot.dragon_effect = item.dragon_effect;
+            slot.enchant_protected = item.enchant_protected;
+            slot.random_stat_type = item.random_stat_type;
+            slot.random_stat_value = item.random_stat_value;
+            slot.transform_level = item.transform_level < 1 ? 1 : item.transform_level;
+            slot.transform_exp = item.transform_exp < 0 ? 0 : item.transform_exp;
+            slot.pet_expire_at = std::max<std::int64_t>(0, item.pet_expire_at);
+            slot.ride_expire_at = std::max<std::int64_t>(0, item.ride_expire_at);
+            slot.account_bound = item.account_bound;
+            slot.character_bound = item.character_bound;
+            return slot;
         }
 
         ClientSession::BagSlot trading_post_slot(const protocol::TradeItem& item) {
@@ -1252,20 +1335,53 @@ namespace openkal::server {
                    source.castle_side != target.castle_side;
         }
 
-        bool castle_allows_attack(const ClientSession& source, const ClientSession* target) {
-            if (source.castle_side == CastleWarSide::None &&
-                (!target || target->castle_side == CastleWarSide::None)) {
+        [[nodiscard]] bool assassin_safe(const ClientSession& c) {
+            if (c.map == 0 && g_pvp_world->grid().has_attr_world_pixel(
+                                  c.px, c.py, map::kAttrVillage | map::kAttrSafety)) {
                 return true;
             }
-            return g_castle_war && target && !source.tele_pending && !target->tele_pending &&
-                   castle_opponents(source, *target) &&
-                   g_castle_war->hostile(source.character_id, target->character_id, unix_now_sec());
+            const auto& areas = g_pvp_config->assassin_safe_areas;
+            return std::any_of(areas.begin(), areas.end(), [&](const auto& bounds) {
+                return c.map == bounds[0] && c.px >= bounds[1] && c.py >= bounds[2] &&
+                       c.px <= bounds[3] && c.py <= bounds[4];
+            });
         }
 
-        bool castle_allows_support(const ClientSession& source, const ClientSession* target) {
-            return source.castle_side == CastleWarSide::None
-                       ? (!target || target->castle_side == CastleWarSide::None)
-                       : target && target->castle_side == source.castle_side;
+        [[nodiscard]] bool duel_opponents(const ClientSession& a, const ClientSession& b) {
+            return a.duel_peer == b.player_id && b.duel_peer == a.player_id;
+        }
+
+        bool pvp_allows_attack(const ClientSession& source, const ClientSession* target) {
+            if (!target) {
+                // Debug dummies keep their existing local skill behavior.
+                return source.castle_side == CastleWarSide::None;
+            }
+            if (&source == target || source.cur_hp <= 0 || target->cur_hp <= 0 ||
+                source.duel_recovery_at_ms != 0 || target->duel_recovery_at_ms != 0 ||
+                source.map != target->map || source.tele_pending || target->tele_pending) {
+                return false;
+            }
+            if (source.castle_side != CastleWarSide::None ||
+                target->castle_side != CastleWarSide::None) {
+                return castle_opponents(source, *target) &&
+                       g_castle_war->hostile(
+                           source.character_id, target->character_id, unix_now_sec());
+            }
+            if (duel_opponents(source, *target)) {
+                return true;
+            }
+            return (is_assassin(source) || is_assassin(*target)) && !assassin_safe(source) &&
+                   !assassin_safe(*target);
+        }
+
+        bool pvp_allows_support(const ClientSession& source, const ClientSession* target) {
+            if (source.castle_side != CastleWarSide::None ||
+                (target && target->castle_side != CastleWarSide::None)) {
+                return target && source.castle_side != CastleWarSide::None &&
+                       source.castle_side == target->castle_side;
+            }
+            return !target || (!duel_opponents(source, *target) &&
+                               is_assassin(source) == is_assassin(*target));
         }
 
         bool castle_spawn_protected(const ClientSession& session) {
@@ -1289,11 +1405,28 @@ namespace openkal::server {
                                             (100 + attack - defense) / 100);
         }
 
-        void castle_score_hit(const ClientSession& source,
-                              const ClientSession* target,
-                              bool skill,
-                              bool score_death = true) {
-            if (!target || !castle_opponents(source, *target)) {
+        std::uint64_t steady_ms_now();
+
+        void record_pvp_hit(const ClientSession& source,
+                            ClientSession* target,
+                            bool skill,
+                            bool score_death = true) {
+            if (!target) {
+                return;
+            }
+            if (!castle_opponents(source, *target)) {
+                if (score_death && target->cur_hp <= 0) {
+                    if (duel_opponents(source, *target)) {
+                        target->duel_recovery_at_ms = steady_ms_now() + kDuelRecoveryDelayMs;
+                    } else if (is_assassin(*target)) {
+                        target->pvp_death_exp_percent = kAssassinExpPercent;
+                        target->pvp_death_unsaved = true;
+                        target->assassin_last_hitter = source.name;
+                    } else if (is_assassin(source)) {
+                        target->pvp_death_exp_percent = kAssassinVictimExpPercent;
+                        target->pvp_death_unsaved = true;
+                    }
+                }
                 return;
             }
             const auto now = unix_now_sec();
@@ -1821,8 +1954,9 @@ namespace openkal::server {
                                                ClientSession::BagSlot*& source,
                                                WearKind kind,
                                                ClientSession::BagSlot& previous) {
-            if (kind <= WearKind::None || kind >= WearKind::Collection || source->equipped ||
-                source->count != 1) {
+            if (kind <= WearKind::None ||
+                (kind >= WearKind::Collection && kind != WearKind::AssassinMask) ||
+                source->equipped || source->count != 1) {
                 return false;
             }
             auto& worn = c.bag[ClientSession::kBagSlots + static_cast<int>(kind) - 1];
@@ -1844,7 +1978,11 @@ namespace openkal::server {
                     incoming.ride_expire_at = unix_now_sec() + ride->second.duration_seconds;
                 }
             }
-            previous = worn;
+            auto& previous_wear =
+                kind == WearKind::AssassinMask
+                    ? c.bag[ClientSession::kBagSlots + static_cast<int>(WearKind::Face) - 1]
+                    : worn;
+            previous = previous_wear;
             auto* returned = source;
             if (previous.iid != 0 && source >= c.bag.data() + unlocked_bag_slot_count(c)) {
                 returned = equipment_return_cell(c);
@@ -1868,6 +2006,7 @@ namespace openkal::server {
                 return false;
             }
             *source = {};
+            previous_wear = {};
             *returned = previous;
             worn = incoming;
             source = &worn;
@@ -3250,7 +3389,6 @@ namespace openkal::server {
         }
 
         void send_system_mail_list(IDataStore* store, ClientSession& c);
-        std::uint64_t steady_ms_now();
         const SkillDef* find_skill_def(const GameWorld& world, int clazz, int index);
         [[nodiscard]] int
         skill_cast_range(const SkillDef& def, int skill_level, int fallback_range);
@@ -4512,11 +4650,13 @@ namespace openkal::server {
          * Subtracts EXP on revival (CutdownExp).
          * @param extra_cut Percent of cut to forgive (0 = full cut; 100 = skip).
          */
-        void cutdown_exp(ClientSession& c, int extra_cut) {
+        void cutdown_exp(ClientSession& c, int extra_cut, int pvp_percent = 0) {
             if (extra_cut >= 100) {
                 return;
             }
-            std::int64_t cut = protocol::cutdown_exp_amount(c.level);
+            std::int64_t cut = pvp_percent == 0
+                                   ? protocol::cutdown_exp_amount(c.level)
+                                   : protocol::need_exp_for_level(c.level) * pvp_percent / 100;
             if (cut <= 0) {
                 return;
             }
@@ -5880,7 +6020,8 @@ namespace openkal::server {
                                bool stackable,
                                std::uint32_t existing_iid = 0,
                                int random_stat_type = -1,
-                               int random_stat_value = 0);
+                               int random_stat_value = 0,
+                               const ItemRecord* instance = nullptr);
 
         void destroy_bag_gear(IDataStore* store,
                               GameWorld& world,
@@ -6044,6 +6185,9 @@ namespace openkal::server {
             return true;
         }
 
+        void broadcast_skin_appearance(const ClientSession& c, std::vector<ClientSession>& clients);
+        void send_system_chat(ClientSession& dest, std::string_view text);
+
         [[nodiscard]] bool use_bag_item(IDataStore* store,
                                         const GameWorld& world,
                                         ClientSession& c,
@@ -6081,6 +6225,10 @@ namespace openkal::server {
             if (def->teleport_loc >= 0) {
                 const auto* destination =
                     map::teleport_loc(static_cast<std::size_t>(def->teleport_loc));
+                if (is_assassin(c)) {
+                    send_system_chat(c, "You cannot teleport while wearing the Assassin Mask.");
+                    return false;
+                }
                 if (!destination || destination->map != 0 || c.cur_hp <= 0 || c.tele_pending ||
                     c.castle_side != CastleWarSide::None || c.castle_return_pending ||
                     (g_castle_war &&
@@ -6112,7 +6260,8 @@ namespace openkal::server {
             const bool is_refresh = def->refresh_hp > 0 || def->refresh_mp > 0;
             const bool is_buff = def->buff_type >= 0 && def->buff_remain > 0;
             const bool is_revival = def->revival_extra_cut >= 0;
-            if (is_revival && c.castle_side != CastleWarSide::None) {
+            if (is_revival && (c.castle_side != CastleWarSide::None || is_assassin(c) ||
+                               c.duel_recovery_at_ms != 0)) {
                 return false;
             }
             if (!is_refresh && !is_buff && !is_revival) {
@@ -6182,6 +6331,8 @@ namespace openkal::server {
                 }
             } else if (is_revival) {
                 cutdown_exp(c, def->revival_extra_cut);
+                c.pvp_death_exp_percent = 0;
+                c.pvp_death_unsaved = false;
                 c.cur_mp = 0;
                 c.cur_hp = combat::clamp_nonneg_i32(30 * static_cast<std::int64_t>(c.max_hp) / 100);
                 if (c.cur_hp < 1) {
@@ -6251,7 +6402,8 @@ namespace openkal::server {
                                                             bool stackable,
                                                             int random_stat_type = -1,
                                                             int random_stat_value = 0,
-                                                            bool account_bound = false) {
+                                                            bool account_bound = false,
+                                                            const ItemRecord* instance = nullptr) {
             std::vector<BagInsert> out;
             const auto [base, capacity] = bag_slot_range(c, world, item_index);
             if (item_index == kMoneyItemIndex) {
@@ -6264,23 +6416,30 @@ namespace openkal::server {
                 return out;
             }
             const int units = std::max(1, count);
-            if (stackable) {
-                ClientSession::BagSlot incoming;
-                incoming.index = item_index;
-                incoming.prefix = prefix;
-                incoming.count = units;
-                incoming.account_bound = account_bound;
-                init_slot_endurance(world, incoming);
-                if (random_stat_type >= 0) {
-                    incoming.random_stat_type = random_stat_type;
-                    incoming.random_stat_value = random_stat_value;
-                    if (random_stat_type == 0 &&
-                        collection_def(item_index).kind != CollectionKind::None) {
-                        init_slot_random_stat(world, incoming);
-                    }
-                } else {
-                    init_slot_random_stat(world, incoming);
+            auto make_slot = [&](int quantity) {
+                if (instance) {
+                    auto slot = bag_slot_from_record(*instance);
+                    slot.count = quantity;
+                    return slot;
                 }
+                ClientSession::BagSlot slot;
+                slot.index = item_index;
+                slot.prefix = prefix;
+                slot.count = quantity;
+                slot.account_bound = account_bound;
+                init_slot_endurance(world, slot);
+                if (random_stat_type < 0 ||
+                    (random_stat_type == 0 &&
+                     collection_def(item_index).kind != CollectionKind::None)) {
+                    init_slot_random_stat(world, slot);
+                } else {
+                    slot.random_stat_type = random_stat_type;
+                    slot.random_stat_value = random_stat_value;
+                }
+                return slot;
+            };
+            if (stackable) {
+                auto incoming = make_slot(units);
                 for (int i = base; i < capacity; ++i) {
                     auto& slot = c.bag[static_cast<std::size_t>(i)];
                     if (slot.iid != 0 && can_stack_slots(c, slot, incoming)) {
@@ -6330,26 +6489,12 @@ namespace openkal::server {
                 if (slot.iid != 0) {
                     continue;
                 }
+                slot = make_slot(1);
                 if (!used_existing && existing_iid != 0) {
                     slot.iid = existing_iid;
                     used_existing = true;
                 } else {
                     slot.iid = allocate_item_iid(next_iid);
-                }
-                slot.index = item_index;
-                slot.prefix = prefix;
-                slot.count = 1;
-                slot.account_bound = account_bound;
-                init_slot_endurance(world, slot);
-                if (random_stat_type >= 0) {
-                    slot.random_stat_type = random_stat_type;
-                    slot.random_stat_value = random_stat_value;
-                    if (random_stat_type == 0 &&
-                        collection_def(slot.index).kind != CollectionKind::None) {
-                        init_slot_random_stat(world, slot);
-                    }
-                } else {
-                    init_slot_random_stat(world, slot);
                 }
                 BagInsert ins;
                 ins.iid = slot.iid;
@@ -6365,7 +6510,7 @@ namespace openkal::server {
         [[nodiscard]] int count_bag_item(const ClientSession& c, int item_index) {
             int total = 0;
             for (const auto& slot : c.bag) {
-                if (slot.iid != 0 && slot.index == item_index) {
+                if (slot.iid != 0 && slot.index == item_index && &slot != &c.bag.back()) {
                     total += slot.count;
                 }
             }
@@ -6387,7 +6532,7 @@ namespace openkal::server {
                 if (remaining <= 0) {
                     break;
                 }
-                if (slot.iid == 0 || slot.index != item_index) {
+                if (slot.iid == 0 || slot.index != item_index || &slot == &c.bag.back()) {
                     continue;
                 }
                 const int take = std::min(slot.count, remaining);
@@ -6414,7 +6559,8 @@ namespace openkal::server {
                                bool stackable,
                                std::uint32_t existing_iid,
                                int random_stat_type,
-                               int random_stat_value) {
+                               int random_stat_value,
+                               const ItemRecord* instance) {
             const auto before = c.bag;
             const auto money_before = c.money;
             auto inserts = try_insert_bag(c,
@@ -6426,7 +6572,9 @@ namespace openkal::server {
                                           existing_iid,
                                           stackable,
                                           random_stat_type,
-                                          random_stat_value);
+                                          random_stat_value,
+                                          false,
+                                          instance);
             if (inserts.empty()) {
                 return inserts;
             }
@@ -6737,7 +6885,7 @@ namespace openkal::server {
         void broadcast_skin_appearance(const ClientSession& c,
                                        std::vector<ClientSession>& clients) {
             const auto packet = protocol::CreatePlayer::frame(c.player_id,
-                                                              c.name,
+                                                              public_player_name(c),
                                                               static_cast<std::uint8_t>(c.clazz),
                                                               c.px,
                                                               c.py,
@@ -6997,7 +7145,7 @@ namespace openkal::server {
                 if (status_it->target_is_player) {
                     ClientSession* target = find_playing_player(clients, status_it->target_id);
                     if (!target || target->cur_hp <= 0 || target->map != owner->map ||
-                        !castle_allows_attack(*owner, target)) {
+                        !pvp_allows_attack(*owner, target)) {
                         status_it = statuses.erase(status_it);
                         continue;
                     }
@@ -7178,7 +7326,7 @@ namespace openkal::server {
                     if (target.phase != SessionPhase::Playing || target.player_id == 0 ||
                         target.player_id == owner->player_id || target.cur_hp <= 0 ||
                         target.map != area_it->map || !in_field(target.px, target.py) ||
-                        !castle_allows_attack(*owner, &target)) {
+                        !pvp_allows_attack(*owner, &target)) {
                         continue;
                     }
                     if (poison_cloud) {
@@ -7312,7 +7460,7 @@ namespace openkal::server {
                     const PlayerBuffTarget fused =
                         find_player_or_dummy(clients, debug_dummies, boom_it->target_id);
                     if (fused.valid() && fused.cur_hp() > 0 && fused.map() == owner->map &&
-                        castle_allows_attack(*owner, fused.session)) {
+                        pvp_allows_attack(*owner, fused.session)) {
                         center_x = fused.px();
                         center_y = fused.py();
                         target_valid = true;
@@ -7352,7 +7500,7 @@ namespace openkal::server {
                     if (target.phase != SessionPhase::Playing || target.player_id == 0 ||
                         target.player_id == owner->player_id || target.cur_hp <= 0 ||
                         target.map != boom_it->map || !in_blast(target.px, target.py) ||
-                        !castle_allows_attack(*owner, &target)) {
+                        !pvp_allows_attack(*owner, &target)) {
                         continue;
                     }
                     ArcherTickHit hit;
@@ -7455,7 +7603,7 @@ namespace openkal::server {
                     }
                 }
                 if (hit.target_is_player && hit.player_target && hit.damage > 0) {
-                    castle_score_hit(*hit.owner, hit.player_target, true, hit.dead);
+                    record_pvp_hit(*hit.owner, hit.player_target, true, hit.dead);
                 }
                 if (!hit.dead) {
                     continue;
@@ -7672,7 +7820,7 @@ namespace openkal::server {
                         if (target.phase != SessionPhase::Playing || target.player_id == 0 ||
                             target.cur_hp <= 0 || target.map != area_it->map ||
                             !combat::can_persistent_area_attack(query) ||
-                            !castle_allows_attack(*owner, &target) ||
+                            !pvp_allows_attack(*owner, &target) ||
                             (area_it->single_target_id != 0
                                  ? (!area_it->single_target_is_player ||
                                     area_it->single_target_id != target.player_id)
@@ -7734,7 +7882,7 @@ namespace openkal::server {
                         target.cur_hp = combat::clamp_nonneg_i32(
                             static_cast<std::int64_t>(target.cur_hp) - hit.damage);
                         if (hit.damage > 0) {
-                            castle_score_hit(*owner, &target, true);
+                            record_pvp_hit(*owner, &target, true);
                             send_cur_property(target, protocol::PropertyType::CurHp, target.cur_hp);
                             try_drain_hp(store, *owner, hit.damage);
                         }
@@ -8248,6 +8396,74 @@ namespace openkal::server {
             broadcast_gstate(c, clients);
         }
 
+        /** Finalizes a defeat before the player can revive. Caller holds the world mutex. */
+        [[nodiscard]] bool finish_assassin_death(ClientSession& c,
+                                                 GameWorld& world,
+                                                 IDataStore* store,
+                                                 std::vector<ClientSession>& clients) {
+            auto& mask = c.bag.back();
+            if (!is_assassin(c)) {
+                return true;
+            }
+            const bool player_kill = c.pvp_death_exp_percent == kAssassinExpPercent;
+            ClientSession::BagSlot* dropped = nullptr;
+            thread_local std::mt19937 random(std::random_device{}());
+            if (player_kill && std::bernoulli_distribution(0.5)(random)) {
+                std::vector<ClientSession::BagSlot*> eligible;
+                for (auto& slot : c.bag) {
+                    if (slot.iid && slot.count > 0 && !slot.equipped && !slot.account_bound &&
+                        !slot.character_bound && !item_is_quest(world, slot.index)) {
+                        eligible.push_back(&slot);
+                    }
+                }
+                if (!eligible.empty()) {
+                    const auto index =
+                        std::uniform_int_distribution<std::size_t>(0, eligible.size() - 1)(random);
+                    dropped = eligible[index];
+                }
+            }
+            std::vector<ItemRecord> removed(1);
+            fill_item_record_from_slot(removed.front(), c, mask, kAssassinMaskSlot);
+            if (dropped) {
+                removed.emplace_back();
+                fill_item_record_from_slot(removed.back(), c, *dropped, 0);
+            }
+            if (store && c.character_id > 0) {
+                auto defeated = character_from_session(c);
+                defeated.pvp_death_exp_percent = kAssassinExpPercent;
+                if (!store->commit_assassin_death(defeated, removed, c.assassin_last_hitter)) {
+                    return false;
+                }
+            }
+            (void) c.sock->enqueue(
+                protocol::TrashItem::frame_s2c(mask.iid, protocol::kItemLogDelete));
+            mask = {};
+            c.pvp_death_exp_percent = kAssassinExpPercent;
+            c.pvp_death_unsaved = false;
+            c.assassin_last_hitter.clear();
+            recompute_combat(c, world);
+            broadcast_skin_appearance(c, clients);
+            if (!dropped) {
+                return true;
+            }
+            DropOutcome drop;
+            drop.kind = DropOutcome::Kind::Item;
+            drop.item_index = dropped->index;
+            drop.prefix = dropped->prefix;
+            drop.count = dropped->count;
+            drop.x = c.px;
+            drop.y = c.py;
+            auto& ground = world.spawn_ground_item(dropped->iid, drop, 0, 0.0f, 180.0f, c.map);
+            ground.random_stat_type = dropped->random_stat_type;
+            ground.random_stat_value = dropped->random_stat_value;
+            ground.inventory_instance = std::make_shared<ItemRecord>(removed.back());
+            (void) c.sock->enqueue(
+                protocol::TrashItem::frame_s2c(dropped->iid, protocol::kItemLogDelete));
+            *dropped = {};
+            compact_server_bag(c);
+            return true;
+        }
+
         /** Performs one durable pickup; caller holds the world mutex. */
         bool pickup_ground_item(ClientSession& c,
                                 std::uint32_t item_id,
@@ -8355,7 +8571,8 @@ namespace openkal::server {
                                                         stackable,
                                                         item_id,
                                                         random_stat_type,
-                                                        random_stat_value);
+                                                        random_stat_value,
+                                                        g->inventory_instance.get());
             if (inserts.empty()) {
                 recipient->sock->enqueue(
                     frame_message(static_cast<std::uint8_t>(MsgId::NotEnoughInvenSlot)));
@@ -8384,7 +8601,7 @@ namespace openkal::server {
             if (item_index != kMoneyItemIndex && recipient->party_id != 0) {
                 const auto notice = protocol::frame_party_item({recipient->party_id,
                                                                 recipient->player_id,
-                                                                recipient->name,
+                                                                public_player_name(*recipient),
                                                                 item_index,
                                                                 count});
                 for (auto& peer : clients) {
@@ -8580,6 +8797,84 @@ namespace openkal::server {
                 return;
             }
             dest.sock->enqueue(protocol::Chatting::frame_s2c("Server", text));
+        }
+
+        [[nodiscard]] bool duel_available(const ClientSession& c) {
+            return c.phase == SessionPhase::Playing && c.sock && c.sock->alive() && c.cur_hp > 0 &&
+                   !c.tele_pending && !c.flying && !c.godmode && !c.trade_token &&
+                   !is_assassin(c) && c.duel_peer == 0 && c.castle_side == CastleWarSide::None &&
+                   !c.castle_return_pending;
+        }
+
+        [[nodiscard]] bool duel_nearby(const ClientSession& c, const ClientSession& peer) {
+            return c.map == peer.map && combat::in_attack_range(c.px, c.py, peer.px, peer.py, 160);
+        }
+
+        [[nodiscard]] bool duel_invited_by(const ClientSession& recipient,
+                                           const ClientSession& inviter,
+                                           std::uint64_t now) {
+            return recipient.duel_inviter == inviter.player_id &&
+                   now < recipient.duel_invitation_until;
+        }
+
+        [[nodiscard]] std::string_view duel_challenge_error(const ClientSession& actor,
+                                                            const ClientSession& target,
+                                                            std::uint64_t now) {
+            if (!duel_available(actor)) {
+                return "You cannot start a duel right now.";
+            }
+            if (&actor == &target || !duel_available(target) || !duel_nearby(actor, target)) {
+                return "Select another nearby player available for a duel.";
+            }
+            if (now < actor.next_duel_invite_ms) {
+                return "Wait before sending another duel invitation.";
+            }
+            if (target.duel_inviter && now < target.duel_invitation_until) {
+                return "That player already has a pending duel invitation.";
+            }
+            return {};
+        }
+
+        [[nodiscard]] std::string
+        challenge_duel(ClientSession& actor, ClientSession& target, std::uint64_t now) {
+            const auto error = duel_challenge_error(actor, target, now);
+            if (!error.empty()) {
+                return std::string(error);
+            }
+            actor.next_duel_invite_ms = now + 5000;
+            target.duel_inviter = actor.player_id;
+            target.duel_invitation_until = now + kDuelInviteLifetimeMs;
+            send_system_chat(target,
+                             actor.name + " challenged you to a duel. Select them and press O, "
+                                          "or use /duel accept or /duel decline.");
+            return "Duel invitation sent to " + target.name + ".";
+        }
+
+        [[nodiscard]] std::string respond_to_duel(ClientSession& actor,
+                                                  ClientSession* inviter,
+                                                  bool accept,
+                                                  std::uint64_t now) {
+            if (inviter && actor.duel_inviter != inviter->player_id) {
+                return "That player did not invite you to a duel.";
+            }
+            const bool pending = inviter && duel_invited_by(actor, *inviter, now);
+            actor.duel_inviter = 0;
+            if (!pending) {
+                return "There is no valid invitation from a nearby player.";
+            }
+            if (!accept) {
+                send_system_chat(*inviter, actor.name + " declined your duel invitation.");
+                return "Duel invitation declined.";
+            }
+            if (!duel_available(actor) || !duel_available(*inviter) ||
+                !duel_nearby(actor, *inviter)) {
+                return "There is no valid invitation from a nearby player.";
+            }
+            actor.duel_peer = inviter->player_id;
+            inviter->duel_peer = actor.player_id;
+            inviter->duel_inviter = 0;
+            send_system_chat(*inviter, "Duel started with " + actor.name + ".");
+            return "Duel started with " + inviter->name + ".";
         }
 
         /** Preserves the existing Doggebi reset/presentation boundary.
@@ -11326,6 +11621,8 @@ namespace openkal::server {
 
         g_guilds = m_guilds.get();
         g_castle_war = m_castle_war.get();
+        g_pvp_world = &m_world;
+        g_pvp_config = &m_config;
         std::vector<ClientSession> clients;
         std::array<std::uint32_t, 4> castle_flags{};
         std::array<int, 4> castle_sent_hp{};
@@ -11490,7 +11787,7 @@ namespace openkal::server {
                 state.token = peer->trade_token;
                 state.revision = peer->trade_revision;
                 state.acknowledged = peer->trade_operation;
-                state.partner = partner->name;
+                state.partner = public_player_name(*partner);
                 state.status = status;
                 state.inviter = peer->trade_inviter;
                 state.confirmed = peer->trade_confirmed;
@@ -12015,7 +12312,7 @@ namespace openkal::server {
                         for (const auto& member : clients) {
                             if (member.player_id == id && member.phase == SessionPhase::Playing) {
                                 state.members.push_back({id,
-                                                         member.name,
+                                                         public_player_name(member),
                                                          member.level,
                                                          member.cur_hp,
                                                          member.max_hp,
@@ -12030,7 +12327,7 @@ namespace openkal::server {
                     state.invitation = pending->token;
                     for (const auto& inviter : clients) {
                         if (inviter.player_id == pending->inviter) {
-                            state.inviter_name = inviter.name;
+                            state.inviter_name = public_player_name(inviter);
                         }
                     }
                 }
@@ -12060,7 +12357,8 @@ namespace openkal::server {
         const auto admit_castle_player = [&](ClientSession& player,
                                              std::int64_t now) -> std::string {
             if (player.cur_hp <= 0 || player.tele_pending || player.castle_return_pending ||
-                player.castle_side != CastleWarSide::None || player.trade_token) {
+                player.castle_side != CastleWarSide::None || player.trade_token ||
+                player.duel_peer != 0 || is_assassin(player)) {
                 return "The character must be alive and finish the current trade or transfer.";
             }
             const auto& rules = m_castle_war->rules();
@@ -12236,6 +12534,11 @@ namespace openkal::server {
                 platform::Json side;
                 side.set_number(static_cast<int>(subject.castle_side));
                 display.data.object()["castle_side"] = side;
+                if (is_assassin(subject)) {
+                    display.data = platform::Json::parse("{}");
+                    display.data.object()["player"] = id;
+                    display.data.object()["castle_side"] = side;
+                }
                 if (subject.castle_side != CastleWarSide::None) {
                     platform::Json alive;
                     alive.set_boolean(subject.cur_hp > 0);
@@ -12475,6 +12778,10 @@ namespace openkal::server {
         chat_service.commands().register_command("teleport", [&](const ChatCommandContext& ctx) {
             if (chat_sender == nullptr) {
                 return ChatCommandResult(false, "Teleport failed.");
+            }
+            if (is_assassin(*chat_sender)) {
+                return ChatCommandResult(false,
+                                         "You cannot teleport while wearing the Assassin Mask.");
             }
             int dungeon = 0;
             int area = 0;
@@ -12883,6 +13190,13 @@ namespace openkal::server {
                 state.status = "Select another nearby online player.";
             } else {
                 const auto now = unix_now_sec();
+                const auto now_ms = steady_ms_now();
+                if (is_assassin(actor) || is_assassin(*target)) {
+                    state.status = "Player options are unavailable while wearing an Assassin Mask.";
+                    send_system_chat(actor, state.status);
+                    actor.sock->enqueue(protocol::frame_player_options_state(state));
+                    return;
+                }
                 state.name = target->name;
                 const auto guild_id = m_guilds ? m_guilds->membership(target->character_id) : 0;
                 if (m_guilds && guild_id) {
@@ -12940,15 +13254,29 @@ namespace openkal::server {
                         }
                         guild_sync();
                     }
+                } else if (request.action == Action::ChallengeDuel) {
+                    state.status = challenge_duel(actor, *target, now_ms);
+                } else if (request.action == Action::AcceptDuel ||
+                           request.action == Action::DeclineDuel) {
+                    state.status = respond_to_duel(
+                        actor, target, request.action == Action::AcceptDuel, now_ms);
                 }
-                if (parties.invite_error(actor.player_id, target->player_id, steady_ms_now())
-                        .empty()) {
+                if (parties.invite_error(actor.player_id, target->player_id, now_ms).empty()) {
                     state.actions.push_back(Action::InviteParty);
                 }
                 if (m_guilds && guild_id &&
                     m_guilds->application_error(character_from_session(actor), guild_id, now)
                         .empty()) {
                     state.actions.push_back(Action::ApplyGuild);
+                }
+                if (duel_invited_by(actor, *target, now_ms)) {
+                    if (duel_available(actor) && duel_available(*target) &&
+                        duel_nearby(actor, *target)) {
+                        state.actions.push_back(Action::AcceptDuel);
+                    }
+                    state.actions.push_back(Action::DeclineDuel);
+                } else if (duel_challenge_error(actor, *target, now_ms).empty()) {
+                    state.actions.push_back(Action::ChallengeDuel);
                 }
             }
             if (request.action != Action::Query) {
@@ -12982,8 +13310,154 @@ namespace openkal::server {
             return true;
         };
 
-        auto revive_at_saved_point = [&](ClientSession& c) {
+        const auto end_duel = [&](ClientSession& c, std::string_view message) {
+            auto* peer = find_playing_player(clients, c.duel_peer);
+            c.duel_peer = 0;
+            send_system_chat(c, message);
+            if (peer && peer->duel_peer == c.player_id) {
+                peer->duel_peer = 0;
+                send_system_chat(*peer, message);
+            }
+        };
+        const auto finish_pvp_death = [&](ClientSession& c, bool disconnecting = false) {
+            if (c.phase != SessionPhase::Playing) {
+                return;
+            }
+            if (c.duel_recovery_at_ms != 0) {
+                if (!disconnecting && steady_ms_now() < c.duel_recovery_at_ms) {
+                    return;
+                }
+                const auto message = c.name + " was defeated in the duel.";
+                end_duel(c, message);
+                c.duel_recovery_at_ms = 0;
+                c.cur_hp = c.max_hp;
+                c.control_until_ms = 0;
+                c.village_revival_deadline_ms = 0;
+                send_cur_property(c, protocol::PropertyType::CurHp, c.cur_hp);
+                return;
+            }
             if (c.cur_hp > 0) {
+                return;
+            }
+            if (c.duel_peer != 0) {
+                end_duel(c, "The duel was cancelled.");
+            }
+            if (is_assassin(c)) {
+                std::lock_guard<std::mutex> lock(m_world_mutex);
+                if (!finish_assassin_death(c, m_world, m_store.get(), clients)) {
+                    return;
+                }
+            }
+            if (c.pvp_death_unsaved && persist_character(m_store.get(), c)) {
+                c.pvp_death_unsaved = false;
+            }
+        };
+        const auto duel_command = [&](ClientSession& c, std::string_view text, std::uint64_t now) {
+            if (!m_config.multiplayer) {
+                send_system_chat(c, "Duels are available in multiplayer.");
+                return;
+            }
+            if (text == "/surrender") {
+                if (c.duel_peer != 0 && c.duel_recovery_at_ms == 0) {
+                    end_duel(c, c.name + " surrendered the duel.");
+                }
+                return;
+            }
+            if (text == "/duel decline") {
+                auto* peer = find_playing_player(clients, c.duel_inviter);
+                (void) respond_to_duel(c, peer, false, now);
+                return;
+            }
+            if (!duel_available(c)) {
+                send_system_chat(c, "You cannot start a duel right now.");
+                return;
+            }
+            if (text == "/duel accept") {
+                auto* peer = find_playing_player(clients, c.duel_inviter);
+                send_system_chat(c, respond_to_duel(c, peer, true, now));
+                return;
+            }
+            if (text == "/duel") {
+                send_system_chat(c,
+                                 "Use /duel <player>, /duel accept, /duel decline or /surrender.");
+                return;
+            }
+            const auto name = ascii_lower_args(text.substr(6));
+            if (now < c.next_duel_invite_ms) {
+                return;
+            }
+            for (auto& peer : clients) {
+                if (&peer == &c || !duel_available(peer) || !duel_nearby(c, peer) ||
+                    ascii_lower_args(peer.name) != name) {
+                    continue;
+                }
+                send_system_chat(c, challenge_duel(c, peer, now));
+                return;
+            }
+            send_system_chat(c, "No available player by that name is nearby.");
+        };
+        const auto sync_pvp = [&](std::int64_t now) {
+            using Relation = protocol::PvpRelation;
+            const bool castle_battle =
+                g_castle_war && g_castle_war->phase(now) == CastleWarPhase::Battle;
+            for (auto& viewer : clients) {
+                if (viewer.phase != SessionPhase::Playing || !viewer.sock ||
+                    !viewer.sock->alive()) {
+                    continue;
+                }
+                bool warning = false;
+                for (const auto& subject : clients) {
+                    const bool self = &viewer == &subject;
+                    if (!self && !viewer.known_players.count(subject.player_id)) {
+                        continue;
+                    }
+                    protocol::PvpStatus status;
+                    status.player_id = subject.player_id;
+                    status.masked = is_assassin(subject);
+                    status.dueling = subject.duel_peer != 0 || subject.duel_recovery_at_ms != 0;
+                    status.attackable = !self && pvp_allows_attack(viewer, &subject);
+                    status.defeated =
+                        subject.cur_hp <= 0 &&
+                        (subject.castle_side != CastleWarSide::None ||
+                         subject.pvp_death_exp_percent != 0 || subject.duel_recovery_at_ms != 0);
+                    if (castle_battle && viewer.castle_side != CastleWarSide::None &&
+                        subject.castle_side != CastleWarSide::None) {
+                        status.relation = viewer.castle_side == subject.castle_side
+                                              ? Relation::Ally
+                                              : Relation::Enemy;
+                    } else if (!self && duel_opponents(viewer, subject)) {
+                        status.relation = Relation::Enemy;
+                    } else if (self && viewer.duel_peer != 0) {
+                        status.relation = Relation::Ally;
+                    } else if (status.attackable) {
+                        status.relation = Relation::Enemy;
+                    }
+                    warning |=
+                        !self && status.masked && subject.cur_hp > 0 && !subject.tele_pending &&
+                        !viewer.tele_pending && subject.map == viewer.map &&
+                        combat::in_attack_range(
+                            viewer.px, viewer.py, subject.px, subject.py, kAssassinWarningRange);
+                    const auto display = static_cast<std::uint8_t>(
+                        static_cast<int>(status.relation) | (status.attackable ? 4 : 0) |
+                        (status.defeated ? 8 : 0) | (status.masked ? 16 : 0) |
+                        (status.dueling ? 32 : 0));
+                    const auto previous = viewer.pvp_displays.find(subject.player_id);
+                    if (previous == viewer.pvp_displays.end() ? display != 0
+                                                              : previous->second != display) {
+                        viewer.sock->enqueue(protocol::frame_pvp_status(status));
+                        viewer.pvp_displays[subject.player_id] = display;
+                    }
+                }
+                if (warning && !viewer.assassin_warning_active) {
+                    send_system_chat(viewer, protocol::kAssassinWarning);
+                }
+                viewer.assassin_warning_active = warning;
+            }
+        };
+
+        auto revive_at_saved_point = [&](ClientSession& c) {
+            finish_pvp_death(c);
+            if (c.cur_hp > 0 || is_assassin(c) || c.duel_recovery_at_ms != 0) {
                 return;
             }
             if (c.castle_side != CastleWarSide::None) {
@@ -13002,7 +13476,10 @@ namespace openkal::server {
                 send_cur_property(c, protocol::PropertyType::CurMp, c.cur_mp);
                 return;
             }
-            cutdown_exp(c, 0);
+            const bool pvp_death = c.pvp_death_exp_percent != 0;
+            cutdown_exp(c, 0, c.pvp_death_exp_percent);
+            c.pvp_death_exp_percent = 0;
+            c.pvp_death_unsaved = false;
             cancel_rest_food(c, clients);
             c.resting = false;
             c.boosting = false;
@@ -13019,6 +13496,9 @@ namespace openkal::server {
             recompute_combat(c, m_world);
             c.cur_hp = c.max_hp;
             c.cur_mp = c.max_mp;
+            if (pvp_death) {
+                (void) persist_character(m_store.get(), c);
+            }
             begin_session_teleport(c, c.map, c.px, c.py, c.pz);
             c.sock->enqueue(protocol::Property::frame_update_vital(
                 static_cast<std::uint8_t>(protocol::PropertyType::Hp), c.cur_hp, c.max_hp));
@@ -13040,8 +13520,8 @@ namespace openkal::server {
                 send_system_chat(sender, outcome.reply());
                 break;
             case ChatAction::LocalBroadcast: {
-                const auto pkt =
-                    protocol::Chatting::frame_s2c(sender.name, outcome.outbound_text());
+                const auto pkt = protocol::Chatting::frame_s2c(public_player_name(sender),
+                                                               outcome.outbound_text());
                 for (auto& peer : clients) {
                     if (peer.phase != SessionPhase::Playing || !peer.sock) {
                         continue;
@@ -13060,8 +13540,8 @@ namespace openkal::server {
                     send_system_chat(sender, "You are not in a party.");
                     break;
                 }
-                const auto packet =
-                    protocol::Chatting::frame_s2c(sender.name, outcome.outbound_text());
+                const auto packet = protocol::Chatting::frame_s2c(public_player_name(sender),
+                                                                  outcome.outbound_text());
                 for (auto& peer : clients) {
                     if (peer.phase == SessionPhase::Playing && peer.sock &&
                         parties.group(peer.player_id) == group) {
@@ -13071,8 +13551,8 @@ namespace openkal::server {
                 break;
             }
             case ChatAction::ShoutBroadcast: {
-                const auto packet =
-                    protocol::Chatting::frame_s2c(sender.name, outcome.outbound_text());
+                const auto packet = protocol::Chatting::frame_s2c(public_player_name(sender),
+                                                                  outcome.outbound_text());
                 for (auto& peer : clients) {
                     if (peer.phase == SessionPhase::Playing && peer.sock) {
                         peer.sock->enqueue(packet);
@@ -13086,8 +13566,8 @@ namespace openkal::server {
                     send_system_chat(sender, "You are not in a guild.");
                     break;
                 }
-                const auto packet =
-                    protocol::Chatting::frame_s2c(sender.name, outcome.outbound_text());
+                const auto packet = protocol::Chatting::frame_s2c(public_player_name(sender),
+                                                                  outcome.outbound_text());
                 for (auto& peer : clients) {
                     if (peer.phase == SessionPhase::Playing && peer.sock &&
                         m_guilds->membership(peer.character_id) == id) {
@@ -13097,12 +13577,16 @@ namespace openkal::server {
                 break;
             }
             case ChatAction::Whisper: {
+                if (is_assassin(sender)) {
+                    send_system_chat(sender, "You cannot whisper while wearing an Assassin Mask.");
+                    break;
+                }
                 if (m_management.enabled() && outcome.whisper_target() == kManagementSpeaker) {
                     std::string target, body;
                     if (protocol::Chatting::parse_whisper(outcome.outbound_text(), target, body)) {
                         m_management.record_pm(sender.character_id, sender.name, body, false);
-                        (void) sender.sock->enqueue(
-                            protocol::Chatting::frame_s2c(sender.name, outcome.outbound_text()));
+                        (void) sender.sock->enqueue(protocol::Chatting::frame_s2c(
+                            public_player_name(sender), outcome.outbound_text()));
                     }
                     break;
                 }
@@ -13111,7 +13595,7 @@ namespace openkal::server {
                     if (peer.phase != SessionPhase::Playing || !peer.sock) {
                         continue;
                     }
-                    if (peer.name == outcome.whisper_target()) {
+                    if (!is_assassin(peer) && peer.name == outcome.whisper_target()) {
                         target = &peer;
                         break;
                     }
@@ -13120,8 +13604,8 @@ namespace openkal::server {
                     send_system_chat(sender, "There is no such player.");
                     break;
                 }
-                const auto pkt =
-                    protocol::Chatting::frame_s2c(sender.name, outcome.outbound_text());
+                const auto pkt = protocol::Chatting::frame_s2c(public_player_name(sender),
+                                                               outcome.outbound_text());
                 target->sock->enqueue(pkt);
                 if (target != &sender) {
                     sender.sock->enqueue(pkt);
@@ -13145,6 +13629,7 @@ namespace openkal::server {
             c.known_npcs.clear();
             c.guild_view.clear();
             c.guild_displays.clear();
+            c.pvp_displays.clear();
             // Local self CreatePlayer: class | 0x80 matches
             // compatibility behavior.
             const auto self =
@@ -13986,6 +14471,10 @@ namespace openkal::server {
             if (c.trade_token) {
                 trade_close(c, "Trade cancelled: player disconnected.");
             }
+            finish_pvp_death(c, true);
+            if (c.duel_peer != 0) {
+                end_duel(c, "The duel was cancelled because a player disconnected.");
+            }
             parties.disconnect(c.player_id);
             persist_session_logout(m_store.get(), c);
             if (c.sock && c.sock->pending()) {
@@ -14077,7 +14566,7 @@ namespace openkal::server {
                         if (viewer.known_players.insert(peer.player_id).second) {
                             (void) viewer.sock->enqueue(
                                 protocol::CreatePlayer::frame(peer.player_id,
-                                                              peer.name,
+                                                              public_player_name(peer),
                                                               static_cast<std::uint8_t>(peer.clazz),
                                                               peer.px,
                                                               peer.py,
@@ -14095,6 +14584,7 @@ namespace openkal::server {
                          it != viewer.known_players.end();) {
                         if (!visible.count(*it)) {
                             (void) viewer.sock->enqueue(protocol::CreatePlayer::frame_remove(*it));
+                            viewer.pvp_displays.erase(*it);
                             it = viewer.known_players.erase(it);
                         } else {
                             ++it;
@@ -14473,6 +14963,12 @@ namespace openkal::server {
                                         c.revival_point = static_cast<std::uint8_t>(
                                             std::clamp(rec.revival_point, 0, 12));
                                         c.exp = rec.exp;
+                                        if (rec.hp <= 0 &&
+                                            (rec.pvp_death_exp_percent ==
+                                                 kAssassinVictimExpPercent ||
+                                             rec.pvp_death_exp_percent == kAssassinExpPercent)) {
+                                            c.pvp_death_exp_percent = rec.pvp_death_exp_percent;
+                                        }
                                         c.pu_point = rec.pu_point;
                                         c.su_point = rec.su_point;
                                         c.contribution = rec.contribution;
@@ -14569,9 +15065,21 @@ namespace openkal::server {
                                     };
                                     int relocated_overflow = 0;
                                     bool deferred_overflow = false;
-                                    for (const auto& item : items) {
+                                    for (auto item : items) {
                                         if (item.iid <= 0 || item.count <= 0) {
                                             continue;
+                                        }
+                                        const int mask_index =
+                                            current_assassin_mask_index(item.index, c.clazz);
+                                        if (mask_index != item.index) {
+                                            const auto* mask = item_def_of(m_world, mask_index);
+                                            if (mask && mask->assassin_mask) {
+                                                auto replacement = item;
+                                                replacement.index = mask_index;
+                                                if (m_store->update_item(replacement)) {
+                                                    item = replacement;
+                                                }
+                                            }
                                         }
                                         bump_next_iid(item.iid);
                                         observe_used_iid(m_next_iid,
@@ -14601,7 +15109,10 @@ namespace openkal::server {
                                                     }
                                                 }
                                             };
-                                            if (in_collection) {
+                                            if (item.slot == kAssassinMaskSlot &&
+                                                c.bag.back().iid == 0) {
+                                                dest = &c.bag.back();
+                                            } else if (in_collection) {
                                                 find_empty(c.collection);
                                             } else if (item.slot != 0) {
                                                 const auto* def = item_def_of(m_world, item.index);
@@ -14680,37 +15191,13 @@ namespace openkal::server {
                                             } else {
                                                 dest->iid = allocate_item_iid(m_next_iid);
                                             }
-                                            dest->index = item.index;
-                                            dest->prefix = item.prefix;
+                                            const auto iid = dest->iid;
+                                            *dest = bag_slot_from_record(item);
+                                            dest->iid = iid;
                                             dest->count = put;
-                                            dest->cur_end = item.cur_end;
-                                            dest->max_end = item.max_end;
-                                            dest->x_attack = item.x_attack;
-                                            dest->x_magic = item.x_magic;
-                                            dest->x_hit = item.x_hit;
-                                            dest->x_defense = item.x_defense;
-                                            dest->x_dodge = item.x_dodge;
-                                            dest->upgrade_level = item.upgrade_level;
-                                            dest->upgrade_rate = item.upgrade_rate;
-                                            dest->mix_type = item.mix_type;
-                                            dest->bof = item.bof;
-                                            dest->qigong_perforated = item.qigong_perforated;
-                                            dest->qigong_effect = item.qigong_effect;
-                                            dest->dragon_effect = item.dragon_effect;
-                                            dest->enchant_protected = item.enchant_protected;
-                                            dest->random_stat_type = item.random_stat_type;
-                                            dest->random_stat_value = item.random_stat_value;
-                                            dest->transform_level =
-                                                item.transform_level < 1 ? 1 : item.transform_level;
-                                            dest->transform_exp =
-                                                item.transform_exp < 0 ? 0 : item.transform_exp;
-                                            dest->pet_expire_at =
-                                                std::max<std::int64_t>(0, item.pet_expire_at);
-                                            dest->ride_expire_at =
-                                                std::max<std::int64_t>(0, item.ride_expire_at);
-                                            dest->account_bound = item.account_bound;
-                                            dest->character_bound = item.character_bound;
-                                            dest->equipped = item.slot != 0;
+                                            dest->equipped = item.slot == kAssassinMaskSlot
+                                                                 ? dest == &c.bag.back()
+                                                                 : item.slot != 0;
                                             init_slot_endurance(m_world, *dest);
                                             if (item.slot == 3) {
                                                 const bool item_blank =
@@ -15249,6 +15736,16 @@ namespace openkal::server {
                         if (!npc) {
                             continue;
                         }
+                        if (npc->html == protocol::kAssassinListDialog) {
+                            auto entries = m_store->load_assassin_list();
+                            if (entries) {
+                                c.sock->enqueue(
+                                    protocol::frame_assassin_list({npc->id, std::move(*entries)}));
+                            } else {
+                                send_system_chat(c, "The Assassin List is unavailable.");
+                            }
+                            continue;
+                        }
                         if (m_castle_war) {
                             const auto& rules = m_castle_war->rules();
                             int dialog = 0;
@@ -15469,6 +15966,13 @@ namespace openkal::server {
                                     def = &it->second;
                                 }
                             }
+                            if (def && def->assassin_mask &&
+                                ((def->class_limit >= 0 && def->class_limit != c.clazz) ||
+                                 def->level_limit > c.level)) {
+                                send_system_chat(c,
+                                                 "You do not meet the Assassin Mask requirements.");
+                                continue;
+                            }
                             if (def && def->wearable &&
                                 (def->class_limit < 0 || def->class_limit == c.clazz) &&
                                 def->level_limit <= c.level) {
@@ -15486,6 +15990,19 @@ namespace openkal::server {
                                         send_system_chat(c, error);
                                         continue;
                                     }
+                                }
+                                if (kind == WearKind::AssassinMask && !slot->equipped &&
+                                    (!m_config.multiplayer || c.cur_hp <= 0 || c.tele_pending ||
+                                     c.castle_side != CastleWarSide::None ||
+                                     c.castle_return_pending || c.duel_peer != 0 ||
+                                     is_assassin(c))) {
+                                    send_system_chat(c,
+                                                     "The Assassin Mask cannot be worn right now.");
+                                    continue;
+                                }
+                                if (kind == WearKind::Face && is_assassin(c)) {
+                                    send_system_chat(c, "You cannot take off the Assassin Mask.");
+                                    continue;
                                 }
                                 const auto pet_it = m_world.pet_defs().find(index);
                                 if (kind == WearKind::Pet && pet_it == m_world.pet_defs().end()) {
@@ -15589,6 +16106,10 @@ namespace openkal::server {
                                     (void) ensure_battle_mount(
                                         c, *slot, riding_it->second, m_store.get());
                                 }
+                                if (kind == WearKind::AssassinMask) {
+                                    c.duel_inviter = 0;
+                                    send_system_chat(c, "You are now an Assassin.");
+                                }
                                 if (def->is_transform) {
                                     // Progress belongs to the inventory instance, not its shared
                                     // item definition index.  Reload it even when replacing an egg
@@ -15655,6 +16176,10 @@ namespace openkal::server {
                                 continue;
                             }
                             const int index = slot->index;
+                            if (slot == &c.bag.back()) {
+                                send_system_chat(c, "You cannot take off the Assassin Mask.");
+                                continue;
+                            }
                             const ItemCombatDef* removed_def = item_def_of(m_world, index);
                             const WearKind removed_kind =
                                 removed_def ? wear_kind_of(*removed_def) : WearKind::None;
@@ -17077,6 +17602,15 @@ namespace openkal::server {
                         if (!protocol::Chatting::parse_c2s(payload.data(), payload.size(), text)) {
                             continue;
                         }
+                        if (text == "/surrender" || text == "/duel" ||
+                            text.rfind("/duel ", 0) == 0) {
+                            const auto now = steady_ms_now();
+                            if (now >= c.next_msg_ms) {
+                                c.next_msg_ms = now + ChatService::kRateLimitMs;
+                                duel_command(c, text, now);
+                            }
+                            continue;
+                        }
                         if (text == "/castle" || text.rfind("/castle ", 0) == 0) {
                             const auto now = steady_ms_now();
                             if (now < c.next_msg_ms) {
@@ -17186,10 +17720,9 @@ namespace openkal::server {
                         }
                         if (kind == protocol::kCkPlayer) {
                             auto* target = find_playing_player(clients, target_id);
-                            if (c.castle_side == CastleWarSide::None || !target ||
-                                target->cur_hp <= 0 || target->map != c.map || c.resting ||
-                                c.weapon_index == 0 || c.attack_cooldown > 0 ||
-                                !castle_allows_attack(c, target) ||
+                            if (!target || target->cur_hp <= 0 || target->map != c.map ||
+                                c.resting || c.weapon_index == 0 || c.attack_cooldown > 0 ||
+                                !pvp_allows_attack(c, target) ||
                                 !combat::in_attack_range(
                                     c.px, c.py, target->px, target->py, c.attack_range + 16)) {
                                 continue;
@@ -17202,7 +17735,7 @@ namespace openkal::server {
                                 target->godmode,
                                 target->skill_buffs.perfect_defense_self_percent());
                             target->cur_hp = std::max(0, target->cur_hp - dealt);
-                            castle_score_hit(c, target, false);
+                            record_pvp_hit(c, target, false);
                             send_cur_property(
                                 *target, protocol::PropertyType::CurHp, target->cur_hp);
                             const int aspeed = std::max(200, c.attack_speed_ms);
@@ -17719,7 +18252,7 @@ namespace openkal::server {
                             bool valid = false;
                             const PlayerBuffTarget player = find_player_buff_target(target_id);
                             if (player.valid() && !player.is_session(c) && player.cur_hp() > 0 &&
-                                player.map() == c.map && castle_allows_attack(c, player.session)) {
+                                player.map() == c.map && pvp_allows_attack(c, player.session)) {
                                 tx = player.px();
                                 ty = player.py();
                                 valid = true;
@@ -18150,7 +18683,7 @@ namespace openkal::server {
                                     for (auto& peer : clients) {
                                         if (&peer == &c || peer.phase != SessionPhase::Playing ||
                                             peer.party_id != c.party_id || peer.map != c.map ||
-                                            peer.cur_hp <= 0 || !castle_allows_support(c, &peer) ||
+                                            peer.cur_hp <= 0 || !pvp_allows_support(c, &peer) ||
                                             !combat::in_attack_range(
                                                 c.px, c.py, peer.px, peer.py, kPartyBuffRange)) {
                                             continue;
@@ -18188,7 +18721,7 @@ namespace openkal::server {
                                         const auto target = find_player_buff_target(selected_id);
                                         valid_target =
                                             target.valid() && !target.is_session(c) &&
-                                            castle_allows_attack(c, target.session) &&
+                                            pvp_allows_attack(c, target.session) &&
                                             target.cur_hp() > 0 && target.map() == c.map &&
                                             combat::in_attack_range(
                                                 c.px, c.py, target.px(), target.py(), 300);
@@ -18270,7 +18803,7 @@ namespace openkal::server {
                                 for (auto& target : clients) {
                                     if (target.phase != SessionPhase::Playing || &target == &c ||
                                         target.cur_hp <= 0 || target.map != c.map ||
-                                        !castle_allows_attack(c, &target) ||
+                                        !pvp_allows_attack(c, &target) ||
                                         !coords::in_tile_rect(
                                             c.px, c.py, target.px, target.py, radius)) {
                                         continue;
@@ -18401,7 +18934,7 @@ namespace openkal::server {
 
                             if (special == protocol::KnightSpecialKind::Return) {
                                 if (rest_size != 0 || !ready() ||
-                                    c.castle_side != CastleWarSide::None) {
+                                    c.castle_side != CastleWarSide::None || is_assassin(c)) {
                                     continue;
                                 }
                                 const int return_map = m_map_catalog.index_at_pixel(
@@ -18500,7 +19033,7 @@ namespace openkal::server {
                                         if (&peer == &c || peer.phase != SessionPhase::Playing ||
                                             peer.player_id == 0 || peer.party_id != c.party_id ||
                                             peer.map != c.map || peer.cur_hp <= 0 ||
-                                            !castle_allows_support(c, &peer)) {
+                                            !pvp_allows_support(c, &peer)) {
                                             continue;
                                         }
                                         if (!combat::in_attack_range(
@@ -18551,10 +19084,13 @@ namespace openkal::server {
                                     special == protocol::KnightSpecialKind::Rush ||
                                     special == protocol::KnightSpecialKind::ShieldStun;
                                 if (!target.valid() || target.map() != c.map ||
-                                    (offensive ? !castle_allows_attack(c, target.session)
-                                               : !castle_allows_support(c, target.session)) ||
+                                    (offensive ? !pvp_allows_attack(c, target.session)
+                                               : !pvp_allows_support(c, target.session)) ||
                                     (special == protocol::KnightSpecialKind::Revival &&
-                                     c.castle_side != CastleWarSide::None) ||
+                                     (c.castle_side != CastleWarSide::None ||
+                                      (target.session &&
+                                       (is_assassin(*target.session) ||
+                                        target.session->duel_recovery_at_ms != 0)))) ||
                                     !combat::in_attack_range(
                                         c.px, c.py, target.px(), target.py(), range)) {
                                     continue;
@@ -18626,6 +19162,9 @@ namespace openkal::server {
                                         static_cast<std::int64_t>(target.max_mp()) *
                                         (4 * skill_level + 7) / 100));
                                     if (target.session) {
+                                        target.session->pvp_death_exp_percent = 0;
+                                        target.session->pvp_death_unsaved = false;
+                                        persist_character(m_store.get(), *target.session);
                                         send_cur_property(*target.session,
                                                           protocol::PropertyType::CurHp,
                                                           target.cur_hp());
@@ -18658,7 +19197,7 @@ namespace openkal::server {
                                     continue;
                                 }
                                 if (offensive) {
-                                    castle_score_hit(c, target.session, true);
+                                    record_pvp_hit(c, target.session, true);
                                 } else {
                                     castle_score_support(c, target.session);
                                 }
@@ -18846,7 +19385,7 @@ namespace openkal::server {
                                     if (target.phase != SessionPhase::Playing ||
                                         target.player_id == 0 || target.player_id == c.player_id ||
                                         target.cur_hp <= 0 || target.map != c.map ||
-                                        !castle_allows_attack(c, &target) ||
+                                        !pvp_allows_attack(c, &target) ||
                                         !in_facing_half(target.px, target.py) ||
                                         !coords::in_tile_rect(center_x,
                                                               center_y,
@@ -18907,7 +19446,7 @@ namespace openkal::server {
                                     }
                                     hit.dead = target.cur_hp <= 0;
                                     if (dealt > 0) {
-                                        castle_score_hit(c, &target, true);
+                                        record_pvp_hit(c, &target, true);
                                     }
                                     hits.push_back(hit);
                                 }
@@ -19077,7 +19616,7 @@ namespace openkal::server {
                             }
                             if (route == ArcherRoute::Commonback) {
                                 if (rest_size != 0 || !ready ||
-                                    c.castle_side != CastleWarSide::None) {
+                                    c.castle_side != CastleWarSide::None || is_assassin(c)) {
                                     continue;
                                 }
                                 const int return_map = m_map_catalog.index_at_pixel(
@@ -19335,7 +19874,7 @@ namespace openkal::server {
                                 static_cast<std::int64_t>(c.cur_mp) - spend_mp);
                             for (auto& member : clients) {
                                 if (member.phase != SessionPhase::Playing || member.cur_hp <= 0 ||
-                                    !castle_allows_support(c, &member) || member.map != c.map ||
+                                    !pvp_allows_support(c, &member) || member.map != c.map ||
                                     (member.player_id != c.player_id &&
                                      (c.party_id == 0 || member.party_id != c.party_id)) ||
                                     !combat::in_attack_range(
@@ -19409,7 +19948,7 @@ namespace openkal::server {
                                         target_y = target.py();
                                     }
                                     valid = target.valid() && target.cur_hp() > 0 &&
-                                            castle_allows_attack(c, target.session) &&
+                                            pvp_allows_attack(c, target.session) &&
                                             target.map() == c.map &&
                                             combat::in_attack_range(
                                                 c.px, c.py, target.px(), target.py(), 300);
@@ -19678,7 +20217,7 @@ namespace openkal::server {
                                     if (target.phase != SessionPhase::Playing ||
                                         target.player_id == 0 || target.player_id == c.player_id ||
                                         target.cur_hp <= 0 || target.map != c.map ||
-                                        !castle_allows_attack(c, &target) ||
+                                        !pvp_allows_attack(c, &target) ||
                                         !coords::in_tile_rect(
                                             c.px, c.py, target.px, target.py, kSpinSlashTiles) ||
                                         !combat::in_attack_range(
@@ -19731,7 +20270,7 @@ namespace openkal::server {
                                     }
                                     hit.dead = target.cur_hp <= 0;
                                     if (dealt > 0) {
-                                        castle_score_hit(c, &target, true);
+                                        record_pvp_hit(c, &target, true);
                                     }
                                     hits.push_back(hit);
                                 }
@@ -19741,7 +20280,7 @@ namespace openkal::server {
                                 for (auto& target : clients) {
                                     if (target.phase != SessionPhase::Playing ||
                                         target.player_id == c.player_id || target.cur_hp <= 0 ||
-                                        !castle_allows_attack(c, &target) || target.map != c.map ||
+                                        !pvp_allows_attack(c, &target) || target.map != c.map ||
                                         !coords::in_tile_rect(
                                             c.px, c.py, target.px, target.py, 3)) {
                                         continue;
@@ -20221,7 +20760,7 @@ namespace openkal::server {
                                 def->index == 69 ? 300
                                                  : skill_cast_range(*def, skill_level, 208) + 48;
                             if (!target.valid() || target.map() != c.map ||
-                                !castle_allows_support(c, target.session) ||
+                                !pvp_allows_support(c, target.session) ||
                                 !combat::in_attack_range(
                                     c.px, c.py, target.px(), target.py(), friendly_range)) {
                                 continue;
@@ -20394,7 +20933,7 @@ namespace openkal::server {
                             if (target_kind == protocol::kCkPlayer) {
                                 player_target = find_player_buff_target(target_id);
                                 if (!player_target.valid() || player_target.is_session(c) ||
-                                    !castle_allows_attack(c, player_target.session) ||
+                                    !pvp_allows_attack(c, player_target.session) ||
                                     player_target.cur_hp() <= 0 || player_target.map() != c.map ||
                                     !combat::in_attack_range(c.px,
                                                              c.py,
@@ -20584,7 +21123,7 @@ namespace openkal::server {
                                 player_target.set_cur_hp(combat::clamp_nonneg_i32(
                                     static_cast<std::int64_t>(player_target.cur_hp()) - dealt));
                                 if (dealt > 0 && player_target.session) {
-                                    castle_score_hit(c, player_target.session, true);
+                                    record_pvp_hit(c, player_target.session, true);
                                     send_cur_property(*player_target.session,
                                                       protocol::PropertyType::CurHp,
                                                       player_target.cur_hp());
@@ -20928,14 +21467,13 @@ namespace openkal::server {
                         if (c.clazz == combat::kPcMage && kind == protocol::kCkPlayer) {
                             const auto shape = protocol::mage_target_shape(def->index);
                             auto* target = find_playing_player(clients, target_id);
-                            if (c.castle_side == CastleWarSide::None || !target ||
-                                target->cur_hp <= 0 || target->map != c.map ||
+                            if (!target || target->cur_hp <= 0 || target->map != c.map ||
                                 (shape != protocol::MageTargetShape::Monster &&
                                  shape != protocol::MageTargetShape::HostileCharacter &&
                                  shape != protocol::MageTargetShape::TargetArea) ||
                                 protocol::mage_effect_kind(def->index) !=
                                     protocol::MageEffectKind::Damage ||
-                                !castle_allows_attack(c, target) ||
+                                !pvp_allows_attack(c, target) ||
                                 !combat::in_attack_range(c.px,
                                                          c.py,
                                                          target->px,
@@ -20967,7 +21505,7 @@ namespace openkal::server {
                                     enemy.skill_buffs.perfect_defense_self_percent());
                                 if (damage > 0) {
                                     enemy.cur_hp = std::max(0, enemy.cur_hp - damage);
-                                    castle_score_hit(c, &enemy, true);
+                                    record_pvp_hit(c, &enemy, true);
                                     send_cur_property(
                                         enemy, protocol::PropertyType::CurHp, enemy.cur_hp);
                                 }
@@ -21006,7 +21544,7 @@ namespace openkal::server {
                                     }
                                     if (&enemy != target && enemy.phase == SessionPhase::Playing &&
                                         enemy.map == c.map && enemy.cur_hp > 0 &&
-                                        castle_allows_attack(c, &enemy) &&
+                                        pvp_allows_attack(c, &enemy) &&
                                         coords::in_tile_rect(
                                             target->px, target->py, enemy.px, enemy.py, radius)) {
                                         deliver(enemy);
@@ -21038,7 +21576,7 @@ namespace openkal::server {
                             }
                             PlayerBuffTarget target = find_player_buff_target(target_id);
                             if (!target.valid() || target.is_session(c) || target.cur_hp() <= 0 ||
-                                !castle_allows_attack(c, target.session) || target.map() != c.map ||
+                                !pvp_allows_attack(c, target.session) || target.map() != c.map ||
                                 !combat::in_attack_range(
                                     c.px, c.py, target.px(), target.py(), c.attack_range + 8)) {
                                 continue;
@@ -21073,7 +21611,7 @@ namespace openkal::server {
                             }
                             target.set_cur_hp(std::max(0, target.cur_hp() - dealt));
                             if (target.session && dealt > 0) {
-                                castle_score_hit(c, target.session, true);
+                                record_pvp_hit(c, target.session, true);
                                 send_cur_property(*target.session,
                                                   protocol::PropertyType::CurHp,
                                                   target.cur_hp());
@@ -21130,7 +21668,7 @@ namespace openkal::server {
                             const int cast_range =
                                 skill_cast_range(*def, skill_level, c.attack_range) + 64;
                             if (!player_target.valid() || player_target.is_session(c) ||
-                                !castle_allows_attack(c, player_target.session) ||
+                                !pvp_allows_attack(c, player_target.session) ||
                                 player_target.cur_hp() <= 0 || player_target.map() != c.map ||
                                 !combat::in_attack_range(c.px,
                                                          c.py,
@@ -21196,7 +21734,7 @@ namespace openkal::server {
                                 player_target.set_cur_hp(combat::clamp_nonneg_i32(
                                     static_cast<std::int64_t>(player_target.cur_hp()) - dealt));
                                 if (player_target.session) {
-                                    castle_score_hit(c, player_target.session, true);
+                                    record_pvp_hit(c, player_target.session, true);
                                     send_cur_property(*player_target.session,
                                                       protocol::PropertyType::CurHp,
                                                       player_target.cur_hp());
@@ -22150,7 +22688,7 @@ namespace openkal::server {
                                 if (target.phase != SessionPhase::Playing ||
                                     target.player_id == 0 || target.player_id == c.player_id ||
                                     target.cur_hp <= 0 || target.map != c.map ||
-                                    !castle_allows_attack(c, &target) ||
+                                    !pvp_allows_attack(c, &target) ||
                                     !combat::in_attack_range(
                                         area_cx, area_cy, target.px, target.py, radius)) {
                                     continue;
@@ -22182,7 +22720,7 @@ namespace openkal::server {
                                 if (wave_dealt > 0) {
                                     target.cur_hp = combat::clamp_nonneg_i32(
                                         static_cast<std::int64_t>(target.cur_hp) - wave_dealt);
-                                    castle_score_hit(c, &target, true);
+                                    record_pvp_hit(c, &target, true);
                                     send_cur_property(
                                         target, protocol::PropertyType::CurHp, target.cur_hp);
                                 }
@@ -22509,7 +23047,16 @@ namespace openkal::server {
                         tick_collection_expiry_and_profile(c, m_world, m_store.get(), now_ms);
                         c.attack_cooldown = std::max(0.0f, c.attack_cooldown - elapsed);
                         c.aggro_immune_left = std::max(0.0f, c.aggro_immune_left - elapsed);
-                        if (c.cur_hp <= 0) {
+                        finish_pvp_death(c);
+                        if (c.duel_peer != 0) {
+                            const auto* peer = find_playing_player(clients, c.duel_peer);
+                            if (!peer || c.tele_pending || peer->tele_pending ||
+                                !same_map_in_sight(
+                                    c.map, c.px, c.py, peer->map, peer->px, peer->py)) {
+                                end_duel(c, "The duel was cancelled because a player left.");
+                            }
+                        }
+                        if (c.cur_hp <= 0 && c.duel_recovery_at_ms == 0) {
                             if (c.village_revival_deadline_ms == 0) {
                                 const auto delay =
                                     c.castle_side == CastleWarSide::None
@@ -22647,6 +23194,9 @@ namespace openkal::server {
                                               m_store.get(),
                                               m_next_iid,
                                               doggebi.lord_id);
+                if (m_config.multiplayer) {
+                    sync_pvp(event_now);
+                }
             }
             if (runtime_metrics) {
                 const auto metrics_work_end = std::chrono::steady_clock::now();

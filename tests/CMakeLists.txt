@@ -1183,6 +1183,10 @@ if(OPENKAL_WITH_POSTGRES)
   add_test(NAME castle_war_server COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_multiplayer.py" "$<TARGET_FILE:openkal_test_castle_war_server>")
   set_tests_properties(castle_war_server PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS "postgres-integration" RUN_SERIAL TRUE)
+  add_test(NAME pvp_server COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_postgres_multiplayer.py" "$<TARGET_FILE:openkal_test_castle_war_server>" pvp)
+  set_tests_properties(pvp_server PROPERTIES SKIP_RETURN_CODE 77 TIMEOUT 90 LABELS "postgres-integration" RUN_SERIAL TRUE)
+
 
 endif()
 

@@ -16,10 +16,20 @@
 #include "openkal/protocol/FrameParser.h"
 #include "openkal/protocol/GameExit.h"
 #include "openkal/protocol/Handshake.h"
+#include "openkal/protocol/ItemWear.h"
+#include "openkal/protocol/Move.h"
 #include "openkal/protocol/Opcodes.h"
 #include "openkal/protocol/PacketReader.h"
+#include "openkal/protocol/PacketWriter.h"
+#include "openkal/protocol/PlayerOptions.h"
+#include "openkal/protocol/Progression.h"
+#include "openkal/protocol/Property.h"
+#include "openkal/protocol/Pvp.h"
 #include "openkal/protocol/Quest.h"
+#include "openkal/protocol/Shop.h"
+#include "openkal/protocol/Skill.h"
 #include "openkal/protocol/Teleport.h"
+#include "openkal/protocol/UseItem.h"
 #include "openkal/server/AccountPassword.h"
 #include "openkal/server/GuildService.h"
 #include "openkal/server/LobbyClient.h"
@@ -37,6 +47,7 @@
 #include <libpq-fe.h>
 #include <memory>
 #include <stdexcept>
+#include <string_view>
 #include <thread>
 #include <unistd.h>
 
@@ -122,10 +133,14 @@ namespace {
                     "receive world challenge");
             send(Handshake::build_answer(code.protocol_test_value), "answer world challenge");
             require(receive(S2C::CreatePlayer,
-                            [](const auto& payload) {
+                            [&](const auto& payload) {
                                 CreatePlayerFields self;
-                                return CreatePlayer::parse(payload.data(), payload.size(), self) &&
-                                       (self.class_byte & 0x80);
+                                if (!CreatePlayer::parse(payload.data(), payload.size(), self) ||
+                                    !(self.class_byte & 0x80)) {
+                                    return false;
+                                }
+                                m_id = self.id;
+                                return true;
                             }),
                     "receive world character");
             if (expect_blocker) {
@@ -164,6 +179,19 @@ namespace {
                     "receive Castle War dialog for the selected NPC");
         }
 
+        protocol::AssassinList read_assassin_list(std::uint32_t npc) {
+            using namespace protocol;
+            send(Quest::frame_ask_npc(npc), "open the Assassin List board");
+            AssassinList list;
+            require(receive(S2C::AssassinList,
+                            [&](const auto& payload) {
+                                return parse_assassin_list(payload.data(), payload.size(), list) &&
+                                       list.npc_id == npc;
+                            }),
+                    "receive the board snapshot for the selected NPC");
+            return list;
+        }
+
         bool response(std::string_view expected) {
             return receive(protocol::S2C::Chatting, [&](const auto& payload) {
                 std::string speaker, message;
@@ -171,6 +199,27 @@ namespace {
                            payload.data(), payload.size(), speaker, message) &&
                        message.find(expected) != std::string::npos;
             });
+        }
+
+        protocol::PlayerOptionsState
+        player_options(const Peer& target,
+                       protocol::PlayerAction action = protocol::PlayerAction::Query) {
+            using namespace protocol;
+            PlayerOptionsRequest request;
+            request.action = action;
+            request.request_id = ++m_options_request;
+            request.target = target.id();
+            send(frame_player_options_request(request), "use selected player options");
+            PlayerOptionsState state;
+            require(receive(S2C::PlayerOptions,
+                            [&](const auto& payload) {
+                                return parse_player_options_state(
+                                           payload.data(), payload.size(), state) &&
+                                       state.request_id == request.request_id &&
+                                       state.target == request.target;
+                            }),
+                    "receive selected player options and result");
+            return state;
         }
 
         void teleport(int x, int y) {
@@ -247,7 +296,58 @@ namespace {
             require(hit, "hit the objective through regular combat");
         }
 
+        std::uint32_t id() const {
+            return m_id;
+        }
+
+        void close() {
+            m_session->close();
+        }
+
+        bool pvp_status(std::uint32_t id,
+                        protocol::PvpRelation relation,
+                        bool attackable,
+                        bool masked = false,
+                        bool duel_defeat = false) {
+            return receive(protocol::S2C::PvpStatus, [&](const auto& payload) {
+                protocol::PvpStatus state;
+                return protocol::parse_pvp_status(payload.data(), payload.size(), state) &&
+                       state.player_id == id && state.relation == relation &&
+                       state.attackable == attackable && state.masked == masked &&
+                       (state.dueling && state.defeated) == duel_defeat;
+            });
+        }
+
+        bool sees_assassin(std::uint32_t id) {
+            return receive(protocol::S2C::CreatePlayer, [&](const auto& payload) {
+                protocol::CreatePlayerFields player;
+                return protocol::CreatePlayer::parse(payload.data(), payload.size(), player) &&
+                       player.id == id && player.name == protocol::kAssassinName;
+            });
+        }
+
+        bool player_attack(std::uint32_t id, Clock::duration timeout, int minimum_damage = 0) {
+            return receive(
+                protocol::S2C::Attack,
+                [&](const auto& payload) {
+                    std::uint32_t attacker = 0, target = 0;
+                    std::int32_t damage = 0, extra = 0;
+                    std::uint8_t flags = 0;
+                    return protocol::Attack::parse_server(payload.data(),
+                                                          payload.size(),
+                                                          attacker,
+                                                          target,
+                                                          damage,
+                                                          extra,
+                                                          flags) &&
+                           attacker == m_id && target == id && damage >= minimum_damage;
+                },
+                timeout);
+        }
+
       private:
+        std::uint32_t m_id = 0;
+        std::uint64_t m_options_request = 0;
         std::unique_ptr<server::ISession> m_session;
         std::vector<std::uint8_t> m_buffer;
     };
@@ -554,7 +654,345 @@ namespace {
         return platform::Json::stringify(doc);
     }
 
-    void exercise(const std::filesystem::path& root, const std::string& dsn, std::uint16_t port) {
+    void
+    exercise_pvp(server::ServerConfig config, server::PostgresStore& store, std::uint16_t port) {
+        using namespace protocol;
+        using namespace server;
+        constexpr int mask_index = 1036;
+        constexpr int archer_mask_index = 1037;
+        constexpr int mask_iid = 70001;
+        constexpr int reserve_iid = 70002;
+        constexpr int scroll_iid = 70003;
+        constexpr int stack_iid = 70004;
+        constexpr int wrong_class_iid = 70005;
+        constexpr int below_level_iid = 70006;
+        constexpr int scroll_index = 62001;
+        constexpr int stack_index = 62002;
+        constexpr int level = 70;
+        const auto level_exp = need_exp_for_level(level);
+        const auto start_exp = level_exp / 2;
+        config.guild_rules_path.clear();
+        config.castle_war_path.clear();
+        config.assassin_safe_areas = {
+            {0, kOutside - 16, kOutside - 16, kOutside + 20, kOutside + 24}};
+        const auto items = std::filesystem::path(config.items_dir);
+        const auto shops = items.parent_path() / "shops";
+        std::filesystem::create_directories(shops);
+        config.shops_dir = shops.string();
+        write(shops / "merchant.json", R"({"schema":"openkal.shop/v1",
+            "npcIndex":62100,"items":[1036]})");
+        write(items / "sword.json", R"({"index":62105,"name":"Owned Sword",
+            "class":["weapon","sword"],"wear":1,"range":36,
+            "specialty":{"hit":10000,"attack":[2000, 2000]}})");
+        write(items / "practice_sword.json", R"({"index":62107,"name":"Owned Practice Sword",
+            "class":["weapon","sword"],"wear":1,"range":36,
+            "specialty":{"hit":10000,"attack":[1, 1]}})");
+        write(items / "mask.json", R"({"index":1036,"name":"Owned Assassin Mask",
+            "class":["defense","mask"],"limit":{"class":"knight","level":30},
+            "wear":1,"assassin_mask":true,"stackable":0,"buy":100000})");
+        write(items / "archer_mask.json", R"({"index":1037,"name":"Owned Archer Mask",
+            "class":["defense","mask"],"limit":{"class":"archer","level":30},
+            "wear":1,"assassin_mask":true,"stackable":0,"buy":100000})");
+        write(items / "teleport.json", R"({"index":62001,"name":"Owned Scroll",
+            "class":["general","etc"],"use":1,"specialty":{"teleport":{"loc":0}}})");
+        write(items / "stack.json", R"({"index":62002,"name":"Owned Stack",
+            "class":["general","etc"],"stackable":1})");
+        for (int id : {1, 2, 3}) {
+            auto character = store.load_character(id).value();
+            character.exp = start_exp;
+            character.hp = 100;
+            character.money = 100000;
+            require(store.save_character(character), "seed EXP, HP and Geon for PvP");
+        }
+        auto low_level = store.load_character(4).value();
+        low_level.level = 29;
+        low_level.str = 1;
+        require(store.save_character(low_level), "seed a player below the mask level limit");
+        auto practice_sword = store.load_items(4).front();
+        practice_sword.index = 62107;
+        require(store.update_item(practice_sword), "equip a non-lethal practice weapon");
+        const auto seed = [&](int character, int iid, int index, int count, bool bound) {
+            ItemRecord record;
+            record.iid = iid;
+            record.character_id = character;
+            record.index = index;
+            record.count = count;
+            record.account_bound = bound;
+            require(store.insert_item(record), "seed an owned PvP inventory instance");
+        };
+        seed(1, mask_iid, mask_index, 1, false);
+        seed(1, reserve_iid, 23031, 1, true);
+        seed(1, scroll_iid, scroll_index, 1, true);
+        seed(1, stack_iid, stack_index, 12, false);
+        seed(1, wrong_class_iid, archer_mask_index, 1, true);
+        seed(4, below_level_iid, mask_index, 1, true);
+        const auto item_is = [&](int character, int iid, int slot) {
+            const auto owned = store.load_items(character);
+            return std::any_of(owned.begin(), owned.end(), [&](const auto& entry) {
+                return entry.iid == iid && entry.slot == slot;
+            });
+        };
+
+        ServerHost host;
+        require(host.start(config), "start PvP without guild or Castle War services");
+        std::this_thread::sleep_for(150ms);
+        std::uint32_t guard = 0, master = 0;
+        auto a = enter_world(port, "castlefounder", 1, guard, master);
+        guard = master = 0;
+        auto b = enter_world(port, "castlechallenger", 2, guard, master);
+        guard = master = 0;
+        auto c = enter_world(port, "castlepartner", 3, guard, master);
+        guard = master = 0;
+        auto witness = enter_world(port, "pvpwitness", 4, guard, master);
+        const auto migrated = store.load_items(1);
+        require(std::any_of(migrated.begin(),
+                            migrated.end(),
+                            [&](const auto& entry) {
+                                return entry.iid == reserve_iid && entry.index == mask_index;
+                            }),
+                "a previously purchased prototype mask becomes the matching class mask");
+        a.send(ItemWear::frame_client_put_on(wrong_class_iid), "try another class's mask");
+        require(a.response("do not meet the Assassin Mask requirements"),
+                "the server rejects a mask for another class");
+        witness.send(ItemWear::frame_client_put_on(below_level_iid), "try to equip at level 29");
+        require(witness.response("do not meet the Assassin Mask requirements"),
+                "the server rejects equipping below level 30");
+        b.send(Shop::frame_item_list_c2s(guard), "open shop configured for Assassin Masks");
+        require(
+            b.receive(S2C::ItemList,
+                      [](const auto& payload) {
+                          ShopItemList list;
+                          return Shop::parse_item_list_s2c(payload.data(), payload.size(), list) &&
+                                 list.offers.size() == 1 && list.offers.front().index == mask_index;
+                      }),
+            "the regular shop lists the Assassin Mask");
+        b.send(Shop::frame_buy_c2s(guard, mask_index, 1), "buy the Assassin Mask");
+        require(wait_until([&] {
+                    const auto bag = store.load_items(2);
+                    return std::any_of(bag.begin(), bag.end(), [](const auto& item) {
+                        return item.index == mask_index && item.count == 1;
+                    });
+                }),
+                "regular NPC purchase grants the mask");
+        const auto strike = [](Peer& source, const Peer& target) {
+            source.send(Attack::frame_client(kCkPlayer, target.id()), "attack another player");
+        };
+        const auto defeat = [&](Peer& source, const Peer& target, const auto& defeated) {
+            for (int attempt = 0; attempt < 8 && !defeated(); ++attempt) {
+                strike(source, target);
+                std::this_thread::sleep_for(850ms);
+            }
+            require(defeated(), "resolve the defeat through normal combat");
+        };
+
+        strike(a, b);
+        require(!a.player_attack(b.id(), 200ms), "ordinary players cannot attack each other");
+        const auto offers = [](const PlayerOptionsState& state, PlayerAction action) {
+            return std::find(state.actions.begin(), state.actions.end(), action) !=
+                   state.actions.end();
+        };
+        require(offers(a.player_options(b), PlayerAction::ChallengeDuel),
+                "Player Options offers a challenge in safety");
+        require(a.player_options(b, PlayerAction::ChallengeDuel).status ==
+                    "Duel invitation sent to CastleLeader.",
+                "challenge from Player Options");
+        require(b.response("challenged you to a duel"), "receive the duel invitation");
+        require(b.player_options(c, PlayerAction::AcceptDuel).status ==
+                    "That player did not invite you to a duel.",
+                "accepting with another player selected does not consume the invitation");
+        const auto pending = b.player_options(a);
+        require(offers(pending, PlayerAction::AcceptDuel) &&
+                    offers(pending, PlayerAction::DeclineDuel) &&
+                    !offers(pending, PlayerAction::ChallengeDuel),
+                "Player Options offers responses for the actual inviter");
+        require(b.player_options(a, PlayerAction::DeclineDuel).status ==
+                        "Duel invitation declined." &&
+                    a.response("declined your duel invitation"),
+                "declining from Player Options notifies the inviter");
+        require(b.player_options(a, PlayerAction::ChallengeDuel).status ==
+                    "Duel invitation sent to CastleFounder.",
+                "reversed challenge creates a fresh invitation");
+        require(a.player_options(b, PlayerAction::AcceptDuel).status ==
+                    "Duel started with CastleLeader.",
+                "accept from Player Options in safety");
+        require(a.pvp_status(b.id(), PvpRelation::Enemy, true),
+                "duel opponent is hostile in the starter safe area");
+        require(b.pvp_status(b.id(), PvpRelation::Ally, false),
+                "duel participant sees their own side as allied");
+        const auto has_hp = [](bool alive) {
+            return [alive](const auto& payload) {
+                UpdatePropertyFields update;
+                return Property::parse_update_any(payload.data(), payload.size(), update) &&
+                       update.property == static_cast<std::uint8_t>(PropertyType::CurHp) &&
+                       (update.word_value > 0) == alive;
+            };
+        };
+        bool collapsed = false;
+        for (int attempt = 0; attempt < 8 && !collapsed; ++attempt) {
+            strike(a, b);
+            collapsed = b.receive(S2C::UpdateProperty, has_hp(false), 850ms);
+        }
+        require(collapsed, "a lethal duel hit sends zero HP to the defeated player");
+        require(a.pvp_status(b.id(), PvpRelation::Enemy, false, false, true),
+                "the opponent sees the duel defeat before automatic recovery");
+        require(b.pvp_status(b.id(), PvpRelation::Ally, false, false, true),
+                "the defeated player sees the same duel defeat");
+        b.send(Skill::frame_client_revival(), "attempt village revival during the collapse");
+        require(!b.receive(S2C::UpdateProperty, has_hp(true), 250ms),
+                "the collapse window is not skipped by an early revival request");
+        require(a.response("was defeated in the duel"), "the duel ends after the collapse");
+        require(b.receive(S2C::UpdateProperty, has_hp(true)),
+                "the defeated player recovers automatically");
+        require(a.pvp_status(b.id(), PvpRelation::Neutral, false),
+                "recovery clears the duel relationship");
+        require(store.load_character(2)->exp == start_exp, "duel leaves EXP intact");
+        strike(a, b);
+        require(!a.player_attack(b.id(), 200ms), "attacks stop after the duel ends");
+        c.send(Chatting::frame_c2s("/duel CastleLeader"), "challenge a player through chat");
+        require(b.response("challenged you to a duel") &&
+                    b.player_options(c, PlayerAction::DeclineDuel).status ==
+                        "Duel invitation declined." &&
+                    c.response("declined your duel invitation"),
+                "chat invitations use the same responses as Player Options");
+
+        a.send(ItemWear::frame_client_put_on(mask_iid), "put on the Assassin Mask");
+        require(a.response("You are now an Assassin"), "mask activates");
+        require(b.sees_assassin(a.id()), "other players receive the alias");
+        require(b.pvp_status(a.id(), PvpRelation::Neutral, false, true),
+                "the mask stays visible without granting attacks in the starter area");
+        require(b.response(kAssassinWarning), "nearby players receive the warning");
+        strike(a, b);
+        require(!a.player_attack(b.id(), 200ms), "the starter area rejects Assassin attacks");
+        a.send(ItemWear::frame_client_put_off(mask_iid), "attempt to remove the mask");
+        require(a.response("cannot take off"), "the server blocks mask removal");
+        a.send(UseItem::frame_c2s(scroll_iid),
+               "attempt to use a city teleport scroll while masked");
+        require(a.response("cannot teleport"), "the server rejects teleporting while masked");
+        require(item_is(1, scroll_iid, 0) && item_is(1, mask_iid, 7),
+                "the mask is durable and a blocked teleport does not consume the scroll");
+
+        a.close();
+        std::this_thread::sleep_for(300ms);
+        guard = master = 0;
+        a = enter_world(port, "castlefounder", 1, guard, master);
+        require(b.sees_assassin(a.id()), "the disguise survives reconnect");
+        a.send(Move::frame_client_end(56, 0, 0), "walk the Assassin outside the starter area");
+        require(!b.pvp_status(a.id(), PvpRelation::Enemy, true, true),
+                "the player remaining inside safety stays protected");
+        b.send(Move::frame_client_end(56, 0, 0), "walk the victim out of safety");
+        c.send(Move::frame_client_end(56, 0, 0), "walk the third player out of safety");
+        witness.send(Move::frame_client_end(56, 0, 0), "walk the witness out of safety");
+        require(b.pvp_status(a.id(), PvpRelation::Enemy, true, true),
+                "an unmasked player is allowed to fight back outside safety");
+
+        defeat(a, b, [&] {
+            const auto saved = store.load_character(2);
+            return saved && saved->hp == 0 && saved->pvp_death_exp_percent == 5;
+        });
+        require(store.load_character(2)->exp == start_exp,
+                "victim EXP is unchanged until village revival");
+        const auto revive = [](Peer& player) {
+            PacketWriter writer;
+            player.send(writer.frame(static_cast<std::uint8_t>(C2S::Revival)),
+                        "start from the village");
+        };
+        revive(b);
+        require(wait_until([&] {
+                    const auto saved = store.load_character(2);
+                    return saved && saved->hp > 0 && saved->pvp_death_exp_percent == 0 &&
+                           saved->exp == start_exp - level_exp * 5 / 100;
+                }),
+                "village revival charges exactly five percent once to the victim");
+
+        require(c.read_assassin_list(master).entries.empty(),
+                "a duel and an unmasked defeat leave the board empty");
+        strike(witness, a);
+        require(witness.player_attack(a.id(), 3s, 1),
+                "a different player damages the Assassin first");
+        defeat(c, a, [&] {
+            const auto saved = store.load_character(1);
+            return saved && saved->hp == 0 && saved->pvp_death_exp_percent == 15;
+        });
+        require(!item_is(1, mask_iid, 7) && item_is(1, reserve_iid, 0) && item_is(1, scroll_iid, 0),
+                "defeat destroys the worn mask and preserves bound inventory");
+        if (!item_is(1, stack_iid, 0)) {
+            require(witness.receive(S2C::CreateItem,
+                                    [](const auto& payload) {
+                                        PacketReader reader(payload);
+                                        std::uint16_t index = 0;
+                                        std::uint32_t iid = 0;
+                                        return reader.read_u16(index) && reader.read_u32(iid) &&
+                                               index == stack_index && iid == stack_iid;
+                                    }),
+                    "the whole rolled stack appears on the ground");
+            PacketWriter pickup;
+            pickup.write_u32(stack_iid);
+            pickup.write_u32(0);
+            pickup.write_u32(0);
+            witness.send(pickup.frame(static_cast<std::uint8_t>(C2S::PickupItem)),
+                         "a nearby player who did not land the kill claims the stack");
+            require(wait_until([&] { return item_is(4, stack_iid, 0); }),
+                    "there is no killer priority and the pickup restores the original instance");
+            c.send(pickup.frame(static_cast<std::uint8_t>(C2S::PickupItem)),
+                   "the killer requests the already picked-up stack");
+            const auto inventory = store.load_items(4);
+            const auto found = std::find_if(inventory.begin(),
+                                            inventory.end(),
+                                            [](const auto& item) { return item.iid == stack_iid; });
+            require(found != inventory.end() && found->count == 12, "pickup awards the full stack");
+        }
+        for (auto* reader : {&c, &witness}) {
+            const auto list = reader->read_assassin_list(master);
+            require(list.entries.size() == 1 && list.entries.front().assassin == "CastleFounder" &&
+                        list.entries.front().last_hitter == "CastlePartner",
+                    "both clients see the real Assassin and the player who landed the fatal hit");
+        }
+        revive(a);
+        require(wait_until([&] {
+                    const auto saved = store.load_character(1);
+                    return saved && saved->hp > 0 && saved->pvp_death_exp_percent == 0 &&
+                           saved->exp == start_exp - level_exp * 15 / 100;
+                }),
+                "village revival charges exactly fifteen percent to the defeated Assassin");
+        host.stop();
+
+        PostgresStore reopened;
+        require(reopened.open(config.database_dsn), "reopen the board database");
+        const auto persisted = reopened.load_assassin_list();
+        require(persisted && persisted->size() == 1 &&
+                    persisted->front().assassin == "CastleFounder",
+                "the PvP entry survives a server restart");
+        auto record = reopened.load_character(1).value();
+        record.hp = 0;
+        ItemRecord worn_mask;
+        worn_mask.character_id = record.id;
+        worn_mask.index = mask_index;
+        worn_mask.count = 1;
+        worn_mask.slot = kAssassinMaskSlot;
+        for (std::size_t index = 0; index <= kAssassinListLimit; ++index) {
+            worn_mask.iid = 71000 + static_cast<int>(index);
+            require(reopened.insert_item(worn_mask) &&
+                        reopened.commit_assassin_death(
+                            record, {worn_mask}, "Hitter" + std::to_string(index)),
+                    "add a defeat to the capped board");
+        }
+        require(!reopened.commit_assassin_death(record, {worn_mask}, "Duplicate"),
+                "a repeated death commit cannot add another entry");
+        const std::unique_ptr<PGconn, decltype(&PQfinish)> db(
+            PQconnectdb(config.database_dsn.c_str()), PQfinish);
+        const std::unique_ptr<PGresult, decltype(&PQclear)> rows(
+            PQexec(db.get(), "SELECT last_hitter FROM assassin_list ORDER BY id DESC"), PQclear);
+        require(rows && PQresultStatus(rows.get()) == PGRES_TUPLES_OK &&
+                    PQntuples(rows.get()) == static_cast<int>(kAssassinListLimit) &&
+                    std::string_view(PQgetvalue(rows.get(), 0, 0)) == "Hitter50" &&
+                    std::string_view(PQgetvalue(rows.get(), 49, 0)) == "Hitter1",
+                "the table retains exactly the 50 newest entries and prunes older rows");
+    }
+
+    void exercise(const std::filesystem::path& root,
+                  const std::string& dsn,
+                  std::uint16_t port,
+                  bool pvp) {
         using namespace protocol;
         using namespace server;
         for (const auto* child : {"maps", "monsters", "items", "npcs", "save"}) {
@@ -578,8 +1016,10 @@ namespace {
             const int x = index == 62102 ? kCamp : kOutside;
             write(root / "npcs" / (std::to_string(index) + ".json"),
                   "{\"index\":" + std::to_string(index) +
-                      ",\"name\":\"Owned NPC\",\"map\":0,\"xy\":[" + std::to_string(x) + ", " +
-                      std::to_string(x + index - kGuard) + ", 100]}");
+                      ",\"name\":\"Owned NPC\",\"map\":0,\"html\":" +
+                      std::to_string(pvp && index == kMaster ? kAssassinListDialog : 0) +
+                      ",\"xy\":[" + std::to_string(x) + ", " + std::to_string(x + index - kGuard) +
+                      ", 100]}");
         }
         const std::string guild_policy = R"({"schema":"openkal.guilds/v1","creation":{
             "minimum_level":1,"fee_zamogeon":0}})";
@@ -628,6 +1068,11 @@ namespace {
         config.spawn_x = config.spawn_y = kOutside;
         config.spawn_z = 100;
         config.map_radius_cells = 0;
+        if (pvp) {
+            seed_leader(store, guilds, 4, "pvpwitness", "PvpWitness", "PvpWitnesses");
+            exercise_pvp(config, store, port);
+            return;
+        }
         {
             write(config.castle_war_path, R"({"schema":"openkal.castle_war/v1","enabled":true})");
             ServerHost invalid;
@@ -687,7 +1132,7 @@ namespace {
 
 int main(int argc, char** argv) {
     const auto* base = std::getenv("OPENKAL_TEST_POSTGRES_DSN");
-    if (!base || argc != 2) {
+    if (!base || (argc != 2 && argc != 3)) {
         return 77;
     }
     const std::string schema = "openkal_castle_test_" + std::to_string(::getpid());
@@ -710,7 +1155,8 @@ int main(int argc, char** argv) {
     try {
         exercise(root,
                  std::string(base) + " options='-csearch_path=" + schema + "'",
-                 static_cast<std::uint16_t>(std::stoi(argv[1])));
+                 static_cast<std::uint16_t>(std::stoi(argv[1])),
+                 argc == 3 && std::string_view(argv[2]) == "pvp");
     } catch (const std::exception& error) {
         std::cerr << "FAIL " << error.what() << '\n';
         status = 1;

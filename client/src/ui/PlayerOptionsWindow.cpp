@@ -29,6 +29,12 @@ namespace openkal::client {
                        (state.application_fee
                             ? " (" + std::to_string(state.application_fee) + " Zamogeon)"
                             : "");
+            case protocol::PlayerAction::ChallengeDuel:
+                return "Challenge to Duel";
+            case protocol::PlayerAction::AcceptDuel:
+                return "Accept Duel";
+            case protocol::PlayerAction::DeclineDuel:
+                return "Decline Duel";
             case protocol::PlayerAction::Query:
                 break;
             }
@@ -96,7 +102,7 @@ namespace openkal::client {
         vars["player_options.pm_available"] = !m_state.name.empty() ? "1" : "0";
         vars["player_options.pm_label"] = "Send PM";
         vars["player_options.empty"] = !m_expected && m_state.actions.empty() ? "1" : "0";
-        vars["player_options.empty_label"] = "No party or guild actions are available.";
+        vars["player_options.empty_label"] = "No actions are available.";
         auto lines = wrap_text(m_status, 396, [&](std::string_view text) {
             return m_font.ready() ? m_font.text_width(text) : static_cast<float>(text.size()) * 8;
         });

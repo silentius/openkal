@@ -134,6 +134,8 @@ namespace openkal::protocol {
         ClockSync,              // OpenKal server clock, session duration and event schedule.
         SortInventory,          // Request: section byte; reply: section byte and committed flag.
         StorageMoney,           // OpenKal account storage balance.
+        PvpStatus,              // OpenKal observer-specific PvP state.
+        AssassinList,           // OpenKal Town Board snapshot.
         End,
     };
 

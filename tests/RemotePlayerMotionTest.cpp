@@ -66,6 +66,19 @@ int main() {
            "idle starts exactly at the final stop position");
 
     motion.reset({0, 0, 0});
+    motion.set_target({6, 1, 3}, false);
+    motion.update(dt);
+    expect(motion.moving(), "a movement endpoint can still be interpolating when a swing arrives");
+    motion.finish_stop();
+    expect(near(motion.position().x, 6) && near(motion.position().y, 1) &&
+               near(motion.position().z, 3) && !motion.moving(),
+           "an attack starts at the final authoritative pose without a walk interruption");
+    motion.set_target({9, 1, 5}, true);
+    motion.finish_stop();
+    expect(near(motion.position().x, 6) && motion.moving(),
+           "a newer active segment remains interpolated");
+
+    motion.reset({0, 0, 0});
     motion.set_target({4, 0, 3}, true);
     motion.update(0.05f);
     const float previous_yaw = motion.yaw();

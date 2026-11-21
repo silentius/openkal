@@ -22,4 +22,4 @@ with tempfile.TemporaryDirectory(prefix="openkal-multiplayer-tls-") as directory
     with socket.socket() as probe:
         probe.bind(("127.0.0.1", 0))
         port = probe.getsockname()[1]
-    sys.exit(subprocess.run([sys.argv[1], str(port)], env=environment).returncode)
+    sys.exit(subprocess.run([sys.argv[1], str(port), *sys.argv[2:]], env=environment).returncode)

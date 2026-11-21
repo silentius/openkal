@@ -37,6 +37,7 @@ add_library(openkal_protocol
   src/Party.cpp
   src/PlayerInfo.cpp
   src/Progression.cpp
+  src/Pvp.cpp
   src/Property.cpp
   src/Quest.cpp
   src/Riding.cpp

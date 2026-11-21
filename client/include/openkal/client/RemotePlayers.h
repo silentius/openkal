@@ -133,6 +133,13 @@ namespace openkal::client {
          */
         void face_target(float x, float z);
 
+        /** Presents a confirmed swing after completing its approach in PvP.
+         * @param target_x Target world X.
+         * @param target_z Target world Z.
+         * @param player_target True for attacks on another player.
+         */
+        void present_basic_attack(float target_x, float target_z, bool player_target);
+
         /** Applies the appearance carried by a create-player snapshot.
          * @param engine Mesh owner.
          * @param data_root Client data root.

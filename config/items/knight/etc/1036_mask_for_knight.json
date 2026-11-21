@@ -1,0 +1,19 @@
+{
+  "index": 1036,
+  "name": "Assassin Mask (Knight)",
+  "image": "assassinMask",
+  "class": [
+    "defense",
+    "mask"
+  ],
+  "limit": {
+    "class": "knight",
+    "level": 30
+  },
+  "wear": 1,
+  "buy": 100000,
+  "sell": 0,
+  "stackable": 0,
+  "assassin_mask": true,
+  "description": "Equip to enter Assassin mode. Death destroys the mask."
+}

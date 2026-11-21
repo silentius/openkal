@@ -14,9 +14,11 @@
 #include "openkal/server/net/Transport.h"
 
 #include <cstdint>
+#include <array>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace openkal::server {
 
@@ -73,6 +75,8 @@ namespace openkal::server {
         std::string guild_rules_path;
         /** Physical multiplayer Castle War policy; empty disables the event. */
         std::string castle_war_path;
+        /** Inclusive Assassin-safe rectangles as [map, min x, min y, max x, max y]. */
+        std::vector<std::array<int, 5>> assassin_safe_areas;
         /** Server-owned role command policy; empty denies privileged multiplayer commands. */
         std::string user_roles_path;
         /** Optional absolute owner-only local management socket. */

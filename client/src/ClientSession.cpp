@@ -1372,6 +1372,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
     std::int32_t player_max_mp = boot.selected.max_mp > 0 ? boot.selected.max_mp : 50;
     std::int32_t player_mp = std::clamp(boot.selected.mp, 0, player_max_mp);
     std::chrono::steady_clock::time_point village_revival_deadline{};
+    bool duel_recovery = false;
     std::int64_t player_exp_current = 0;
     std::int64_t player_exp_total = 5;
     bool local_riding_mounted = false;
@@ -1421,6 +1422,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
     std::uint8_t doggebi_ritual_phase = 0;
     std::uint8_t doggebi_ritual_active_mask = 0;
     bool doggebi_ritual_state_received = false;
+    std::chrono::steady_clock::time_point assassin_warning_until{};
     std::string doggebi_ritual_overlay;
     std::chrono::steady_clock::time_point doggebi_ritual_overlay_until{};
     protocol::MapStateTimer doggebi_countdown_timer = protocol::MapStateTimer::None;
@@ -1575,7 +1577,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
     std::uint32_t selected_player_id = 0;
     client::RemotePlayers remote_players;
     std::unordered_set<std::uint32_t> gathering_players;
-    std::unordered_set<std::uint32_t> defeated_castle_players;
+    std::unordered_map<std::uint32_t, bool> defeated_pvp_players;
     std::uint32_t pending_arrow_target = 0;
     struct LatchedBoltFloat {
         client::CombatFloatKind kind = client::CombatFloatKind::DamageDealt;
@@ -3151,6 +3153,32 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         return true;
     };
 
+    auto present_local_basic_attack = [&](std::uint32_t target_id) {
+        // A basic attack replaces the previous skill pose.
+        player_actor.end_skill();
+        const std::uint64_t now_ms =
+            static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+                                           std::chrono::steady_clock::now().time_since_epoch())
+                                           .count());
+        const bool dance_of_killing =
+            local_player.clazz() == client::Class::Thief &&
+            std::any_of(net.buff_slots().begin(),
+                        net.buff_slots().end(),
+                        [now_ms](const client::BuffSlotEntry& buff) {
+                            return (buff.bstate & protocol::kCbsSkillThiefDanceOfKilling) != 0 &&
+                                   (buff.expire_ms == 0 || buff.expire_ms > now_ms);
+                        });
+        if (dance_of_killing) {
+            const auto* dance = skill_catalog.find(static_cast<int>(client::Class::Thief), 13);
+            player_actor.trigger_skill_motion(dance ? dance->motion_fire() : 8, true);
+        } else {
+            player_actor.trigger_attack();
+        }
+        if (local_player.clazz() == client::Class::Archer) {
+            pending_arrow_target = target_id;
+        }
+    };
+
     auto try_basic_attack = [&](std::uint32_t target_id, bool player_target = false) -> bool {
         if (target_id == 0 || local_player.dead() || behead_animation_active) {
             return false;
@@ -3161,7 +3189,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         float x = 0.0f, z = 0.0f;
         if (player_target) {
             const auto* player = remote_players.find(target_id);
-            if (!player || !net.castle_enemy(target_id) || net.castle_defeated(target_id)) {
+            if (!player || !net.pvp_can_attack(target_id)) {
                 return false;
             }
             x = player->wx();
@@ -3198,32 +3226,12 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             return false;
         }
         attack_cooldown = weapon_attack_speed_sec();
-        // ModelChange(GO_ATTACK) replaces GO_SKILL; do not send C2S_ATTACK
-        // while the skill pose is still held.
-        player_actor.end_skill();
-        const std::uint64_t now_ms =
-            static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
-                                           std::chrono::steady_clock::now().time_since_epoch())
-                                           .count());
-        const bool dance_of_killing =
-            local_player.clazz() == client::Class::Thief &&
-            std::any_of(net.buff_slots().begin(),
-                        net.buff_slots().end(),
-                        [now_ms](const client::BuffSlotEntry& buff) {
-                            return (buff.bstate & protocol::kCbsSkillThiefDanceOfKilling) != 0 &&
-                                   (buff.expire_ms == 0 || buff.expire_ms > now_ms);
-                        });
-        if (dance_of_killing) {
-            const auto* dance = skill_catalog.find(static_cast<int>(client::Class::Thief), 13);
-            player_actor.trigger_skill_motion(dance ? dance->motion_fire() : 8, true);
-        } else {
-            player_actor.trigger_attack();
+        // In PvP both sides present the server-confirmed swing.
+        if (!player_target) {
+            present_local_basic_attack(target_id);
         }
         auto_attack = true;
         auto_skill = false;
-        if (local_player.clazz() == client::Class::Archer) {
-            pending_arrow_target = target_id;
-        }
         return true;
     };
 
@@ -3455,8 +3463,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 return false;
             }
         } else if (kind == PendingSkillKind::Mage && net.monsters().count(target) == 0) {
-            if (!net.castle_enemy(target) || net.castle_defeated(target) ||
-                !net.send_skill_target_player(skill_index, target)) {
+            if (!net.pvp_can_attack(target) || !net.send_skill_target_player(skill_index, target)) {
                 return false;
             }
         } else if (kind == PendingSkillKind::Melee &&
@@ -3632,7 +3639,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 ends.hit_x = coords::to_client(pending_skill_ground_x, profile.origin_patch());
                 ends.hit_z = coords::to_client(pending_skill_ground_y, profile.origin_patch());
                 ends.hit_y = floor.sample(ends.hit_x, ends.hit_z, local_player.pos().y);
-            } else if (kind == PendingSkillKind::Mage && net.castle_enemy(target)) {
+            } else if (kind == PendingSkillKind::Mage && net.pvp_can_attack(target)) {
                 player_impact_world(target, ends.hit_x, ends.hit_y, ends.hit_z);
             } else {
                 player_spine_world(ends.hit_x, ends.hit_y, ends.hit_z);
@@ -3735,7 +3742,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         } else {
             const auto* player = remote_players.find(target_id);
             const auto shape = protocol::mage_target_shape(skill_index);
-            if (!player || !net.castle_enemy(target_id) || net.castle_defeated(target_id) ||
+            if (!player || !net.pvp_can_attack(target_id) ||
                 protocol::mage_effect_kind(skill_index) != protocol::MageEffectKind::Damage ||
                 (shape != protocol::MageTargetShape::Monster &&
                  shape != protocol::MageTargetShape::HostileCharacter &&
@@ -5946,7 +5953,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         if (player_options.open() &&
             (!net.connected() || player_options.target() != selected_player_id ||
              !remote_players.find(player_options.target()) ||
-             net.castle_enemy(player_options.target()))) {
+             (net.pvp_status(player_options.target()).masked ||
+              net.pvp_status(player_options.target()).relation == protocol::PvpRelation::Enemy))) {
             player_options.close();
             in_game_window_order.closed(client::InGameWindowId::PlayerOptions);
         }
@@ -6019,9 +6027,9 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         }
         if (!chat_focused && input.key_o_pressed && !game_menu.open() && !settings_window.open() &&
             !world_map_open) {
-            if (net.castle_enemy(selected_player_id)) {
-                game_hud.chat().push_info("Player options are unavailable for Castle War enemies.",
-                                          {});
+            if (net.pvp_status(selected_player_id).masked ||
+                net.pvp_status(selected_player_id).relation == protocol::PvpRelation::Enemy) {
+                game_hud.chat().push_info("Player options are unavailable for this opponent.", {});
             } else if (multiplayer && selected_player_id != 0 &&
                        selected_player_id != net.local_player_id() &&
                        remote_players.find(selected_player_id)) {
@@ -6162,7 +6170,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 }
             }
         }
-        if (input.key_enter_pressed && !chat_focused && local_player.dead() && want_net) {
+        if (input.key_enter_pressed && !chat_focused && local_player.dead() && !duel_recovery &&
+            want_net) {
             if (net.send_revival()) {
                 log::info("sent revival request");
             }
@@ -6765,12 +6774,12 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         }
                     } else if (game_hud.last_menu_action() == client::HudMenuAction::Party) {
                         if (party_window.open()) {
-                            const auto* target = net.castle_enemy(selected_player_id)
+                            const auto* target = net.pvp_can_attack(selected_player_id)
                                                      ? nullptr
                                                      : remote_players.find(selected_player_id);
                             party_window.toggle_actions(target ? selected_player_id : 0,
                                                         target ? target->name() : "");
-                        } else if (net.castle_enemy(selected_player_id)) {
+                        } else if (net.pvp_can_attack(selected_player_id)) {
                             game_hud.chat().push_info(
                                 "You cannot invite a Castle War enemy to your party.", {});
                         } else if (selected_player_id != 0 &&
@@ -7229,7 +7238,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     const auto active_social = active_definition
                                                    ? client::social_action(*active_definition)
                                                    : client::SocialAction::None;
-                    if (prefer_player && net.castle_enemy(hit_player) &&
+                    if (prefer_player && net.pvp_can_attack(hit_player) &&
                         active_social != client::SocialAction::None) {
                         auto_attack = false;
                     } else if (prefer_player && active_social == client::SocialAction::Party) {
@@ -7531,7 +7540,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 if (player_actor.attack_locked()) {
                     player_actor.cancel_attack();
                 }
-                const bool enemy = net.castle_enemy(hit_player);
+                const bool enemy = net.pvp_can_attack(hit_player);
                 if (!enemy && social_mode == client::SocialAction::Whisper) {
                     if (const auto* target = remote_players.find(hit_player)) {
                         game_hud.chat().begin_whisper(target->name());
@@ -7543,8 +7552,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 selected_item_id = 0;
                 pending_pickup_id = 0;
                 pending_ask_npc_id = 0;
-                auto_attack = enemy && !net.castle_defeated(hit_player) &&
-                              player_wear.has_weapon() && !local_player.dead() &&
+                auto_attack = enemy && player_wear.has_weapon() && !local_player.dead() &&
                               social_mode == client::SocialAction::None;
                 auto_skill = false;
                 local_player.clear_click_target();
@@ -7772,7 +7780,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     }
                     local_player.clear_click_target();
                 }
-                if (!net.castle_enemy(selected_player_id)) {
+                if (!net.pvp_can_attack(selected_player_id)) {
                     const std::uint32_t nearest = find_nearest_mob_id();
                     if (nearest != 0) {
                         selected_mob_id = nearest;
@@ -7821,8 +7829,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                             begin_pickup(target);
                         }
                     }
-                } else if (input.key_space_pressed && net.castle_enemy(selected_player_id)) {
-                    if (player_wear.has_weapon() && !net.castle_defeated(selected_player_id)) {
+                } else if (input.key_space_pressed && net.pvp_can_attack(selected_player_id)) {
+                    if (player_wear.has_weapon()) {
                         auto_attack = true;
                         auto_skill = false;
                         abort_pending_skill_for_basic_attack();
@@ -7884,7 +7892,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         local_player.clazz() == client::Class::Archer &&
                         protocol::archer_target_shape(player_skills.active_index()) ==
                             protocol::ArcherTargetShape::HostileCharacter;
-                    if (net.castle_enemy(selected_player_id) ||
+                    if (net.pvp_can_attack(selected_player_id) ||
                         (archer_hostile && selected_player_id != 0 &&
                          selected_player_id != net.local_player_id())) {
                         if (!cast_skill_index(player_skills.active_index())) {
@@ -8052,10 +8060,9 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         }
 
         if (auto_attack && selected_player_id != 0 && want_net && net.connected() &&
-            !local_player.dead() && net.castle_side(net.local_player_id()) != 0) {
+            !local_player.dead()) {
             const auto* target = remote_players.find(selected_player_id);
-            if (!target || !net.castle_enemy(selected_player_id) ||
-                net.castle_defeated(selected_player_id) || !player_wear.has_weapon() ||
+            if (!target || !net.pvp_can_attack(selected_player_id) || !player_wear.has_weapon() ||
                 !in_client_range(target->wx(), target->wz(), kAutoChaseRange)) {
                 auto_attack = false;
                 auto_skill = false;
@@ -8599,12 +8606,17 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             if (remote == nullptr) {
                 continue;
             }
-            if (net.castle_defeated(remote->id())) {
-                if (defeated_castle_players.insert(remote->id()).second) {
+            const auto status = net.pvp_status(remote->id());
+            const bool duel_defeat = net.take_duel_defeat(remote->id());
+            if (status.defeated || duel_defeat) {
+                if (defeated_pvp_players.try_emplace(remote->id(), duel_defeat).second) {
                     remote->actor().trigger_die();
                 }
-            } else if (defeated_castle_players.erase(remote->id()) != 0) {
+            } else if (const auto defeated = defeated_pvp_players.find(remote->id());
+                       defeated != defeated_pvp_players.end() &&
+                       (!defeated->second || remote->actor().death_animation_finished())) {
                 remote->actor().clear_die();
+                defeated_pvp_players.erase(defeated);
             }
             remote->set_resting(net.entity_resting(remote->id()));
             remote->set_consuming(net.entity_consuming(remote->id()));
@@ -9027,7 +9039,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 }
                 std::uint32_t removed_id = 0;
                 while (net.take_remove_other_player(removed_id)) {
-                    defeated_castle_players.erase(removed_id);
+                    defeated_pvp_players.erase(removed_id);
                     if (const auto* remote = remote_players.find(removed_id)) {
                         overhead_chat.remove(remote->name());
                     }
@@ -9429,6 +9441,26 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         log::warn("missing dialog html id=" + std::to_string(html_id));
                     }
                 }
+                if (auto board = net.take_assassin_list();
+                    board && npc_dialog_available(board->npc_id)) {
+                    if (const auto* definition =
+                            dialog_catalog.find(protocol::kAssassinListDialog)) {
+                        auto dialog = *definition;
+                        if (!board->entries.empty()) {
+                            dialog.lines.clear();
+                            for (const auto& entry : board->entries) {
+                                dialog.lines.push_back(entry.assassin + " was defeated by " +
+                                                       entry.last_hitter);
+                            }
+                        }
+                        const bool was_open = npc_talk_win.open();
+                        npc_talk_win.show_dialog(dialog, board->npc_id, boot.selected.name);
+                        update_window_order(
+                            client::InGameWindowId::NpcTalk, was_open, npc_talk_win.open());
+                        npc_talk_win.center_on_screen(static_cast<float>(input.width),
+                                                      static_cast<float>(input.height));
+                    }
+                }
                 protocol::ShopItemList shop_list;
                 while (net.take_shop_item_list(shop_list)) {
                     if (shop_list.currency_index != 0) {
@@ -9485,6 +9517,10 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 while (net.take_chat(chat)) {
                     game_hud.chat().push_chat(chat.speaker, chat.text, boot.selected.name);
                     overhead_chat.show(chat.speaker, chat.text);
+                    if (chat.speaker == "Server" && chat.text == protocol::kAssassinWarning) {
+                        assassin_warning_until =
+                            std::chrono::steady_clock::now() + std::chrono::seconds(5);
+                    }
                     if (chat.speaker == "Server" &&
                         (chat.text.find("Doggebi") != std::string::npos ||
                          chat.text.find("doggebi") != std::string::npos)) {
@@ -9563,6 +9599,11 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         }
                         player_actor.end_skill();
                         player_actor.trigger_attack();
+                    } else if (attack.attacker_id == net.local_player_id()) {
+                        if (attack.player_target && !local_player.dead() &&
+                            pending_skill_kind == PendingSkillKind::None) {
+                            present_local_basic_attack(attack.target_id);
+                        }
                     } else if (auto* remote = remote_players.find(attack.attacker_id)) {
                         remote->set_combat_target(attack.target_id);
                         float x = 0, y = 0, z = 0;
@@ -9573,24 +9614,24 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         } else {
                             player_impact_world(attack.target_id, x, y, z);
                         }
-                        remote->face_target(x, z);
                         combat_fx.clear_cast_fx(remote->id());
-                        remote->actor().trigger_attack();
+                        remote->present_basic_attack(x, z, attack.player_target);
                     }
                 }
                 client::PendingHitFx hit_fx{};
                 while (net.take_hit_fx(hit_fx)) {
                     auto hit_it = net.monsters().find(hit_fx.target_id);
-                    const bool castle_player =
-                        hit_it == net.monsters().end() && net.castle_side(hit_fx.target_id) != 0;
-                    if (hit_it == net.monsters().end() && !castle_player) {
+                    const bool pvp_player = hit_it == net.monsters().end() &&
+                                            (hit_fx.target_id == net.local_player_id() ||
+                                             remote_players.find(hit_fx.target_id));
+                    if (hit_it == net.monsters().end() && !pvp_player) {
                         continue;
                     }
                     float hx = 0.0f;
                     float hy = 0.0f;
                     float hz = 0.0f;
                     float impact_scale = 1.0f;
-                    if (castle_player) {
+                    if (pvp_player) {
                         player_impact_world(hit_fx.target_id, hx, hy, hz);
                     } else {
                         resolve_monster_impact(
@@ -9614,7 +9655,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     if (archer_hit) {
                         pull_archer_impact_front(hx, hz, impact_scale);
                     }
-                    if (!castle_player) {
+                    if (!pvp_player) {
                         present_monster_hit(hit_fx.target_id, hit_fx.flags, {hx, hy, hz});
                     }
                     combat_fx.spawn_hit(
@@ -9700,7 +9741,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             {
                 std::int32_t v = 0;
                 const std::int32_t prev_hp = player_hp;
-                if (net.take_cur_hp(v)) {
+                const bool hp_updated = net.take_cur_hp(v);
+                if (hp_updated) {
                     if (v < prev_hp) {
                         player_overhead_hp_until =
                             std::chrono::steady_clock::now() +
@@ -9708,15 +9750,39 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                                 static_cast<int>(client::Nameplate::kCombatHpTimeoutSec * 1000.0f));
                     }
                     player_hp = v;
-                    if (player_hp <= 0 && !local_player.dead()) {
+                }
+                const auto pvp_status = net.pvp_status(net.local_player_id());
+                const bool duel_defeat = net.take_duel_defeat(net.local_player_id());
+                duel_recovery =
+                    duel_defeat || (duel_recovery && (pvp_status.dueling || player_hp > 0));
+                if ((duel_defeat || (hp_updated && player_hp <= 0)) && !local_player.dead()) {
+                    local_player.set_dead(true);
+                    local_player.set_boosting(false);
+                    local_player.clear_click_target();
+                    auto_attack = false;
+                    player_actor.trigger_die();
+                    reset_range_skill();
+                    log::info("player died");
+                }
+                if (local_player.dead()) {
+                    const bool recovered =
+                        !duel_recovery ||
+                        (!pvp_status.defeated && player_actor.death_animation_finished());
+                    if (player_hp > 0 && recovered) {
+                        if (village_revival_deadline != std::chrono::steady_clock::time_point{}) {
+                            village_revival_deadline = {};
+                            npc_talk_win.set_closable(true);
+                            npc_talk_win.close();
+                            in_game_window_order.closed(client::InGameWindowId::NpcTalk);
+                        }
+                        duel_recovery = false;
+                        local_player.set_dead(false);
+                        player_actor.clear_die();
+                    } else if (!duel_recovery && !pvp_status.dueling &&
+                               village_revival_deadline ==
+                                   std::chrono::steady_clock::time_point{}) {
                         village_revival_deadline =
                             std::chrono::steady_clock::now() + std::chrono::minutes(10);
-                        local_player.set_dead(true);
-                        local_player.set_boosting(false);
-                        local_player.clear_click_target();
-                        auto_attack = false;
-                        player_actor.trigger_die();
-                        reset_range_skill();
                         client::DialogDef revival_dialog;
                         revival_dialog.caption = "Revive in 10:00";
                         revival_dialog.width = 440.0f;
@@ -9734,14 +9800,6 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                         npc_talk_win.set_closable(false);
                         npc_talk_win.center_on_screen(static_cast<float>(input.width),
                                                       static_cast<float>(input.height));
-                        log::info("player died");
-                    } else if (player_hp > 0 && local_player.dead()) {
-                        village_revival_deadline = {};
-                        npc_talk_win.set_closable(true);
-                        npc_talk_win.close();
-                        in_game_window_order.closed(client::InGameWindowId::NpcTalk);
-                        local_player.set_dead(false);
-                        player_actor.clear_die();
                     }
                 }
                 if (local_player.dead() && npc_talk_win.open() &&
@@ -12201,7 +12259,15 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 }
             }
 
-            const auto player_col = client::Nameplate::player_color();
+            const auto name_color = [](const protocol::PvpStatus& status) {
+                if (status.masked || status.relation == protocol::PvpRelation::Enemy) {
+                    return client::RgbColor{1.0f, 0.28f, 0.28f};
+                }
+                if (status.relation == protocol::PvpRelation::Ally) {
+                    return client::RgbColor{0.35f, 0.65f, 1.0f};
+                }
+                return client::Nameplate::player_color();
+            };
             struct ProjectedPlayerName {
                 const client::RemotePlayer* remote;
                 float sx, sy, hx, hy, hz;
@@ -12209,8 +12275,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             std::vector<ProjectedPlayerName> projected_names;
             std::vector<client::PlayerRenderCandidate> name_candidates;
             for (const client::RemotePlayer* remote : remote_players.all()) {
-                if (remote->name().empty() || !remote_players.is_rendered(remote->id()) ||
-                    net.castle_enemy(remote->id())) {
+                if (remote->name().empty() || !remote_players.is_rendered(remote->id())) {
                     continue;
                 }
                 const float hx = remote->wx();
@@ -12241,21 +12306,32 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 const auto sx = projected.sx, sy = projected.sy;
                 set_name_depth(projected.hx, projected.hy, projected.hz);
                 if (named_players.count(remote->id()) != 0) {
-                    const auto player_label = client::Nameplate::player_label(remote->name());
+                    const auto status = net.pvp_status(remote->id());
+                    const auto player_label = status.masked
+                                                  ? std::string(protocol::kAssassinName)
+                                                  : client::Nameplate::player_label(remote->name());
                     const std::string label =
                         show_debug ? client::Nameplate::debug_label(player_label, remote->id())
                                    : player_label;
-                    const auto guild_label = client::Nameplate::guild_label(
-                        net.guild_title(remote->id()), net.guild_name(remote->id()));
+                    const auto guild_label =
+                        status.masked
+                            ? std::string{}
+                            : client::Nameplate::guild_label(net.guild_title(remote->id()),
+                                                             net.guild_name(remote->id()));
                     client::Nameplate::draw_player(
-                        *engine, name_font, ui, sx, sy, label, guild_label, player_col);
+                        *engine, name_font, ui, sx, sy, label, guild_label, name_color(status));
                 }
                 overhead_chat.draw(*engine, name_font, remote->name(), sx, sy);
                 engine->set_ui_world_anchor(nullptr);
             }
 
-            if (name_font.ready() && (!overhead_chat.message(boot.selected.name).empty() ||
-                                      !net.guild_name(net.local_player_id()).empty())) {
+            const auto own_status = net.pvp_status(net.local_player_id());
+            const std::string own_name =
+                own_status.masked ? std::string(protocol::kAssassinName) : boot.selected.name;
+            if (name_font.ready() &&
+                (!overhead_chat.message(own_name).empty() || own_status.masked ||
+                 own_status.relation != protocol::PvpRelation::Neutral ||
+                 !net.guild_name(net.local_player_id()).empty())) {
                 float sx = 0.0f;
                 float sy = 0.0f;
                 if (client::WorldPick::project_world_to_screen(
@@ -12274,18 +12350,19 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                                        client::Nameplate::kMonsterNameLift,
                                    local_player.pos().z);
                     const auto guild_label =
-                        client::Nameplate::guild_label(net.guild_title(net.local_player_id()),
-                                                       net.guild_name(net.local_player_id()));
-                    client::Nameplate::draw_player(
-                        *engine,
-                        name_font,
-                        ui,
-                        sx,
-                        sy,
-                        client::Nameplate::player_label(boot.selected.name),
-                        guild_label,
-                        player_col);
-                    overhead_chat.draw(*engine, name_font, boot.selected.name, sx, sy);
+                        own_status.masked
+                            ? std::string{}
+                            : client::Nameplate::guild_label(net.guild_title(net.local_player_id()),
+                                                             net.guild_name(net.local_player_id()));
+                    client::Nameplate::draw_player(*engine,
+                                                   name_font,
+                                                   ui,
+                                                   sx,
+                                                   sy,
+                                                   client::Nameplate::player_label(own_name),
+                                                   guild_label,
+                                                   name_color(own_status));
+                    overhead_chat.draw(*engine, name_font, own_name, sx, sy);
                     engine->set_ui_world_anchor(nullptr);
                 }
             }
@@ -12868,8 +12945,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 const bool prefer_npc = !prefer_player && hit_npc != 0 &&
                                         (hit_mob == 0 || best_npc <= best) &&
                                         (hit_item == 0 || best_npc <= best_item);
-                if (prefer_player && net.castle_enemy(hit_player) &&
-                    !net.castle_defeated(hit_player)) {
+                if (prefer_player && net.pvp_can_attack(hit_player)) {
                     kind = client::CursorKind::Attack;
                 } else if (!prefer_player && !prefer_npc) {
                     if (hit_item != 0 && (hit_mob == 0 || best_item <= best)) {
@@ -12990,6 +13066,19 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             }
         }
 
+        if (std::chrono::steady_clock::now() < assassin_warning_until) {
+            const auto& font = tip_font.ready() ? tip_font : name_font;
+            if (font.ready()) {
+                font.draw_centered(*engine,
+                                   static_cast<float>(input.width) * 0.5f,
+                                   static_cast<float>(input.height) * 0.24f,
+                                   protocol::kAssassinWarning,
+                                   1.0f,
+                                   0.28f,
+                                   0.28f,
+                                   0.55f * static_cast<float>(input.height) / 600.0f);
+            }
+        }
         if (!doggebi_ritual_overlay.empty() &&
             std::chrono::steady_clock::now() < doggebi_ritual_overlay_until) {
             const client::FreetypeFont& hint_font = tip_font.ready() ? tip_font : name_font;

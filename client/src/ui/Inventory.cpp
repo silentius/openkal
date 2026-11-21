@@ -32,6 +32,7 @@
 namespace openkal::client {
     namespace {
         constexpr int kRefreshCooldownKey = 0;
+        constexpr std::size_t kFaceEquipmentCell = 7;
 
         int item_cooldown_key(const ItemDef& item) {
             return item.refresh_hp() > 0 || item.refresh_mp() > 0 ? kRefreshCooldownKey
@@ -264,7 +265,8 @@ namespace openkal::client {
          * item definition index currently shown in a paperdoll slot.
          * Each cell resolves one ordinary equipment category, including mask and mount.
          */
-        [[nodiscard]] std::int32_t wear_equipped_index(const Wear& wear, const std::string& id) {
+        [[nodiscard]] std::int32_t
+        wear_equipped_index(const Wear& wear, const Bag& bag, const std::string& id) {
             if (id.compare(0, 5, "skin.") == 0) {
                 return wear.skin_index(protocol::skin_slot_for_part(id.substr(5)));
             }
@@ -284,6 +286,10 @@ namespace openkal::client {
                 return wear.trinket_index();
             }
             if (id == "face") {
+                if (bag.equipment.size() > kFaceEquipmentCell &&
+                    bag.equipment[kFaceEquipmentCell].equipped) {
+                    return bag.equipment[kFaceEquipmentCell].index;
+                }
                 return wear.cloth_index(ClothPart::Face);
             }
             if (id == "pet") {
@@ -341,7 +347,7 @@ namespace openkal::client {
                 return 6;
             }
             if (small == "face" || small == "mask") {
-                return 7;
+                return kFaceEquipmentCell;
             }
             if (small == "ring") {
                 return 8;
@@ -547,8 +553,8 @@ namespace openkal::client {
                 }
                 constexpr std::string_view prefix = "inventory.wear.";
                 if (bind.substr(0, prefix.size()) == prefix && m_window.wear()) {
-                    const auto item = wear_equipped_index(*m_window.wear(),
-                                                          std::string(bind.substr(prefix.size())));
+                    const auto item = wear_equipped_index(
+                        *m_window.wear(), m_bag, std::string(bind.substr(prefix.size())));
                     if (item != 0) {
                         fill_icon(out, item, m_bag.transform_level_for_index(item));
                         out.set_account_bound(m_bag.account_bound_for_index(item));
@@ -1900,7 +1906,7 @@ namespace openkal::client {
                             continue;
                         }
                         const std::string id = wear_layout_slot_id(m_layout, left, i);
-                        const std::int32_t idx = wear_equipped_index(*m_wear, id);
+                        const std::int32_t idx = wear_equipped_index(*m_wear, bag, id);
                         m_hover_slot = bag_slot_for_equipped(bag, idx);
                         return;
                     }
@@ -2151,7 +2157,7 @@ namespace openkal::client {
                         return ClickResult::Handled;
                     }
                     const std::string id = wear_layout_slot_id(m_layout, left, i);
-                    const std::int32_t idx = wear_equipped_index(wear_out, id);
+                    const std::int32_t idx = wear_equipped_index(wear_out, bag, id);
                     if (idx == 0) {
                         return ClickResult::Handled;
                     }
@@ -2291,7 +2297,7 @@ namespace openkal::client {
                             id != "skin.upper") {
                             return ClickResult::Handled;
                         }
-                        const std::int32_t worn_idx = wear_equipped_index(wear_out, id);
+                        const std::int32_t worn_idx = wear_equipped_index(wear_out, bag, id);
                         if (def && def->has_repair() && worn_idx != 0) {
                             const int to_slot = bag_slot_for_equipped(bag, worn_idx);
                             const ItemDef* gear = m_catalog->find(worn_idx);

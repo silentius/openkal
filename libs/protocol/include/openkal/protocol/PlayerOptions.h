@@ -16,7 +16,14 @@
 
 namespace openkal::protocol {
     /** Extensible actions on a selected online player; Query has no side effects. */
-    enum class PlayerAction : std::uint8_t { Query, InviteParty, ApplyGuild };
+    enum class PlayerAction : std::uint8_t {
+        Query,
+        InviteParty,
+        ApplyGuild,
+        ChallengeDuel,
+        AcceptDuel,
+        DeclineDuel
+    };
 
     /** Actor identity is taken from the authenticated session. */
     struct PlayerOptionsRequest {
