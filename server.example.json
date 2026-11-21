@@ -1,5 +1,6 @@
 {
   "allow_client_registration": false,
+  "assassin_safe_areas": [],
   "plants": {
     "types": {
       "aloe_vera": {

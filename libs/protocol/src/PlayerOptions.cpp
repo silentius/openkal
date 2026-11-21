@@ -22,7 +22,7 @@ namespace openkal::protocol {
         bool valid(const PlayerOptionsRequest& r) {
             return r.request_id && r.target &&
                    static_cast<unsigned>(r.action) <=
-                       static_cast<unsigned>(PlayerAction::ApplyGuild);
+                       static_cast<unsigned>(PlayerAction::DeclineDuel);
         }
         bool valid(const PlayerOptionsState& s) {
             if (!s.request_id || !s.target || s.actions.size() > 16 || s.name.size() > 128 ||
@@ -33,7 +33,7 @@ namespace openkal::protocol {
             }
             std::vector<PlayerAction> seen;
             for (const auto action : s.actions) {
-                if (action == PlayerAction::Query || action > PlayerAction::ApplyGuild ||
+                if (action == PlayerAction::Query || action > PlayerAction::DeclineDuel ||
                     std::find(seen.begin(), seen.end(), action) != seen.end()) {
                     return false;
                 }

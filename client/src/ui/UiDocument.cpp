@@ -700,7 +700,7 @@ namespace openkal::client {
         vars["player_options.pm_available"] = "1";
         vars["player_options.pm_label"] = "Send PM";
         vars["player_options.empty"] = "0";
-        vars["player_options.empty_label"] = "No party or guild actions are available.";
+        vars["player_options.empty_label"] = "No actions are available.";
         vars["player_options.status"] = "Choose an available action.";
         vars["player_options.status_more"] = "";
         vars["player_options.action_label"] = "Request to join OpenKal";

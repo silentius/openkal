@@ -648,6 +648,18 @@ namespace openkal::client {
                    is_essence_box();
         }
 
+        /** @return Whether this item enables Assassin mode when equipped. */
+        [[nodiscard]] bool assassin_mask() const {
+            return m_assassin_mask;
+        }
+
+        /** Marks an item as an Assassin Mask.
+         * @param enabled Whether equipping this item activates Assassin mode.
+         */
+        void set_assassin_mask(bool enabled) {
+            m_assassin_mask = enabled;
+        }
+
         /** @return True for the server-authoritative Hanin Essence Box. */
         [[nodiscard]] bool is_essence_box() const {
             return m_usable && m_index == server::kEssenceBoxItem;
@@ -1078,6 +1090,9 @@ namespace openkal::client {
 
         /** Derived quest-only acquisition category; ordinary rewards never set this. */
         bool m_task = false;
+
+        /** Whether the item activates Assassin mode when equipped. */
+        bool m_assassin_mask = false;
     };
 
     /** Catalog of item definitions loaded from JSON. */

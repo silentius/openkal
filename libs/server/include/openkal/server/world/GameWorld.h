@@ -23,6 +23,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -33,6 +34,7 @@
 namespace openkal::server {
 
     class WorldOccupancyIndex;
+    struct ItemRecord;
 
     /** Quest-gated kill drop slot from monster definition / JSON stats.quests. */
     struct MonsterQuestDrop {
@@ -141,6 +143,9 @@ namespace openkal::server {
         int level_limit = 1;
         int class_limit = -1;  // -1 = any; 0/1/2/3 = knight/mage/archer/thief
         bool wearable = false;
+
+        /** Whether equipping the item places the character in Assassin mode. */
+        bool assassin_mask = false;
         /** Cosmetic slot; cosmetic definitions never contribute combat stats. */
         protocol::SkinSlot skin_slot = protocol::SkinSlot::None;
         /** Whole-body appearance replacing individual body skins. */
@@ -336,6 +341,7 @@ namespace openkal::server {
         SkinBoots,
         SkinGauntlet,
         SkinFace,
+        AssassinMask,
     };
 
     /**
@@ -348,7 +354,7 @@ namespace openkal::server {
     /**
      * Maps a wear kind onto ItemRecord.slot.
      * @param kind Exclusive wear slot.
-     * @return 0 bag, 1 weapon, 2 other wearable, 3 transform, 4 pet, 5 ride, or 6 skin.
+     * @return 0 bag, 1 weapon, 2 other wearable, 3 transform, 4 pet, 5 ride, 6 skin, or 7 Assassin Mask.
      */
     [[nodiscard]] int persist_slot_of(WearKind kind);
 
@@ -672,6 +678,9 @@ namespace openkal::server {
 
         /** Logical map of the drop. */
         int map = 0;
+
+        /** Full item attributes for an inventory instance dropped on Assassin defeat. */
+        std::shared_ptr<const ItemRecord> inventory_instance;
 
         /** Killer / dropper who may pick first; 0 = free for all. */
         std::uint32_t owner_player_id = 0;

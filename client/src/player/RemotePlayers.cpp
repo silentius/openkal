@@ -49,6 +49,14 @@ namespace openkal::client {
         m_motion.face_target(x, z);
     }
 
+    void RemotePlayer::present_basic_attack(float target_x, float target_z, bool player_target) {
+        if (player_target) {
+            m_motion.finish_stop();
+        }
+        face_target(target_x, target_z);
+        m_actor.trigger_attack();
+    }
+
     bool RemotePlayer::apply_appearance(
         engine::IEngine& engine,
         const std::string& data_root,

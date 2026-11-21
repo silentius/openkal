@@ -84,6 +84,7 @@ namespace openkal::server {
             c.delete_after = sqlite3_column_int64(stmt, 37);
             c.talent_mask = static_cast<std::uint64_t>(sqlite3_column_int64(stmt, 38));
             c.beacon_ready_at = sqlite3_column_int64(stmt, 39);
+            c.pvp_death_exp_percent = sqlite3_column_int(stmt, 40);
             return c;
         }
 
@@ -137,7 +138,7 @@ namespace openkal::server {
             "pu_point, str, hth, intl, wis, dex, money, next_iid, weapon_index, armor_index, "
             "transform_index, transform_level, transform_exp, transform_put_on_ticks, specialty, "
             "su_point, rage, contribution, face, hair, deletion_state, delete_after, talent_mask, "
-            "beacon_ready_at "
+            "beacon_ready_at, pvp_death_exp_percent "
             "FROM characters";
 
         constexpr const char* kSchemaSql = R"SQL(
@@ -168,6 +169,7 @@ CREATE TABLE IF NOT EXISTS characters (
   y INTEGER NOT NULL DEFAULT 258744,
   z INTEGER NOT NULL DEFAULT 16100,
   revival_point INTEGER NOT NULL DEFAULT 0,
+  pvp_death_exp_percent INTEGER NOT NULL DEFAULT 0,
   level INTEGER NOT NULL DEFAULT 1,
   exp INTEGER NOT NULL DEFAULT 0,
   hp INTEGER NOT NULL DEFAULT 100,
@@ -294,6 +296,11 @@ CREATE TABLE IF NOT EXISTS server_events (
   contribution_count INTEGER NOT NULL DEFAULT 0,
   active_bonus_percent INTEGER NOT NULL DEFAULT 0,
   active_until INTEGER NOT NULL DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS assassin_list (
+  id INTEGER PRIMARY KEY,
+  assassin TEXT NOT NULL,
+  last_hitter TEXT NOT NULL
 );
 )SQL";
 
@@ -1546,7 +1553,8 @@ INSERT INTO schema_version(version) VALUES(28);
                    sqlite3_bind_int(stmt, base + 34, c.hair) == SQLITE_OK &&
                    sqlite3_bind_int64(stmt, base + 35, static_cast<sqlite3_int64>(c.talent_mask)) ==
                        SQLITE_OK &&
-                   sqlite3_bind_int64(stmt, base + 36, c.beacon_ready_at) == SQLITE_OK;
+                   sqlite3_bind_int64(stmt, base + 36, c.beacon_ready_at) == SQLITE_OK &&
+                   sqlite3_bind_int(stmt, base + 37, c.pvp_death_exp_percent) == SQLITE_OK;
         }
     };
 
@@ -1588,6 +1596,25 @@ INSERT INTO schema_version(version) VALUES(28);
             !m_impl->exec(kSchemaSql)) {
             close();
             return false;
+        }
+        {
+            auto* info = m_impl->prepare("PRAGMA table_info(characters)");
+            if (!info) {
+                close();
+                return false;
+            }
+            bool has_pvp_penalty = false;
+            while (sqlite3_step(info) == SQLITE_ROW) {
+                const auto* column = reinterpret_cast<const char*>(sqlite3_column_text(info, 1));
+                has_pvp_penalty |= column && std::strcmp(column, "pvp_death_exp_percent") == 0;
+            }
+            sqlite3_finalize(info);
+            if (!has_pvp_penalty &&
+                !m_impl->exec("ALTER TABLE characters ADD COLUMN pvp_death_exp_percent "
+                              "INTEGER NOT NULL DEFAULT 0")) {
+                close();
+                return false;
+            }
         }
         if (!m_impl->exec("INSERT OR IGNORE INTO schema_version(version) VALUES(1)")) {
             close();
@@ -1942,13 +1969,13 @@ INSERT INTO schema_version(version) VALUES(28);
             "max_mp, "
             "pu_point, str, hth, intl, wis, dex, money, next_iid, weapon_index, armor_index, "
             "transform_index, transform_level, transform_exp, transform_put_on_ticks, specialty, "
-            "su_point, rage, contribution, face, hair, talent_mask, beacon_ready_at";
+            "su_point, rage, contribution, face, hair, talent_mask, beacon_ready_at, pvp_death_exp_percent";
         if (character.id > 0) {
             const std::string sql =
                 std::string("INSERT INTO characters(id, ") + kCols +
                 ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
                 "?, "
-                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET "
+                "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET "
                 "account_id=excluded.account_id, "
                 "name=excluded.name, clazz=excluded.clazz, map=excluded.map, x=excluded.x, "
                 "y=excluded.y, "
@@ -1963,7 +1990,8 @@ INSERT INTO schema_version(version) VALUES(28);
                 "transform_put_on_ticks=excluded.transform_put_on_ticks, "
                 "specialty=excluded.specialty, su_point=excluded.su_point, rage=excluded.rage, "
                 "contribution=excluded.contribution, face=excluded.face, hair=excluded.hair, "
-                "talent_mask=excluded.talent_mask, beacon_ready_at=excluded.beacon_ready_at";
+                "talent_mask=excluded.talent_mask, beacon_ready_at=excluded.beacon_ready_at, "
+                "pvp_death_exp_percent=excluded.pvp_death_exp_percent";
             sqlite3_stmt* stmt = m_impl->prepare(sql.c_str());
             if (!stmt) {
                 return false;
@@ -1983,7 +2011,7 @@ INSERT INTO schema_version(version) VALUES(28);
         const std::string sql =
             std::string("INSERT INTO characters(") + kCols +
             ") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "
-            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         sqlite3_stmt* stmt = m_impl->prepare(sql.c_str());
         if (!stmt) {
             return false;
@@ -2551,7 +2579,8 @@ INSERT INTO schema_version(version) VALUES(28);
         };
         for (const auto& item : items) {
             if (item.iid <= 0 || item.character_id <= 0 || item.count != 1 ||
-                item.character_id != items.front().character_id || item.slot < 0 || item.slot > 6) {
+                item.character_id != items.front().character_id || item.slot < 0 ||
+                item.slot > kAssassinMaskSlot) {
                 return rollback();
             }
             auto statement = m_impl->prepare("SELECT 1 FROM items WHERE iid=? AND character_id=? "
@@ -2629,6 +2658,90 @@ INSERT INTO schema_version(version) VALUES(28);
             return rollback();
         }
         return true;
+    }
+
+    bool SqliteStore::commit_assassin_death(const CharacterRecord& character,
+                                            const std::vector<ItemRecord>& items,
+                                            const std::string& last_hitter) {
+        if (!m_impl || !m_impl->db || character.id <= 0 || character.hp != 0 || items.empty() ||
+            !m_impl->exec("BEGIN IMMEDIATE")) {
+            return false;
+        }
+        const auto rollback = [&] {
+            (void) m_impl->exec("ROLLBACK");
+            return false;
+        };
+        for (const auto& item : items) {
+            if (item.iid <= 0 || item.character_id != character.id || item.count <= 0) {
+                return rollback();
+            }
+            auto* statement =
+                m_impl->prepare("DELETE FROM items WHERE iid=? AND character_id=? AND item_index=? "
+                                "AND count=? AND slot=? AND location=0");
+            if (!statement) {
+                return rollback();
+            }
+            const bool deleted = sqlite3_bind_int(statement, 1, item.iid) == SQLITE_OK &&
+                                 sqlite3_bind_int(statement, 2, item.character_id) == SQLITE_OK &&
+                                 sqlite3_bind_int(statement, 3, item.index) == SQLITE_OK &&
+                                 sqlite3_bind_int(statement, 4, item.count) == SQLITE_OK &&
+                                 sqlite3_bind_int(statement, 5, item.slot) == SQLITE_OK &&
+                                 sqlite3_step(statement) == SQLITE_DONE &&
+                                 sqlite3_changes(m_impl->db) == 1;
+            sqlite3_finalize(statement);
+            if (!deleted) {
+                return rollback();
+            }
+        }
+        if (!save_character(character)) {
+            return rollback();
+        }
+        if (!last_hitter.empty()) {
+            std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)> add(
+                m_impl->prepare("INSERT INTO assassin_list(assassin,last_hitter) VALUES(?,?)"),
+                sqlite3_finalize);
+            std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)> prune(
+                m_impl->prepare("DELETE FROM assassin_list WHERE id < "
+                                "(SELECT id FROM assassin_list ORDER BY id DESC LIMIT 1 OFFSET ?)"),
+                sqlite3_finalize);
+            if (!add || !prune ||
+                sqlite3_bind_text(add.get(), 1, character.name.c_str(), -1, SQLITE_TRANSIENT) !=
+                    SQLITE_OK ||
+                sqlite3_bind_text(add.get(), 2, last_hitter.c_str(), -1, SQLITE_TRANSIENT) !=
+                    SQLITE_OK ||
+                sqlite3_step(add.get()) != SQLITE_DONE ||
+                sqlite3_bind_int(prune.get(), 1, protocol::kAssassinListLimit - 1) != SQLITE_OK ||
+                sqlite3_step(prune.get()) != SQLITE_DONE) {
+                return rollback();
+            }
+        }
+        if (!m_impl->exec("COMMIT")) {
+            return rollback();
+        }
+        return true;
+    }
+
+    std::optional<std::vector<protocol::AssassinListEntry>> SqliteStore::load_assassin_list() {
+        if (!m_impl || !m_impl->db) {
+            return std::nullopt;
+        }
+        std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)> query(
+            m_impl->prepare(
+                "SELECT assassin,last_hitter FROM assassin_list ORDER BY id DESC LIMIT ?"),
+            sqlite3_finalize);
+        if (!query || sqlite3_bind_int(query.get(), 1, protocol::kAssassinListLimit) != SQLITE_OK) {
+            return std::nullopt;
+        }
+        std::vector<protocol::AssassinListEntry> entries;
+        int result = SQLITE_OK;
+        while ((result = sqlite3_step(query.get())) == SQLITE_ROW) {
+            entries.push_back({reinterpret_cast<const char*>(sqlite3_column_text(query.get(), 0)),
+                               reinterpret_cast<const char*>(sqlite3_column_text(query.get(), 1))});
+        }
+        if (result != SQLITE_DONE) {
+            return std::nullopt;
+        }
+        return entries;
     }
 
     bool SqliteStore::commit_trade(const CharacterRecord& first,

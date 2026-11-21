@@ -2022,6 +2022,30 @@ namespace {
         bag.clear();
         expect(bag.equipment.empty(), "character reset clears equipment storage");
         win.set_catalog(&original_catalog);
+        const auto* assassin_mask = original_catalog.find(1036);
+        expect(assassin_mask && assassin_mask->assassin_mask(), "load the owned Knight mask");
+        if (assassin_mask) {
+            wear.clear();
+            win.set_player_clazz(0);
+            win.set_player_level(30);
+            bag.normal[0] = item(1036, 1, 4100);
+            const auto face_cell = control(win, doc, "wear.face");
+            win.set_drag_slot(0);
+            expect(win.handle_release(face_cell.first, face_cell.second, bag, wear) ==
+                           ClickResult::EquipChanged &&
+                       win.last_equip_op() == EquipNetOp::PutOn && win.last_equip_iid() == 4100,
+                   "dragging the Knight mask onto the face slot requests normal equipment");
+            expect(bag.set_equipment_equipped(4100, true, original_catalog),
+                   "the equipment acknowledgement moves the mask to the face slot");
+            wear.apply_item(*assassin_mask);
+            expect(wear.cloth_index(ClothPart::Face) == 0,
+                   "the mask icon does not require a character mesh");
+            (void) win.handle_click(face_cell.first, face_cell.second, bag, wear);
+            expect(win.handle_click(face_cell.first, face_cell.second, bag, wear) ==
+                           ClickResult::EquipChanged &&
+                       win.last_equip_op() == EquipNetOp::PutOff && win.last_equip_iid() == 4100,
+                   "the worn mask's visible slot resolves its exact instance");
+        }
         win.set_wear(nullptr);
         std::filesystem::remove_all(root);
     }

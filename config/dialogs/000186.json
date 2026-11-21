@@ -1,0 +1,18 @@
+{
+  "_doc": "OpenKal dialogue for the Mask Merchant. NPC placement is supplied by the deployment.",
+  "id": 186,
+  "caption": "Mask Merchant",
+  "lines": [
+    "I have Assassin Masks for every class. Choose the one that fits your training."
+  ],
+  "links": [
+    {
+      "type": "shop",
+      "text": "Browse Assassin Masks."
+    },
+    {
+      "type": "close",
+      "text": "End conversation."
+    }
+  ]
+}

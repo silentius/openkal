@@ -55,6 +55,16 @@ namespace {
                "reject unknown context action");
         r.target = 0;
         expect(protocol::frame_player_options_request(r).empty(), "reject missing context target");
+        r.target = 7;
+        for (const auto action : {protocol::PlayerAction::ChallengeDuel,
+                                  protocol::PlayerAction::AcceptDuel,
+                                  protocol::PlayerAction::DeclineDuel}) {
+            r.action = action;
+            bytes = payload(protocol::frame_player_options_request(r));
+            expect(protocol::parse_player_options_request(bytes.data(), bytes.size(), decoded) &&
+                       decoded.action == action && decoded.target == r.target,
+                   "context request preserves the duel action and selected player");
+        }
         protocol::PlayerOptionsState s;
         s.target = 7;
         s.request_id = 10;
@@ -62,7 +72,9 @@ namespace {
         s.guild = 44;
         s.guild_name = "OpenKal";
         s.application_fee = 17;
-        s.actions = {protocol::PlayerAction::ApplyGuild};
+        s.actions = {protocol::PlayerAction::ApplyGuild,
+                     protocol::PlayerAction::AcceptDuel,
+                     protocol::PlayerAction::DeclineDuel};
         bytes = payload(protocol::frame_player_options_state(s));
         protocol::PlayerOptionsState state;
         expect(protocol::parse_player_options_state(bytes.data(), bytes.size(), state) &&
@@ -136,8 +148,30 @@ namespace {
                "remaining guild action reflows and preserves the quoted price");
         window.request_sent(13);
         state.request_id = 13;
+        state.actions = {protocol::PlayerAction::ChallengeDuel};
+        window.update(state);
+        r = window.handle(in, ui, 1);
+        expect(r && r->action == protocol::PlayerAction::ChallengeDuel && r->target == 7,
+               "challenge row sends a duel request for the selected player");
+        window.request_sent(14);
+        state.request_id = 14;
+        state.actions = {protocol::PlayerAction::AcceptDuel, protocol::PlayerAction::DeclineDuel};
+        window.update(state);
+        r = window.handle(in, ui, 1);
+        expect(r && r->action == protocol::PlayerAction::AcceptDuel && r->target == 7,
+               "accept row applies to the selected inviter");
+        window.request_sent(15);
+        state.request_id = 15;
+        window.update(state);
+        in.mouse_y += 36;
+        r = window.handle(in, ui, 1);
+        expect(r && r->action == protocol::PlayerAction::DeclineDuel && r->target == 7,
+               "decline row applies to the selected inviter");
+        window.request_sent(16);
+        state.request_id = 16;
         state.actions.clear();
         window.update(state);
+        in.mouse_y -= 36;
         r = window.handle(in, ui, 1);
         expect(!r && window.variables().at("player_options.empty") == "1",
                "unavailable actions disappear and cannot be clicked");

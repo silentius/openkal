@@ -28,6 +28,9 @@ namespace openkal::client {
          */
         void set_target(const engine::Vec3& position, bool moving);
 
+        /** Completes interpolation to a confirmed stop before a combat animation. */
+        void finish_stop();
+
         /** Faces a stationary combat target without moving the feet.
          * @param x Target world X.
          * @param z Target world Z.

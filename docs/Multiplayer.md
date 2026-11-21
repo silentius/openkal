@@ -43,7 +43,7 @@ Existing `save/multiplayer/server.json` registration policy and TLS files are
 preserved. Without that policy file, local development enables registration by
 default. A missing half of a TLS pair produces an error rather than replacing
 existing credentials. The certificate covers localhost and 127.0.0.1 and lasts
-30 days. Certificate renewal is explicit: stop the local server and remove both
+365 days. Certificate renewal is explicit: stop the local server and remove both
 development PEM files to generate a new pair on the next start.
 
 Launch the client directly; no Python launcher or TLS environment variables are

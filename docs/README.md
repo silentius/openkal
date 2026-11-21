@@ -30,7 +30,7 @@ and [security policy](../SECURITY.md) define the project artifacts and supported
 - [NPCs](Npcs.md): server-coordinate placement, facing and configurable overhead symbols.
 
 - [Skills](Skills.md), [skill effect assets](SkillEffects.md) and [Talent Tree](TalentTree.md).
-- [Parties](Party.md), [Guilds](GuildPlan.md) and [Castle War](CastleWar.md).
+- [Parties](Party.md), [Guilds](GuildPlan.md), [Castle War](CastleWar.md) and [PvP](Pvp.md).
 - [Pets](Pets.md), [Pet mixing design](PetMixing.md), [Common riding](RidingAnimals.md),
   [Battle riding](BattleRidingPets.md) and [Riding Cache / Stablemaster](BattleRidingCachePlan.md).
 - [Collection equipment](CollectionEquipment.md), [Weapon enchantment](WeaponEnchantment.md)

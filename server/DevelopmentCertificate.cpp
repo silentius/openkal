@@ -86,7 +86,7 @@ namespace openkal::server {
             ASN1_INTEGER_set_uint64(X509_get_serialNumber(certificate.get()),
                                     serial ? serial : 1) != 1 ||
             !X509_gmtime_adj(X509_getm_notBefore(certificate.get()), -60) ||
-            !X509_gmtime_adj(X509_getm_notAfter(certificate.get()), 30L * 24 * 60 * 60) ||
+            !X509_gmtime_adj(X509_getm_notAfter(certificate.get()), 365L * 24 * 60 * 60) ||
             X509_set_pubkey(certificate.get(), key.get()) != 1) {
             return false;
         }

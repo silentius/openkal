@@ -16,6 +16,8 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <limits>
+#include <cmath>
 #include <map>
 
 namespace openkal::server {
@@ -131,6 +133,35 @@ namespace openkal::server {
             if (!result.plants) {
                 error = "Invalid server configuration: plants settings are invalid.";
                 return std::nullopt;
+            }
+        }
+        if (const auto* areas = config.get("assassin_safe_areas")) {
+            if (!areas->is_array()) {
+                error = "Invalid server configuration: assassin_safe_areas must be an array.";
+                return std::nullopt;
+            }
+            for (const auto& entry : areas->array()) {
+                std::array<int, 5> bounds{};
+                if (!entry.is_array() || entry.array().size() != bounds.size()) {
+                    error = "Each Assassin safe area requires [map, min_x, min_y, max_x, max_y].";
+                    return std::nullopt;
+                }
+                for (std::size_t i = 0; i < bounds.size(); ++i) {
+                    const auto& value = entry.array()[i];
+                    const double number = value.number();
+                    if (!value.is_number() || number < std::numeric_limits<int>::min() ||
+                        number > std::numeric_limits<int>::max() || std::trunc(number) != number) {
+                        error = "Assassin safe area coordinates must be integers.";
+                        return std::nullopt;
+                    }
+                    bounds[i] = static_cast<int>(number);
+                }
+                if (bounds[0] < 0 || bounds[0] > 255 || bounds[1] > bounds[3] ||
+                    bounds[2] > bounds[4]) {
+                    error = "Invalid Assassin safe area bounds.";
+                    return std::nullopt;
+                }
+                result.assassin_safe_areas.push_back(bounds);
             }
         }
         result.configuration_path = path.string();

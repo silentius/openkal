@@ -39,6 +39,7 @@ RuntimeData/templates/RevisionHammer.md
 RuntimeData/templates/TalismanOfEnchantment.md
 RuntimeData/templates/accBound.png
 RuntimeData/templates/aloeVera.png
+RuntimeData/templates/assassinMask.png
 RuntimeData/templates/blueLotusLeaf.png
 RuntimeData/templates/dragon_dialog/README.md
 RuntimeData/templates/dragon_dialog/bmp/button_disabled.bmp
@@ -482,10 +483,12 @@ config/collection/hanin.json
 config/collection/trigram.json
 config/collection/yeoiju.json
 config/dialogs/000184.json
+config/dialogs/000186.json
 config/dialogs/000243.json
 config/dialogs/000244.json
 config/dialogs/000277.json
 config/dialogs/000690.json
+config/dialogs/400001.json
 config/dialogs/990243.json
 config/dialogs/990244.json
 config/dialogs/990246.json
@@ -497,6 +500,7 @@ config/dialogs/990331_castle_master.json
 config/dialogs/990332_castle_camp.json
 config/dialogs/990333_castle_manager.json
 config/fishing.json
+config/items/archer/etc/1037_mask_for_archer.json
 config/items/collection/23012_low_class_essence_box.json
 config/items/collection/24000_apprentice_yin-yang_mirror.json
 config/items/collection/24001_novice_yin-yang_mirror.json
@@ -591,6 +595,8 @@ config/items/general/refresh/23008_small_auto_medicine.json
 config/items/general/refresh/23009_medium_auto_medicine.json
 config/items/general/refresh/23010_large_auto_medicine.json
 config/items/general/refresh/23011_huge_auto_medicine.json
+config/items/knight/etc/1036_mask_for_knight.json
+config/items/mage/etc/1038_mask_for_magician.json
 config/items/ride/battle/material/41321_riding_cache.json
 config/items/ride/battle/material/41322_riding_seal.json
 config/items/ride/battle/material/41323_stable_time_writ.json
@@ -1378,6 +1384,7 @@ config/items/skins/25804_Archer_Weapon_Skin_09_01.json
 config/items/skins/25805_Archer_Weapon_Skin_09_02.json
 config/items/skins/25806_Archer_Weapon_Skin_09_03.json
 config/items/skins/25807_Archer_Weapon_Skin_09_04.json
+config/items/thief/etc/1681_mask_for_thief.json
 config/jobs/archer.json
 config/jobs/knight.json
 config/jobs/mage.json
@@ -1414,6 +1421,7 @@ config/server/multiplayer.json
 config/server/plants.json
 config/server/shops/0001_merchant_goo_deuk.json
 config/server/shops/0003_merchant_gae_yoo.json
+config/server/shops/0213_mask_merchant.json
 config/server/shops/3022_shaman_pet.json
 config/server/shops/60002_skin_artisan.json
 config/server/user_roles.json
@@ -1531,6 +1539,7 @@ docs/PetMixing.md
 docs/Pets.md
 docs/PolishingStone.md
 docs/PostgreSql.md
+docs/Pvp.md
 docs/README.md
 docs/ReleaseNotes-0.1.0.md
 docs/ReleaseProcedure.md
@@ -1655,6 +1664,7 @@ libs/protocol/include/openkal/protocol/PlayerInfo.h
 libs/protocol/include/openkal/protocol/PlayerOptions.h
 libs/protocol/include/openkal/protocol/Progression.h
 libs/protocol/include/openkal/protocol/Property.h
+libs/protocol/include/openkal/protocol/Pvp.h
 libs/protocol/include/openkal/protocol/Quest.h
 libs/protocol/include/openkal/protocol/Riding.h
 libs/protocol/include/openkal/protocol/Shop.h
@@ -1706,6 +1716,7 @@ libs/protocol/src/PlayerInfo.cpp
 libs/protocol/src/PlayerOptions.cpp
 libs/protocol/src/Progression.cpp
 libs/protocol/src/Property.cpp
+libs/protocol/src/Pvp.cpp
 libs/protocol/src/Quest.cpp
 libs/protocol/src/Riding.cpp
 libs/protocol/src/Shop.cpp

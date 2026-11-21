@@ -10,6 +10,7 @@
 
 #pragma once
 
+#include "openkal/protocol/Pvp.h"
 #include "openkal/protocol/Shortcut.h"
 #include "openkal/protocol/TradingPost.h"
 #include "openkal/server/BattleRiding.h"
@@ -27,6 +28,9 @@
 #include <vector>
 
 namespace openkal::server {
+
+    /** Persisted equipment slot for the active Assassin Mask. */
+    inline constexpr int kAssassinMaskSlot = 7;
     class ICastleWarStore;
     class IGuildStore;
 
@@ -103,6 +107,8 @@ namespace openkal::server {
         int map_z = 16100;
         /** Saved Black Crow statue point (0 = Narootuh). */
         std::int32_t revival_point = 0;
+        /** Percentage of level EXP owed on village revival after an Assassin kill. */
+        int pvp_death_exp_percent = 0;
         std::int32_t level = 1;
         std::int64_t exp = 0;
         std::int32_t hp = 100;
@@ -582,6 +588,27 @@ namespace openkal::server {
             return false;
         }
 
+        /** Saves a defeat, its forfeited items and any Town Board entry in one transaction.
+         * @param character Final character state with zero HP.
+         * @param items Expected worn mask and any dropped inventory instance.
+         * @param last_hitter Real character name of the last hitter, empty for a non-PvP death.
+         * @return True when the defeat was committed.
+         */
+        [[nodiscard]] virtual bool commit_assassin_death(const CharacterRecord& character,
+                                                         const std::vector<ItemRecord>& items,
+                                                         const std::string& last_hitter) {
+            (void) character;
+            (void) items;
+            (void) last_hitter;
+            return false;
+        }
+
+        /** Loads the most recent Town Board entries, newest first.
+         * @return A board snapshot or nullopt on a store error.
+         */
+        [[nodiscard]] virtual std::optional<std::vector<protocol::AssassinListEntry>>
+        load_assassin_list() = 0;
+
         /** Atomically saves two balances and transfers full instances or partial stacks.
          * The server owns both locked sessions; item ownership/count is checked in the transaction.
          * @param first Final first character. @param second Final second character.
@@ -878,6 +905,15 @@ namespace openkal::server {
         [[nodiscard]] bool
         consume_item_with_rewards(const ItemRecord& box,
                                   const std::vector<ItemRecord>& rewards) override;
+
+        /** @copydoc IDataStore::commit_assassin_death */
+        [[nodiscard]] bool commit_assassin_death(const CharacterRecord& character,
+                                                 const std::vector<ItemRecord>& items,
+                                                 const std::string& last_hitter) override;
+
+        /** @copydoc IDataStore::load_assassin_list */
+        [[nodiscard]] std::optional<std::vector<protocol::AssassinListEntry>>
+        load_assassin_list() override;
 
         /** @copydoc IDataStore::commit_trade */
         [[nodiscard]] bool commit_trade(const CharacterRecord& first,

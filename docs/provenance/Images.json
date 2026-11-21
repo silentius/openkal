@@ -3,15 +3,15 @@
   "reviewed_on": "2026-11-04",
   "repository": "https://github.com/silentius/openkal",
   "repository_head": "9be95ee06e9ef3b97ee95a782b9737d3402859f9",
-  "scope": "All 170 project standalone raster and SVG image files listed in SourceFiles.txt. Ignored build products, output/imagegen, local generation caches, Git history-only images, embedded image bytes and optional user data are excluded.",
+  "scope": "All 171 project standalone raster and SVG image files listed in SourceFiles.txt. Ignored build products, output/imagegen, local generation caches, Git history-only images, embedded image bytes and optional user data are excluded.",
   "declared_distribution_license": "GPL-3.0-or-later",
   "license_basis": "Root LICENSE and project distribution declaration. External reference-image permissions are not inferred from the generated outputs.",
   "retrieved_on": "2026-10-31",
   "image_model_note": "Retained generation records do not identify the exact image-generation model. No model identity is inferred for individual files.",
   "verification_note": "Byte matches use SHA-256 or complete-file comparison. Pixel matches include BMP alpha bytes for 32-bit BI_RGB files. Reproductions ran only in a temporary directory; repository images were not changed. Git introduction times are commit author dates, not generation dates.",
   "summary": {
-    "image_files": 170,
-    "source_records": 30,
+    "image_files": 171,
+    "source_records": 31,
     "generation_records": 82,
     "evidence_counts": {
       "documented_derivative": 2,
@@ -19,7 +19,7 @@
       "reproduced_derivative": 101,
       "reproduced_project_artwork": 27,
       "retained_original_vector": 11,
-      "retained_project_source": 2
+      "retained_project_source": 3
     }
   },
   "generations": [
@@ -1369,6 +1369,20 @@
         "tools/export_trading_post_icon.py"
       ],
       "asset_count": 4
+    },
+    {
+      "id": "assassin-mask",
+      "description": "Original shared Assassin Mask inventory icon for the four player classes.",
+      "origin_kind": "image_generation",
+      "creator": "OpenKal contributors",
+      "creation_tool": "OpenAI ImageGen",
+      "created_on": "2026-11-21",
+      "references": [],
+      "repository_evidence": [
+        "docs/Pvp.md"
+      ],
+      "generation_ids": [],
+      "asset_count": 1
     }
   ],
   "assets": [
@@ -5423,6 +5437,20 @@
         "kind": "retained_project_source",
         "match": "current_file_hash",
         "method": "Current retained source and adjacent project documentation; no historical generation lookup or external source verification."
+      }
+    },
+    {
+      "path": "RuntimeData/templates/assassinMask.png",
+      "sha256": "5a407d5e57ae6e0109cb90a45c139020080a15f15dd8fe38ac51091d24f5d92f",
+      "source_id": "assassin-mask",
+      "inputs": [],
+      "width": 256,
+      "height": 256,
+      "image_format": "PNG",
+      "evidence": {
+        "kind": "retained_project_source",
+        "match": "current_file_hash",
+        "method": "Retained runtime PNG and documented original image-generation brief in docs/Pvp.md."
       }
     }
   ]

@@ -59,6 +59,7 @@
 #include <ctime>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 namespace openkal::client {
     namespace {
@@ -666,7 +667,7 @@ namespace openkal::client {
     }
 
     bool NetClient::send_attack_player(std::uint32_t player) {
-        if (!m_session || !m_handshook || !castle_enemy(player) || castle_defeated(player)) {
+        if (!m_session || !m_handshook || !pvp_can_attack(player)) {
             return false;
         }
         return send_packet(protocol::Attack::frame_client(protocol::kCkPlayer, player));
@@ -974,6 +975,10 @@ namespace openkal::client {
         return true;
     }
 
+    std::optional<protocol::AssassinList> NetClient::take_assassin_list() {
+        return std::exchange(m_pending_assassin_list, std::nullopt);
+    }
+
     bool NetClient::send_shop_item_list(std::uint32_t npc_id) {
         return m_session && m_handshook && npc_id != 0 &&
                send_packet(protocol::Shop::frame_item_list_c2s(npc_id));
@@ -1205,6 +1210,30 @@ namespace openkal::client {
         }
         const auto& alive = found->second.at("castle_alive");
         return alive.type() == platform::Json::Type::Bool && !alive.boolean();
+    }
+
+    protocol::PvpStatus NetClient::pvp_status(std::uint32_t player) const {
+        const auto found = m_pvp_status.find(player);
+        if (found != m_pvp_status.end()) {
+            return found->second;
+        }
+        using Relation = protocol::PvpRelation;
+        const int own = castle_side(m_local_player_id);
+        const int other = castle_side(player);
+        const bool enemy = castle_enemy(player);
+        const bool defeated = castle_defeated(player);
+        const auto relation = enemy
+                                  ? Relation::Enemy
+                                  : (own != 0 && own == other ? Relation::Ally : Relation::Neutral);
+        return {player, relation, enemy && !defeated, defeated, false};
+    }
+
+    bool NetClient::take_duel_defeat(std::uint32_t player) {
+        return m_pending_duel_defeats.erase(player) != 0;
+    }
+
+    bool NetClient::pvp_can_attack(std::uint32_t player) const {
+        return pvp_status(player).attackable;
     }
 
     bool NetClient::send_packet(const std::vector<std::uint8_t>& packet) {
@@ -1530,6 +1559,7 @@ namespace openkal::client {
         m_monsters.clear();
         m_npcs.clear();
         m_pending_html.clear();
+        m_pending_assassin_list.reset();
         m_last_asked_npc_id = 0;
         m_quest_flags.clear();
         m_quest_flags_dirty = false;
@@ -1587,6 +1617,8 @@ namespace openkal::client {
         m_pending_player_options.clear();
         m_guild_view = {};
         m_guild_displays.clear();
+        m_pvp_status.clear();
+        m_pending_duel_defeats.clear();
         m_char_guild.clear();
         m_char_guild_pos.clear();
         ++m_guild_serial;
@@ -1699,6 +1731,17 @@ namespace openkal::client {
             if (protocol::parse_party_item(payload.data(), payload.size(), notice) &&
                 notice.party == m_party.id && notice.recipient != m_local_player_id) {
                 m_pending_party_items.push_back(std::move(notice));
+            }
+            return true;
+        }
+        if (type == static_cast<std::uint8_t>(protocol::S2C::PvpStatus)) {
+            protocol::PvpStatus status;
+            if (protocol::parse_pvp_status(payload.data(), payload.size(), status)) {
+                auto& previous = m_pvp_status[status.player_id];
+                if (status.dueling && status.defeated && !(previous.dueling && previous.defeated)) {
+                    m_pending_duel_defeats.insert(status.player_id);
+                }
+                previous = status;
             }
             return true;
         }
@@ -1893,6 +1936,13 @@ namespace openkal::client {
 
     bool NetClient::handle_quest_packet(std::uint8_t type,
                                         const std::vector<std::uint8_t>& payload) {
+        if (type == static_cast<std::uint8_t>(protocol::S2C::AssassinList)) {
+            protocol::AssassinList list;
+            if (protocol::parse_assassin_list(payload.data(), payload.size(), list)) {
+                m_pending_assassin_list = std::move(list);
+            }
+            return true;
+        }
         if (type == static_cast<std::uint8_t>(protocol::S2C::SendHtml)) {
             std::int32_t html_id = 0;
             std::uint32_t npc_id = 0;
@@ -2233,6 +2283,8 @@ namespace openkal::client {
             std::uint32_t id = 0;
             if (protocol::CreatePlayer::parse_remove(payload.data(), payload.size(), id)) {
                 m_guild_displays.erase(id);
+                m_pvp_status.erase(id);
+                m_pending_duel_defeats.erase(id);
                 m_pending_remove_others.push_back(id);
                 m_pending_other_players.erase(
                     std::remove_if(m_pending_other_players.begin(),
@@ -2578,6 +2630,7 @@ namespace openkal::client {
             m_monsters.clear();
             m_npcs.clear();
             m_pending_html.clear();
+            m_pending_assassin_list.reset();
             m_last_asked_npc_id = 0;
             m_ground_items.clear();
             return true;
@@ -2889,9 +2942,19 @@ namespace openkal::client {
                     attacker_it->second.set_pending_attack(true);
                 }
             }
-            if (m_remote_player_positions.find(attacker) != m_remote_player_positions.end() ||
-                (m_read_only && attacker == m_local_player_id && attacker != 0)) {
-                m_pending_player_attacks.push_back({attacker, target});
+            const bool player_target =
+                target != 0 &&
+                (target == m_local_player_id || m_remote_player_positions.count(target) != 0);
+            const auto remote_attacker = m_remote_player_positions.find(attacker);
+            const bool local_attacker = attacker != 0 && attacker == m_local_player_id;
+            if (remote_attacker != m_remote_player_positions.end() && player_target) {
+                // A confirmed PvP swing follows the attacker's final approach. A later
+                // movement packet can still replace this snapshot.
+                remote_attacker->second.moving = false;
+            }
+            if (remote_attacker != m_remote_player_positions.end() ||
+                (local_attacker && (m_read_only || player_target))) {
+                m_pending_player_attacks.push_back({attacker, target, player_target});
             }
             if ((flags & protocol::kAtkAnim) != 0) {
                 return true;
@@ -2907,8 +2970,7 @@ namespace openkal::client {
                 attacker_it->second.set_pending_action_damage(ad);
             }
             // Every observer faces the victim toward the actual player attacker.
-            if ((m_local_player_id != 0 && attacker == m_local_player_id) ||
-                m_remote_player_positions.find(attacker) != m_remote_player_positions.end()) {
+            if (local_attacker || remote_attacker != m_remote_player_positions.end()) {
                 face_monster_to_target(target, attacker, origin_patch);
             }
             auto it = m_monsters.find(target);
@@ -2966,11 +3028,18 @@ namespace openkal::client {
                                     ? m_char_clazz == static_cast<int>(Class::Archer)
                                     : remote_class != m_remote_player_classes.end() &&
                                           remote_class->second == static_cast<int>(Class::Archer);
+            bool pvp_impact = false;
+            if (player_target &&
+                (local_attacker || remote_attacker != m_remote_player_positions.end())) {
+                const auto source_pvp = pvp_status(attacker);
+                const auto target_pvp = pvp_status(target);
+                pvp_impact = source_pvp.attackable || target_pvp.attackable || source_pvp.masked ||
+                             target_pvp.masked || (source_pvp.dueling && target_pvp.dueling) ||
+                             (castle_side(attacker) != 0 && castle_side(target) != 0);
+            }
             // Misses consume their own arrow, so a later hit cannot claim its impact.
-            const bool castle_player_attack =
-                castle_side(attacker) != 0 && castle_side(target) != 0;
             if (((flags & protocol::kAtkHit) != 0 || archer) && target != 0 &&
-                (m_monsters.find(target) != m_monsters.end() || castle_player_attack)) {
+                (m_monsters.find(target) != m_monsters.end() || pvp_impact)) {
                 PendingHitFx fx;
                 fx.attacker_id = attacker;
                 fx.target_id = target;

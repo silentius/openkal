@@ -121,6 +121,9 @@ namespace openkal::client {
     }
 
     void Wear::apply_item(const ItemDef& def) {
+        if (def.assassin_mask()) {
+            return;
+        }
         if (def.is_skin()) {
             for (std::size_t i = 0; i < m_skins.size(); ++i) {
                 if (protocol::skin_slots_conflict(

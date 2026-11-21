@@ -1,0 +1,19 @@
+{
+  "index": 1681,
+  "name": "Assassin Mask (Thief)",
+  "image": "assassinMask",
+  "class": [
+    "defense",
+    "mask"
+  ],
+  "limit": {
+    "class": "thief",
+    "level": 30
+  },
+  "wear": 1,
+  "buy": 100000,
+  "sell": 0,
+  "stackable": 0,
+  "assassin_mask": true,
+  "description": "Equip to enter Assassin mode. Death destroys the mask."
+}

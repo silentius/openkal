@@ -53,13 +53,17 @@ The twelve new bitmap entries reproduce byte for byte using the retained
 generators and local source files. All 170 current hashes match. This update
 used no Git history, private chats or external sources and changed no image bytes.
 
+The 2026-11-21 update adds the shared Assassin Mask inventory icon as a
+retained project image with a recorded SHA-256 hash. The inventory now lists
+171 images. [Assassin Mask authoring record](Pvp.md)
+
 The recorded Git dates are commit author dates. The prompt records contain the
 tool's `revisedPrompt` field. The records do not identify the image-generation
 model.
 
 ## Authorship, distribution and references
 
-All 170 repository images were created for OpenKal using AI. The per-file
+The recorded repository images were created for OpenKal using AI. The per-file
 records describe raster generation, vector and procedural authoring, and
 the processing steps used to produce derived exports. OpenKal distributes the
 repository images under

@@ -1213,6 +1213,10 @@ namespace openkal::client {
         disarm_arrow(m_await_arrow, m_arrow_ready);
     }
 
+    bool AnimatedActor::death_animation_finished() const {
+        return m_clip != Clip::Die || m_die_hold;
+    }
+
     void AnimatedActor::clear_die() {
         m_die_hold = false;
         if (m_clip == Clip::Die) {

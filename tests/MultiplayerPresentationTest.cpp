@@ -22,6 +22,7 @@
 #include "openkal/protocol/HarvestPlant.h"
 #include "openkal/protocol/ItemMonster.h"
 #include "openkal/protocol/Move.h"
+#include "openkal/protocol/Pvp.h"
 #include "openkal/protocol/Quest.h"
 #include "openkal/protocol/Skill.h"
 #include "openkal/protocol/Teleport.h"
@@ -872,6 +873,47 @@ int main() {
     expect(client.take_player_attack(attack) && attack.attacker_id == 3 && attack.target_id == 901,
            "remote attacks retain their own caster and target");
     expect(!client.take_player_attack(attack), "local attack echoes do not restart remote actors");
+
+    using openkal::protocol::PvpRelation;
+    using openkal::protocol::frame_pvp_status;
+    input->queue(frame_pvp_status({1, PvpRelation::Ally, false, false, false, true}));
+    input->queue(frame_pvp_status({2, PvpRelation::Enemy, true, false, false, true}));
+    input->queue(Move::frame_player_on(2, 1, 0, 0));
+    input->queue(Attack::frame_server(2, 1, 0));
+    input->queue(Attack::frame_server(1, 2, 8, 0, openkal::protocol::kAtkHit));
+    client.update(0.0f, 32);
+    expect(!client.remote_player_positions().at(2).moving,
+           "a confirmed incoming PvP attack stops the attacker's approach");
+    expect(client.take_player_attack(attack) && attack.attacker_id == 2 && attack.target_id == 1 &&
+               attack.player_target,
+           "a PvP miss still animates for the defending client");
+    expect(client.take_player_attack(attack) && attack.attacker_id == 1 && attack.target_id == 2 &&
+               attack.player_target && !client.take_player_attack(attack),
+           "the attacking client presents its confirmed PvP swing once");
+    openkal::client::PendingHitFx pvp_hit;
+    expect(client.take_hit_fx(pvp_hit) && pvp_hit.attacker_id == 1 && pvp_hit.target_id == 2 &&
+               !client.take_hit_fx(pvp_hit),
+           "PvP presentation preserves the existing impact event");
+    input->queue(Attack::frame_server(2, 1, 0));
+    input->queue(Move::frame_player_on(2, 1, 0, 0));
+    client.update(0.0f, 32);
+    expect(client.take_player_attack(attack) && client.remote_player_positions().at(2).moving,
+           "a later movement packet takes precedence over an earlier swing");
+
+    input->queue(frame_pvp_status({1, PvpRelation::Ally, false, true, false, true}));
+    input->queue(frame_pvp_status({2, PvpRelation::Enemy, false, true, false, true}));
+    input->queue(frame_pvp_status({1}));
+    input->queue(frame_pvp_status({2}));
+    client.update(0.0f, 32);
+    expect(!client.pvp_status(1).defeated && !client.pvp_status(2).defeated,
+           "PvP status reflects the latest recovery");
+    expect(client.take_duel_defeat(1) && client.take_duel_defeat(2) &&
+               !client.take_duel_defeat(1) && !client.take_duel_defeat(2),
+           "a duel defeat is presented once even if recovery was received in the same poll");
+    input->queue(frame_pvp_status({2, PvpRelation::Enemy, false, true, false, false}));
+    client.update(0.0f, 32);
+    expect(client.pvp_status(2).defeated && !client.take_duel_defeat(2),
+           "other PvP defeats retain their normal recovery path");
 
     using openkal::protocol::Skill;
     input->queue(openkal::server::frame_s2c_code(123));

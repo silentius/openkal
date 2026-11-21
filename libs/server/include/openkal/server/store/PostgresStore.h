@@ -182,6 +182,15 @@ namespace openkal::server {
         consume_item_with_rewards(const ItemRecord& box,
                                   const std::vector<ItemRecord>& rewards) override;
 
+        /** @copydoc IDataStore::commit_assassin_death */
+        [[nodiscard]] bool commit_assassin_death(const CharacterRecord& character,
+                                                 const std::vector<ItemRecord>& items,
+                                                 const std::string& last_hitter) override;
+
+        /** @copydoc IDataStore::load_assassin_list */
+        [[nodiscard]] std::optional<std::vector<protocol::AssassinListEntry>>
+        load_assassin_list() override;
+
         /** @copydoc IDataStore::commit_trade */
         [[nodiscard]] bool commit_trade(const CharacterRecord& first,
                                         const CharacterRecord& second,
