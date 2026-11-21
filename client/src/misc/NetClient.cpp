@@ -3028,11 +3028,18 @@ namespace openkal::client {
                                     ? m_char_clazz == static_cast<int>(Class::Archer)
                                     : remote_class != m_remote_player_classes.end() &&
                                           remote_class->second == static_cast<int>(Class::Archer);
+            bool pvp_impact = false;
+            if (player_target &&
+                (local_attacker || remote_attacker != m_remote_player_positions.end())) {
+                const auto source_pvp = pvp_status(attacker);
+                const auto target_pvp = pvp_status(target);
+                pvp_impact = source_pvp.attackable || target_pvp.attackable || source_pvp.masked ||
+                             target_pvp.masked || (source_pvp.dueling && target_pvp.dueling) ||
+                             (castle_side(attacker) != 0 && castle_side(target) != 0);
+            }
             // Misses consume their own arrow, so a later hit cannot claim its impact.
-            const bool player_attack =
-                target == m_local_player_id || m_remote_player_classes.count(target) != 0;
             if (((flags & protocol::kAtkHit) != 0 || archer) && target != 0 &&
-                (m_monsters.find(target) != m_monsters.end() || player_attack)) {
+                (m_monsters.find(target) != m_monsters.end() || pvp_impact)) {
                 PendingHitFx fx;
                 fx.attacker_id = attacker;
                 fx.target_id = target;

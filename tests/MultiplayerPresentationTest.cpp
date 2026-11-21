@@ -874,6 +874,10 @@ int main() {
            "remote attacks retain their own caster and target");
     expect(!client.take_player_attack(attack), "local attack echoes do not restart remote actors");
 
+    using openkal::protocol::PvpRelation;
+    using openkal::protocol::frame_pvp_status;
+    input->queue(frame_pvp_status({1, PvpRelation::Ally, false, false, false, true}));
+    input->queue(frame_pvp_status({2, PvpRelation::Enemy, true, false, false, true}));
     input->queue(Move::frame_player_on(2, 1, 0, 0));
     input->queue(Attack::frame_server(2, 1, 0));
     input->queue(Attack::frame_server(1, 2, 8, 0, openkal::protocol::kAtkHit));
@@ -896,8 +900,6 @@ int main() {
     expect(client.take_player_attack(attack) && client.remote_player_positions().at(2).moving,
            "a later movement packet takes precedence over an earlier swing");
 
-    using openkal::protocol::PvpRelation;
-    using openkal::protocol::frame_pvp_status;
     input->queue(frame_pvp_status({1, PvpRelation::Ally, false, true, false, true}));
     input->queue(frame_pvp_status({2, PvpRelation::Enemy, false, true, false, true}));
     input->queue(frame_pvp_status({1}));

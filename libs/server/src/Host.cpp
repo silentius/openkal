@@ -1348,24 +1348,25 @@ namespace openkal::server {
         }
 
         [[nodiscard]] bool duel_opponents(const ClientSession& a, const ClientSession& b) {
-            return a.duel_peer == b.player_id && b.duel_peer == a.player_id;
+            return a.duel_peer != 0 && a.duel_peer == b.player_id && b.duel_peer == a.player_id;
         }
 
         bool pvp_allows_attack(const ClientSession& source, const ClientSession* target) {
-            if (!target) {
-                // Debug dummies keep their existing local skill behavior.
-                return source.castle_side == CastleWarSide::None;
+            if (source.castle_side != CastleWarSide::None ||
+                (target && target->castle_side != CastleWarSide::None)) {
+                return g_castle_war && target && !source.tele_pending && !target->tele_pending &&
+                       castle_opponents(source, *target) &&
+                       g_castle_war->hostile(
+                           source.character_id, target->character_id, unix_now_sec());
+            }
+            if (!target || !g_pvp_config || !g_pvp_config->multiplayer) {
+                // Standalone sessions and debug dummies keep their existing skill behavior.
+                return true;
             }
             if (&source == target || source.cur_hp <= 0 || target->cur_hp <= 0 ||
                 source.duel_recovery_at_ms != 0 || target->duel_recovery_at_ms != 0 ||
                 source.map != target->map || source.tele_pending || target->tele_pending) {
                 return false;
-            }
-            if (source.castle_side != CastleWarSide::None ||
-                target->castle_side != CastleWarSide::None) {
-                return castle_opponents(source, *target) &&
-                       g_castle_war->hostile(
-                           source.character_id, target->character_id, unix_now_sec());
             }
             if (duel_opponents(source, *target)) {
                 return true;
@@ -17720,7 +17721,8 @@ namespace openkal::server {
                         }
                         if (kind == protocol::kCkPlayer) {
                             auto* target = find_playing_player(clients, target_id);
-                            if (!target || target->cur_hp <= 0 || target->map != c.map ||
+                            if ((!m_config.multiplayer && c.castle_side == CastleWarSide::None) ||
+                                !target || target->cur_hp <= 0 || target->map != c.map ||
                                 c.resting || c.weapon_index == 0 || c.attack_cooldown > 0 ||
                                 !pvp_allows_attack(c, target) ||
                                 !combat::in_attack_range(
