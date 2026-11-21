@@ -574,9 +574,10 @@ int main(int argc, char** argv) {
                    protocol::parse_player_options_state(bytes.data(), bytes.size(), offered) &&
                    offered.request_id == 1 &&
                    offered.actions ==
-                       std::vector<protocol::PlayerAction>{protocol::PlayerAction::InviteParty};
+                       std::vector<protocol::PlayerAction>{protocol::PlayerAction::InviteParty,
+                                                           protocol::PlayerAction::ChallengeDuel};
         }),
-                "guildless ungrouped target offers only the possible party action");
+                "guildless ungrouped target offers party and duel invitations");
         player_action.action = protocol::PlayerAction::InviteParty;
         player_action.request_id = 2;
         require(pa.session->send_all(protocol::frame_player_options_request(player_action)),
@@ -768,9 +769,10 @@ int main(int argc, char** argv) {
                    protocol::parse_player_options_state(bytes.data(), bytes.size(), offered) &&
                    offered.request_id == 201 && offered.guild_name == "TestGuild" &&
                    offered.actions ==
-                       std::vector<protocol::PlayerAction>{protocol::PlayerAction::ApplyGuild};
+                       std::vector<protocol::PlayerAction>{protocol::PlayerAction::ApplyGuild,
+                                                           protocol::PlayerAction::ChallengeDuel};
         }),
-                "ordinary member offers guild application without leader privilege");
+                "ordinary guild member offers a guild application and a duel invitation");
         player_action.action = protocol::PlayerAction::ApplyGuild;
         player_action.guild = offered.guild;
         player_action.expected_fee = offered.application_fee;
@@ -792,10 +794,12 @@ int main(int argc, char** argv) {
         require(pc.wait([&](auto type, const auto& bytes) {
             return type == static_cast<std::uint8_t>(protocol::S2C::PlayerOptions) &&
                    protocol::parse_player_options_state(bytes.data(), bytes.size(), offered) &&
-                   offered.request_id == 202 && offered.actions.empty() &&
+                   offered.request_id == 202 &&
+                   offered.actions ==
+                       std::vector<protocol::PlayerAction>{protocol::PlayerAction::ChallengeDuel} &&
                    offered.status.find("Application sent to TestGuild") == 0;
         }),
-                "application is confirmed and duplicate action disappears");
+                "application is confirmed and only the duel invitation remains available");
         platform::Json application_state;
         require(pg.load_guilds(application_state) &&
                     application_state.at("applications").array().size() == 1 &&
