@@ -12,6 +12,8 @@
 #include "openkal/server/GuildService.h"
 #include "test_util.h"
 
+#include <algorithm>
+
 namespace {
     using Json = openkal::platform::Json;
     using openkal::server::CastleWarActivity;
