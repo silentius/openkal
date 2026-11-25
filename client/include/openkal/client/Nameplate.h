@@ -130,9 +130,12 @@ namespace openkal::client {
         [[nodiscard]] static std::string debug_label(const std::string& label, std::int64_t index);
 
         /** Formats the player name without changing the stored identity.
-         * @param name Character name. @return Bracketed name, or empty for an empty name.
+         * @param name Character name.
+         * @param rank Visible Honor rank, or empty for the name alone.
+         * @return Nameplate text, or empty when the name is empty.
          */
-        [[nodiscard]] static std::string player_label(std::string_view name);
+        [[nodiscard]] static std::string player_label(std::string_view name,
+                                                      std::string_view rank = {});
 
         /** Formats the guild subtitle in title/name order.
          * @param title Current member title. @param guild Visible guild name.

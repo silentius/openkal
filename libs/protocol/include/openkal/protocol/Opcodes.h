@@ -136,6 +136,7 @@ namespace openkal::protocol {
         StorageMoney,           // OpenKal account storage balance.
         PvpStatus,              // OpenKal observer-specific PvP state.
         AssassinList,           // OpenKal Town Board snapshot.
+        HonorStatus,            // OpenKal personal Honor and Reward Points.
         End,
     };
 

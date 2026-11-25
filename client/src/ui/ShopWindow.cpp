@@ -81,6 +81,7 @@ namespace openkal::client {
     void ShopWindow::show(const protocol::ShopItemList& list) {
         sync_from_layout();
         m_npc_id = list.npc_id;
+        m_honor_shop = list.honor;
         m_offers.clear();
         std::copy_if(
             list.offers.begin(),
@@ -314,14 +315,18 @@ namespace openkal::client {
 
     UiVarMap ShopWindow::vars(const Bag& bag, const ItemDb& catalog) const {
         UiVarMap result;
-        result["shop.title"] = "Merchant Shop";
+        result["shop.honor"] = m_honor_shop ? "true" : "false";
+        result["shop.title"] = m_honor_shop ? "Honor Merchant" : "Merchant Shop";
         result["shop.inventory_label"] = "Inventory";
         result["shop.offers_label"] = "Merchant";
-        result["shop.money"] = money_text(bag.money);
-        result["shop.money_label"] = "Geon";
+        result["shop.money"] = money_text(m_honor_shop ? m_honor_status.reward_points : bag.money);
+        result["shop.money_label"] = m_honor_shop ? "Reward Points" : "Geon";
+        result["shop.honor_rank"] =
+            "Your rank: " + std::string(protocol::honor_rank_name(m_honor_status.rank));
         result["shop.selected_name"] = "Select an item";
         result["shop.selected_price"] = "";
-        result["shop.selection_hint"] = "CTRL: select multiple items";
+        result["shop.selection_hint"] =
+            m_honor_shop ? "Select an offer for rank and price." : "CTRL: select multiple items";
         result["shop.quantity"] = std::to_string(m_quantity);
         result["shop.quantity_open"] = m_quantity_kind == QuantityKind::None ? "false" : "true";
         result["shop.buy_quantity_open"] = m_quantity_kind == QuantityKind::Buy ? "true" : "false";
@@ -352,7 +357,7 @@ namespace openkal::client {
         }
         if (const ItemDef* def = selected_def(bag, catalog)) {
             result["shop.selected_name"] = def->name();
-            int price = 0;
+            std::int64_t price = 0;
             const char* verb = "Price";
             if (m_selected_side == Side::Inventory) {
                 price = def->sell();
@@ -360,7 +365,14 @@ namespace openkal::client {
             } else {
                 for (const protocol::ShopOffer& offer : m_offers) {
                     if (offer.index == m_selected_index) {
-                        price = static_cast<int>(offer.buy);
+                        price = offer.buy;
+                        if (m_honor_shop) {
+                            result["shop.selection_hint"] =
+                                offer.minimum_rank == protocol::HonorRank::Unranked
+                                    ? "Open to all ranks"
+                                    : "Required rank: " + std::string(protocol::honor_rank_name(
+                                                              offer.minimum_rank));
+                        }
                         break;
                     }
                 }
@@ -447,6 +459,9 @@ namespace openkal::client {
         }
 
         if (hit.kind() == UiHitKind::IconGridCell && hit.bind() == "shop.inventory") {
+            if (m_honor_shop) {
+                return ShopClickResult::Consumed;
+            }
             const auto slots = inventory_slots(bag, catalog);
             const int absolute = inventory_page(slots.size()) * kGridCapacity + hit.index();
             if (absolute >= 0 && absolute < static_cast<int>(slots.size()) &&
@@ -502,7 +517,8 @@ namespace openkal::client {
             m_quantity_max = protocol::kMaxShopBuyQuantity;
             m_quantity_typing_started = false;
             m_quantity_pristine = true;
-        } else if (hit.action() == "shop.sell" && m_selected_side == Side::Inventory) {
+        } else if (!m_honor_shop && hit.action() == "shop.sell" &&
+                   m_selected_side == Side::Inventory) {
             if (m_marked_inventory_iids.size() > 1) {
                 return queue_marked_sales(bag, catalog) ? ShopClickResult::Sell
                                                         : ShopClickResult::Consumed;

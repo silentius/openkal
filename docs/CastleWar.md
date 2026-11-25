@@ -66,8 +66,8 @@ enemy kills, then average participant level determine the castle lord.
   with the siege buff.
 - The event uses a persistent Castle Honor balance with award weights of
   500 per capture, 15 per kill, and 10 per activity point, subject to the JSON
-  caps. Honor-shop redemption and guild treasury payouts are outside the
-  implemented economy.
+  caps. The regular round credits the same points to the shared
+  [Honor system](Honor.md). Test simulations keep their own temporary results.
 - The common timing and balance settings are in the deployment JSON. The
   template includes an invitation expiry of one day and a five-second interval
   for persisting partial flag damage and scores.

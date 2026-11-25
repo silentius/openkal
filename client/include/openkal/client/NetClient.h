@@ -19,6 +19,7 @@
 #include "openkal/protocol/CreatePlayer.h"
 #include "openkal/protocol/Emote.h"
 #include "openkal/protocol/ExpEventState.h"
+#include "openkal/protocol/Honor.h"
 #include "openkal/protocol/Guild.h"
 #include "openkal/protocol/InsertItem.h"
 #include "openkal/protocol/ItemInfo.h"
@@ -1098,6 +1099,11 @@ namespace openkal::client {
          */
         const std::optional<protocol::ExpEventStateFields>& exp_event_state() const {
             return m_exp_event_state;
+        }
+
+        /** @return Latest Honor snapshot for the connected character, if received. */
+        [[nodiscard]] const std::optional<protocol::HonorStatus>& honor_status() const {
+            return m_honor_status;
         }
 
         /**
@@ -2293,6 +2299,9 @@ namespace openkal::client {
 
         /** Latest event snapshot; absent until the server sends one. */
         std::optional<protocol::ExpEventStateFields> m_exp_event_state;
+
+        /** Personal Honor snapshot for this session. */
+        std::optional<protocol::HonorStatus> m_honor_status;
         /** Authoritative time extrapolated for the current connection only. */
         ServerClock m_server_clock;
 

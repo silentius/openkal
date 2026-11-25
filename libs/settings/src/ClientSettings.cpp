@@ -365,6 +365,9 @@ namespace openkal::settings {
         if (const auto value = parse_bool(document, "client.misc.clock_enabled", result.warnings)) {
             result.settings.clock_enabled = *value;
         }
+        if (const auto value = parse_bool(document, "client.misc.show_own_name", result.warnings)) {
+            result.settings.show_own_name = *value;
+        }
         auto corrections = validate_client_settings(result.settings);
         result.warnings.insert(result.warnings.end(), corrections.begin(), corrections.end());
 
@@ -437,6 +440,7 @@ namespace openkal::settings {
         document.set("client.misc.clock_enabled", settings.clock_enabled ? "1" : "0");
         document.set("client.misc.ignore_party_requests",
                      settings.ignore_party_requests ? "1" : "0");
+        document.set("client.misc.show_own_name", settings.show_own_name ? "1" : "0");
         document.set("client.settings_version", std::to_string(settings.version));
         document.set("client.display.mode", std::string(to_string(settings.display.mode)));
         document.set("client.display.width", std::to_string(settings.display.width));

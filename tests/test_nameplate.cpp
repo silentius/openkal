@@ -118,7 +118,11 @@ int main() {
            "debug label includes index");
     expect(Nameplate::debug_label("", 42).empty(), "empty debug label stays empty");
     expect(Nameplate::player_label("Hero") == "[Hero]", "player name uses brackets");
+    expect(Nameplate::player_label("Hero", "Corporal") == "Corporal [Hero]",
+           "Honor rank appears before the player name");
     expect(Nameplate::player_label("").empty(), "missing player name creates no empty brackets");
+    expect(Nameplate::player_label("", "Corporal").empty(),
+           "Honor rank alone does not create a nameplate");
     expect(Nameplate::guild_label("Leader", "OpenKal") == "Leader OpenKal",
            "guild subtitle places the current title before the guild");
     expect(Nameplate::guild_label("Official Member", "OpenKal") == "Official Member OpenKal",

@@ -1,0 +1,11 @@
+{
+  "id": 990340,
+  "caption": "Honor Merchant",
+  "lines": [
+    "Spend your Reward Points here. Some offers require an Honor rank. Use Honor Coupons from your inventory to add Reward Points."
+  ],
+  "links": [
+    {"type": "shop", "text": "Browse Honor rewards."},
+    {"type": "close", "text": "End conversation."}
+  ]
+}

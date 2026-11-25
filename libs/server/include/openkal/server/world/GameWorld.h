@@ -209,6 +209,8 @@ namespace openkal::server {
 
         /** True when item definition (use 1). */
         bool usable = false;
+        /** Reward Points granted by using one Honor Coupon. */
+        int honor_reward_points = 0;
 
         /** HP restored when specialty.refresh stat is hp. */
         int refresh_hp = 0;

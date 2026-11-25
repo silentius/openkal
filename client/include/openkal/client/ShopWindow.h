@@ -56,6 +56,13 @@ namespace openkal::client {
             m_layout = layout;
         }
 
+        /** Updates the character's currency and rank for an Honor merchant.
+         * @param status Latest server snapshot.
+         */
+        void set_honor_status(const protocol::HonorStatus& status) {
+            m_honor_status = status;
+        }
+
         /** Applies window geometry from the bound layout. */
         void sync_from_layout();
 
@@ -213,6 +220,8 @@ namespace openkal::client {
         const UiLayout* m_layout = nullptr;
         mutable UiDocument m_v1;
         std::uint32_t m_npc_id = 0;
+        bool m_honor_shop = false;
+        protocol::HonorStatus m_honor_status;
         std::vector<protocol::ShopOffer> m_offers;
         Side m_selected_side = Side::None;
         std::uint32_t m_selected_iid = 0;

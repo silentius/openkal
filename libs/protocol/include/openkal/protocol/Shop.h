@@ -9,6 +9,8 @@
  */
 #pragma once
 
+#include "openkal/protocol/Honor.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -24,6 +26,8 @@ namespace openkal::protocol {
         std::uint16_t index = 0;
         /** Unit purchase price. */
         std::uint32_t buy = 0;
+        /** Required Honor rank for a Reward Points purchase. */
+        HonorRank minimum_rank = HonorRank::Unranked;
     };
 
     /** Item list returned for an NPC shop. */
@@ -34,6 +38,8 @@ namespace openkal::protocol {
         std::vector<ShopOffer> offers;
         /** Currency item definition, or zero for Zamogeon. */
         std::uint16_t currency_index = 0;
+        /** Whether offer prices are denominated in Reward Points. */
+        bool honor = false;
     };
 
     /** Encodes and decodes NPC shop packets. */

@@ -15,6 +15,7 @@
 #include "openkal/protocol/TradingPost.h"
 #include "openkal/server/BattleRiding.h"
 #include "openkal/server/Config.h"
+#include "openkal/server/Honor.h"
 #include "openkal/server/InventoryUnlock.h"
 #include "openkal/server/PayBuff.h"
 #include "openkal/server/UserRoles.h"
@@ -433,6 +434,57 @@ namespace openkal::server {
             return nullptr;
         }
 
+        /** Loads a character's Honor, weekly score, Reward Points and assigned rank.
+         * @param character_id Persistent character identifier.
+         * @param week_start Start of the current Honor week.
+         * @return Snapshot, or no value on a read failure.
+         */
+        [[nodiscard]] virtual std::optional<protocol::HonorStatus>
+        load_honor(std::int32_t character_id, std::int64_t week_start) = 0;
+
+        /** Books server-generated awards as one replay-safe transaction.
+         * @param awards Awards from a completed event or event milestone.
+         * @return True when every award was recorded or replayed with identical values.
+         */
+        [[nodiscard]] virtual bool grant_honor(const std::vector<HonorGrant>& awards) {
+            return awards.empty();
+        }
+
+        /** Publishes the rank assignment for the current week from awards before its start.
+         * @param week_start Start of the current Honor week.
+         * @return True when the week is ready or the backend has no shared ranking.
+         */
+        [[nodiscard]] virtual bool close_honor_week(std::int64_t week_start) {
+            return week_start > 0;
+        }
+
+        /** @return In-process version of committed Honor changes for refreshing online players. */
+        [[nodiscard]] virtual std::uint64_t honor_revision() const {
+            return 0;
+        }
+
+        /** Changes single-player Honor, clamping the result to the supported balance range.
+         * @param character_id Persistent character identifier.
+         * @param delta Signed amount to add to the local balance.
+         * @param week_start Start of the current Honor week.
+         * @return New balance, or no value on a write failure.
+         */
+        [[nodiscard]] virtual std::optional<std::int64_t>
+        adjust_local_honor(std::int32_t, std::int64_t, std::int64_t) {
+            return std::nullopt;
+        }
+
+        /** Commits the item changes and Reward Point movement together.
+         * @param exchange Character, amount, current Honor week and required rank.
+         * @param expected Inventory rows to consume or replace, matched by owner and count.
+         * @param replacements Inventory rows to write after the exchange.
+         * @return Transaction outcome. Rejections leave both the wallet and inventory intact.
+         */
+        [[nodiscard]] virtual HonorExchangeResult
+        exchange_honor_rewards(const HonorRewardExchange& exchange,
+                               const std::vector<ItemRecord>& expected,
+                               const std::vector<ItemRecord>& replacements) = 0;
+
         /** Creates a persistence implementation.
          * @param backend Persistence backend.
          * @return Store instance, or nullptr when unsupported.
@@ -837,6 +889,25 @@ namespace openkal::server {
         /** Closes the database. */
         void close() override;
 
+        /** @copydoc IDataStore::load_honor */
+        [[nodiscard]] std::optional<protocol::HonorStatus>
+        load_honor(std::int32_t character_id, std::int64_t week_start) override;
+
+        /** @copydoc IDataStore::exchange_honor_rewards */
+        [[nodiscard]] HonorExchangeResult
+        exchange_honor_rewards(const HonorRewardExchange& exchange,
+                               const std::vector<ItemRecord>& expected,
+                               const std::vector<ItemRecord>& replacements) override;
+
+        /** @copydoc IDataStore::honor_revision */
+        [[nodiscard]] std::uint64_t honor_revision() const override {
+            return m_honor_revision;
+        }
+
+        /** @copydoc IDataStore::adjust_local_honor */
+        [[nodiscard]] std::optional<std::int64_t> adjust_local_honor(
+            std::int32_t character_id, std::int64_t delta, std::int64_t week_start) override;
+
         /** Finds an account by name. */
         [[nodiscard]] std::optional<AccountRecord> find_account(const std::string& name) override;
 
@@ -1039,6 +1110,12 @@ namespace openkal::server {
 
         /** SQLite connection and path. */
         std::unique_ptr<Impl> m_impl;
+
+        /** Writes an inventory delta inside the caller's transaction. */
+        [[nodiscard]] bool replace_inventory_rows(std::int32_t owner,
+                                                  const std::vector<ItemRecord>& expected,
+                                                  const std::vector<ItemRecord>& replacements);
+        std::uint64_t m_honor_revision = 0;
     };
 
 }  // namespace openkal::server

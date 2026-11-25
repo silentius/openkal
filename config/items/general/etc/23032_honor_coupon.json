@@ -1,0 +1,14 @@
+{
+  "index": 23032,
+  "name": "Honor Coupon",
+  "image": "skinTicket",
+  "class": ["general", "etc"],
+  "buy": 0,
+  "sell": 0,
+  "use": 1,
+  "stackable": 1,
+  "description": "Use to add 1,000 Reward Points to your character's balance.",
+  "specialty": {
+    "honor_reward_points": 1000
+  }
+}

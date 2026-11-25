@@ -409,6 +409,7 @@ void MainWindow::apply_preset(int index) {
     settings.display = collect_settings().display;
     settings.audio = collect_settings().audio;
     settings.ignore_party_requests = m_settings.ignore_party_requests;
+    settings.show_own_name = m_settings.show_own_name;
     m_settings = settings;
     show_settings(m_settings);
 }

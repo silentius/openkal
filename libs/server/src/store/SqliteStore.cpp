@@ -1800,11 +1800,121 @@ INSERT INTO schema_version(version) VALUES(28);
             !apply_schema_v21(db) || !apply_schema_v22(db) || !apply_schema_v23(db) ||
             !apply_schema_v24(db) || !apply_schema_v25(db) || !apply_schema_v26(db) ||
             !apply_schema_v27(db) || !apply_schema_v28(db) || !apply_schema_v29(db) ||
-            !apply_schema_v30(db)) {
+            !apply_schema_v30(db) || !m_impl->exec(R"SQL(
+CREATE TABLE IF NOT EXISTS local_honor (
+  character_id INTEGER PRIMARY KEY REFERENCES characters(id) ON DELETE CASCADE,
+  points INTEGER NOT NULL CHECK(points >= 0),
+  week_start INTEGER NOT NULL,
+  week_points INTEGER NOT NULL CHECK(week_points BETWEEN 0 AND points)
+);
+CREATE TABLE IF NOT EXISTS honor_reward_wallet (
+  character_id INTEGER PRIMARY KEY REFERENCES characters(id) ON DELETE CASCADE,
+  points INTEGER NOT NULL CHECK(points BETWEEN 0 AND 999999999999999)
+);
+INSERT OR IGNORE INTO schema_version(version) VALUES(31),(32);
+)SQL")) {
             close();
             return false;
         }
         return true;
+    }
+
+    std::optional<protocol::HonorStatus> SqliteStore::load_honor(std::int32_t character_id,
+                                                                 std::int64_t week_start) {
+        if (!m_impl || !m_impl->db || character_id <= 0) {
+            return std::nullopt;
+        }
+        std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)> stmt(m_impl->prepare(R"SQL(
+SELECT COALESCE(local_honor.points,0),
+       CASE WHEN week_start=?2 THEN week_points ELSE 0 END,
+       COALESCE(honor_reward_wallet.points,0)
+FROM (SELECT ?1 AS id) AS player
+LEFT JOIN local_honor ON local_honor.character_id=player.id
+LEFT JOIN honor_reward_wallet ON honor_reward_wallet.character_id=player.id
+)SQL"),
+                                                                        sqlite3_finalize);
+        if (!stmt || sqlite3_bind_int(stmt.get(), 1, character_id) != SQLITE_OK ||
+            sqlite3_bind_int64(stmt.get(), 2, week_start) != SQLITE_OK) {
+            return std::nullopt;
+        }
+        if (sqlite3_step(stmt.get()) != SQLITE_ROW) {
+            return std::nullopt;
+        }
+        const auto points = sqlite3_column_int64(stmt.get(), 0);
+        return protocol::HonorStatus{points,
+                                     sqlite3_column_int64(stmt.get(), 1),
+                                     sqlite3_column_int64(stmt.get(), 2),
+                                     HonorRanks::local_rank(points)};
+    }
+
+    HonorExchangeResult
+    SqliteStore::exchange_honor_rewards(const HonorRewardExchange& exchange,
+                                        const std::vector<ItemRecord>& expected,
+                                        const std::vector<ItemRecord>& replacements) {
+        using Result = HonorExchangeResult;
+        if (!m_impl || !m_impl->db || !valid_honor_exchange(exchange) ||
+            (expected.empty() && replacements.empty()) || !m_impl->exec("BEGIN IMMEDIATE")) {
+            return Result::Failed;
+        }
+        const auto rollback = [&](Result result) {
+            (void) m_impl->exec("ROLLBACK");
+            return result;
+        };
+        const auto owner = exchange.character_id;
+        const auto status = load_honor(owner, exchange.week_start);
+        if (!status) {
+            return rollback(Result::Failed);
+        }
+        const auto allowed = check_honor_exchange(*status, exchange);
+        if (allowed != Result::Committed) {
+            return rollback(allowed);
+        }
+        std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)> update(
+            m_impl->prepare("INSERT INTO honor_reward_wallet(character_id,points) VALUES(?,?) "
+                            "ON CONFLICT(character_id) DO UPDATE SET points=excluded.points"),
+            sqlite3_finalize);
+        if (!update || sqlite3_bind_int(update.get(), 1, owner) != SQLITE_OK ||
+            sqlite3_bind_int64(update.get(), 2, status->reward_points + exchange.delta) !=
+                SQLITE_OK ||
+            sqlite3_step(update.get()) != SQLITE_DONE ||
+            !replace_inventory_rows(owner, expected, replacements) || !m_impl->exec("COMMIT")) {
+            return rollback(Result::Failed);
+        }
+        ++m_honor_revision;
+        return Result::Committed;
+    }
+
+    std::optional<std::int64_t> SqliteStore::adjust_local_honor(std::int32_t character_id,
+                                                                std::int64_t delta,
+                                                                std::int64_t week_start) {
+        if (!m_impl || !m_impl->db || character_id <= 0 || !m_impl->exec("BEGIN IMMEDIATE")) {
+            return std::nullopt;
+        }
+        constexpr auto cap = protocol::kMaxHonorPoints;
+        std::unique_ptr<sqlite3_stmt, decltype(&sqlite3_finalize)> stmt(m_impl->prepare(R"SQL(
+INSERT INTO local_honor(character_id, points, week_start, week_points)
+VALUES(?1, MAX(0, ?2), ?3, MAX(0, ?2))
+ON CONFLICT(character_id) DO UPDATE SET
+  points=MAX(0, MIN(?4, points+?2)),
+  week_points=MAX(0, MIN(?4, points+?2,
+                      (CASE WHEN week_start=?3 THEN week_points ELSE 0 END)+?2)),
+  week_start=?3
+)SQL"),
+                                                                        sqlite3_finalize);
+        if (!stmt || sqlite3_bind_int(stmt.get(), 1, character_id) != SQLITE_OK ||
+            sqlite3_bind_int64(stmt.get(), 2, std::clamp(delta, -cap, cap)) != SQLITE_OK ||
+            sqlite3_bind_int64(stmt.get(), 3, week_start) != SQLITE_OK ||
+            sqlite3_bind_int64(stmt.get(), 4, cap) != SQLITE_OK ||
+            sqlite3_step(stmt.get()) != SQLITE_DONE) {
+            (void) m_impl->exec("ROLLBACK");
+            return std::nullopt;
+        }
+        const auto updated = load_honor(character_id, week_start);
+        if (!updated || !m_impl->exec("COMMIT")) {
+            (void) m_impl->exec("ROLLBACK");
+            return std::nullopt;
+        }
+        return updated->honor_points;
     }
 
     void SqliteStore::close() {
@@ -2604,27 +2714,30 @@ INSERT INTO schema_version(version) VALUES(28);
 
     bool SqliteStore::exchange_inventory_items(const std::vector<ItemRecord>& expected,
                                                const std::vector<ItemRecord>& replacements) {
-        if (!m_impl || !m_impl->db || replacements.empty() || !m_impl->exec("BEGIN IMMEDIATE")) {
+        if (!m_impl || !m_impl->db || replacements.empty() ||
+            replacements.front().character_id <= 0 || !m_impl->exec("BEGIN IMMEDIATE")) {
             return false;
         }
-        const auto rollback = [&] {
+        if (!replace_inventory_rows(replacements.front().character_id, expected, replacements) ||
+            !m_impl->exec("COMMIT")) {
             (void) m_impl->exec("ROLLBACK");
             return false;
-        };
-        const auto owner = replacements.front().character_id;
-        if (owner <= 0) {
-            return rollback();
         }
+        return true;
+    }
+
+    bool SqliteStore::replace_inventory_rows(std::int32_t owner,
+                                             const std::vector<ItemRecord>& expected,
+                                             const std::vector<ItemRecord>& replacements) {
         for (const auto& item : expected) {
-            if (item.iid <= 0 || owner <= 0 || item.character_id != owner || item.slot != 0 ||
-                item.count <= 0) {
-                return rollback();
+            if (item.iid <= 0 || item.character_id != owner || item.slot != 0 || item.count <= 0) {
+                return false;
             }
             auto statement =
                 m_impl->prepare("DELETE FROM items WHERE iid=? AND character_id=? AND item_index=? "
                                 "AND count=? AND slot=0");
             if (!statement) {
-                return rollback();
+                return false;
             }
             sqlite3_bind_int(statement, 1, item.iid);
             sqlite3_bind_int(statement, 2, owner);
@@ -2634,28 +2747,25 @@ INSERT INTO schema_version(version) VALUES(28);
                 sqlite3_step(statement) == SQLITE_DONE && sqlite3_changes(m_impl->db) == 1;
             sqlite3_finalize(statement);
             if (!removed) {
-                return rollback();
+                return false;
             }
         }
         for (const auto& item : replacements) {
             if (item.iid <= 0 || item.character_id != owner || item.slot != 0 || item.index <= 0 ||
                 item.count <= 0) {
-                return rollback();
+                return false;
             }
             // insert_item supports upserts; never overwrite an unrelated existing instance.
             auto statement = m_impl->prepare("SELECT 1 FROM items WHERE iid=?");
             if (!statement) {
-                return rollback();
+                return false;
             }
             sqlite3_bind_int(statement, 1, item.iid);
             const int result = sqlite3_step(statement);
             sqlite3_finalize(statement);
             if (result != SQLITE_DONE || !insert_item(item)) {
-                return rollback();
+                return false;
             }
-        }
-        if (!m_impl->exec("COMMIT")) {
-            return rollback();
         }
         return true;
     }

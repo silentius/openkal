@@ -533,6 +533,10 @@ namespace openkal::client {
     }
 
     void ui_fill_dummy_preview(UiVarMap& vars) {
+        vars["honor.rank"] = "Sergeant";
+        vars["honor.points"] = "23150";
+        vars["honor.weekly_points"] = "3000";
+        vars["honor.reward_points"] = "1500";
         vars["trading_post.buy"] = "false";
         vars["trading_post.filters"] = "true";
         vars["trading_post.collection"] = "false";
@@ -1041,6 +1045,8 @@ namespace openkal::client {
         }
         vars["settings.clock_label"] = "Show server clock";
         vars["settings.clock_checked"] = "X";
+        vars["settings.show_own_name_label"] = "Show own name";
+        vars["settings.show_own_name_checked"] = "X";
         vars["settings.misc_heading"] = "Misc";
         vars["settings.ignore_party_label"] = "Ignore party invitations";
         vars["settings.ignore_party"] = "Off";
@@ -1489,6 +1495,8 @@ namespace openkal::client {
         vars["blacksmith.revise_label"] = "Revise chance";
         vars["blacksmith.upgrade_label"] = "Apply Explosive Blow";
         vars["shop.title"] = "Merchant Shop";
+        vars["shop.honor"] = "false";
+        vars["shop.honor_rank"] = "Your rank: Sergeant";
         vars["shop.inventory_label"] = "Inventory";
         vars["shop.offers_label"] = "Merchant";
         vars["shop.money"] = "12345";

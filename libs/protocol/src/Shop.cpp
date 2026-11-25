@@ -14,6 +14,7 @@
 #include "openkal/protocol/PacketWriter.h"
 
 #include <limits>
+#include <utility>
 
 namespace openkal::protocol {
 
@@ -31,7 +32,8 @@ namespace openkal::protocol {
     }
 
     std::vector<std::uint8_t> Shop::frame_item_list_s2c(const ShopItemList& list) {
-        if (list.offers.size() > std::numeric_limits<std::uint16_t>::max()) {
+        if (list.offers.size() > std::numeric_limits<std::uint16_t>::max() ||
+            (list.honor && list.currency_index != 0)) {
             return {};
         }
         PacketWriter writer;
@@ -41,7 +43,14 @@ namespace openkal::protocol {
             writer.write_u16(offer.index);
             writer.write_u32(offer.buy);
         }
-        if (list.currency_index != 0) {
+        if (list.honor) {
+            // Reserve a distinct trailer size from the two-byte item currency.
+            writer.write_u16(0);
+            writer.write_u8(1);
+            for (const auto& offer : list.offers) {
+                writer.write_u8(static_cast<std::uint8_t>(offer.minimum_rank));
+            }
+        } else if (list.currency_index != 0) {
             writer.write_u16(list.currency_index);
         }
         return writer.frame(static_cast<std::uint8_t>(S2C::ItemList));
@@ -53,25 +62,42 @@ namespace openkal::protocol {
         }
         PacketReader reader(data, size);
         std::uint16_t count = 0;
-        if (!reader.read_u32(out.npc_id) || !reader.read_u16(count) ||
-            (size != 6u + count * 6u && size != 8u + count * 6u)) {
+        ShopItemList list;
+        if (!reader.read_u32(list.npc_id) || !reader.read_u16(count)) {
             return false;
         }
-        out.currency_index = 0;
-        out.offers.clear();
-        out.offers.reserve(count);
+        const auto base_size = 6u + count * 6u;
+        list.honor = size == base_size + 3u + count;
+        if (size != base_size && size != base_size + 2u && !list.honor) {
+            return false;
+        }
+        list.offers.reserve(count);
         for (std::uint16_t i = 0; i < count; ++i) {
             ShopOffer offer;
             if (!reader.read_u16(offer.index) || !reader.read_u32(offer.buy)) {
-                out.offers.clear();
                 return false;
             }
-            out.offers.push_back(offer);
+            list.offers.push_back(offer);
         }
-        if (size == 8u + count * 6u &&
-            (!reader.read_u16(out.currency_index) || out.currency_index == 0)) {
+        if (list.honor) {
+            std::uint8_t mode = 0;
+            if (!reader.read_u16(list.currency_index) || list.currency_index != 0 ||
+                !reader.read_u8(mode) || mode != 1) {
+                return false;
+            }
+            for (auto& offer : list.offers) {
+                std::uint8_t rank = 0;
+                if (!reader.read_u8(rank) || rank > static_cast<std::uint8_t>(HonorRank::General) ||
+                    offer.index == 0 || offer.buy == 0) {
+                    return false;
+                }
+                offer.minimum_rank = static_cast<HonorRank>(rank);
+            }
+        } else if (size == base_size + 2u &&
+                   (!reader.read_u16(list.currency_index) || list.currency_index == 0)) {
             return false;
         }
+        out = std::move(list);
         return true;
     }
 

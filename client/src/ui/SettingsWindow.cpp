@@ -170,6 +170,10 @@ namespace openkal::client {
             m_settings.clock_enabled = !m_settings.clock_enabled;
             return SettingsWindowAction::Consumed;
         }
+        if (action == "settings.misc.show_own_name") {
+            m_settings.show_own_name = !m_settings.show_own_name;
+            return SettingsWindowAction::Consumed;
+        }
         if (action == "settings.misc.ignore_party") {
             m_settings.ignore_party_requests = !m_settings.ignore_party_requests;
             return SettingsWindowAction::Consumed;
@@ -216,16 +220,11 @@ namespace openkal::client {
             }
             preset += action.find(".next") != std::string::npos ? 1 : -1;
             preset = (preset + 4) % 4;
-            const auto display = m_settings.display;
-            const auto audio = m_settings.audio;
-            const bool ignore_party = m_settings.ignore_party_requests;
-            const bool clock_enabled = m_settings.clock_enabled;
-            m_settings =
+            const auto quality =
                 settings::settings_for_preset(static_cast<settings::QualityPreset>(preset));
-            m_settings.display = display;
-            m_settings.audio = audio;
-            m_settings.ignore_party_requests = ignore_party;
-            m_settings.clock_enabled = clock_enabled;
+            m_settings.preset = quality.preset;
+            m_settings.world = quality.world;
+            m_settings.render = quality.render;
         } else if (action == "settings.bgm.toggle") {
             m_settings.audio.bgm_enabled = !m_settings.audio.bgm_enabled;
         } else if (action == "settings.listener_follows_camera.toggle") {
@@ -400,6 +399,8 @@ namespace openkal::client {
         vars["settings.misc_heading"] = "Misc";
         vars["settings.clock_label"] = "Show server clock";
         vars["settings.clock_checked"] = m_settings.clock_enabled ? "X" : "";
+        vars["settings.show_own_name_label"] = "Show own name";
+        vars["settings.show_own_name_checked"] = m_settings.show_own_name ? "X" : "";
         vars["settings.ignore_party_label"] = "Ignore party invitations";
         vars["settings.ignore_party"] = m_settings.ignore_party_requests ? "On" : "Off";
         vars["settings.battle_heading"] = "Battle messages";

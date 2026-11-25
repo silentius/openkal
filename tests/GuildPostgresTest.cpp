@@ -21,6 +21,102 @@ using namespace openkal;
 using test::expect;
 
 namespace {
+    void honor_store_test(server::PostgresStore& db, const std::string& dsn) {
+        const auto week = server::honor_week_start(1'800'000'000);
+        platform::Json state;
+        expect(db.load_castle_war(state), "load Castle War state for Honor migration");
+        state.object()["revision"].set_number(3);
+        state.object()["honor"] = platform::Json::parse("[[1, 12000], [77, 923], [2, 4000]]");
+        expect(db.commit_castle_war(2, state) &&
+                   db.execute("UPDATE openkal_schema_version SET version=7"),
+               "prepare two legacy Honor balances and one purged character");
+        server::PostgresStore reopened;
+        expect(reopened.open(dsn), "migrate the old Castle Honor state");
+        const auto legacy = reopened.load_honor(1, week);
+        expect(legacy && legacy->honor_points == 12000 && legacy->weekly_honor == 0 &&
+                   legacy->reward_points == 0,
+               "legacy Honor lands in lifetime points only");
+
+        const server::HonorGrant castle{
+            "castle_war", "round-4", "settlement", 1, week + 50, 8000, 0};
+        const server::HonorGrant festival{
+            "festival", "autumn-1", "completion", 1, week + 51, 0, 1000};
+        auto inconsistent = festival;
+        inconsistent.reward_points = 2000;
+        state.object()["revision"].set_number(4);
+        expect(reopened.grant_honor({festival}) && reopened.grant_honor({festival}) &&
+                   !reopened.commit_castle_war(3, state, {castle, inconsistent}),
+               "an identical retry succeeds and a conflicting replay rolls back the entire round");
+        const auto failed = reopened.load_honor(1, week);
+        expect(failed && failed->honor_points == 12000 && failed->reward_points == 1000,
+               "rollback preserves the independent event award");
+        expect(reopened.commit_castle_war(3, state, {castle}) &&
+                   !reopened.commit_castle_war(3, state, {castle}),
+               "the round and Honor commit together once");
+        expect(reopened.execute("DELETE FROM honor_reward_wallet; "
+                                "UPDATE openkal_schema_version SET version=8") &&
+                   db.open(dsn) && db.close_honor_week(week),
+               "migrate the previous Reward Point ledger balance into the new wallet");
+        const auto earned = db.load_honor(1, week);
+        expect(earned && earned->honor_points == 20000 && earned->weekly_honor == 8000 &&
+                   earned->reward_points == 1000 && earned->rank == protocol::HonorRank::Specialist,
+               "the first weekly rank uses Honor earned before its cutoff");
+
+        const server::HonorGrant first{"test", "1", "win", 1, week + 52, 120000, 0};
+        const server::HonorGrant second{"test", "1", "win", 2, week + 52, 135000, 0};
+        const auto next = week + server::kHonorWeekSeconds;
+        expect(db.grant_honor({first, second}) && db.close_honor_week(next) &&
+                   db.close_honor_week(next),
+               "publish the next week once after both characters pass General's threshold");
+        const auto general = db.load_honor(1, next);
+        const auto colonel = db.load_honor(2, next);
+        expect(general && colonel && general->rank == protocol::HonorRank::General &&
+                   colonel->rank == protocol::HonorRank::Colonel && general->weekly_honor == 0 &&
+                   general->reward_points == 1000,
+               "the sole General place goes to the highest score and wallets stay independent");
+
+        using ExchangeResult = server::HonorExchangeResult;
+        server::ItemRecord coupon;
+        coupon.iid = 1001;
+        coupon.index = 23032;
+        coupon.character_id = 1;
+        coupon.count = 2;
+        expect(db.insert_item(coupon), "seed a PostgreSQL coupon stack");
+        auto remainder = coupon;
+        --remainder.count;
+        const server::HonorRewardExchange redeem{1, next, 500};
+        expect(
+            db.exchange_honor_rewards(redeem, {coupon}, {remainder}) == ExchangeResult::Committed &&
+                db.exchange_honor_rewards(redeem, {coupon}, {remainder}) == ExchangeResult::Failed,
+            "coupon credit and stack removal are atomic even with a stale inventory update");
+        auto reward = remainder;
+        reward.iid = 1002;
+        reward.index = 9002;
+        const server::HonorRewardExchange buy{1, next, -900, protocol::HonorRank::General};
+        expect(reopened.open(dsn), "open a second connection to the migrated wallet");
+        auto wrong_week = buy;
+        wrong_week.week_start = week;
+        expect(db.exchange_honor_rewards(wrong_week, {}, {reward}) == ExchangeResult::RankTooLow,
+               "a lower or stale rank cannot purchase a General offer");
+        auto alternate = reward;
+        alternate.iid = 1003;
+        auto first_buy = std::async(std::launch::async,
+                                    [&] { return db.exchange_honor_rewards(buy, {}, {reward}); });
+        auto second_buy = std::async(std::launch::async, [&] {
+            return reopened.exchange_honor_rewards(buy, {}, {alternate});
+        });
+        const auto a = first_buy.get();
+        const auto b = second_buy.get();
+        expect((a == ExchangeResult::Committed && b == ExchangeResult::InsufficientPoints) ||
+                   (b == ExchangeResult::Committed && a == ExchangeResult::InsufficientPoints),
+               "parallel purchases serialize against one Reward Points balance");
+        const auto after_exchange = db.load_honor(1, next);
+        const auto inventory = db.load_items(1);
+        expect(after_exchange && after_exchange->honor_points == 140000 &&
+                   after_exchange->reward_points == 600 && inventory.size() == 2,
+               "one reward and one remaining coupon persist after one debit");
+    }
+
     void castle_war_store_test(server::PostgresStore& db,
                                server::PostgresStore& second,
                                const std::string& dsn) {
@@ -115,6 +211,7 @@ int main() {
         other.name = "FounderTwo";
         expect(db.save_character(first) && db.save_character(other),
                "seed isolated guild founders");
+        honor_store_test(db, dsn);
         server::GuildRules rules;
         std::string error;
         expect(rules.parse(platform::Json::parse(R"({"creation":{"fee_zamogeon":100}})"), error),

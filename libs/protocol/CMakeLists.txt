@@ -13,6 +13,7 @@ add_library(openkal_protocol
   src/Effect.cpp
   src/Emote.cpp
   src/ExpEventState.cpp
+  src/Honor.cpp
   src/FrameDrain.cpp
   src/EnchantItem.cpp
   src/GetItemId.cpp

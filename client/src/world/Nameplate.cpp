@@ -128,8 +128,12 @@ namespace openkal::client {
         return label + " [Index: " + std::to_string(index) + "]";
     }
 
-    std::string Nameplate::player_label(std::string_view name) {
-        return name.empty() ? std::string{} : "[" + std::string(name) + "]";
+    std::string Nameplate::player_label(std::string_view name, std::string_view rank) {
+        if (name.empty()) {
+            return {};
+        }
+        const std::string label = "[" + std::string(name) + "]";
+        return rank.empty() ? label : std::string(rank) + " " + label;
     }
 
     std::string Nameplate::guild_label(std::string_view title, std::string_view guild) {
