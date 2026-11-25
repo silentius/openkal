@@ -15,6 +15,8 @@
 #include "openkal/platform/Path.h"
 
 #include <algorithm>
+#include <cmath>
+#include <limits>
 #include <unordered_set>
 
 namespace openkal::server {
@@ -22,6 +24,41 @@ namespace openkal::server {
 
         [[nodiscard]] bool is_json_path(const std::string& path) {
             return path.size() >= 5 && path.compare(path.size() - 5, 5, ".json") == 0;
+        }
+
+        bool load_honor_offers(const platform::Json& offers,
+                               const std::unordered_map<int, ItemCombatDef>& item_defs,
+                               ShopDefinition& shop) {
+            if (!offers.is_array() || offers.array().empty() || offers.array().size() > 1024) {
+                return false;
+            }
+            const auto read_integer = [](const platform::Json& node, double min, double max) {
+                const auto number = node.number();
+                return node.is_number() && number >= min && number <= max &&
+                       number == std::floor(number);
+            };
+            for (const auto& offer : offers.array()) {
+                const auto& index = offer.at("itemIndex");
+                const auto& price = offer.at("rewardPoints");
+                const auto& rank = offer.at("minRank");
+                if (!read_integer(index, 1, std::numeric_limits<std::uint16_t>::max()) ||
+                    !read_integer(price, 1, std::numeric_limits<std::uint32_t>::max()) ||
+                    !read_integer(rank, 0, static_cast<int>(protocol::HonorRank::General))) {
+                    return false;
+                }
+                const auto item = item_defs.find(index.as_int());
+                if (item == item_defs.end() || item->first == kMoneyItemIndex ||
+                    item->second.is_task || item->second.honor_reward_points > 0 ||
+                    !shop.honor_prices
+                         .emplace(item->first,
+                                  HonorShopPrice{static_cast<std::uint32_t>(price.number()),
+                                                 static_cast<protocol::HonorRank>(rank.as_int())})
+                         .second) {
+                    return false;
+                }
+                shop.items.push_back(item->first);
+            }
+            return true;
         }
 
     }  // namespace
@@ -64,6 +101,17 @@ namespace openkal::server {
             shop.legacy_store_id = root.at("legacyStoreId").as_int(0);
             shop.currency_item = root.at("currencyItem").as_int();
             shop.skin_catalog = root.at("skinCatalog").boolean();
+            if (const auto* offers = root.get("honorOffers")) {
+                if (shop.npc_index <= 0 || m_shops.count(shop.npc_index) || shop.skin_catalog ||
+                    shop.currency_item != 0 || root.get("items") ||
+                    !load_honor_offers(*offers, item_defs, shop)) {
+                    log::warn("ShopCatalog: invalid Honor offers in " + path);
+                    valid = false;
+                    continue;
+                }
+                m_shops.emplace(shop.npc_index, std::move(shop));
+                continue;
+            }
             if (shop.skin_catalog) {
                 const int full_price = root.at("fullBodyPrice").as_int();
                 const int part_price = root.at("itemPrice").as_int();

@@ -641,11 +641,23 @@ namespace openkal::client {
         }
 
         /** @return True if right-click should consume this stack (teleport / HP / MP / buff /
-         * revival / Riding Cache / Essence Box). */
+         * revival / Riding Cache / Essence Box / Honor Coupon). */
         [[nodiscard]] bool is_consumable() const {
             return m_teleport_loc >= 0 || m_refresh_hp > 0 || m_refresh_mp > 0 ||
                    m_buff_type >= 0 || m_revival_extra_cut >= 0 || is_riding_cache() ||
-                   is_essence_box();
+                   is_essence_box() || is_honor_coupon();
+        }
+
+        /** @return Whether using this item redeems Reward Points. */
+        [[nodiscard]] bool is_honor_coupon() const {
+            return m_honor_coupon;
+        }
+
+        /** Marks an item as a Reward Points coupon.
+         * @param value Whether a valid coupon effect was configured.
+         */
+        void set_honor_coupon(bool value) {
+            m_honor_coupon = value;
         }
 
         /** @return Whether this item enables Assassin mode when equipped. */
@@ -1015,6 +1027,7 @@ namespace openkal::client {
 
         /** (use 1) — item can be activated from the bag. */
         bool m_usable = false;
+        bool m_honor_coupon = false;
 
         /** specialty.teleport.loc → kTeleportLocs index, or -1. */
         int m_teleport_loc = -1;

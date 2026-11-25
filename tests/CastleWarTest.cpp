@@ -12,6 +12,8 @@
 #include "openkal/server/GuildService.h"
 #include "test_util.h"
 
+#include <algorithm>
+
 namespace {
     using Json = openkal::platform::Json;
     using openkal::server::CastleWarActivity;
@@ -21,6 +23,7 @@ namespace {
     using openkal::server::CastleWarService;
     using openkal::server::CastleWarSide;
     using openkal::server::CastleWarSimulation;
+    using openkal::server::HonorGrant;
     using openkal::test::expect;
 
     class GuildStore final : public openkal::server::IGuildStore {
@@ -59,18 +62,22 @@ namespace {
       public:
         bool fail = false;
         int writes = 0;
+        std::vector<openkal::server::HonorGrant> grants;
 
         bool load_castle_war(Json& output) override {
             output = m_state;
             return true;
         }
 
-        bool commit_castle_war(std::uint64_t revision, const Json& next) override {
+        bool commit_castle_war(std::uint64_t revision,
+                               const Json& next,
+                               const std::vector<openkal::server::HonorGrant>& awards) override {
             ++writes;
             if (fail || m_state.at("revision").number() != static_cast<double>(revision)) {
                 return false;
             }
             m_state = next;
+            grants.insert(grants.end(), awards.begin(), awards.end());
             return true;
         }
 
@@ -169,7 +176,18 @@ namespace {
                    restored.honor(12) >= rules.honor_ally,
                "settle the winning faction and highest-scoring alliance");
         const auto award = restored.honor(11);
-        expect(restored.advance(first.end) && restored.honor(11) == award,
+        const auto grants = castle_store.grants.size();
+        expect(grants > 0 &&
+                   std::any_of(castle_store.grants.begin(),
+                               castle_store.grants.end(),
+                               [&](const HonorGrant& grant) {
+                                   return grant.character_id == 11 && grant.honor_points == award &&
+                                          grant.instance == std::to_string(first.battle) &&
+                                          grant.occurred_at == capture + rules.hold_seconds;
+                               }),
+               "the first paid round writes a stable, dated Honor grant");
+        expect(restored.advance(first.end) && restored.honor(11) == award &&
+                   castle_store.grants.size() == grants,
                "scheduled end cannot settle an early victory again");
         expect(restored.set_tax(12, 2).size() > 0 && restored.set_tax(11, 2).empty() &&
                    restored.tax_percent() == 110,
@@ -264,6 +282,7 @@ namespace {
                    neutral_store.writes == initial_writes + 3,
                "save a regular territory policy before starting the simulation");
         const int regular_writes = neutral_store.writes;
+        const auto regular_grants = neutral_store.grants.size();
 
         CastleWarSimulation simulation;
         simulation.attack = {{1, 2}, {3}};
@@ -288,7 +307,8 @@ namespace {
         invalid = simulation;
         invalid.defense = {3};
         expect(!neutral.start_simulation(invalid, sandbox_time).empty() && !neutral.simulating() &&
-                   neutral_store.writes == regular_writes,
+                   neutral_store.writes == regular_writes &&
+                   neutral_store.grants.size() == regular_grants,
                "a guild cannot appear in multiple simulated alliances");
         invalid.defense = {101};
         expect(!neutral.start_simulation(invalid, sandbox_time).empty(),
@@ -334,7 +354,8 @@ namespace {
                    neutral.score() == std::array<int, 2>{80, 60} && neutral.honor(12) > 0 &&
                    neutral.advance(sandbox.end + 3 * week) &&
                    neutral.phase(sandbox.end + 3 * week) == CastleWarPhase::Idle &&
-                   neutral_store.writes == regular_writes,
+                   neutral_store.writes == regular_writes &&
+                   neutral_store.grants.size() == regular_grants,
                "a simulated ally's captures crown its leader using the ordinary victory rules");
         expect(neutral.restore_schedule(sandbox.end).empty() && neutral.restore_pending() &&
                    neutral.depart(11) && neutral.depart(12) &&

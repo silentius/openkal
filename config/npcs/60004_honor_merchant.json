@@ -1,0 +1,18 @@
+{
+  "_doc": "OpenKal Honor Merchant next to the starting area on map 0. Uses the existing merchant appearance.",
+  "index": 60004,
+  "name": "Honor Merchant",
+  "kind": 3,
+  "shape": 75,
+  "map": 0,
+  "html": 990340,
+  "xy": [257125, 258640, 16100],
+  "dir": [257285, 258744],
+  "appearance": {
+    "boneId": 955,
+    "scale": 1.0,
+    "scaleParam": 5,
+    "motion": "AAAAAAAAAA",
+    "mspeed": [0, 0]
+  }
+}

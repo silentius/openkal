@@ -15,6 +15,7 @@ add_library(openkal_server
   src/GuildService.cpp
   src/CastleWarRules.cpp
   src/CastleWarService.cpp
+  src/Honor.cpp
   src/PartyService.cpp
   src/BattleRiding.cpp
   src/PacketFramer.cpp

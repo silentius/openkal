@@ -104,7 +104,8 @@ before changing the structure or adding support for the alternative spelling.
   Blue Lotus Leaf and ID 23029 is Ginseng Root.
   ID 23030 is the tradeable Skin Ticket.
   ID 23031 was the retired generic Assassin Mask prototype.
-  The next available ID is 23032;
+  ID 23032 is the Honor Coupon.
+  The next available ID is 23033;
   update this note whenever allocating more items in this range.
 - Reserve item definition IDs 24000–24999 for the other Collection items.
   IDs 24000–24002 are Yin-Yang Mirrors, 24003–24026 raw trigrams,

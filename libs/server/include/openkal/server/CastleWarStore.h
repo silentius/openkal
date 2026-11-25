@@ -11,6 +11,9 @@
 #pragma once
 
 #include "openkal/platform/Json.h"
+#include "openkal/server/Honor.h"
+
+#include <vector>
 
 #include <cstdint>
 
@@ -30,9 +33,12 @@ namespace openkal::server {
         /** Replaces the state and advances the revision atomically.
          * @param expected_revision Current committed revision.
          * @param state State document with the next numerical revision.
+         * @param awards Honor grants to commit with the round result.
          * @return Whether the document committed against the expected revision.
          */
-        [[nodiscard]] virtual bool commit_castle_war(std::uint64_t expected_revision,
-                                                     const platform::Json& state) = 0;
+        [[nodiscard]] virtual bool
+        commit_castle_war(std::uint64_t expected_revision,
+                          const platform::Json& state,
+                          const std::vector<HonorGrant>& awards = {}) = 0;
     };
 }  // namespace openkal::server

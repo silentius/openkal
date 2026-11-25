@@ -1086,6 +1086,9 @@ namespace {
         std::uint32_t guard = 0, master = 0;
         auto peer = enter_world(port, "castlefounder", 1, guard, master, true);
 
+        peer.send(Chatting::frame_c2s("/honor +=100"), "try the local Honor command online");
+        require(peer.response("permission") || peer.response("available in single player"),
+                "the multiplayer server rejects a local Honor adjustment");
         peer.talk(master, 990331);
         peer.send(Quest::frame_quest(Quest::make_key(kQuest, 2)),
                   "try admission before the window");
@@ -1127,6 +1130,9 @@ namespace {
         require(restored.restore() && restored.owner() == guilds.membership(1) &&
                     restored.honor(1) > 0,
                 "PostgreSQL retains the winning guild and the founder's reward");
+        const auto honor = store.load_honor(1, honor_week_start(battle));
+        require(honor && honor->honor_points == restored.honor(1) && honor->reward_points == 0,
+                "the shared Honor balance contains the regular round award only");
     }
 }  // namespace
 

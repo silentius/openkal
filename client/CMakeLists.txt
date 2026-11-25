@@ -49,6 +49,7 @@ set(OPENKAL_CLIENT_HEADERS
   include/openkal/client/CharacterCreationDraft.h
   include/openkal/client/BofFx.h
   include/openkal/client/CharacterInfoWindow.h
+  include/openkal/client/HonorWindow.h
   include/openkal/client/IndoorMapView.h
   include/openkal/client/Inventory.h
   include/openkal/client/ItemDb.h
@@ -203,6 +204,7 @@ set(OPENKAL_CLIENT_SOURCES
   src/ui/SkillWindow.cpp
   src/ui/TransformWindow.cpp
   src/ui/CharacterInfoWindow.cpp
+  src/ui/HonorWindow.cpp
   src/ui/Inventory.cpp
   src/ui/NpcTalkWindow.cpp
   src/ui/PileSkillBar.cpp

@@ -269,6 +269,7 @@ client/include/openkal/client/GameHud.h
 client/include/openkal/client/GameMenu.h
 client/include/openkal/client/GeonColor.h
 client/include/openkal/client/GuildWindow.h
+client/include/openkal/client/HonorWindow.h
 client/include/openkal/client/InGameWindowOrder.h
 client/include/openkal/client/IndoorMapView.h
 client/include/openkal/client/Inventory.h
@@ -413,6 +414,7 @@ client/src/ui/FreetypeFont.cpp
 client/src/ui/GameHud.cpp
 client/src/ui/GameMenu.cpp
 client/src/ui/GuildWindow.cpp
+client/src/ui/HonorWindow.cpp
 client/src/ui/InGameWindowOrder.cpp
 client/src/ui/Inventory.cpp
 client/src/ui/ItemTooltip.cpp
@@ -499,6 +501,7 @@ config/dialogs/990330_castle_guard.json
 config/dialogs/990331_castle_master.json
 config/dialogs/990332_castle_camp.json
 config/dialogs/990333_castle_manager.json
+config/dialogs/990340_honor_merchant.json
 config/fishing.json
 config/items/archer/etc/1037_mask_for_archer.json
 config/items/collection/23012_low_class_essence_box.json
@@ -581,6 +584,7 @@ config/items/general/etc/23027_Aloe_Vera.json
 config/items/general/etc/23028_Blue_Lotus_Leaf.json
 config/items/general/etc/23029_Ginseng_Root.json
 config/items/general/etc/23030_skin_ticket.json
+config/items/general/etc/23032_honor_coupon.json
 config/items/general/gigong/23020_Qigong_Talisman.json
 config/items/general/gslot/23018_Perforation_Shot.json
 config/items/general/refresh/23000_small_medicine.json
@@ -1402,6 +1406,7 @@ config/npcs/5037_exp_event_manager.json
 config/npcs/60001_medicine_alchemist.json
 config/npcs/60002_skin_artisan.json
 config/npcs/60003_trading_post_agent.json
+config/npcs/60004_honor_merchant.json
 config/profiles/default.profile
 config/quests/9500_01.json
 config/quests/9501_01.json
@@ -1424,6 +1429,7 @@ config/server/shops/0003_merchant_gae_yoo.json
 config/server/shops/0213_mask_merchant.json
 config/server/shops/3022_shaman_pet.json
 config/server/shops/60002_skin_artisan.json
+config/server/shops/60004_honor_merchant.json
 config/server/user_roles.json
 config/server_events.json
 config/shinsu/bones.json
@@ -1460,6 +1466,7 @@ config/ui/dungeon_minimaps.json
 config/ui/game_menu.json
 config/ui/guild.json
 config/ui/guild_ranks.json
+config/ui/honor.json
 config/ui/inventory.json
 config/ui/inventory_collection.json
 config/ui/mail.json
@@ -1524,6 +1531,7 @@ docs/EquipmentSkinCatalog.md
 docs/FeatureRequests.md
 docs/GuildPlan.md
 docs/Harvesting.md
+docs/Honor.md
 docs/ImageProvenance.md
 docs/ManagementConsole.md
 docs/ModelMaterials.md
@@ -1643,6 +1651,7 @@ libs/protocol/include/openkal/protocol/GetItemId.h
 libs/protocol/include/openkal/protocol/Guild.h
 libs/protocol/include/openkal/protocol/Handshake.h
 libs/protocol/include/openkal/protocol/HarvestPlant.h
+libs/protocol/include/openkal/protocol/Honor.h
 libs/protocol/include/openkal/protocol/InsertItem.h
 libs/protocol/include/openkal/protocol/ItemInfo.h
 libs/protocol/include/openkal/protocol/ItemMonster.h
@@ -1699,6 +1708,7 @@ libs/protocol/src/GameExit.cpp
 libs/protocol/src/GetItemId.cpp
 libs/protocol/src/Guild.cpp
 libs/protocol/src/Handshake.cpp
+libs/protocol/src/Honor.cpp
 libs/protocol/src/ItemInfo.cpp
 libs/protocol/src/ItemMonster.cpp
 libs/protocol/src/ItemWear.cpp
@@ -1750,6 +1760,7 @@ libs/server/include/openkal/server/GuildRules.h
 libs/server/include/openkal/server/GuildService.h
 libs/server/include/openkal/server/GuildStore.h
 libs/server/include/openkal/server/HarvestPlants.h
+libs/server/include/openkal/server/Honor.h
 libs/server/include/openkal/server/HostRuntimeMetrics.h
 libs/server/include/openkal/server/InventoryUnlock.h
 libs/server/include/openkal/server/ItemStacking.h
@@ -1812,6 +1823,7 @@ libs/server/src/FishingCatalog.cpp
 libs/server/src/GuildRules.cpp
 libs/server/src/GuildService.cpp
 libs/server/src/HarvestPlants.cpp
+libs/server/src/Honor.cpp
 libs/server/src/Host.cpp
 libs/server/src/HostRuntimeMetrics.cpp
 libs/server/src/InventoryUnlock.cpp

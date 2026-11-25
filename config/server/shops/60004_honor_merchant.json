@@ -1,0 +1,9 @@
+{
+  "schema": "openkal.shop/v1",
+  "npcIndex": 60004,
+  "honorOffers": [
+    {"itemIndex": 23003, "rewardPoints": 50, "minRank": 0},
+    {"itemIndex": 23007, "rewardPoints": 75, "minRank": 2},
+    {"itemIndex": 23013, "rewardPoints": 400, "minRank": 5}
+  ]
+}

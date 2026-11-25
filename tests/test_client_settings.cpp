@@ -61,6 +61,8 @@ int main() {
     expect(loaded.settings.audio.effect_volume == 5, "clamp effect volume");
     expect(!loaded.settings.audio.listener_follows_camera,
            "use character-based audio when the setting is absent");
+    expect(!loaded.settings.show_own_name,
+           "hide the own nameplate by default in existing profiles");
     expect(!loaded.warnings.empty(), "report corrected profile value");
 
     const auto medium =
@@ -109,6 +111,7 @@ int main() {
     loaded.settings.display.mode = openkal::settings::DisplayMode::Borderless;
     loaded.settings.ignore_party_requests = true;
     loaded.settings.clock_enabled = false;
+    loaded.settings.show_own_name = true;
     loaded.settings.audio.bgm_volume = 3;
     loaded.settings.audio.listener_follows_camera = true;
     loaded.settings.render.bloom = openkal::settings::BloomQuality::Subtle;
@@ -143,6 +146,8 @@ int main() {
     expect(party_settings.settings.preset == openkal::settings::QualityPreset::Custom,
            "explicit player limits differing from a preset mark the profile custom");
     expect(!party_settings.settings.clock_enabled, "clock preference survives profile roundtrip");
+    expect(party_settings.settings.show_own_name,
+           "own nameplate preference survives profile roundtrip with remote names disabled");
     expect(party_settings.settings.ignore_party_requests,
            "party ignore preference survives profile roundtrip");
     auto conflict_document = openkal::platform::ProfileDocument::load(path, &error);

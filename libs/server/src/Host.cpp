@@ -6189,6 +6189,39 @@ namespace openkal::server {
         void broadcast_skin_appearance(const ClientSession& c, std::vector<ClientSession>& clients);
         void send_system_chat(ClientSession& dest, std::string_view text);
 
+        [[nodiscard]] bool redeem_honor_coupon(IDataStore* store,
+                                               ClientSession& c,
+                                               ClientSession::BagSlot& slot,
+                                               int points) {
+            if (!store || c.cur_hp <= 0 || c.tele_pending) {
+                return false;
+            }
+            ItemRecord coupon;
+            fill_item_record_from_slot(coupon, c, slot, 0);
+            auto remainder = coupon;
+            --remainder.count;
+            const auto result = store->exchange_honor_rewards(
+                {c.character_id, honor_week_start(unix_now_sec()), points},
+                {coupon},
+                remainder.count > 0 ? std::vector<ItemRecord>{remainder}
+                                    : std::vector<ItemRecord>{});
+            if (result != HonorExchangeResult::Committed) {
+                send_system_chat(c,
+                                 result == HonorExchangeResult::BalanceLimit
+                                     ? "Your Reward Points balance is full."
+                                     : "The Honor Coupon could not be redeemed.");
+                return false;
+            }
+            const auto before = c.bag;
+            if (--slot.count == 0) {
+                slot = {};
+                compact_server_bag(c);
+            }
+            send_bag_diff(c, before);
+            send_system_chat(c, "Received " + std::to_string(points) + " Reward Points.");
+            return true;
+        }
+
         [[nodiscard]] bool use_bag_item(IDataStore* store,
                                         const GameWorld& world,
                                         ClientSession& c,
@@ -6223,6 +6256,9 @@ namespace openkal::server {
                 return false;
             }
 
+            if (def->honor_reward_points > 0) {
+                return redeem_honor_coupon(store, c, *slot, def->honor_reward_points);
+            }
             if (def->teleport_loc >= 0) {
                 const auto* destination =
                     map::teleport_loc(static_cast<std::size_t>(def->teleport_loc));
@@ -8694,6 +8730,39 @@ namespace openkal::server {
             }
         }
 
+        [[nodiscard]] std::pair<std::vector<ItemRecord>, std::vector<ItemRecord>> changed_bag_rows(
+            const ClientSession& c,
+            const std::array<ClientSession::BagSlot, ClientSession::kOwnedSlots>& before) {
+            const auto find = [](const auto& bag, std::uint32_t iid) {
+                return std::find_if(
+                    bag.begin(), bag.end(), [iid](const auto& row) { return row.iid == iid; });
+            };
+            std::vector<ItemRecord> expected, replacements;
+            for (const auto& old : before) {
+                if (old.iid == 0) {
+                    continue;
+                }
+                const auto current = find(c.bag, old.iid);
+                if (current != c.bag.end() && current->count == old.count) {
+                    continue;
+                }
+                expected.emplace_back();
+                fill_item_record_from_slot(expected.back(), c, old, 0);
+            }
+            for (const auto& current : c.bag) {
+                if (current.iid == 0) {
+                    continue;
+                }
+                const auto old = find(before, current.iid);
+                if (old != before.end() && old->count == current.count) {
+                    continue;
+                }
+                replacements.emplace_back();
+                fill_item_record_from_slot(replacements.back(), c, current, 0);
+            }
+            return {std::move(expected), std::move(replacements)};
+        }
+
         [[nodiscard]] std::string craft_consumable(ClientSession& c,
                                                    GameWorld& world,
                                                    IDataStore* store,
@@ -8755,33 +8824,7 @@ namespace openkal::server {
                     }
                 }
             }
-            const auto find = [](const auto& bag, std::uint32_t iid) {
-                return std::find_if(
-                    bag.begin(), bag.end(), [iid](const auto& row) { return row.iid == iid; });
-            };
-            std::vector<ItemRecord> expected, replacements;
-            for (const auto& old : before) {
-                if (old.iid == 0) {
-                    continue;
-                }
-                const auto current = find(c.bag, old.iid);
-                if (current != c.bag.end() && current->count == old.count) {
-                    continue;
-                }
-                expected.emplace_back();
-                fill_item_record_from_slot(expected.back(), c, old, 0);
-            }
-            for (const auto& current : c.bag) {
-                if (current.iid == 0) {
-                    continue;
-                }
-                const auto old = find(before, current.iid);
-                if (old != before.end() && old->count == current.count) {
-                    continue;
-                }
-                replacements.emplace_back();
-                fill_item_record_from_slot(replacements.back(), c, current, 0);
-            }
+            const auto [expected, replacements] = changed_bag_rows(c, before);
             if (store && c.character_id > 0 &&
                 !store->exchange_inventory_items(expected, replacements)) {
                 c.bag = before;
@@ -9901,7 +9944,15 @@ namespace openkal::server {
             protocol::ShopItemList list;
             list.npc_id = npc_id;
             list.currency_index = static_cast<std::uint16_t>(shop->currency_item);
+            list.honor = shop->honor_shop();
             for (const int index : shop->items) {
+                if (list.honor) {
+                    const auto& price = shop->honor_prices.at(index);
+                    list.offers.push_back({static_cast<std::uint16_t>(index),
+                                           price.reward_points,
+                                           price.minimum_rank});
+                    continue;
+                }
                 const auto it = world.item_defs().find(index);
                 if (it == world.item_defs().end() ||
                     (shop->skin_catalog ? it->second.class_limit != c.clazz
@@ -9922,6 +9973,48 @@ namespace openkal::server {
         }
 
         /** Returns false at an previous outer frame continue; true denotes branch-end fall-through. */
+        [[nodiscard]] bool buy_with_reward_points(ClientSession& c,
+                                                  const GameWorld& world,
+                                                  IDataStore* store,
+                                                  std::atomic<std::uint32_t>& next_iid,
+                                                  int index,
+                                                  int quantity,
+                                                  const HonorShopPrice& price) {
+            if (!store || c.cur_hp <= 0 || c.tele_pending ||
+                (c.gstate & (protocol::kCgsFish | protocol::kCgsCooking)) != 0) {
+                return false;
+            }
+            const auto before = c.bag;
+            const auto inserts = try_insert_bag(
+                c, world, index, 0, quantity, next_iid, 0, item_is_stackable(world, index));
+            if (inserts.empty()) {
+                send_system_chat(c, "Your inventory is full.");
+                return false;
+            }
+            const auto [expected, replacements] = changed_bag_rows(c, before);
+            const auto total = static_cast<std::int64_t>(price.reward_points) * quantity;
+            const auto result = store->exchange_honor_rewards(
+                {c.character_id, honor_week_start(unix_now_sec()), -total, price.minimum_rank},
+                expected,
+                replacements);
+            if (result == HonorExchangeResult::Committed) {
+                send_bag_diff(c, before);
+                return true;
+            }
+            c.bag = before;
+            if (result == HonorExchangeResult::RankTooLow) {
+                send_system_chat(c,
+                                 "Required Honor rank: " +
+                                     std::string(protocol::honor_rank_name(price.minimum_rank)) +
+                                     ".");
+            } else if (result == HonorExchangeResult::InsufficientPoints) {
+                send_system_chat(c, "You do not have enough Reward Points.");
+            } else {
+                send_system_chat(c, "The Honor purchase could not be saved.");
+            }
+            return false;
+        }
+
         [[nodiscard]] bool handle_shop_buy_request(ClientSession& c,
                                                    const std::vector<std::uint8_t>& payload,
                                                    GameWorld& world,
@@ -9945,9 +10038,18 @@ namespace openkal::server {
                 shop &&
                 std::find(shop->items.begin(), shop->items.end(), item_index) != shop->items.end();
             if (!npc || !shop || !offered || item_it == world.item_defs().end() ||
-                (!shop->skin_catalog && item_it->second.buy <= 0) || npc->map != c.map ||
-                !in_npc_talk_range(c.px, c.py, npc->x, npc->y)) {
+                (!shop->skin_catalog && !shop->honor_shop() && item_it->second.buy <= 0) ||
+                npc->map != c.map || !in_npc_talk_range(c.px, c.py, npc->x, npc->y)) {
                 return false;
+            }
+            if (shop->honor_shop()) {
+                return buy_with_reward_points(c,
+                                              world,
+                                              store,
+                                              next_iid,
+                                              item_index,
+                                              quantity,
+                                              shop->honor_prices.at(item_index));
             }
             if (shop->skin_catalog) {
                 if (quantity != 1 || c.cur_hp <= 0 || c.tele_pending ||
@@ -10015,8 +10117,8 @@ namespace openkal::server {
             const NpcEntity* npc = npcs.find(npc_id);
             const ShopDefinition* shop = npc ? shops.find(npc->index) : nullptr;
             ClientSession::BagSlot* slot = find_bag_slot(c, iid);
-            if (!npc || !shop || shop->skin_catalog || !slot || slot->equipped ||
-                slot->count < quantity || npc->map != c.map ||
+            if (!npc || !shop || shop->skin_catalog || shop->honor_shop() || !slot ||
+                slot->equipped || slot->count < quantity || npc->map != c.map ||
                 !in_npc_talk_range(c.px, c.py, npc->x, npc->y)) {
                 return false;
             }
@@ -11510,6 +11612,11 @@ namespace openkal::server {
             m_management.close();
             return false;
         }
+        if (!m_store->close_honor_week(honor_week_start(unix_now_sec()))) {
+            log::error("ServerHost: could not load the Honor ranking for this week.");
+            m_management.close();
+            return false;
+        }
         m_stop_requested = false;
         m_running = true;
         m_thread = std::thread([this] { thread_main(); });
@@ -11629,6 +11736,15 @@ namespace openkal::server {
         std::array<int, 4> castle_sent_hp{};
         std::array<CastleWarSide, 4> castle_sent_owner{};
         CastleWarPhase last_castle_phase = CastleWarPhase::Idle;
+        auto honor_week = honor_week_start(unix_now_sec());
+        auto honor_revision = m_store->honor_revision();
+        const auto send_honor_snapshot = [&](ClientSession& c) {
+            if (c.sock && c.character_id > 0) {
+                if (const auto snapshot = m_store->load_honor(c.character_id, honor_week)) {
+                    c.sock->enqueue(protocol::frame_honor_status(*snapshot));
+                }
+            }
+        };
         bool castle_auto_admit = false;
         if (m_castle_war) {
             m_world.set_castle_flag_damage([&](std::uint32_t player,
@@ -12951,6 +13067,25 @@ namespace openkal::server {
             apply_level_rebuild(*chat_sender, clients, m_world, m_store.get(), target);
             return ChatCommandResult("Level set to " + std::to_string(chat_sender->level) + ".");
         });
+        chat_service.commands().register_command("honor", [&](const ChatCommandContext& ctx) {
+            if (m_config.multiplayer) {
+                return ChatCommandResult(false, "This command is available in single player.");
+            }
+            std::int64_t delta = 0;
+            if (!protocol::parse_honor_adjustment(ctx.args(), delta)) {
+                return ChatCommandResult(protocol::kHonorUsage);
+            }
+            if (chat_sender == nullptr) {
+                return ChatCommandResult(false, "Honor change failed.");
+            }
+            const auto points =
+                m_store->adjust_local_honor(chat_sender->character_id, delta, honor_week);
+            if (!points) {
+                return ChatCommandResult(false, "Honor change could not be saved.");
+            }
+            send_honor_snapshot(*chat_sender);
+            return ChatCommandResult("Honor is now " + std::to_string(*points) + ".");
+        });
         chat_service.commands().register_command("exp", [&](const ChatCommandContext& ctx) {
             if (chat_sender == nullptr) {
                 return ChatCommandResult(false, "EXP change failed.");
@@ -13655,6 +13790,7 @@ namespace openkal::server {
             sync_inventory_unlocks_to_client(c);
             sync_skill_buffs_to_client(c);
             sync_exp_event_to_client(c, m_exp_event);
+            send_honor_snapshot(c);
             send_saved_shortcut(c, m_store.get());
             {
                 std::vector<protocol::QuestFlagEntry> entries;
@@ -22976,6 +23112,20 @@ namespace openkal::server {
                                 "Castle War ended. Attack " + std::to_string(score[0]) +
                                     " / Defense " + std::to_string(score[1]) + ". Castle Honor: " +
                                     std::to_string(m_castle_war->honor(peer.character_id)) + ".");
+                        }
+                    }
+                    const auto this_week = honor_week_start(event_now);
+                    const bool new_honor_week =
+                        this_week > honor_week && m_store->close_honor_week(this_week);
+                    if (new_honor_week) {
+                        honor_week = this_week;
+                    }
+                    if (new_honor_week || honor_revision != m_store->honor_revision()) {
+                        honor_revision = m_store->honor_revision();
+                        for (auto& peer : clients) {
+                            if (peer.phase == SessionPhase::Playing) {
+                                send_honor_snapshot(peer);
+                            }
                         }
                     }
                 }

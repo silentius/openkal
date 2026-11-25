@@ -1,0 +1,117 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "honor",
+  "kind": "window",
+  "window": {
+    "w": 390,
+    "h": 180,
+    "draggable": false
+  },
+  "theme": {
+    "font_pixel_size": 14,
+    "colors": {
+      "title": "#E5CF9E",
+      "label": "#BDAE92",
+      "value": "#F5E7CC"
+    }
+  },
+  "chrome": {
+    "kind": "nine_slice",
+    "preset": "dragon_dialog",
+    "edges": "repeat",
+    "pad_left": 40,
+    "pad_top": 84,
+    "pad_right": 40,
+    "pad_bottom": 56,
+    "close": false
+  },
+  "widgets": [
+    {
+      "type": "text",
+      "id": "title",
+      "x": 96,
+      "y": -41,
+      "text": "Honor",
+      "pixel_size": 18,
+      "color": "${theme.colors.title}",
+      "bold": true
+    },
+    {
+      "type": "text",
+      "id": "rank_label",
+      "x": 62,
+      "y": 50,
+      "text": "Honor Rank",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "rank",
+      "x": 212,
+      "y": 50,
+      "text": "${honor.rank}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "points_label",
+      "x": 62,
+      "y": 82,
+      "text": "Honor Points",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "points",
+      "x": 212,
+      "y": 82,
+      "text": "${honor.points:comma}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "weekly_points_label",
+      "x": 62,
+      "y": 114,
+      "text": "Honor This Week",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "weekly_points",
+      "x": 212,
+      "y": 114,
+      "text": "${honor.weekly_points:comma}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "text",
+      "id": "reward_points_label",
+      "x": 62,
+      "y": 146,
+      "text": "Reward Points",
+      "color": "${theme.colors.label}"
+    },
+    {
+      "type": "text",
+      "id": "reward_points",
+      "x": 212,
+      "y": 146,
+      "text": "${honor.reward_points:comma}",
+      "color": "${theme.colors.value}"
+    },
+    {
+      "type": "button",
+      "id": "close",
+      "x_from_right": 16,
+      "y_from_bottom": 0,
+      "w": 56,
+      "h": 56,
+      "action": "window.close",
+      "file_default": "dragon_dialog/close_idle.bmp",
+      "file_over": "dragon_dialog/close_hover.bmp",
+      "file_on": "dragon_dialog/close_pressed.bmp",
+      "file_off": "dragon_dialog/close_disabled.bmp"
+    }
+  ]
+}

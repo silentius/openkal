@@ -85,6 +85,8 @@ strip, with a prominent server time, a thin divider and a compact online row. Th
 `clock_event_options.json` uses standard buttons, fill, border and text widgets.
 The Misc settings checkbox uses `settings.misc.clock`; all clock bindings and
 server notice configuration are documented under `clock` in `VARIABLES.md`.
+The **Show own name** checkbox uses `settings.misc.show_own_name` and the
+`settings.show_own_name_checked` label binding.
 No widget type or schema extension is needed. The UI editor supplies synthetic
 clock and event-choice values through the shared preview catalog.
 
@@ -786,6 +788,7 @@ Drop rules stay in JSON, not in per-window C++.
 | Live file | `kind` | Chrome | Widgets |
 |---|---|---|---|
 | `character_info.json` | `window` | `nine_slice` `dragon_dialog` | FreeType identity/primaries/combat/resists, stateful +/−/Apply buttons, anchored footer close, `icon_grid` effects, menu emblem |
+| `honor.json` | `window` | `nine_slice` `dragon_dialog` | FreeType Honor rank, total Honor, weekly Honor and Reward Points, anchored footer close |
 | `inventory.json` | `window` | `nine_slice` `dragon_dialog` | Equipment/General/Other tabs (General on opening); six simultaneous 6×6 General grids, permanent Quest/Consumable grids, integrated wear/Collection, Expand tooltip, sort, destroy and anchored close |
 | `skill_window.json` | `window` | `nine_slice` `dragon_dialog` | page `button`s, conditional `icon_grid`s, section `text`, anchored close |
 | `riding.json` | `window` | `nine_slice` `info_menu` | Horse-panel image, mount and equipment `icon_slot`s, framed detail text, satiety `progress`, management buttons |

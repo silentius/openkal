@@ -471,11 +471,18 @@ int main(int argc, char** argv) {
     (void) click("misc");
     (void) click("settings.misc.clock");
     expect(!options.settings().clock_enabled, "Misc checkbox disables clock in the draft");
+    (void) click("settings.misc.show_own_name");
+    expect(options.settings().show_own_name && options.settings().render.max_player_names == -1,
+           "Misc enables the own nameplate with remote names disabled");
+    (void) click("settings.misc.show_own_name");
+    expect(!options.settings().show_own_name, "Misc can turn the own nameplate back off");
+    (void) click("settings.misc.show_own_name");
     (void) click("settings.misc.ignore_party");
     expect(options.settings().ignore_party_requests, "Misc toggle edits party invitation draft");
     (void) click("world");
     (void) click("settings.preset.next");
     expect(!options.settings().clock_enabled, "quality preset preserves clock preference");
+    expect(options.settings().show_own_name, "quality preset preserves own nameplate preference");
     expect(options.settings().ignore_party_requests,
            "graphics preset preserves party ignore option");
     (void) click("display");
@@ -495,6 +502,7 @@ int main(int argc, char** argv) {
            "tab switching retains draft filters");
     expect(click("settings.close") == SettingsWindowAction::Close, "Cancel closes options");
     options.show(openkal::settings::ClientSettings{}, 960, 540, initial_filters);
+    expect(!options.settings().show_own_name, "reopening discards cancelled own nameplate edits");
     expect(options.chat_filters().battle_enabled(BattleMsgKind::Damage) &&
                options.chat_filters().system_enabled(),
            "reopening discards cancelled filters");

@@ -1993,6 +1993,20 @@ int main() {
         expect(!Shop::parse_item_list_s2c(payload.data(), payload.size(), actual),
                "reject malformed currency extension");
 
+        expected.currency_index = 0;
+        expected.honor = true;
+        expected.offers[1].minimum_rank = HonorRank::Sergeant;
+        const auto honor = Shop::frame_item_list_s2c(expected);
+        expect(try_pop_frame(honor.data(), honor.size(), consumed, type, payload) &&
+                   Shop::parse_item_list_s2c(payload.data(), payload.size(), actual) &&
+                   actual.honor && actual.currency_index == 0 &&
+                   actual.offers[0].minimum_rank == HonorRank::Unranked &&
+                   actual.offers[1].minimum_rank == HonorRank::Sergeant,
+               "Honor shop offers carry the currency type and their required ranks");
+        payload.back() = 11;
+        expect(!Shop::parse_item_list_s2c(payload.data(), payload.size(), actual),
+               "reject an unknown offer rank");
+
         const auto buy = Shop::frame_buy_c2s(1234, 48, 5);
         expect(try_pop_frame(buy.data(), buy.size(), consumed, type, payload) &&
                    type == static_cast<std::uint8_t>(C2S::BuyItem),

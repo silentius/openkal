@@ -458,7 +458,8 @@
       "y": 444,
       "w": 32,
       "h": 32,
-      "bind": "shop.currency"
+      "bind": "shop.currency",
+      "visible_when": "!shop.honor"
     },
     {
       "type": "text",
@@ -479,11 +480,22 @@
       "file_default": "dragon_dialog/button_idle.bmp",
       "file_off": "dragon_dialog/button_disabled.bmp",
       "label": "Sell",
+      "visible_when": "!shop.honor",
       "action": "shop.sell",
       "align": "center",
       "file_over": "dragon_dialog/button_hover.bmp",
       "file_on": "dragon_dialog/button_pressed.bmp",
       "pixel_size": 12
+    },
+    {
+      "type": "text",
+      "id": "honor_rank",
+      "x": 24,
+      "y": 495,
+      "text": "${shop.honor_rank}",
+      "color": "${theme.colors.label}",
+      "pixel_size": 12,
+      "visible_when": "shop.honor"
     },
     {
       "type": "text",

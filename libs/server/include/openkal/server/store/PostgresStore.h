@@ -49,7 +49,29 @@ namespace openkal::server {
 
         /** @copydoc ICastleWarStore::commit_castle_war */
         [[nodiscard]] bool commit_castle_war(std::uint64_t expected_revision,
-                                             const platform::Json& state) override;
+                                             const platform::Json& state,
+                                             const std::vector<HonorGrant>& awards = {}) override;
+
+        /** @copydoc IDataStore::load_honor */
+        [[nodiscard]] std::optional<protocol::HonorStatus>
+        load_honor(std::int32_t character_id, std::int64_t week_start) override;
+
+        /** @copydoc IDataStore::exchange_honor_rewards */
+        [[nodiscard]] HonorExchangeResult
+        exchange_honor_rewards(const HonorRewardExchange& exchange,
+                               const std::vector<ItemRecord>& expected,
+                               const std::vector<ItemRecord>& replacements) override;
+
+        /** @copydoc IDataStore::grant_honor */
+        [[nodiscard]] bool grant_honor(const std::vector<HonorGrant>& awards) override;
+
+        /** @copydoc IDataStore::close_honor_week */
+        [[nodiscard]] bool close_honor_week(std::int64_t week_start) override;
+
+        /** @copydoc IDataStore::honor_revision */
+        [[nodiscard]] std::uint64_t honor_revision() const override {
+            return m_honor_revision;
+        }
 
         /** Closes the database. */
         ~PostgresStore() override;
@@ -409,6 +431,12 @@ namespace openkal::server {
 
         /** PostgreSQL connection and statement state. */
         std::unique_ptr<Impl> m_impl;
+
+        /** Writes an inventory delta inside the caller's transaction. */
+        [[nodiscard]] bool replace_inventory_rows(std::int32_t owner,
+                                                  const std::vector<ItemRecord>& expected,
+                                                  const std::vector<ItemRecord>& replacements);
+        std::uint64_t m_honor_revision = 0;
     };
 
 }  // namespace openkal::server

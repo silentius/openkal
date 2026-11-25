@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <limits>
 #include <string_view>
 #include <unordered_map>
 
@@ -211,6 +212,12 @@ namespace openkal::client {
 
             const platform::Json& specialty = root.at("specialty");
             if (specialty.is_object()) {
+                const auto& coupon = specialty.at("honor_reward_points");
+                def.set_honor_coupon(def.usable() && def.class_big() == "general" &&
+                                     def.class_small() == "etc" && coupon.is_number() &&
+                                     coupon.number() >= 1 &&
+                                     coupon.number() <= std::numeric_limits<int>::max() &&
+                                     coupon.number() == coupon.as_int(0));
                 def.set_hit(specialty.at("hit").as_int(0));
                 def.set_attack_speed_ms(specialty.at("aspeed").as_int(0));
                 def.set_dodge(specialty.at("dodge").as_int(0));

@@ -101,6 +101,8 @@ namespace openkal::settings {
         bool ignore_party_requests = false;
         /** Shows the draggable server/session clock HUD. */
         bool clock_enabled = true;
+        /** Shows the local character's overhead nameplate. */
+        bool show_own_name = false;
     };
 
     /** Settings plus non-fatal corrections made while loading. */

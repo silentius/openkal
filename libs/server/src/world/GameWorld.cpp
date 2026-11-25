@@ -811,6 +811,13 @@ namespace openkal::server {
 
             const platform::Json& specialty = root.at("specialty");
             if (specialty.is_object()) {
+                const auto& coupon = specialty.at("honor_reward_points");
+                if (def.usable && def.class_big == "general" && def.class_small == "etc" &&
+                    coupon.is_number() && coupon.number() >= 1 &&
+                    coupon.number() <= std::numeric_limits<int>::max() &&
+                    coupon.number() == coupon.as_int(0)) {
+                    def.honor_reward_points = coupon.as_int(0);
+                }
                 def.hit = specialty.at("hit").as_int(0);
                 def.attack_speed_ms = specialty.at("aspeed").as_int(0);
                 def.absorb = specialty.at("absorb").as_int(0);

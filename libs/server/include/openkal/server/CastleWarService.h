@@ -420,10 +420,10 @@ namespace openkal::server {
 
         static platform::Json encode(const State& state);
         static bool decode(const platform::Json& document, State& output);
-        bool commit(State state);
+        bool commit(State state, const std::vector<HonorGrant>& awards = {});
         bool start_scheduled_round(std::int64_t now);
         bool lock_registration(std::int64_t now);
-        bool finalize();
+        bool finalize(std::int64_t occurred_at);
         bool reset_in_camp(std::uint32_t character, std::int64_t now, bool reset_score);
         void regenerate(std::int64_t now);
         bool hold_complete(std::int64_t now) const;

@@ -41,6 +41,7 @@
 #include "openkal/client/Floor.h"
 #include "openkal/client/FrameProfiler.h"
 #include "openkal/client/FreetypeFont.h"
+#include "openkal/client/HonorWindow.h"
 #include "openkal/client/GameHud.h"
 #include "openkal/client/GameMenu.h"
 #include "openkal/client/GuildWindow.h"
@@ -1699,6 +1700,15 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
     client::FreetypeFont riding_body_font;
     client::FreetypeFont riding_title_font;
     client::InGameWindowOrder in_game_window_order;
+    client::HonorWindow honor_window;
+    honor_window.set_layout(&ui_layouts.get("honor"));
+    const auto current_honor_week = [] {
+        return server::honor_week_start(std::chrono::duration_cast<std::chrono::seconds>(
+                                            std::chrono::system_clock::now().time_since_epoch())
+                                            .count());
+    };
+    auto offline_honor =
+        store ? store->load_honor(boot.selected.id, current_honor_week()) : std::nullopt;
     std::string riding_feedback;
     int riding_pressed_slot = -1;
     std::uint32_t riding_pressed_iid = 0;
@@ -2009,6 +2019,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             return skill_win.open();
         case client::InGameWindowId::CharacterInfo:
             return char_info_win.open();
+        case client::InGameWindowId::Honor:
+            return honor_window.open();
         case client::InGameWindowId::Transform:
             return transform_win.open();
         case client::InGameWindowId::Riding:
@@ -2050,6 +2062,9 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             break;
         case client::InGameWindowId::CharacterInfo:
             char_info_win.set_open(false);
+            break;
+        case client::InGameWindowId::Honor:
+            honor_window.set_open(false);
             break;
         case client::InGameWindowId::Transform:
             transform_win.set_open(false);
@@ -4998,13 +5013,14 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         const bool is_revival = def->revival_extra_cut() >= 0;
         const bool is_buff = def->buff_type() >= 0;
         const bool is_refresh = def->refresh_hp() > 0 || def->refresh_mp() > 0;
-        const bool is_reward_box = def->is_riding_cache() || def->is_essence_box();
+        const bool is_reward_item =
+            def->is_riding_cache() || def->is_essence_box() || def->is_honor_coupon();
         const bool is_teleport = def->teleport_loc() >= 0;
         if (is_revival) {
             if (!local_player.dead()) {
                 return false;
             }
-        } else if (is_buff || is_refresh || is_reward_box || is_teleport) {
+        } else if (is_buff || is_refresh || is_reward_item || is_teleport) {
             if (local_player.dead()) {
                 return false;
             }
@@ -5105,7 +5121,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
     game_hud.chat().commands().register_command(
         "help", [&](const client::ClientChatCommandContext&) {
             game_hud.chat().blur();
-            return client::ClientChatCommandResult(true, std::string(kClientHelp));
+            return client::ClientChatCommandResult(
+                true, std::string(kClientHelp) + (multiplayer ? "" : ", /honor"));
         });
     game_hud.chat().commands().register_command(
         "fly", [&](const client::ClientChatCommandContext&) {
@@ -5258,6 +5275,30 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             }
             return client::ClientChatCommandResult(true,
                                                    "Level set to " + std::to_string(next) + ".");
+        });
+    game_hud.chat().commands().register_command(
+        "honor", [&](const client::ClientChatCommandContext& ctx) {
+            game_hud.chat().blur();
+            if (multiplayer) {
+                return client::ClientChatCommandResult(
+                    true, "This command is available in single player.");
+            }
+            std::int64_t delta = 0;
+            if (!protocol::parse_honor_adjustment(ctx.args(), delta)) {
+                return client::ClientChatCommandResult(true, protocol::kHonorUsage);
+            }
+            if (net.connected() && net.handshook()) {
+                return client::ClientChatCommandResult(false, {});
+            }
+            const auto week = current_honor_week();
+            const auto points =
+                store ? store->adjust_local_honor(boot.selected.id, delta, week) : std::nullopt;
+            if (!points) {
+                return client::ClientChatCommandResult(true, "Honor change could not be saved.");
+            }
+            offline_honor = store->load_honor(boot.selected.id, week);
+            return client::ClientChatCommandResult(true,
+                                                   "Honor is now " + std::to_string(*points) + ".");
         });
     game_hud.chat().commands().register_command(
         "exp", [&](const client::ClientChatCommandContext& ctx) {
@@ -5660,6 +5701,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
         const bool skill_layout_hot = ui_layouts.poll() > 0;
         if (skill_layout_hot) {
             powerbook.set_layout(&ui_layouts.get("powerbook"));
+            honor_window.set_layout(&ui_layouts.get("honor"));
             quest_journal_win.set_snitch_context(
                 &ui_layouts.get("quest_snitch"), configuration_root, npc_catalog.spawns());
             talent_tree.set_layout(&ui_layouts.get("talent_tree"));
@@ -6069,6 +6111,20 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                                                static_cast<float>(input.height));
             }
         }
+        if (!chat_focused && input.key_v_pressed && !world_map_open && !game_menu.open() &&
+            !settings_window.open()) {
+            const bool was_open = honor_window.open();
+            honor_window.set_open(!was_open);
+            update_window_order(client::InGameWindowId::Honor, was_open, honor_window.open());
+            if (honor_window.open() && store && !net.connected()) {
+                offline_honor = store->load_honor(boot.selected.id, current_honor_week());
+            }
+        }
+        if (honor_window.open()) {
+            honor_window.arrange(frame_w, frame_h, game_hud.scale());
+        }
+        const auto honor_hit = honor_window.hit(ui, input.mouse_x, input.mouse_y);
+        const bool honor_owns_pointer = honor_hit.kind() != client::UiHitKind::None;
         if (!chat_focused && input.key_i_pressed) {
             const bool was_open = inv_win.open();
             inv_win.toggle();
@@ -6337,7 +6393,8 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     inv_win.apply_last_destroy(player_bag, &player_wear);
                 }
             } else if (release == client::ClickResult::DroppedOnWorld) {
-                const bool over_ui = skill_win.contains(input.mouse_x, input.mouse_y) ||
+                const bool over_ui = honor_owns_pointer ||
+                                     skill_win.contains(input.mouse_x, input.mouse_y) ||
                                      transform_win.contains(input.mouse_x, input.mouse_y) ||
                                      char_info_win.contains(input.mouse_x, input.mouse_y) ||
                                      npc_talk_win.contains(input.mouse_x, input.mouse_y) ||
@@ -6366,7 +6423,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             }
         }
         bool ui_ate_scroll =
-            storage_owns_wheel || inventory_owns_wheel ||
+            honor_owns_pointer || storage_owns_wheel || inventory_owns_wheel ||
             (input.mouse_scroll != 0 &&
              riding_hit_at(input.mouse_x, input.mouse_y, game_hud.scale()).kind() !=
                  client::UiHitKind::None);
@@ -6445,7 +6502,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
 
         const auto menu_pointer_blocked = [&]() {
             return game_menu.open() || settings_window.open() || player_options.open() ||
-                   party_window.contains(input.mouse_x, input.mouse_y, ui) ||
+                   honor_owns_pointer || party_window.contains(input.mouse_x, input.mouse_y, ui) ||
                    shop_win.quantity_open() || storage_win.quantity_open() || chat_options_hit ||
                    riding_hit_at(input.mouse_x, input.mouse_y, game_hud.scale()).kind() !=
                        client::UiHitKind::None ||
@@ -6478,7 +6535,14 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             transform_win.dragging() || char_info_win.dragging() || mix_win.dragging() ||
             (shop_win.dragging() || skin_shop_win.dragging()) || storage_win.dragging() ||
             (speed_medicine_win.dragging() || consumable_crafting_win.dragging()) ||
-            (input.mouse_left_clicked && chat_options_hit);
+            honor_owns_pointer || (input.mouse_left_clicked && chat_options_hit);
+        if (input.mouse_left_clicked && honor_owns_pointer && !game_menu.open() &&
+            !settings_window.open() &&
+            (honor_hit.kind() == client::UiHitKind::Close ||
+             honor_hit.action() == "window.close")) {
+            honor_window.set_open(false);
+            in_game_window_order.closed(client::InGameWindowId::Honor);
+        }
         if (!game_menu.open() && !settings_window.open()) {
             const bool party_was_dragging = party_window.dragging();
             const bool party_hit = party_window.contains(input.mouse_x, input.mouse_y, ui);
@@ -8339,6 +8403,10 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 look.mouse_right_clicked = false;
             }
             if (char_info_win.open() && char_info_win.contains(input.mouse_x, input.mouse_y)) {
+                look.mouse_right = false;
+                look.mouse_right_clicked = false;
+            }
+            if (honor_owns_pointer) {
                 look.mouse_right = false;
                 look.mouse_right_clicked = false;
             }
@@ -12328,8 +12396,9 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             const auto own_status = net.pvp_status(net.local_player_id());
             const std::string own_name =
                 own_status.masked ? std::string(protocol::kAssassinName) : boot.selected.name;
+            const bool show_local_name = client_settings.show_own_name;
             if (name_font.ready() &&
-                (!overhead_chat.message(own_name).empty() || own_status.masked ||
+                (show_local_name || !overhead_chat.message(own_name).empty() || own_status.masked ||
                  own_status.relation != protocol::PvpRelation::Neutral ||
                  !net.guild_name(net.local_player_id()).empty())) {
                 float sx = 0.0f;
@@ -12354,14 +12423,22 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                             ? std::string{}
                             : client::Nameplate::guild_label(net.guild_title(net.local_player_id()),
                                                              net.guild_name(net.local_player_id()));
-                    client::Nameplate::draw_player(*engine,
-                                                   name_font,
-                                                   ui,
-                                                   sx,
-                                                   sy,
-                                                   client::Nameplate::player_label(own_name),
-                                                   guild_label,
-                                                   name_color(own_status));
+                    std::string_view honor_rank;
+                    if (show_local_name && !own_status.masked) {
+                        const auto& honor = net.connected() ? net.honor_status() : offline_honor;
+                        if (honor && honor->rank != protocol::HonorRank::Unranked) {
+                            honor_rank = protocol::honor_rank_name(honor->rank);
+                        }
+                    }
+                    client::Nameplate::draw_player(
+                        *engine,
+                        name_font,
+                        ui,
+                        sx,
+                        sy,
+                        client::Nameplate::player_label(own_name, honor_rank),
+                        guild_label,
+                        name_color(own_status));
                     overhead_chat.draw(*engine, name_font, own_name, sx, sy);
                     engine->set_ui_world_anchor(nullptr);
                 }
@@ -12713,6 +12790,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             *engine, ui, tip_font.ready() ? tip_font : name_font, player_bag, item_catalog);
         mix_win.draw(
             *engine, ui, tip_font.ready() ? tip_font : name_font, player_bag, item_catalog);
+        shop_win.set_honor_status(net.honor_status().value_or(protocol::HonorStatus{}));
         shop_win.sync_fonts(*engine);
         shop_win.draw(
             *engine, ui, tip_font.ready() ? tip_font : name_font, player_bag, item_catalog);
@@ -12911,6 +12989,11 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             }
         }
         party_window.draw(*engine, ui, tip_font.ready() ? tip_font : name_font, input);
+        honor_window.draw(*engine,
+                          ui,
+                          tip_font.ready() ? tip_font : name_font,
+                          net.connected() ? net.honor_status() : offline_honor,
+                          input);
         player_options.draw(*engine, ui, tip_font.ready() ? tip_font : name_font);
         game_menu.draw(*engine, ui, tip_font.ready() ? tip_font : name_font, &input);
         settings_window.draw(*engine, ui, tip_font.ready() ? tip_font : name_font, &input);

@@ -140,7 +140,8 @@ namespace openkal::server {
                 return false;
             }
         }
-        if (m_state.round.battle && !m_state.finalized && now >= m_state.round.end && !finalize()) {
+        if (m_state.round.battle && !m_state.finalized && now >= m_state.round.end &&
+            !finalize(m_state.round.end)) {
             return false;
         }
         if (!simulating() && !start_scheduled_round(now)) {
@@ -152,7 +153,7 @@ namespace openkal::server {
         }
         if (current == CastleWarPhase::Battle) {
             if (hold_complete(now)) {
-                return finalize();
+                return finalize(m_state.hold_since + m_rules.hold_seconds);
             }
             regenerate(now);
             if (m_dirty && now - m_last_checkpoint >= m_rules.match_score_flush_seconds) {
@@ -350,7 +351,7 @@ namespace openkal::server {
         if (phase(now) != CastleWarPhase::Battle) {
             return "The Castle War simulation is not in battle.";
         }
-        return advance(now) && (m_state.finalized || finalize()) ? std::string{} : kWriteError;
+        return advance(now) && (m_state.finalized || finalize(now)) ? std::string{} : kWriteError;
     }
 
     std::string CastleWarService::restore_schedule(std::int64_t now) {
@@ -911,7 +912,7 @@ namespace openkal::server {
         return lord;
     }
 
-    bool CastleWarService::finalize() {
+    bool CastleWarService::finalize(std::int64_t occurred_at) {
         const auto [attack, defense] = score();
         const auto winner = attack > defense ? CastleWarSide::Attack : CastleWarSide::Defense;
         const auto previous_owner = owner();
@@ -931,6 +932,8 @@ namespace openkal::server {
             increment(next.defenses);
             next.defenses = std::min(next.defenses, m_rules.max_defenses);
         }
+        std::vector<HonorGrant> awards;
+        const auto instance = std::to_string(m_state.round.battle);
         for (const auto& [character, player] : m_state.players) {
             if (player.round != m_state.round.battle || !player.settlement_eligible ||
                 player.activity < m_rules.activity_minimum) {
@@ -945,8 +948,17 @@ namespace openkal::server {
             reward += std::min<std::int64_t>(m_rules.honor_activity_max, player.activity * 10LL);
             auto& earned = next.honor[character];
             earned = std::min(kMaxJsonInteger, earned + reward);
+            if (!simulating() && reward > 0) {
+                awards.push_back({"castle_war",
+                                  instance,
+                                  "settlement",
+                                  static_cast<std::int32_t>(character),
+                                  occurred_at,
+                                  reward,
+                                  0});
+            }
         }
-        return commit(std::move(next));
+        return commit(std::move(next), awards);
     }
 
     std::pair<int, int> CastleWarService::pvp_bonus(std::uint32_t character,
@@ -1004,7 +1016,7 @@ namespace openkal::server {
         return commit(std::move(next)) ? "" : kWriteError;
     }
 
-    bool CastleWarService::commit(State next) {
+    bool CastleWarService::commit(State next, const std::vector<HonorGrant>& awards) {
         if (simulating()) {
             m_state = std::move(next);
             m_dirty = false;
@@ -1014,7 +1026,7 @@ namespace openkal::server {
             return false;
         }
         next.revision = m_state.revision + 1;
-        if (!m_storage.commit_castle_war(m_state.revision, encode(next))) {
+        if (!m_storage.commit_castle_war(m_state.revision, encode(next), awards)) {
             return false;
         }
         m_state = std::move(next);

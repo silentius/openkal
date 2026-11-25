@@ -20,6 +20,7 @@ namespace openkal::client {
         Inventory,
         Skills,
         CharacterInfo,
+        Honor,
         Transform,
         Riding,
         QuestJournal,

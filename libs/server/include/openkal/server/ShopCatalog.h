@@ -9,6 +9,7 @@
  */
 #pragma once
 
+#include "openkal/protocol/Honor.h"
 #include "openkal/server/world/GameWorld.h"
 
 #include <string>
@@ -16,6 +17,12 @@
 #include <vector>
 
 namespace openkal::server {
+
+    /** Price and rank required for one Honor merchant offer. */
+    struct HonorShopPrice {
+        std::uint32_t reward_points = 0;
+        protocol::HonorRank minimum_rank = protocol::HonorRank::Unranked;
+    };
 
     /** Server-authoritative inventory for one NPC shop. */
     struct ShopDefinition {
@@ -29,8 +36,15 @@ namespace openkal::server {
         bool skin_catalog = false;
         /** Per-item ticket prices for the derived cosmetic catalog. */
         std::unordered_map<int, int> prices;
+        /** Prices for Reward Points offers, keyed by item definition. */
+        std::unordered_map<int, HonorShopPrice> honor_prices;
         /** item definition indices offered by the shop, in display order. */
         std::vector<int> items;
+
+        /** @return True when this shop uses Reward Points. */
+        [[nodiscard]] bool honor_shop() const {
+            return !honor_prices.empty();
+        }
     };
 
     /** Loads and validates openkal.shop/v1 files. */

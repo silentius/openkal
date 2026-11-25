@@ -12,10 +12,12 @@
 
 #include "fixture_util.h"
 #include "openkal/map/Constants.h"
+#include "openkal/protocol/Chatting.h"
 #include "openkal/protocol/DropItem.h"
 #include "openkal/protocol/FrameParser.h"
 #include "openkal/protocol/GameExit.h"
 #include "openkal/protocol/Handshake.h"
+#include "openkal/protocol/Honor.h"
 #include "openkal/protocol/InsertItem.h"
 #include "openkal/protocol/Opcodes.h"
 #include "openkal/protocol/PacketReader.h"
@@ -102,6 +104,10 @@ int main() {
         << R"({"index":9000,"name":"Starter writ","class":["general","etc"],"stackable":1,"use":1,"buy":1,"sell":1,"specialty":{"buff":[100, 86400, 0]}})";
     std::ofstream(config.items_dir + "/9001.json")
         << R"({"index":9001,"name":"Starter sword","class":["weapon","sword"],"wear":1})";
+    std::ofstream(config.items_dir + "/9002.json")
+        << R"({"index":9002,"name":"Honor reward","class":["general","etc"],"stackable":1})";
+    std::ofstream(config.items_dir + "/23032.json")
+        << R"({"index":23032,"name":"Honor Coupon","class":["general","etc"],"stackable":1,"use":1,"specialty":{"honor_reward_points":1000}})";
     std::ofstream(config.starters_dir + "/common.json")
         << "{\"spawn\": [" << config.spawn_x << ", " << config.spawn_y
         << ", 0], \"items\": [{\"item_id\":31,\"count\":100}, {\"item_id\":9000,\"count\":2}]}";
@@ -115,6 +121,11 @@ int main() {
         << ", " << config.spawn_y << ", 0]}";
     std::ofstream(config.shops_dir + "/1.json")
         << R"({"schema":"openkal.shop/v1","npcIndex":1,"items":[9000]})";
+    std::ofstream(config.npcs_dir + "/2.json")
+        << "{\"index\":2,\"kind\":1,\"shape\":1,\"html\":990340,\"xy\":[" << config.spawn_x + 30
+        << ", " << config.spawn_y << ", 0]}";
+    std::ofstream(config.shops_dir + "/2.json")
+        << R"({"schema":"openkal.shop/v1","npcIndex":2,"honorOffers":[{"itemIndex":9002,"rewardPoints":400,"minRank":4}]})";
 
     auto store = server::create_data_store(server::StoreBackend::Sqlite);
     expect(store && store->open(config.save_dir), "open starter persistence");
@@ -200,6 +211,14 @@ int main() {
         host.stop();
         return 1;
     }
+    protocol::HonorStatus honor;
+    const auto receive_honor = [&] {
+        return wait_frame(*session, rx, protocol::S2C::HonorStatus, payload) &&
+               protocol::parse_honor_status(payload.data(), payload.size(), honor);
+    };
+    expect(receive_honor() && honor.honor_points == 0 && honor.reward_points == 0 &&
+               honor.rank == protocol::HonorRank::Unranked,
+           "new characters enter the local world with an empty Honor snapshot");
     for (int n = 0; n < 2;) {
         expect(wait_frame(*session, rx, protocol::S2C::InsertItem, payload),
                "receive starter instance");
@@ -218,9 +237,19 @@ int main() {
                "login transmits character binding for worn items and consumables");
     }
     protocol::CreateNpcInfo npc;
-    expect(wait_frame(*session, rx, protocol::S2C::CreateNpc, payload) &&
-               protocol::Quest::parse_create_npc(payload.data(), payload.size(), npc),
-           "receive the storage keeper and merchant");
+    std::uint32_t honor_npc = 0;
+    for (int i = 0; i < 2; ++i) {
+        protocol::CreateNpcInfo nearby;
+        expect(wait_frame(*session, rx, protocol::S2C::CreateNpc, payload) &&
+                   protocol::Quest::parse_create_npc(payload.data(), payload.size(), nearby),
+               "receive the local shop NPC");
+        if (nearby.index == 1) {
+            npc = nearby;
+        } else if (nearby.index == 2) {
+            honor_npc = nearby.id;
+        }
+    }
+    expect(npc.id != 0 && honor_npc != 0, "find the ordinary and Honor merchants");
     expect(session->send_all(protocol::Storage::frame_info_c2s(npc.id)) &&
                wait_frame(*session, rx, protocol::S2C::StorageInfo, payload),
            "open shared account storage");
@@ -293,20 +322,77 @@ int main() {
                "full ordinary sale removes only the unbound row and restores its "
                "three-Geon value");
     }
+    protocol::ShopItemList honor_list;
+    expect(session->send_all(protocol::Quest::frame_ask_npc(honor_npc)) &&
+               wait_frame(*session, rx, protocol::S2C::SendHtml, payload) &&
+               session->send_all(protocol::Shop::frame_item_list_c2s(honor_npc)) &&
+               wait_frame(*session, rx, protocol::S2C::ItemList, payload) &&
+               protocol::Shop::parse_item_list_s2c(payload.data(), payload.size(), honor_list) &&
+               honor_list.honor && honor_list.offers.size() == 1 &&
+               honor_list.offers.front().minimum_rank == protocol::HonorRank::Corporal &&
+               honor_list.offers.front().buy == 400,
+           "Honor merchant advertises Reward Points and the required rank");
+    expect(session->send_all(protocol::Chatting::frame_c2s("/getitemid 23032 2")) && barrier(),
+           "give the single-player test character two coupons");
+    rows = inspect();
+    const auto coupon = std::find_if(
+        rows.begin(), rows.end(), [](const auto& item) { return item.index == 23032; });
+    const auto coupon_id = coupon == rows.end() ? 0 : static_cast<std::uint32_t>(coupon->iid);
+    expect(coupon_id && session->send_all(protocol::UseItem::frame_c2s(coupon_id)) &&
+               receive_honor() && honor.honor_points == 0 && honor.weekly_honor == 0 &&
+               honor.reward_points == 1000 && honor.rank == protocol::HonorRank::Unranked,
+           "redeeming a coupon increases only Reward Points");
+    rows = inspect();
+    expect(std::any_of(rows.begin(),
+                       rows.end(),
+                       [&](const auto& item) {
+                           return item.iid == static_cast<int>(coupon_id) && item.count == 1;
+                       }),
+           "one coupon remains on the same stack");
+    const auto purchase = protocol::Shop::frame_buy_c2s(honor_npc, 9002, 2);
+    expect(session->send_all(purchase) && barrier() && inspect().size() == 3,
+           "the server rejects a purchase below the minimum rank despite sufficient points");
+    expect(session->send_all(protocol::Chatting::frame_c2s("/honor +=12090")) && receive_honor() &&
+               honor.honor_points == 12090 && honor.weekly_honor == 12090 &&
+               honor.reward_points == 1000 && honor.rank == protocol::HonorRank::Corporal,
+           "single-player Honor addition immediately updates the snapshot");
+    expect(session->send_all(purchase) && receive_honor() && honor.honor_points == 12090 &&
+               honor.weekly_honor == 12090 && honor.reward_points == 200,
+           "a qualifying bulk purchase costs exactly 800 Reward Points");
+    expect(session->send_all(purchase) && barrier(),
+           "try the same purchase with insufficient points");
+    rows = inspect();
+    expect(std::any_of(rows.begin(),
+                       rows.end(),
+                       [](const auto& item) { return item.index == 9002 && item.count == 2; }),
+           "insufficient points leave the awarded item count unchanged");
+    expect(session->send_all(protocol::Chatting::frame_c2s("/honor -=100")) && receive_honor() &&
+               honor.honor_points == 11990 && honor.rank == protocol::HonorRank::Specialist,
+           "single-player Honor subtraction immediately updates the snapshot");
+    expect(session->send_all(protocol::UseItem::frame_c2s(coupon_id)) && receive_honor() &&
+               honor.reward_points == 1200 && honor.honor_points == 11990,
+           "the last coupon credits the same wallet");
+    expect(session->send_all(protocol::UseItem::frame_c2s(coupon_id)) && barrier(),
+           "replay the use packet for the exhausted coupon stack");
     session->close();
     host.stop();
-    expect(host.start(config) && connect() && barrier(), "reconnect after starter consumption");
+    expect(host.start(config) && connect() && receive_honor() && barrier(),
+           "reconnect after starter consumption");
+    expect(honor.honor_points == 11990 && honor.reward_points == 1200,
+           "Honor and Reward Points survive restart without a duplicate coupon credit");
     rows = inspect();
     const auto remaining = std::find_if(rows.begin(), rows.end(), [=](const auto& item) {
         return item.iid == static_cast<std::int32_t>(consumable);
     });
     expect(remaining != rows.end() && remaining->count == 1,
            "relogin does not replenish consumed starter quantities");
-    expect(rows.size() == 2 && balance() == 100 &&
+    expect(rows.size() == 3 && balance() == 100 &&
                std::none_of(rows.begin(),
                             rows.end(),
-                            [bought_iid](const auto& item) { return item.iid == bought_iid; }),
-           "ordinary sales and money remain durable after gameplay reconnect");
+                            [bought_iid](const auto& item) {
+                                return item.iid == bought_iid || item.index == 23032;
+                            }),
+           "ordinary sales, money and the final coupon removal survive reconnect");
     session->close();
     host.stop();
 

@@ -1624,6 +1624,7 @@ namespace openkal::client {
         ++m_guild_serial;
         m_pending_party_items.clear();
         m_exp_event_state.reset();
+        m_honor_status.reset();
         m_server_clock.reset();
     }
 
@@ -2047,6 +2048,14 @@ namespace openkal::client {
                 m_server_clock.synchronize(std::move(snapshot));
             } else if (m_session) {
                 m_session->close();
+            }
+            return true;
+        }
+
+        if (type == static_cast<std::uint8_t>(protocol::S2C::HonorStatus)) {
+            protocol::HonorStatus status;
+            if (protocol::parse_honor_status(payload.data(), payload.size(), status)) {
+                m_honor_status = status;
             }
             return true;
         }

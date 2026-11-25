@@ -161,6 +161,20 @@ stable.
 
 ---
 
+## `honor`
+
+The Honor window opens with V. Its four values come from the local character's
+`S2C::HonorStatus` snapshot.
+
+| Key | Type | Example | Used by |
+|---|---|---|---|
+| `honor.rank` | string | `Sergeant` | Current Honor rank |
+| `honor.points` | int | `23150` | Total Honor Points |
+| `honor.weekly_points` | int | `3000` | Honor Points earned this week |
+| `honor.reward_points` | int | `1500` | Reward Points balance |
+
+---
+
 ## `riding`
 
 Common riding-animal registration and active state. Source: authoritative
@@ -1081,7 +1095,7 @@ new messages; hidden events are still retained.
 | `settings.shadows_label` / `settings.shadows` | string | `Ground shadows` / `Actors + world` | projected actor/world-shadow coverage row |
 | `settings.monsters_label` / `settings.monsters` | string | `Rendered monsters` / `25` | closest visible monster-body limit; `Max` disables the limit while nameplates remain visible |
 | `settings.players_label` / `settings.players` | string | `Rendered players` / `25` | nearest non-party remote player bodies and shadows, plus all own-party members; selected non-party target has priority; local player is excluded; `Max` disables the limit |
-| `settings.player_names_label` / `settings.player_names` | string | `Player nameplates` / `10` | nearest on-screen non-party name and guild labels, plus all own-party labels; `Off` hides only non-party labels, `Max` disables the name limit; chat bubbles remain visible |
+| `settings.player_names_label` / `settings.player_names` | string | `Player nameplates` / `10` | Shows the nearest non-party name and guild labels plus all own-party labels. `Off` hides non-party labels. `Max` disables the remote name limit. |
 | `settings.audio_heading` | string | `Audio` | section title |
 | `settings.effect_volume_label` / `settings.effect_volume` | string | `Effects` / `5` | initial 0--5 effect volume |
 | `settings.bgm_volume_label` / `settings.bgm_volume` | string | `Background music` / `5` | initial 0--5 BGM volume |
@@ -1318,14 +1332,16 @@ dark fill and 1-pixel bronze borders as NPC response rows.
 | `shop.title` | string | Window caption |
 | `shop.inventory_label` | string | Left-pane caption |
 | `shop.offers_label` | string | Right-pane caption |
-| `shop.money` | string | Current player money line |
-| `shop.money_label` | string | Currency field label (`Geon`) |
+| `shop.money` | string | Geon or Reward Points balance |
+| `shop.money_label` | string | Currency field label |
+| `shop.honor` | bool | Honor merchant mode with purchases and a read-only inventory pane |
+| `shop.honor_rank` | string | Character's currently assigned Honor rank |
 | `shop.selected_name` | string | Selected item name |
 | `shop.selected_price` | string | Selected unit buy/sell price |
 | `shop.inventory_register` | int | Zero-based left-pane inventory register |
 | `shop.inventory_count` | int | Number of saleable stacks across inventory pages |
 | `shop.offers_page` | string | Current and total merchant pages, e.g. `1/2` |
-| `shop.selection_hint` | string | Hint for CTRL multi-selection |
+| `shop.selection_hint` | string | Hint for CTRL multi-selection or the selected offer's Honor requirement |
 | `shop.quantity_open` | bool | Shows the modal quantity layer |
 | `shop.buy_quantity_open` | bool | Shows the additive preset buttons for purchases |
 | `shop.quantity_prompt` | string | Buy/sell prompt caption |
@@ -1699,6 +1715,12 @@ coordinates. It is restored per character even before joining a party.
 | `settings.page.misc` | bool | `true` | Misc page visibility |
 | `settings.ignore_party_label` | string | `Ignore party invitations` | Misc preference caption |
 | `settings.ignore_party` | string | `On` | Saved-profile draft value |
+| `settings.show_own_name_label` | string | `Show own name` | Misc preference caption |
+| `settings.show_own_name_checked` | string | `X` | Checkbox mark when the draft preference is enabled. Empty when disabled. |
+
+The `settings.misc.show_own_name` action toggles the draft value stored as
+`client.misc.show_own_name` on Save. It controls the persistent local nameplate,
+including the earned Honor rank, in single player and multiplayer.
 
 Actions are `party.accept`, `party.decline`, `party.invite`, `party.leave`,
 `party.kick`, `window.close` and `settings.misc.ignore_party`. `party.kick` applies
