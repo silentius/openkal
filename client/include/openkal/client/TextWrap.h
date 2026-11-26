@@ -19,12 +19,6 @@
 
 namespace openkal::client {
 
-    /** A visual line retaining its UTF-8 byte range in the unmodified source. */
-    struct TextLine {
-        std::size_t start = 0;
-        std::size_t length = 0;
-    };
-
     /** Wraps UTF-8 text without discarding spaces or explicit blank lines.
      * @param text Source text. @param width Maximum measured line width.
      * @param measure Width of a source substring. @return Source ranges for every visual line.

@@ -54,6 +54,10 @@ namespace openkal::map {
     }
 
     bool WorldGrid::walkable_world_pixel(int px, int py) const {
+        return walkable_world_pixel(px, py, 0);
+    }
+
+    bool WorldGrid::walkable_world_pixel(int px, int py, std::uint32_t excluded_attributes) const {
         int tx = 0;
         int ty = 0;
         coords::pixel_to_tile(px, py, tx, ty);
@@ -74,7 +78,9 @@ namespace openkal::map {
             local_tx * kMovementCellsPerTile + (px & (kTileSize - 1)) / kMovementCellSize;
         const int my =
             local_ty * kMovementCellsPerTile + (py & (kTileSize - 1)) / kMovementCellSize;
-        return !area->blocked_at_subcell(sx, sy) && !area->not_moveable_at_movement_cell(mx, my);
+        return !area->blocked_at_subcell(sx, sy) && !area->not_moveable_at_movement_cell(mx, my) &&
+               (excluded_attributes == 0 ||
+                !has_attr(area->at(local_tx, local_ty), excluded_attributes));
     }
 
     bool WorldGrid::not_moveable_world_pixel(int px, int py) const {

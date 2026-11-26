@@ -463,6 +463,46 @@ namespace {
                20);
     }
 
+    void repeated_input_layout(MultilineEngine& engine, const std::string& path) {
+        FreetypeFont font;
+        if (!font.load(engine, path, 18)) {
+            expect(false, "load the face for repeated multiline layouts");
+            return;
+        }
+        const float step = font.line_height();
+        const float width = font.text_width("WW");
+        InputCase input{"the first layout wraps a repeated value", "WWWW", width, 5 * step};
+        verify(engine, font, input, {{"WW", 0}, {"WW", 1}}, step);
+        input.name = "a repeated layout scrolls without changing its wrap";
+        input.scroll = "1";
+        verify(engine, font, input, {{"WW", 0}}, step);
+        input.name = "changing the input text replaces its prior layout";
+        input.scroll.clear();
+        input.text = "A\nB\nC";
+        verify(engine, font, input, {{"A", 0}, {"B", 1}, {"C", 2}}, step);
+        input.name = "a narrower box wraps the same text into shorter lines";
+        input.text = "WWWW";
+        input.width = font.text_width("W");
+        verify(engine, font, input, {{"W", 0}, {"W", 1}, {"W", 2}, {"W", 3}}, step);
+        input.name = "a larger pixel size invalidates a layout at the same width";
+        input.width = width;
+        input.height = 10 * step;
+        input.pixel_size = 36;
+        verify(engine, font, input, {{"W", 0}, {"W", 1}, {"W", 2}, {"W", 3}}, 2 * step, 2);
+        input.name = "restore the original layout before reloading the face";
+        input.pixel_size = 0;
+        verify(engine, font, input, {{"WW", 0}, {"WW", 1}}, step);
+        if (font.load(engine, path, 36)) {
+            input.name = "reloading the same font object discards the old glyph metrics";
+            input.height = 5 * font.line_height();
+            verify(
+                engine, font, input, {{"W", 0}, {"W", 1}, {"W", 2}, {"W", 3}}, font.line_height());
+        } else {
+            expect(false, "reload the face at a different size");
+        }
+        font.destroy(engine);
+    }
+
     void benchmark_multiline(MultilineEngine& engine, const FreetypeFont& font) {
         std::cout << "# Actual UiView multiline drawing, including layout and captured glyph "
                      "quads; document/font setup and quad validation excluded.\n"
@@ -507,6 +547,7 @@ int main(int argc, char** argv) {
         } else {
             multiline_inputs(engine, font);
             single_line_input(engine, font);
+            repeated_input_layout(engine, path);
         }
     }
     font.destroy(engine);

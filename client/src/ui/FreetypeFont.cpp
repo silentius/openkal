@@ -203,6 +203,8 @@ namespace openkal::client {
         m_ascender = 0.0f;
         m_pixel_size = 0;
         m_glyphs = {};
+        m_text_layouts = {};
+        m_next_text_layout = 0;
     }
 
     const FreetypeFont::Glyph& FreetypeFont::glyph_for(unsigned char ch) const {
@@ -271,6 +273,20 @@ namespace openkal::client {
             start = newline + 1;
         }
         return lines;
+    }
+
+    const std::vector<TextLine>&
+    FreetypeFont::cached_text_lines(std::string_view text, float width, float scale) const {
+        for (const auto& layout : m_text_layouts) {
+            if (!layout.lines.empty() && layout.width == width && layout.scale == scale &&
+                layout.text == text) {
+                return layout.lines;
+            }
+        }
+        auto& layout = m_text_layouts[m_next_text_layout];
+        layout = {std::string(text), width, scale, layout_text_lines(*this, text, width, scale)};
+        m_next_text_layout = (m_next_text_layout + 1) % m_text_layouts.size();
+        return layout.lines;
     }
 
     void FreetypeFont::draw(engine::IEngine& engine,

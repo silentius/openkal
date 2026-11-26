@@ -93,8 +93,7 @@ namespace openkal::server {
                                   map::kAttrAttackCastle | map::kAttrDefenceCastle;
         for (int dy = -16; dy <= 16; dy += map::kCellSize) {
             for (int dx = -16; dx <= 16; dx += map::kCellSize) {
-                if (!world.grid().walkable_world_pixel(x + dx, y + dy) ||
-                    world.grid().has_attr_world_pixel(x + dx, y + dy, excluded)) {
+                if (!world.grid().walkable_world_pixel(x + dx, y + dy, excluded)) {
                     return false;
                 }
             }

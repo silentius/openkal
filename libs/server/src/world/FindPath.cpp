@@ -12,13 +12,11 @@
 
 #include <algorithm>
 #include <array>
+#include <bitset>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
-#include <limits>
-#include <queue>
-#include <unordered_map>
-#include <vector>
+#include <iterator>
 
 namespace openkal::server {
     namespace {
@@ -34,19 +32,21 @@ namespace openkal::server {
                                                                           {-kGridStep, -kGridStep},
                                                                           {0, -kGridStep},
                                                                           {kGridStep, -kGridStep}}};
+        constexpr auto kMaxSearchNodes = 1 + kSearchBudget * kNeighborOffsets.size();
+        constexpr int kSearchDiameter = 2 * kSearchBudget + 1;
 
         struct SearchNode {
-            int x = 0;
-            int y = 0;
-            int parentIndex = -1;
-            int travelSteps = std::numeric_limits<int>::max();
-            int estimatedRemainingSteps = 0;
+            int x;
+            int y;
+            int parentIndex;
+            int travelSteps;
+            int estimatedRemainingSteps;
         };
 
         struct FrontierEntry {
-            int estimatedTotalSteps = 0;
-            int remainingSteps = 0;
-            int nodeIndex = 0;
+            int estimatedTotalSteps;
+            int remainingSteps;
+            int nodeIndex;
 
             [[nodiscard]] bool operator<(const FrontierEntry& other) const {
                 if (estimatedTotalSteps != other.estimatedTotalSteps) {
@@ -69,11 +69,6 @@ namespace openkal::server {
             return std::max(horizontalSteps, verticalSteps);
         }
 
-        [[nodiscard]] std::uint64_t coordinate_key(int x, int y) {
-            return (static_cast<std::uint64_t>(static_cast<std::uint32_t>(x)) << 32u) |
-                   static_cast<std::uint32_t>(y);
-        }
-
     }  // namespace
 
     FindPathResult find_monster_path(int start_x,
@@ -90,16 +85,29 @@ namespace openkal::server {
             return out;
         }
 
-        std::vector<SearchNode> nodes;
-        nodes.reserve(kSearchBudget * kNeighborOffsets.size());
-        std::unordered_map<std::uint64_t, int> nodeByCoordinate;
-        nodeByCoordinate.reserve(kSearchBudget * kNeighborOffsets.size());
-        std::priority_queue<FrontierEntry> frontier;
+        std::array<SearchNode, kMaxSearchNodes> nodes;
+        std::size_t node_count = 1;
+        std::array<int, kSearchDiameter * kSearchDiameter> node_by_cell;
+        std::bitset<kSearchDiameter * kSearchDiameter> seen_cells;
+        // Each expansion can discover a cell at most one grid step farther from the start.
+        const auto slot_for = [start_x, start_y](int x, int y) {
+            const int column = (x - start_x) / kGridStep + kSearchBudget;
+            const int row = (y - start_y) / kGridStep + kSearchBudget;
+            return static_cast<std::size_t>(row * kSearchDiameter + column);
+        };
+        std::array<FrontierEntry, kMaxSearchNodes> frontier;
+        auto frontier_end = frontier.begin();
+        const auto enqueue = [&](FrontierEntry entry) {
+            *frontier_end++ = entry;
+            std::push_heap(frontier.begin(), frontier_end);
+        };
 
         const int startEstimate = grid_distance(start_x, start_y, end_x, end_y);
-        nodes.push_back({start_x, start_y, -1, 0, startEstimate});
-        nodeByCoordinate.emplace(coordinate_key(start_x, start_y), 0);
-        frontier.push({startEstimate, startEstimate, 0});
+        nodes[0] = {start_x, start_y, -1, 0, startEstimate};
+        const auto start_slot = slot_for(start_x, start_y);
+        node_by_cell[start_slot] = 0;
+        seen_cells[start_slot] = true;
+        enqueue({startEstimate, startEstimate, 0});
 
         int closestNodeIndex = 0;
         int selectedNodeIndex = -1;
@@ -107,9 +115,9 @@ namespace openkal::server {
         const std::int64_t allowedDistanceSq =
             std::max<std::int64_t>(std::max(0, range_sq), kDirectApproachDistanceSq);
 
-        while (!frontier.empty() && processedNodes < kSearchBudget) {
-            const FrontierEntry next = frontier.top();
-            frontier.pop();
+        while (frontier_end != frontier.begin() && processedNodes < kSearchBudget) {
+            std::pop_heap(frontier.begin(), frontier_end);
+            const FrontierEntry next = *--frontier_end;
             const SearchNode current = nodes[static_cast<std::size_t>(next.nodeIndex)];
             if (next.estimatedTotalSteps != current.travelSteps + current.estimatedRemainingSteps) {
                 continue;
@@ -134,18 +142,18 @@ namespace openkal::server {
                 const int neighborX = current.x + offsetX;
                 const int neighborY = current.y + offsetY;
                 const int candidateSteps = current.travelSteps + 1;
-                const std::uint64_t key = coordinate_key(neighborX, neighborY);
-                const auto known = nodeByCoordinate.find(key);
+                const auto slot = slot_for(neighborX, neighborY);
 
                 int neighborIndex = 0;
-                if (known == nodeByCoordinate.end()) {
-                    neighborIndex = static_cast<int>(nodes.size());
+                if (!seen_cells[slot]) {
+                    neighborIndex = static_cast<int>(node_count);
                     const int estimate = grid_distance(neighborX, neighborY, end_x, end_y);
-                    nodes.push_back(
-                        {neighborX, neighborY, next.nodeIndex, candidateSteps, estimate});
-                    nodeByCoordinate.emplace(key, neighborIndex);
+                    nodes[node_count++] = {
+                        neighborX, neighborY, next.nodeIndex, candidateSteps, estimate};
+                    node_by_cell[slot] = neighborIndex;
+                    seen_cells[slot] = true;
                 } else {
-                    neighborIndex = known->second;
+                    neighborIndex = node_by_cell[slot];
                     SearchNode& neighbor = nodes[static_cast<std::size_t>(neighborIndex)];
                     if (candidateSteps >= neighbor.travelSteps) {
                         continue;
@@ -155,9 +163,9 @@ namespace openkal::server {
                 }
 
                 const SearchNode& neighbor = nodes[static_cast<std::size_t>(neighborIndex)];
-                frontier.push({neighbor.travelSteps + neighbor.estimatedRemainingSteps,
-                               neighbor.estimatedRemainingSteps,
-                               neighborIndex});
+                enqueue({neighbor.travelSteps + neighbor.estimatedRemainingSteps,
+                         neighbor.estimatedRemainingSteps,
+                         neighborIndex});
             }
         }
 
@@ -168,15 +176,16 @@ namespace openkal::server {
             return out;
         }
 
-        std::vector<std::pair<int, int>> reversePath;
+        std::array<std::pair<int, int>, kSearchBudget> reverse_path;
+        auto reverse_end = reverse_path.begin();
         for (int index = selectedNodeIndex; index > 0;
              index = nodes[static_cast<std::size_t>(index)].parentIndex) {
             const SearchNode& node = nodes[static_cast<std::size_t>(index)];
-            reversePath.emplace_back(node.x, node.y);
+            *reverse_end++ = {node.x, node.y};
         }
 
         out.found = true;
-        out.waypoints.assign(reversePath.rbegin(), reversePath.rend());
+        out.waypoints.assign(std::make_reverse_iterator(reverse_end), reverse_path.rend());
         return out;
     }
 

@@ -214,6 +214,32 @@ namespace {
         }
     }
 
+    void test_spawnable_terrain() {
+        GameWorld world;
+        map::AreaCell terrain;
+        terrain.assign_attrs(map::kTileCount * map::kTileCount, 0);
+        terrain.attr_ref(255, 1) = map::kAttrVillage;
+        terrain.attr_ref(255, 2) = map::kAttrPortal | map::kAttrSafety;
+        terrain.attr_ref(255, 3) = map::kAttrObject;
+        terrain.set_blocked_mask(255, 4, 0x0001u);
+        terrain.set_not_moveable_at_movement_cell(2040, 40, true);
+        world.grid().set_cell(0, 0, terrain);
+        map::AreaCell adjacent;
+        adjacent.assign_attrs(map::kTileCount * map::kTileCount, 0);
+        world.grid().set_cell(1, 0, adjacent);
+
+        const auto spawnable = [&](int x, int y) { return world.monster_spawnable_pixel(x, y); };
+        expect(!spawnable(8160, 32) && spawnable(8192, 32),
+               "the village exclusion applies only on its side of an area boundary");
+        expect(spawnable(8160, 64) && spawnable(8160, 96),
+               "portal, safety and object attributes alone do not exclude monster spawns");
+        expect(!spawnable(8160, 128) && spawnable(8168, 128),
+               "a blocked subcell leaves its neighbor on the same tile open");
+        expect(!spawnable(8160, 160) && spawnable(8164, 160),
+               "the finer not-moveable mask leaves the adjacent movement cell open");
+        expect(!spawnable(16384, 32), "an unloaded area is not a valid spawn position");
+    }
+
     void test_indexed_occupancy() {
         GameWorld world;
         std::vector<PlayerPose> players{{1, 0, 0, 0}, {90, INT_MIN, INT_MAX, -1}};
@@ -390,6 +416,76 @@ namespace {
             corpses.emplace_back(e.kind, e.monster_id);
         }
         return std::make_tuple(moves, attacks, chests, corpses);
+    }
+
+    void test_player_selection(const std::string& root) {
+        GameWorld world;
+        expect(world.load_maps_around(root, 512, 512, 0), "load owned target selection map");
+        TickEvents events;
+        const auto tick = [&](const std::vector<PlayerPose>& players) {
+            world.tick(0.05f, players, events.moves, events.attacks, events.chests, events.corpses);
+        };
+        auto monster = body(1, 512, 512);
+        monster.aggressive = true;
+        world.monsters() = {monster};
+        tick({{1, 512, 512, 1}, {2, 512, 512, 0, true}, {3, 560, 512, 0}, {4, 464, 512, 0}});
+        expect(world.monsters()[0].aggro_player_id == 3,
+               "nearest-player ties preserve input order after map and immunity filtering");
+
+        monster.aggressive = false;
+        world.monsters() = {monster};
+        tick({{1, 512, 512, 1, false, true},
+              {2, 512, 512, 0, true, true},
+              {3, 560, 512, 0, false, true},
+              {4, 544, 512, 0, false, true}});
+        expect(world.monsters()[0].beacon_pursuit && world.monsters()[0].aggro_player_id == 3,
+               "beacon uses the first eligible pose, even when a later pose is closer");
+
+        monster.aggro = true;
+        monster.aggro_player_id = 6;
+        world.monsters() = {monster};
+        tick({{6, 544, 512, 1}, {6, 544, 512, 0}});
+        expect(!world.monsters()[0].aggro,
+               "an existing target resolves the first matching ID before checking its map");
+
+        auto flower = body(2, 512, 512);
+        flower.race = static_cast<int>(protocol::MonsterRace::FireFlower);
+        flower.fire_flower_exploded = true;
+        flower.fire_flower_skill_fire_left = 0.05f;
+        flower.fire_flower_remove_left = 1.0f;
+        world.monsters() = {flower};
+        tick({{5, 512, 512, 1}, {4, 520, 512, 0}, {3, 512, 512, 0, true}, {2, 528, 512, 0}});
+        expect(events.attacks.size() == 2 && events.attacks[0].target_player_id == 4 &&
+                   events.attacks[1].target_player_id == 2,
+               "fire flower recipients retain map filtering, immunity and input order");
+    }
+
+    void test_repeated_path_searches() {
+        using Probe = std::array<int, 4>;
+        const auto search = [](std::vector<Probe>& probes, bool nest) {
+            return find_monster_path(0, 0, 192, 0, 0, [&](int x, int y, int dx, int dy) {
+                probes.push_back({x, y, dx, dy});
+                if (nest && probes.size() == 2) {
+                    const auto blocked = find_monster_path(
+                        -64, -64, 64, 64, 0, [](int, int, int, int) { return false; });
+                    expect(!blocked.found && blocked.waypoints.empty(),
+                           "a nested blocked path does not return stale waypoints");
+                }
+                return !(x < 32 && x + dx >= 32 && y >= -32 && y <= 32 && y + dy >= -32 &&
+                         y + dy <= 32);
+            });
+        };
+        std::vector<Probe> first_probes;
+        const auto first = search(first_probes, false);
+        expect(first.found && first.waypoints.size() > 1 && !first_probes.empty(),
+               "the bounded path search finds a detour around the obstacle");
+        for (bool nest : {true, false}) {
+            std::vector<Probe> probes;
+            const auto result = search(probes, nest);
+            expect(result.found == first.found && result.waypoints == first.waypoints &&
+                       probes == first_probes,
+                   "repeated and nested searches preserve probes and waypoint order");
+        }
     }
 
     void test_tick_trajectories(const std::string& root) {
@@ -721,7 +817,10 @@ int main(int argc, char** argv) {
     test_occupancy();
     test_indexed_occupancy();
     test_moves(root);
+    test_spawnable_terrain();
     test_tick_trajectories(root);
+    test_player_selection(root);
+    test_repeated_path_searches();
     std::filesystem::remove_all(root);
     return openkal::test::g_failures ? 1 : 0;
 }

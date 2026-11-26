@@ -10,7 +10,7 @@
 
 #include "openkal/client/UiView.h"
 
-#include "openkal/client/TextWrap.h"
+#include "openkal/client/FreetypeFont.h"
 #include "openkal/client/UiLayout.h"
 
 #include <algorithm>
@@ -469,7 +469,7 @@ namespace openkal::client {
                     float sx = 0, sy = 0, sw = 0, sh = 0;
                     widget_rect(w, &ui, client_x, client_y, client_w, client_h, s, sx, sy, sw, sh);
                     if (w.multiline()) {
-                        const auto lines = layout_text_lines(face, shown, sw, text_scale);
+                        const auto& lines = face.cached_text_lines(shown, sw, text_scale);
                         const float step =
                             std::max(w.line_height() * s, face.line_height() * text_scale);
                         const auto offset = static_cast<std::size_t>(
