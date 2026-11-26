@@ -23320,8 +23320,12 @@ namespace openkal::server {
                                                 m_config.max_monsters,
                                                 m_next_entity_id,
                                                 now_ms);
-                    harvest_plants.update(
-                        m_world, m_map_catalog, m_config.plants, m_next_entity_id, elapsed);
+                    harvest_plants.update(m_world,
+                                          m_map_catalog,
+                                          m_config.plants,
+                                          m_next_entity_id,
+                                          elapsed,
+                                          m_castle_war ? &m_castle_war->rules() : nullptr);
                     m_world.tick(elapsed, poses, moves, attacks, chests, corpses);
                     m_world.tick_ground_items(elapsed, despawned_items);
                     publish_monster_status_and_remove_corpses(m_world, clients, corpses);

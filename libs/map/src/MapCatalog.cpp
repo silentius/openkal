@@ -11,14 +11,21 @@
 #include "openkal/map/MapCatalog.h"
 
 #include "openkal/map/Coords.h"
+#include "openkal/map/WorldGrid.h"
 #include "openkal/platform/File.h"
 #include "openkal/platform/Json.h"
 #include "openkal/platform/Log.h"
 
+#include <bitset>
 #include <string>
 
 namespace openkal::map {
     namespace {
+
+        [[nodiscard]] bool within_world_grid(const MapInfo& entry) {
+            return entry.x() >= 0 && entry.x() < kWorldCellSlots && entry.y() >= 0 &&
+                   entry.y() < kWorldCellSlots;
+        }
 
         [[nodiscard]] bool parse_json_cell(const platform::Json& obj, MapInfo& out) {
             if (!obj.is_object()) {
@@ -67,6 +74,7 @@ namespace openkal::map {
 
     void MapCatalog::clear() {
         m_entries.clear();
+        m_outdoor_cells.clear();
     }
 
     bool MapCatalog::load(std::string_view path) {
@@ -74,7 +82,7 @@ namespace openkal::map {
     }
 
     bool MapCatalog::load_json(std::string_view path) {
-        m_entries.clear();
+        clear();
         const std::string path_str(path);
         const auto bytes = platform::File::read(path_str);
         if (!bytes) {
@@ -85,7 +93,7 @@ namespace openkal::map {
     }
 
     bool MapCatalog::load_json_text(std::string_view text) {
-        m_entries.clear();
+        clear();
         platform::Json root;
         std::string err;
         if (!platform::json_parse(std::string(text), root, &err)) {
@@ -110,6 +118,19 @@ namespace openkal::map {
                 continue;
             }
             m_entries.push_back(std::move(info));
+        }
+
+        std::bitset<kWorldCellSlots * kWorldCellSlots> named_cells;
+        for (const auto& entry : m_entries) {
+            if (!entry.mapname().empty() && within_world_grid(entry)) {
+                named_cells.set(cell_slot_index(entry.x(), entry.y()));
+            }
+        }
+        for (const auto& entry : m_entries) {
+            if (entry.kind() == 1 && within_world_grid(entry) &&
+                !named_cells.test(cell_slot_index(entry.x(), entry.y()))) {
+                m_outdoor_cells.push_back({entry.index(), entry.x(), entry.y()});
+            }
         }
         log::info("MapCatalog::load_json: " + std::to_string(m_entries.size()) + " entries");
         return !m_entries.empty();
