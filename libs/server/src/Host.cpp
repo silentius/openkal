@@ -10953,15 +10953,9 @@ namespace openkal::server {
                         {
                             std::lock_guard<std::mutex> lock(world_mutex);
                             const MonsterEntity* m = world.find_monster(ev.attacker_id);
-                            const MonsterDef* def = nullptr;
                             if (m && m->map == victim->map) {
                                 same_map = true;
-                                for (const auto& d : world.defs()) {
-                                    if (d.index == m->def_index) {
-                                        def = &d;
-                                        break;
-                                    }
-                                }
+                                const auto* def = world.find_def(m->def_index);
                                 atk = monster_combatant(*m, def);
                                 monster_intelligence = def ? def->intelligence : 0;
                             }
@@ -23320,8 +23314,12 @@ namespace openkal::server {
                                                 m_config.max_monsters,
                                                 m_next_entity_id,
                                                 now_ms);
-                    harvest_plants.update(
-                        m_world, m_map_catalog, m_config.plants, m_next_entity_id, elapsed);
+                    harvest_plants.update(m_world,
+                                          m_map_catalog,
+                                          m_config.plants,
+                                          m_next_entity_id,
+                                          elapsed,
+                                          m_castle_war ? &m_castle_war->rules() : nullptr);
                     m_world.tick(elapsed, poses, moves, attacks, chests, corpses);
                     m_world.tick_ground_items(elapsed, despawned_items);
                     publish_monster_status_and_remove_corpses(m_world, clients, corpses);

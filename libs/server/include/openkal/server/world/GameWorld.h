@@ -1327,6 +1327,9 @@ namespace openkal::server {
         /** Loaded monster definitions. */
         std::vector<MonsterDef> m_defs;
 
+        /** First loaded position in m_defs for each monster definition ID. */
+        std::unordered_map<int, std::size_t> m_def_positions;
+
         /** Loaded item definitions. */
         std::unordered_map<int, ItemCombatDef> m_item_defs;
 
@@ -1350,6 +1353,12 @@ namespace openkal::server {
 
         /** Configured spawn rectangles. */
         std::vector<MonsterSpawn> m_spawns;
+
+        /** Rebuilds the ordered map buckets after the spawn catalog or its map assignments change. */
+        void rebuild_spawn_map_index();
+
+        /** Spawn vector positions in catalog order, grouped by logical map. */
+        std::unordered_map<int, std::vector<std::size_t>> m_spawn_indices_by_map;
 
         /** Live monster entities. */
         std::vector<MonsterEntity> m_monsters;

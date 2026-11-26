@@ -15,8 +15,17 @@
 #include <array>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace openkal::client {
+
+    /** A visual line retaining its UTF-8 byte range in the unmodified source. */
+    struct TextLine {
+        /** Offset of the first byte. */
+        std::size_t start = 0;
+        /** Number of source bytes on the line. */
+        std::size_t length = 0;
+    };
 
     /** GPU atlas of a TrueType face rasterized with FreeType (ASCII 32..126). */
     class FreetypeFont {
@@ -83,6 +92,15 @@ namespace openkal::client {
          */
         [[nodiscard]] float
         append_text_width(std::string_view text, float initial_width, float scale = 1.0f) const;
+
+        /** Reuses recent line layouts measured with this face.
+         * @param text Source text, including explicit newlines.
+         * @param width Maximum line width in pixels.
+         * @param scale Display scale used to measure line widths.
+         * @return Source spans for immediate use before subsequent layout or font changes.
+         */
+        [[nodiscard]] const std::vector<TextLine>&
+        cached_text_lines(std::string_view text, float width, float scale) const;
 
         /** @return Line height in pixels (ascender to descender). */
         [[nodiscard]] float line_height() const {
@@ -302,6 +320,19 @@ namespace openkal::client {
 
         /** Glyphs for ASCII 32..126. */
         std::array<Glyph, 95> m_glyphs{};
+
+        struct TextLayout {
+            std::string text;
+            float width = 0.0f;
+            float scale = 0.0f;
+            std::vector<TextLine> lines;
+        };
+
+        /** Recent wraps for this face, cleared with the glyph metrics. */
+        mutable std::array<TextLayout, 8> m_text_layouts;
+
+        /** Slot to replace on the next cache miss. */
+        mutable std::size_t m_next_text_layout = 0;
     };
 
 }  // namespace openkal::client

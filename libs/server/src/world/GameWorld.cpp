@@ -1545,7 +1545,9 @@ namespace openkal::server {
             return false;
         }
         m_defs.clear();
+        m_def_positions.clear();
         m_spawns.clear();
+        m_spawn_indices_by_map.clear();
         if (!platform::is_directory(dir)) {
             log::warn("GameWorld: monsters dir missing " + dir);
             return false;
@@ -1705,6 +1707,7 @@ namespace openkal::server {
             finalize_monster_def(def);
             def.speed = 32000.0f / static_cast<float>(def.roam_speed_ms);
             m_defs.push_back(def);
+            m_def_positions.try_emplace(def.index, m_defs.size() - 1);
             ++loaded_defs;
 
             const platform::Json& spawns = root.at("spawns");
@@ -1754,10 +1757,18 @@ namespace openkal::server {
             }
         }
 
+        rebuild_spawn_map_index();
         log::info("GameWorld: monsters json defs=" + std::to_string(loaded_defs) +
                   " spawns_parsed=" + std::to_string(parsed_spawns) +
                   " spawns_kept=" + std::to_string(loaded_spawns) + " from " + dir);
         return loaded_defs > 0;
+    }
+
+    void GameWorld::rebuild_spawn_map_index() {
+        m_spawn_indices_by_map.clear();
+        for (std::size_t position = 0; position < m_spawns.size(); ++position) {
+            m_spawn_indices_by_map[m_spawns[position].map_index].push_back(position);
+        }
     }
 
     void GameWorld::apply_named_spawn_maps(const map::MapCatalog& maps) {
@@ -1769,6 +1780,7 @@ namespace openkal::server {
             const int y = (spawn.y0 + spawn.y1) / 2;
             spawn.map_index = maps.resolve_teleport_map(x, y, spawn.map_index);
         }
+        rebuild_spawn_map_index();
     }
 
     void GameWorld::bind_field_spawns_to_overworld(const map::MapCatalog& maps) {
@@ -1787,15 +1799,12 @@ namespace openkal::server {
             }
             spawn.map_index = 0;
         }
+        rebuild_spawn_map_index();
     }
 
     const MonsterDef* GameWorld::find_def(int index) const {
-        for (const auto& d : m_defs) {
-            if (d.index == index) {
-                return &d;
-            }
-        }
-        return nullptr;
+        const auto found = m_def_positions.find(index);
+        return found == m_def_positions.end() ? nullptr : &m_defs[found->second];
     }
 
     std::optional<std::uint32_t> GameWorld::spawn_monster_at(
@@ -1846,7 +1855,7 @@ namespace openkal::server {
     bool GameWorld::monster_spawnable_pixel(int px, int py) const {
         // compatibility behavior: IsValidTile(..., SM_ATTR_VILLAGE) must be true (village
         // bit clear).
-        return walkable_pixel(px, py) && !m_grid.has_attr_world_pixel(px, py, map::kAttrVillage);
+        return m_grid.walkable_world_pixel(px, py, map::kAttrVillage);
     }
 
     void GameWorld::occupy_pixel(const MonsterEntity& m, int& ox, int& oy) {
@@ -2199,28 +2208,26 @@ namespace openkal::server {
             return ndx * ndx + ndy * ndy;
         };
 
-        std::vector<std::size_t> nearby;
-        nearby.reserve(m_spawns.size());
-        for (std::size_t i = 0; i < m_spawns.size(); ++i) {
-            const MonsterSpawn& g = m_spawns[i];
-            if (map >= 0 && g.map_index != map) {
-                continue;
+        std::vector<std::pair<long long, std::size_t>> nearby;
+        const auto consider_spawn = [&](std::size_t position) {
+            const auto distance = gen_dist2(m_spawns[position]);
+            if (distance <= r2) {
+                nearby.emplace_back(distance, position);
             }
-            if (gen_dist2(g) > r2) {
-                continue;
+        };
+        if (map < 0) {
+            for (std::size_t position = 0; position < m_spawns.size(); ++position) {
+                consider_spawn(position);
             }
-            nearby.push_back(i);
+        } else if (const auto found = m_spawn_indices_by_map.find(map);
+                   found != m_spawn_indices_by_map.end()) {
+            for (const auto position : found->second) {
+                consider_spawn(position);
+            }
         }
-        std::sort(nearby.begin(), nearby.end(), [&](std::size_t a, std::size_t b) {
-            const long long da = gen_dist2(m_spawns[a]);
-            const long long db = gen_dist2(m_spawns[b]);
-            if (da != db) {
-                return da < db;
-            }
-            return a < b;
-        });
+        std::sort(nearby.begin(), nearby.end());
 
-        for (const std::size_t gi : nearby) {
+        for (const auto& [distance, gi] : nearby) {
             const MonsterSpawn& g = m_spawns[gi];
             const MonsterDef* def = find_def(g.def_index);
             if (!def) {
@@ -2244,8 +2251,7 @@ namespace openkal::server {
                     (void) ensure_cell_for_pixel(px_px, py_px);
                 }
             }
-            const long long d2 = gen_dist2(g);
-            const int gen_keep = static_cast<int>(std::sqrt(static_cast<double>(d2)));
+            const int gen_keep = static_cast<int>(std::sqrt(static_cast<double>(distance)));
             const int keep_radius = std::max(gen_keep, sight_keep);
             for (int i = live; i < want; ++i) {
                 while (population >= population_limit) {
@@ -2840,14 +2846,35 @@ namespace openkal::server {
                 g.next_gen_left = std::max(0.0f, g.next_gen_left - dt);
             }
         }
-        auto find_player = [&](std::uint32_t id) -> const PlayerPose* {
-            for (const auto& p : players) {
-                if (p.id == id) {
-                    return &p;
+        struct MapPlayers {
+            std::vector<PlayerPose> targets;
+            std::vector<PlayerPose> beacons;
+        };
+        const bool index_players = players.size() > 1 && !m_monsters.empty();
+        std::unordered_map<std::uint32_t, const PlayerPose*> players_by_id;
+        std::unordered_map<int, MapPlayers> players_by_map;
+        if (index_players) {
+            players_by_id.reserve(players.size());
+            for (const auto& player : players) {
+                players_by_id.try_emplace(player.id, &player);
+                if (player.aggro_immune) {
+                    continue;
+                }
+                auto& local = players_by_map[player.map];
+                local.targets.push_back(player);
+                if (player.beacon_active) {
+                    local.beacons.push_back(player);
                 }
             }
-            return nullptr;
+        }
+        const auto find_player = [&](std::uint32_t id) -> const PlayerPose* {
+            if (!index_players) {
+                return !players.empty() && players.front().id == id ? &players.front() : nullptr;
+            }
+            const auto found = players_by_id.find(id);
+            return found == players_by_id.end() ? nullptr : found->second;
         };
+        const MapPlayers empty_map;
         TickOccupancyScope occupancy(*this, players);
         for (auto& m : m_monsters) {
             occupancy.advance(m);
@@ -2917,6 +2944,11 @@ namespace openkal::server {
                 continue;
             }
 
+            const auto map_players = players_by_map.find(m.map);
+            const auto& local =
+                map_players == players_by_map.end() ? empty_map : map_players->second;
+            const auto& targets = index_players ? local.targets : players;
+            const auto& beacons = index_players ? local.beacons : players;
             if (m.race == static_cast<int>(protocol::MonsterRace::FireFlower)) {
                 // compatibility behavior does not acquire a target or use the regular
                 // monster combat FSM. Its compatibility behavior explosion affects every
@@ -2942,7 +2974,7 @@ namespace openkal::server {
                     m.fire_flower_skill_fire_left -= dt;
                     if (m.fire_flower_skill_fire_left <= 0.0f) {
                         m.fire_flower_skill_fire_left = 0.0f;
-                        for (const PlayerPose& player : players) {
+                        for (const PlayerPose& player : targets) {
                             if (player.map != m.map || player.aggro_immune ||
                                 !coords::in_tile_rect(m.x, m.y, player.x, player.y, 5)) {
                                 continue;
@@ -3010,7 +3042,7 @@ namespace openkal::server {
 
             m.beacon_pursuit = false;
             if (MonsterRaceInfo::can_pursue(m.race) && m.spawn_protection_left <= 0.0f) {
-                for (const auto& player : players) {
+                for (const auto& player : beacons) {
                     if (!player.beacon_active || player.aggro_immune || player.map != m.map ||
                         (m.aggro_player_id != 0 && m.aggro_player_id != player.id) ||
                         m_grid.has_attr_world_pixel(player.x, player.y, map::kAttrVillage)) {
@@ -3101,7 +3133,7 @@ namespace openkal::server {
                 const float detect_f = static_cast<float>(detect);
                 const PlayerPose* closest = nullptr;
                 float best_dist = detect_f + 1.0f;
-                for (const PlayerPose& p : players) {
+                for (const PlayerPose& p : targets) {
                     if (p.aggro_immune || p.map != m.map) {
                         continue;
                     }

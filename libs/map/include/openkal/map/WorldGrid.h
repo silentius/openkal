@@ -75,6 +75,15 @@ namespace openkal::map {
          */
         [[nodiscard]] bool walkable_world_pixel(int px, int py) const;
 
+        /** Checks pixel collision and rejects terrain attributes in the same cell lookup.
+         * @param px Server pixel X.
+         * @param py Server pixel Y.
+         * @param excluded_attributes Tile attributes that reject an otherwise walkable pixel.
+         * @return True if the cell is loaded, the pixel is walkable, and no excluded bit is set.
+         */
+        [[nodiscard]] bool
+        walkable_world_pixel(int px, int py, std::uint32_t excluded_attributes) const;
+
         /** True if the NotMoveable mask covers a world pixel.
          * @param px Server pixel X.
          * @param py Server pixel Y.

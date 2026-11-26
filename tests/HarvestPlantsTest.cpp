@@ -14,6 +14,7 @@
 #include "openkal/map/Attributes.h"
 #include "openkal/map/MapCatalog.h"
 #include "openkal/protocol/HarvestPlant.h"
+#include "openkal/server/CastleWarRules.h"
 #include "openkal/server/world/GameWorld.h"
 #include "test_util.h"
 
@@ -21,7 +22,225 @@
 #include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <random>
+#include <tuple>
 #include <unistd.h>
+
+namespace {
+    using namespace openkal;
+    using test::expect;
+
+    void test_area_discovery(const map::AreaCell& outdoor, server::HarvestConfig config) {
+        server::GameWorld world;
+        expect(world.load_monsters_json_dir(
+                   std::string(OPENKAL_REPO_ROOT) + "/config/monsters", 0, 0, 0),
+               "load plant definition for discovery");
+        config.types.front().plants_per_area = 1;
+        for (const auto& [x, y] : {std::pair{0, 0},
+                                   {63, 63},
+                                   {30, 30},
+                                   {31, 30},
+                                   {32, 30},
+                                   {33, 30},
+                                   {34, 30},
+                                   {63, 0},
+                                   {0, 1},
+                                   {38, 30},
+                                   {39, 30}}) {
+            world.grid().set_cell(x, y, outdoor);
+        }
+        map::MapCatalog catalog;
+        expect(catalog.load_json_text(R"({"maps":[
+            {"index":0,"kind":1,"xy":[0, 0]},
+            {"index":255,"kind":1,"xy":[63, 63]},
+            {"index":4,"kind":1,"xy":[30, 30]},
+            {"index":1,"kind":1,"xy":[31, 30]},
+            {"index":2,"kind":2,"xy":[31, 30],"mapname":"owned_indoor"},
+            {"index":3,"kind":2,"xy":[32, 30]},
+            {"index":3,"kind":1,"xy":[39, 30],"mapname":"owned_named_outdoor"},
+            {"index":-1,"kind":1,"xy":[33, 30]},
+            {"index":256,"kind":1,"xy":[34, 30]},
+            {"index":6,"kind":1,"xy":[-1, 1]},
+            {"index":7,"kind":1,"xy":[64, 0]},
+            {"index":7,"kind":1,"xy":[0, -1]},
+            {"index":7,"kind":1,"xy":[0, 64]},
+            {"index":2,"kind":2,"xy":[-1, 64],"mapname":"owned_out_of_bounds"},
+            {"index":5,"kind":1,"xy":[30, 30]},
+            {"index":8,"kind":1,"xy":[38, 30]},
+            {"index":9,"kind":1,"xy":[36, 30]},
+            {"index":10,"kind":1,"xy":[37, 30]}
+        ]})"),
+               "load duplicate, named, invalid and streamed area entries");
+
+        using Area = std::tuple<int, int, int>;
+        constexpr std::uint32_t seed = 1234;
+        std::mt19937 random(seed);
+        std::vector<Area> candidates{
+            {0, 0, 0}, {255, 63, 63}, {4, 30, 30}, {5, 30, 30}, {8, 38, 30}};
+        std::shuffle(candidates.begin(), candidates.end(), random);
+        std::vector<Area> expected;
+        for (const auto& [index, x, y] : candidates) {
+            if (std::none_of(expected.begin(), expected.end(), [&](const auto& area) {
+                    return std::get<1>(area) == x && std::get<2>(area) == y;
+                })) {
+                expected.emplace_back(index, x, y);
+            }
+        }
+        server::HarvestPlants plants(seed);
+        std::uint32_t next = 1;
+        const auto check_order = [&](const char* message) {
+            std::vector<Area> actual;
+            std::uint32_t id = 1;
+            for (const auto& plant : world.monsters()) {
+                expect(plant.id == id++, "the ordered spawns consume consecutive entity IDs");
+                actual.emplace_back(
+                    plant.map, plant.x / map::kWorldSize, plant.y / map::kWorldSize);
+            }
+            expect(actual == expected, message);
+        };
+        plants.update(world, catalog, config, next, 0);
+        check_order(
+            "shuffle receives eligible loaded records in catalog order, including duplicates");
+
+        world.grid().set_cell(36, 30, outdoor);
+        expected.emplace_back(9, 36, 30);
+        plants.update(world, catalog, config, next, 0);
+        check_order("a newly loaded cell spawns once after the initially loaded cells");
+
+        catalog.clear();
+        world.grid().set_cell(37, 30, outdoor);
+        plants.update(world, catalog, config, next, 0);
+        check_order("clearing the catalog discards its undiscovered areas");
+        expect(catalog.load_json_text(R"({"maps":[{"index":10,"kind":1,"xy":[37, 30]}]})"),
+               "reload an explicit outdoor area");
+        expect(!catalog.load_json_text("{"), "reject malformed replacement catalog");
+        plants.update(world, catalog, config, next, 0);
+        check_order("a failed catalog load discards the previous entries");
+        expect(catalog.load_json_text(R"({"maps":[{"index":10,"kind":1,"xy":[37, 30]}]})"),
+               "restore outdoor area before a missing file load");
+        const auto root = test::temp_dir(("plant_catalog_" + std::to_string(getpid())).c_str());
+        expect(!catalog.load_json(root + "/missing.json"), "reject a missing replacement catalog");
+        plants.update(world, catalog, config, next, 0);
+        check_order("a missing catalog file discards the previous entries");
+        std::filesystem::remove_all(root);
+        expect(catalog.load_json_text(R"({"maps":[{"index":11,"kind":1,"xy":[37, 30]}]})"),
+               "load a replacement catalog in place");
+        expected.emplace_back(11, 37, 30);
+        plants.update(world, catalog, config, next, 0);
+        check_order("in-place catalog reload discovers the current record rather than the old one");
+    }
+
+    void test_respawn_retry(const map::AreaCell& outdoor, server::HarvestConfig config) {
+        server::GameWorld world;
+        expect(world.load_monsters_json_dir(
+                   std::string(OPENKAL_REPO_ROOT) + "/config/monsters", 0, 0, 0),
+               "load plant definition for the respawn test");
+        config.types.front().plants_per_area = 1;
+        config.types.front().respawn_seconds = 5;
+        world.grid().set_cell(30, 30, outdoor);
+        map::MapCatalog catalog;
+        expect(catalog.load_json_text(R"({"maps":[{"index":0,"kind":1,"xy":[30, 30]},
+                                                {"index":0,"kind":1,"xy":[31, 30]}]})"),
+               "load the initial and streamed retry areas");
+        server::HarvestPlants plants(1234);
+        std::uint32_t next = 1;
+        plants.update(world, catalog, config, next, 0);
+        expect(next == 2 && world.monsters().size() == 1, "one plant is initially spawned");
+        if (world.monsters().empty()) {
+            return;
+        }
+        world.monsters().front().hp = 0;
+        plants.update(world, catalog, config, next, 6);
+        plants.update(world, catalog, config, next, 4.75f);
+        expect(next == 2, "the removal tick does not count toward the respawn delay");
+
+        map::AreaCell blocked = outdoor;
+        blocked.ensure_blocked_mask(true);
+        world.grid().set_cell(30, 30, std::move(blocked));
+        plants.update(world, catalog, config, next, 0.25f);
+        expect(next == 2, "placement fails at the exact respawn deadline when the cell is blocked");
+        world.grid().set_cell(30, 30, outdoor);
+        plants.update(world, catalog, config, next, 9.75f);
+        expect(next == 2, "the failed placement waits for the full retry delay");
+
+        world.grid().set_cell(31, 30, outdoor);
+        plants.update(world, catalog, config, next, 0.25f);
+        const auto* regrown = world.find_monster(2);
+        const auto* added = world.find_monster(3);
+        expect(next == 4 && regrown && added && regrown->x / map::kWorldSize == 30 &&
+                   added->x / map::kWorldSize == 31,
+               "the exact retry deadline regrows the old slot before populating a new cell");
+        plants.update(world, catalog, config, next, 10);
+        expect(next == 4, "further ticks do not duplicate the regrown or newly spawned plant");
+    }
+
+    void test_castle_exclusion(const map::AreaCell& outdoor, server::HarvestConfig config) {
+        server::GameWorld world;
+        expect(world.load_monsters_json_dir(
+                   std::string(OPENKAL_REPO_ROOT) + "/config/monsters", 0, 0, 0),
+               "load the plant definition for the castle test");
+        config.types.front().plants_per_area = 1;
+        config.types.front().respawn_seconds = 5;
+        for (int x = 30; x <= 34; ++x) {
+            world.grid().set_cell(x, 30, outdoor);
+        }
+        world.grid().cell(30, 30)->assign_attrs(map::kTileCount * map::kTileCount,
+                                                map::kAttrAttackCastle);
+        world.grid().cell(31, 30)->assign_attrs(map::kTileCount * map::kTileCount,
+                                                map::kAttrDefenceCastle);
+        map::MapCatalog catalog;
+        expect(catalog.load_json_text(R"({"maps":[
+            {"index":7,"kind":1,"xy":[30, 30]}, {"index":7,"kind":1,"xy":[31, 30]},
+            {"index":7,"kind":1,"xy":[32, 30]}, {"index":8,"kind":1,"xy":[33, 30]},
+            {"index":7,"kind":1,"xy":[34, 30]}
+        ]})"),
+               "load castle and nearby outdoor cells");
+        server::CastleWarRules castle;
+        castle.enabled = true;
+        castle.attack_camp.map = 7;
+        castle.bounds = {32 * map::kWorldSize,
+                         30 * map::kWorldSize,
+                         34 * map::kWorldSize - 1,
+                         31 * map::kWorldSize - 1};
+        server::HarvestPlants plants(1234);
+        std::uint32_t next = 1;
+        plants.update(world, catalog, config, next, 0, &castle);
+        expect(next == 3, "only the two cells outside the castle can spawn plants");
+        auto& monsters = world.monsters();
+        auto outside = monsters.end();
+        for (auto it = monsters.begin(); it != monsters.end(); ++it) {
+            const int cell_x = it->x / map::kWorldSize;
+            expect(cell_x != 30 && cell_x != 31, "neither castle terrain flag permits a spawn");
+            expect(!castle.contains(it->map, it->x, it->y),
+                   "untagged terrain inside the castle bounds cannot spawn a plant");
+            if (cell_x == 34 && it->map == 7) {
+                outside = it;
+            }
+        }
+        expect(std::any_of(monsters.begin(),
+                           monsters.end(),
+                           [](const auto& plant) {
+                               return plant.map == 8 && plant.x / map::kWorldSize == 33;
+                           }),
+               "castle bounds permit matching coordinates on another map");
+        expect(outside != monsters.end(), "a cell outside the bounds on the castle map can spawn");
+        if (outside == monsters.end()) {
+            return;
+        }
+        monsters.erase(outside);
+        plants.update(world, catalog, config, next, 0, &castle);
+        const auto before = next;
+        castle.bounds[2] = 35 * map::kWorldSize - 1;
+        plants.update(world, catalog, config, next, 5, &castle);
+        expect(next == before, "a due regrowth cannot spawn inside the configured castle bounds");
+        castle.bounds[2] = 34 * map::kWorldSize - 1;
+        plants.update(world, catalog, config, next, 10, &castle);
+        const auto* regrown = world.find_monster(before);
+        expect(next == before + 1 && regrown && regrown->map == 7 &&
+                   regrown->x / map::kWorldSize == 34,
+               "regrowth can retry once its cell is outside the castle bounds");
+    }
+}  // namespace
 
 int main() {
     using namespace openkal;
@@ -77,6 +296,11 @@ int main() {
     map::AreaCell outdoor;
     // Outdoor hunting ground can carry Safety without being a Village.
     outdoor.assign_attrs(map::kTileCount * map::kTileCount, map::kAttrSafety);
+    if (defaults) {
+        test_area_discovery(outdoor, *defaults);
+        test_respawn_retry(outdoor, *defaults);
+        test_castle_exclusion(outdoor, *defaults);
+    }
     world.grid().set_cell(30, 30, outdoor);
     world.grid().set_cell(31, 30, outdoor);
     world.grid().set_cell(32, 30, outdoor);
@@ -116,7 +340,11 @@ int main() {
     }
     const int sample_x = 30 * map::kWorldSize + 100 * map::kTileSize + 16;
     const int sample_y = 30 * map::kWorldSize + 100 * map::kTileSize + 16;
-    for (const auto flag : {map::kAttrVillage, map::kAttrPortal, map::kAttrObject}) {
+    for (const auto flag : {map::kAttrVillage,
+                            map::kAttrPortal,
+                            map::kAttrObject,
+                            map::kAttrAttackCastle,
+                            map::kAttrDefenceCastle}) {
         ground->attr_ref(100, 100) = flag;
         expect(!server::HarvestPlants::valid_position(world, sample_x, sample_y),
                "exclude protected terrain attributes");

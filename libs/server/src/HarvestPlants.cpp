@@ -14,6 +14,7 @@
 #include "openkal/map/Constants.h"
 #include "openkal/map/MapCatalog.h"
 #include "openkal/platform/File.h"
+#include "openkal/server/CastleWarRules.h"
 #include "openkal/server/world/GameWorld.h"
 
 #include <algorithm>
@@ -88,11 +89,11 @@ namespace openkal::server {
     HarvestPlants::HarvestPlants(std::uint32_t seed) : m_random(seed) {}
 
     bool HarvestPlants::valid_position(const GameWorld& world, int x, int y) {
-        constexpr auto excluded = map::kAttrVillage | map::kAttrPortal | map::kAttrObject;
+        constexpr auto excluded = map::kAttrVillage | map::kAttrPortal | map::kAttrObject |
+                                  map::kAttrAttackCastle | map::kAttrDefenceCastle;
         for (int dy = -16; dy <= 16; dy += map::kCellSize) {
             for (int dx = -16; dx <= 16; dx += map::kCellSize) {
-                if (!world.grid().walkable_world_pixel(x + dx, y + dy) ||
-                    world.grid().has_attr_world_pixel(x + dx, y + dy, excluded)) {
+                if (!world.grid().walkable_world_pixel(x + dx, y + dy, excluded)) {
                     return false;
                 }
             }
@@ -104,12 +105,14 @@ namespace openkal::server {
                               Node& node,
                               const HarvestTypeConfig& type,
                               std::uint32_t& next_id,
-                              std::vector<Position>& positions) {
+                              std::vector<Position>& positions,
+                              const CastleWarRules* castle_rules) {
         std::uniform_int_distribution<int> position(4, map::kCellCount - 5);
         for (int attempt = 0; attempt < 128; ++attempt) {
             const int x = node.cell_x * map::kWorldSize + position(m_random) * map::kCellSize + 4;
             const int y = node.cell_y * map::kWorldSize + position(m_random) * map::kCellSize + 4;
-            if (!valid_position(world, x, y)) {
+            if ((castle_rules && castle_rules->contains(node.map, x, y)) ||
+                !valid_position(world, x, y)) {
                 continue;
             }
             bool crowded = false;
@@ -141,7 +144,8 @@ namespace openkal::server {
                                const map::MapCatalog& catalog,
                                const HarvestConfig& config,
                                std::uint32_t& next_id,
-                               float dt) {
+                               float dt,
+                               const CastleWarRules* castle_rules) {
         if (std::none_of(config.types.begin(), config.types.end(), [](const auto& type) {
                 return type.enabled && type.max_plants > 0 && type.plants_per_area > 0;
             })) {
@@ -176,36 +180,32 @@ namespace openkal::server {
                 node.remaining = std::max(0.0f, node.remaining - std::max(0.0f, dt));
                 if (node.remaining == 0 && placements_left > 0) {
                     --placements_left;
-                    if (!spawn(world, node, type, next_id, positions)) {
+                    if (!spawn(world, node, type, next_id, positions, castle_rules)) {
                         node.remaining = 10;
                     }
                 }
             }
         }
-        std::vector<const map::MapInfo*> areas;
-        for (const auto& area : catalog.entries()) {
-            if (area.kind() != 1 || area.index() < 0 || area.index() > 255 || area.x() < 0 ||
-                area.x() >= map::kWorldCellSlots || area.y() < 0 ||
-                area.y() >= map::kWorldCellSlots || !area.mapname().empty() ||
-                catalog.find_named_cell(area.x(), area.y()) != nullptr ||
-                !world.grid().cell(area.x(), area.y())) {
+        std::vector<map::MapCatalog::OutdoorCell> areas;
+        for (const auto& area : catalog.outdoor_cells()) {
+            if (area.map_index < 0 || area.map_index > 255) {
                 continue;
             }
-            const int key = map::cell_slot_index(area.x(), area.y());
-            if (m_areas.find(key) == m_areas.end()) {
-                areas.push_back(&area);
+            const int key = map::cell_slot_index(area.cell_x, area.cell_y);
+            if (m_areas.find(key) == m_areas.end() && world.grid().cell(area.cell_x, area.cell_y)) {
+                areas.push_back(area);
             }
         }
         std::shuffle(areas.begin(), areas.end(), m_random);
-        for (const auto* area : areas) {
-            if (!m_areas.insert(map::cell_slot_index(area->x(), area->y())).second) {
+        for (const auto& area : areas) {
+            if (!m_areas.insert(map::cell_slot_index(area.cell_x, area.cell_y)).second) {
                 continue;
             }
             for (std::size_t i = 0; i < config.types.size(); ++i) {
                 const auto& type = config.types[i];
                 if (type.enabled && type.max_plants > 0 && type.plants_per_area > 0) {
                     m_pending_areas.push_back(
-                        {i, area->index(), area->x(), area->y(), type.plants_per_area});
+                        {i, area.map_index, area.cell_x, area.cell_y, type.plants_per_area});
                 }
             }
         }
@@ -222,7 +222,7 @@ namespace openkal::server {
             node.cell_x = area.cell_x;
             node.cell_y = area.cell_y;
             --placements_left;
-            if (spawn(world, node, type, next_id, positions)) {
+            if (spawn(world, node, type, next_id, positions, castle_rules)) {
                 m_nodes.push_back(node);
                 ++populations[node.type_index];
             }

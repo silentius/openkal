@@ -266,6 +266,16 @@ namespace openkal::map {
     /** Parses map definition JSON (`config/mapinfo.json` or `config/mapinfo.json`). */
     class MapCatalog {
       public:
+        /** Unnamed outdoor record in the world grid, with no named map at the same coordinates. */
+        struct OutdoorCell {
+            /** Logical map index. */
+            int map_index;
+            /** World cell X. */
+            int cell_x;
+            /** World cell Y. */
+            int cell_y;
+        };
+
         /** Loads map definition records from a JSON path.
          * @param path Path to mapinfo.json or mapinfo.json.
          * @return True if at least one entry was parsed.
@@ -294,6 +304,13 @@ namespace openkal::map {
          */
         [[nodiscard]] const std::vector<MapInfo>& entries() const {
             return m_entries;
+        }
+
+        /** Returns outdoor cells in catalog order, including duplicate records.
+         * @return Const reference to the filtered list built when the catalog loads.
+         */
+        [[nodiscard]] const std::vector<OutdoorCell>& outdoor_cells() const {
+            return m_outdoor_cells;
         }
 
         /** True if no entries are loaded.
@@ -374,6 +391,9 @@ namespace openkal::map {
       private:
         /** Parsed map definition records. */
         std::vector<MapInfo> m_entries;
+
+        /** Derived outdoor cells rebuilt on each load. */
+        std::vector<OutdoorCell> m_outdoor_cells;
     };
 
     /** Thin free-function forward to MapCatalog::load.

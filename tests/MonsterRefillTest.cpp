@@ -10,6 +10,7 @@
 
 #include "fixture_util.h"
 #include "openkal/map/Constants.h"
+#include "openkal/map/MapCatalog.h"
 #include "openkal/server/world/GameWorld.h"
 #include "test_util.h"
 
@@ -18,6 +19,53 @@
 #include <fstream>
 #include <set>
 
+namespace {
+    void test_spawn_candidates(const std::string& root) {
+        using namespace openkal;
+        using test::expect;
+        const auto directory = root + "/candidates";
+        std::filesystem::create_directories(directory);
+        std::ofstream(directory + "/1.json") << R"({"index":1,"spawns":[
+            {"map":7,"max":1,"rect":[20, 15, 20, 15]},
+            {"map":9,"max":1,"rect":[15, 15, 15, 15]},
+            {"map":7,"max":1,"rect":[10, 15, 10, 15]}]})";
+        constexpr int center = 15 * map::kTileSize;
+        server::GameWorld world;
+        expect(world.load_maps_around(root + "/maps", center, center, 0), "load candidate map");
+        const auto reload = [&] {
+            world.monsters().clear();
+            expect(world.load_monsters_json_dir(directory, center, center, 0),
+                   "reload ordered spawn candidates");
+        };
+        std::uint32_t next = 1;
+        const auto refill = [&](int map) {
+            return world.ensure_monsters_around(center, center, 512, next, 8, map);
+        };
+        reload();
+        expect(refill(7) == 2 && world.monsters()[0].x == 20 * map::kTileSize &&
+                   world.monsters()[1].x == 10 * map::kTileSize,
+               "equal-distance candidates retain catalog order within the selected map");
+        reload();
+        expect(refill(-1) == 3 && world.monsters().front().map == 9,
+               "wildcard refill retains distance ordering across all maps");
+        map::MapCatalog catalog;
+        expect(catalog.load_json_text(R"([{"index":8,"xy":[0, 0],"mapname":"owned_room"}])"),
+               "load a named remap for existing spawn rectangles");
+        reload();
+        world.apply_named_spawn_maps(catalog);
+        expect(refill(7) == 0 && refill(8) == 3, "named remapping moves candidates to the new map");
+        expect(catalog.load_json_text(R"([{"index":0,"kind":1,"xy":[0, 0]}])"),
+               "load an overworld cell definition");
+        reload();
+        world.bind_field_spawns_to_overworld(catalog);
+        expect(refill(7) == 0 && refill(0) == 3,
+               "field remapping moves candidates to the overworld");
+        expect(!world.load_monsters_json_dir(root + "/missing", center, center, 0) &&
+                   refill(0) == 0,
+               "failed catalog load removes stale spawn candidates");
+    }
+}  // namespace
+
 int main() {
     using openkal::test::expect;
     const auto root = openkal::test::temp_dir("monster_refill");
@@ -25,6 +73,7 @@ int main() {
     std::filesystem::create_directories(root + "/maps");
     expect(openkal::test::write_open_area(root + "/maps/n_000_000.akarea"),
            "write owned walkable refill area");
+    test_spawn_candidates(root);
     std::ofstream(root + "/monsters/1.json") << R"({
         "index":1,"name":"Owned refill monster",
         "stats":{"race":0,"level":1,"hp":10},

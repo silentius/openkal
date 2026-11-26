@@ -22,6 +22,7 @@ namespace openkal::map {
     class MapCatalog;
 }
 namespace openkal::server {
+    struct CastleWarRules;
     class GameWorld;
     /** Identity, population and reward settings for one plant type. */
     struct HarvestTypeConfig {
@@ -80,18 +81,20 @@ namespace openkal::server {
          * @param config Population limits.
          * @param next_id Shared entity ID allocator.
          * @param dt Elapsed seconds.
+         * @param castle_rules Optional configured Castle War arena to exclude.
          */
         void update(GameWorld& world,
                     const map::MapCatalog& catalog,
                     const HarvestConfig& config,
                     std::uint32_t& next_id,
-                    float dt);
+                    float dt,
+                    const CastleWarRules* castle_rules = nullptr);
 
         /** Checks terrain masks and space around a gathering position.
          * @param world Authoritative world.
          * @param x Server X coordinate.
          * @param y Server Y coordinate.
-         * @return True for open terrain outside villages, portals and objects.
+         * @return True for open terrain outside village, portal, object and castle tiles.
          */
         [[nodiscard]] static bool valid_position(const GameWorld& world, int x, int y);
 
@@ -120,7 +123,8 @@ namespace openkal::server {
                                  Node& node,
                                  const HarvestTypeConfig& type,
                                  std::uint32_t& next_id,
-                                 std::vector<Position>& positions);
+                                 std::vector<Position>& positions,
+                                 const CastleWarRules* castle_rules);
         std::mt19937 m_random;
         std::vector<Node> m_nodes;
         std::unordered_set<int> m_areas;
