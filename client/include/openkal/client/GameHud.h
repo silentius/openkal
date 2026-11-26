@@ -23,8 +23,27 @@
 #include "openkal/engine/engine.h"
 
 #include <array>
+#include <cstdint>
+#include <string_view>
 
 namespace openkal::client {
+
+    /** Current and maximum health for the selected opponent and the local player. */
+    struct TargetHealthData {
+        std::string_view target_name;
+        std::int32_t target_hp;
+        std::int32_t target_max_hp;
+        std::int32_t player_hp;
+        std::int32_t player_max_hp;
+        bool player_target = false;
+    };
+
+    /** Screen-space edges and vertical center of the selected opponent. */
+    struct TargetHealthAnchor {
+        float left;
+        float right;
+        float center_y;
+    };
 
     /** Named on-map HUD panels, mirroring the KalOnline compatibility behavior keys. */
     enum class HudPanelId : int {
@@ -304,6 +323,19 @@ namespace openkal::client {
                   const StatusWidgetData& status,
                   const MinimapWidgetData& minimap,
                   const DragonHudData& exp) const;
+
+        /** Draws the fixed or opponent-anchored health widget without capturing input.
+         * @param ui Shared UI helpers.
+         * @param engine Engine used by the view.
+         * @param font FreeType face used by the labels.
+         * @param health Current target and player health.
+         * @param anchor Projected opponent body for the side widget, or null for the fixed widget.
+         */
+        void draw_target_health(WidgetTools& ui,
+                                engine::IEngine& engine,
+                                const FreetypeFont& font,
+                                const TargetHealthData& health,
+                                const TargetHealthAnchor* anchor = nullptr) const;
 
         /**
          * Loads or reloads the HUD FreeType faces used by panels and menu tooltips.

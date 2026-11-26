@@ -11691,6 +11691,7 @@ namespace {
             h9_harvest_event(p);
             p.despawned_items = {9001};
             p.owner().known_items.insert(9001);
+            p.owner().resting = true;
             p.moves = {{4001, H9Players::kX, H9Players::kY, 1, 2, false, false}};
             p.attacks = {{MonsterAttackEvent::Kind::SkillPrepare, 4001, 700, 29, 1, 0}};
             p.clear_audit();
@@ -11704,7 +11705,7 @@ namespace {
                         h9_position(r.packets[0], removed_item) &&
                     h9_position(r.packets[0], removed_item) < h9_position(r.packets[0], move) &&
                     h9_position(r.packets[0], move) < h9_position(r.packets[0], prepare) &&
-                    p.quantity(23027) == 3 && p.owner().cur_hp == 1000,
+                    p.quantity(23027) == 3 && p.owner().cur_hp == 1000 && p.owner().resting,
                 "H9 one mixed delivery keeps harvest/store output before despawn, move and attack phases");
             h9_observe("mixed-four-phase-output-order", p, r);
         }
@@ -11723,6 +11724,7 @@ namespace {
                                       : 13}};
             if (mode == 3) {
                 p.world.monsters()[0].map = 1;
+                p.owner().resting = true;
             }
             if (mode == 4) {
                 p.world.monsters().clear();
@@ -11796,6 +11798,11 @@ namespace {
                     !p.owner().resting && !p.owner().rest_food.active() &&
                         p.owner().pending_transform_stage == 0,
                     "H9 positive damage cancels pending transform and existing rest/food without a new deadline");
+            }
+            if (mode == 3) {
+                const auto stand = protocol::Skill::frame_action_rest(700, 0);
+                expect(p.owner().resting && h9_position(r.packets[0], stand) == r.packets[0].size(),
+                       "an attack from the wrong map leaves the player sitting");
             }
             if (mode >= 12) {
                 const auto die = protocol::Skill::frame_action_die(700);
@@ -11871,6 +11878,11 @@ namespace {
             std::srand(seed);
             const auto expected = evaluate();
             const auto next = std::rand();
+            if (!magic) {
+                p.owner().resting = true;
+                expect(p.owner().rest_food.apply_hp(7, 4, 9000),
+                       "the sitting player is consuming food before the attack");
+            }
             auto r = p.run(seed);
             const auto packet =
                 magic ? protocol::Skill::frame_server_damage(static_cast<std::uint8_t>(skill),
@@ -11889,6 +11901,20 @@ namespace {
             expect(
                 p.attacks.size() == 1 && p.attacks[0].damage == 1,
                 "H9 positive-stat/magic resolution ignores producer fallback damage without rewriting its event");
+            if (!magic) {
+                const auto stand = protocol::Skill::frame_action_rest(700, 0);
+                const bool took_damage = expected.damage > 0;
+                const int stand_count = took_damage ? 1 : 0;
+                expect(
+                    p.owner().resting == !took_damage &&
+                        p.owner().rest_food.active() == !took_damage &&
+                        std::count(r.packets[0].begin(), r.packets[0].end(), stand) ==
+                            stand_count &&
+                        std::count(r.packets[4].begin(), r.packets[4].end(), stand) == stand_count,
+                    took_damage
+                        ? "monster damage cancels sitting and food for the victim and broadcasts standing"
+                        : "a missed or blocked monster attack preserves sitting and food");
+            }
             h9_observe("domain-damage-" + std::to_string(mode), p, r);
         }
         {

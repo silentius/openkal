@@ -244,6 +244,31 @@ namespace {
             expect(engine->end_offscreen_rgba(rgba), "read options capture");
             write_capture(prefix + "-options-" + tab + ".ppm", 960, 540, rgba);
         }
+        GameHud target_hud;
+        target_hud.set_layouts(&layouts);
+        target_hud.reset_defaults(960, 540);
+        target_hud.sync_fonts(*engine);
+        const TargetHealthData health{"Demon Plunderer", 870, 1200, 320, 710};
+        const TargetHealthAnchor anchor{424, 482, 216};
+        for (const auto* placement : {static_cast<const TargetHealthAnchor*>(nullptr), &anchor}) {
+            expect(engine->begin_offscreen(960, 540, .20f, .25f, .22f), "begin target HP capture");
+            target_hud.draw_target_health(ui, *engine, font, health, placement);
+            std::vector<std::uint8_t> rgba;
+            expect(engine->end_offscreen_rgba(rgba), "read target HP capture");
+            write_capture(
+                prefix + (placement ? "-target-side.ppm" : "-target-fixed.ppm"), 960, 540, rgba);
+        }
+        const TargetHealthData opponent{"Assassin", 460, 810, 320, 710, true};
+        for (const auto* placement : {static_cast<const TargetHealthAnchor*>(nullptr), &anchor}) {
+            expect(engine->begin_offscreen(960, 540, .20f, .25f, .22f),
+                   "begin PvP target HP capture");
+            target_hud.draw_target_health(ui, *engine, font, opponent, placement);
+            std::vector<std::uint8_t> rgba;
+            expect(engine->end_offscreen_rgba(rgba), "read PvP target HP capture");
+            write_capture(
+                prefix + (placement ? "-pvp-side.ppm" : "-pvp-fixed.ppm"), 960, 540, rgba);
+        }
+        target_hud.destroy_fonts(*engine);
         PartyWindow party;
         party.set_layouts(&layouts);
         openkal::protocol::PartyState state;
@@ -459,6 +484,10 @@ int main(int argc, char** argv) {
     const auto click = [&](std::string_view target) {
         return click_settings(options, layouts, target);
     };
+    using openkal::settings::TargetHpDisplay;
+    (void) click("side_widget");
+    expect(options.settings().target_hp_display == TargetHpDisplay::Standard,
+           "hidden monster HP mode selector does not react on Display");
     (void) click("render");
     (void) click("settings.players.next");
     expect(options.settings().render.max_rendered_players == 50,
@@ -469,6 +498,15 @@ int main(int argc, char** argv) {
                options.settings().render.max_rendered_players == 50,
            "Graphics can hide every remote nameplate without hiding player models");
     (void) click("misc");
+    (void) click("target_widget");
+    expect(options.settings().target_hp_display == TargetHpDisplay::TargetWidget,
+           "Misc selects the fixed monster HP widget");
+    (void) click("large_bar");
+    expect(options.settings().target_hp_display == TargetHpDisplay::LargeBar,
+           "Misc selects the larger overhead monster HP bar");
+    (void) click("side_widget");
+    expect(options.settings().target_hp_display == TargetHpDisplay::SideWidget,
+           "Misc selects the monster-anchored HP widget");
     (void) click("settings.misc.clock");
     expect(!options.settings().clock_enabled, "Misc checkbox disables clock in the draft");
     (void) click("settings.misc.show_own_name");
@@ -481,6 +519,8 @@ int main(int argc, char** argv) {
     expect(options.settings().ignore_party_requests, "Misc toggle edits party invitation draft");
     (void) click("world");
     (void) click("settings.preset.next");
+    expect(options.settings().target_hp_display == TargetHpDisplay::SideWidget,
+           "quality presets preserve the draft monster HP mode");
     expect(!options.settings().clock_enabled, "quality preset preserves clock preference");
     expect(options.settings().show_own_name, "quality preset preserves own nameplate preference");
     expect(options.settings().ignore_party_requests,
@@ -502,6 +542,8 @@ int main(int argc, char** argv) {
            "tab switching retains draft filters");
     expect(click("settings.close") == SettingsWindowAction::Close, "Cancel closes options");
     options.show(openkal::settings::ClientSettings{}, 960, 540, initial_filters);
+    expect(options.settings().target_hp_display == TargetHpDisplay::Standard,
+           "reopening discards cancelled monster HP mode edits");
     expect(!options.settings().show_own_name, "reopening discards cancelled own nameplate edits");
     expect(options.chat_filters().battle_enabled(BattleMsgKind::Damage) &&
                options.chat_filters().system_enabled(),

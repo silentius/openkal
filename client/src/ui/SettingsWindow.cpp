@@ -162,6 +162,12 @@ namespace openkal::client {
             }
             return SettingsWindowAction::Consumed;
         }
+        if (hit.bind() == "settings.target_hp_display") {
+            if (const auto mode = settings::parse_target_hp_display(hit.tab_id())) {
+                m_settings.target_hp_display = *mode;
+            }
+            return SettingsWindowAction::Consumed;
+        }
         const std::string& action = hit.action();
         if (!m_character_available && action.rfind("settings.battle.", 0) == 0) {
             return SettingsWindowAction::Consumed;
@@ -401,6 +407,12 @@ namespace openkal::client {
         vars["settings.clock_checked"] = m_settings.clock_enabled ? "X" : "";
         vars["settings.show_own_name_label"] = "Show own name";
         vars["settings.show_own_name_checked"] = m_settings.show_own_name ? "X" : "";
+        vars["settings.target_hp_display"] = settings::to_string(m_settings.target_hp_display);
+        vars["settings.target_hp_display_label"] = "Target HP display";
+        vars["settings.target_hp_display.standard"] = "Standard";
+        vars["settings.target_hp_display.target_widget"] = "Target widget";
+        vars["settings.target_hp_display.large_bar"] = "Larger bar";
+        vars["settings.target_hp_display.side_widget"] = "Beside target";
         vars["settings.ignore_party_label"] = "Ignore party invitations";
         vars["settings.ignore_party"] = m_settings.ignore_party_requests ? "On" : "Off";
         vars["settings.battle_heading"] = "Battle messages";

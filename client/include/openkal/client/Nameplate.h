@@ -61,6 +61,12 @@ namespace openkal::client {
         /** Overhead HP bar height in pixels. */
         static constexpr float kHpBarH = 10.0f;
 
+        /** Enlarged overhead HP bar width in pixels. */
+        static constexpr float kLargeHpBarW = kHpBarW * 1.50f;
+
+        /** Enlarged overhead HP bar height in pixels. */
+        static constexpr float kLargeHpBarH = kHpBarH * 1.25f;
+
         /** Seconds the local player's overhead HP bar stays up after taking damage. */
         static constexpr float kCombatHpTimeoutSec = 5.0f;
 
@@ -201,8 +207,10 @@ namespace openkal::client {
          * @param screen_x Projected screen X of the bar center.
          * @param screen_y Projected screen Y of the bar top.
          * @param ratio Fill ratio in 0..1.
+         * @param enlarged Whether to render the larger target HP bar.
          */
-        static void draw_hp(WidgetTools& ui, float screen_x, float screen_y, float ratio);
+        static void draw_hp(
+            WidgetTools& ui, float screen_x, float screen_y, float ratio, bool enlarged = false);
     };
 
 }  // namespace openkal::client

@@ -222,11 +222,14 @@ namespace openkal::client {
         ui.draw_tex(file, std::floor(x - w * .5f), std::floor(y - name_height - 2.f * s - h), w, h);
     }
 
-    void Nameplate::draw_hp(WidgetTools& ui, float screen_x, float screen_y, float ratio) {
-        const float x = std::floor(screen_x) - kHpBarW * 0.5f;
+    void Nameplate::draw_hp(
+        WidgetTools& ui, float screen_x, float screen_y, float ratio, bool enlarged) {
+        const float width = enlarged ? kLargeHpBarW : kHpBarW;
+        const float height = enlarged ? kLargeHpBarH : kHpBarH;
+        const float x = std::floor(screen_x) - width * 0.5f;
         const float y = std::floor(screen_y);
-        ui.draw_bar(x, y, kHpBarW, kHpBarH, ratio, 0.85f, 0.12f, 0.12f);
-        ui.draw_progress_lcr("main-prograss-red", x, y, kHpBarW, kHpBarH, ratio);
+        ui.draw_bar(x, y, width, height, ratio, 0.85f, 0.12f, 0.12f);
+        ui.draw_progress_lcr("main-prograss-red", x, y, width, height, ratio);
     }
 
 }  // namespace openkal::client

@@ -27,6 +27,7 @@ namespace {
 }  // namespace
 
 int main() {
+    using openkal::settings::TargetHpDisplay;
     using openkal::test::expect;
 
     const std::string path = temporary_profile_path();
@@ -48,6 +49,8 @@ int main() {
     }
 
     auto loaded = openkal::settings::load_client_settings(*document);
+    expect(loaded.settings.target_hp_display == TargetHpDisplay::Standard,
+           "existing profiles default to the standard monster HP bar");
     expect(loaded.settings.clock_enabled, "clock defaults to enabled in existing profiles");
     expect(loaded.settings.display.width == 1280, "load display width after preset");
     expect(loaded.settings.preset == openkal::settings::QualityPreset::Ultra, "load ultra preset");
@@ -150,6 +153,22 @@ int main() {
            "own nameplate preference survives profile roundtrip with remote names disabled");
     expect(party_settings.settings.ignore_party_requests,
            "party ignore preference survives profile roundtrip");
+    auto health_settings = party_settings.settings;
+    for (const auto mode : {TargetHpDisplay::Standard,
+                            TargetHpDisplay::TargetWidget,
+                            TargetHpDisplay::LargeBar,
+                            TargetHpDisplay::SideWidget}) {
+        health_settings.target_hp_display = mode;
+        openkal::settings::store_client_settings(*document, health_settings);
+        expect(openkal::settings::load_client_settings(*document).settings.target_hp_display ==
+                   mode,
+               "each monster HP mode survives profile roundtrip");
+    }
+    document->set("client.misc.monster_hp_display", "invalid");
+    const auto invalid_health = openkal::settings::load_client_settings(*document);
+    expect(invalid_health.settings.target_hp_display == TargetHpDisplay::Standard &&
+               !invalid_health.warnings.empty(),
+           "unknown monster HP mode falls back to standard with a warning");
     auto conflict_document = openkal::platform::ProfileDocument::load(path, &error);
     expect(conflict_document.has_value(), "reload settings profile");
     if (conflict_document) {

@@ -12120,6 +12120,9 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 engine->set_ui_world_anchor(&anchor);
             };
 
+            const auto hp_display = client_settings.target_hp_display;
+            const bool large_target_hp = hp_display == settings::TargetHpDisplay::LargeBar;
+            const client::NetMonster* selected_monster = nullptr;
             float selected_hp_ratio = 0.0f;
             if (selected_mob_id != 0) {
                 auto mit = net.monsters().find(selected_mob_id);
@@ -12130,6 +12133,7 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     pending_arrow_target = 0;
                     player_actor.cancel_attack();
                 } else {
+                    selected_monster = &mit->second;
                     selected_hp_ratio = mit->second.max_hp() > 0
                                             ? static_cast<float>(mit->second.hp()) /
                                                   static_cast<float>(mit->second.max_hp())
@@ -12158,6 +12162,48 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     selected_player_id = 0;
                 }
             }
+
+            net.select_pvp_health_target(selected_monster ? 0 : selected_player_id);
+            const auto& pvp_health = net.pvp_target_health();
+            const auto* selected_opponent =
+                !selected_monster && pvp_health &&
+                        pvp_health->target.player_id == selected_player_id
+                    ? remote_players.find(selected_player_id)
+                    : nullptr;
+
+            const auto draw_side_health = [&](const client::TargetHealthData& health,
+                                              float wx,
+                                              float mid_y,
+                                              float wz,
+                                              float half) {
+                const auto view = cam.view(local_player);
+                const float offset_x = view.m[0] * half;
+                const float offset_z = view.m[8] * half;
+                const auto project = [&](float direction, float& x, float& y) {
+                    return client::WorldPick::project_world_to_screen(cam,
+                                                                      local_player,
+                                                                      wx + direction * offset_x,
+                                                                      mid_y,
+                                                                      wz + direction * offset_z,
+                                                                      sw,
+                                                                      sh,
+                                                                      x,
+                                                                      y);
+                };
+                float left_x, left_y, right_x, right_y;
+                if (!project(-1.0f, left_x, left_y) || !project(1.0f, right_x, right_y)) {
+                    return;
+                }
+                const client::TargetHealthAnchor anchor{std::min(left_x, right_x),
+                                                        std::max(left_x, right_x),
+                                                        (left_y + right_y) * 0.5f};
+                if (anchor.right >= 0 && anchor.left <= sw && anchor.center_y >= 0 &&
+                    anchor.center_y <= sh) {
+                    set_name_depth(wx, mid_y, wz);
+                    game_hud.draw_target_health(ui, *engine, name_font, health, &anchor);
+                    engine->set_ui_world_anchor(nullptr);
+                }
+            };
 
             const auto resolve_monster_name_anchor = [&](std::uint32_t id,
                                                          const client::NetMonster& nm,
@@ -12297,33 +12343,102 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                     show_debug ? client::Nameplate::debug_label(label, nm.index()) : label,
                     client::Nameplate::monster_color(player_level, monster_level, nm.race()));
                 if (show_selected_hp) {
-                    client::Nameplate::draw_hp(
-                        ui, sx, name_sy + client::Nameplate::kHpBarNameGapPx, selected_hp_ratio);
+                    client::Nameplate::draw_hp(ui,
+                                               sx,
+                                               name_sy + client::Nameplate::kHpBarNameGapPx,
+                                               selected_hp_ratio,
+                                               large_target_hp);
                     selected_hp_drawn = true;
                 }
                 engine->set_ui_world_anchor(nullptr);
             }
 
-            if (selected_mob_id != 0 && !selected_hp_drawn) {
-                auto mit = net.monsters().find(selected_mob_id);
-                if (mit != net.monsters().end() &&
-                    client::Nameplate::show_monster_hp(mit->second.race())) {
+            if (selected_monster && client::Nameplate::show_monster_hp(selected_monster->race())) {
+                if (!selected_hp_drawn) {
                     float hx = 0.0f;
                     float hy = 0.0f;
                     float hz = 0.0f;
                     int monster_level = 1;
                     if (resolve_monster_name_anchor(
-                            selected_mob_id, mit->second, hx, hy, hz, monster_level)) {
+                            selected_mob_id, *selected_monster, hx, hy, hz, monster_level)) {
                         float sx = 0.0f;
                         float sy = 0.0f;
                         if (client::WorldPick::project_world_to_screen(
                                 cam, local_player, hx, hy, hz, sw, sh, sx, sy) &&
                             sx >= -40.0f && sy >= -20.0f && sx <= sw + 40.0f && sy <= sh + 20.0f) {
                             set_name_depth(hx, hy, hz);
-                            client::Nameplate::draw_hp(ui, sx, sy, selected_hp_ratio);
+                            client::Nameplate::draw_hp(
+                                ui, sx, sy, selected_hp_ratio, large_target_hp);
                             engine->set_ui_world_anchor(nullptr);
                         }
                     }
+                }
+
+                const auto& monster = *selected_monster;
+                const client::TargetHealthData health{
+                    monster.name(), monster.hp(), monster.max_hp(), player_hp, player_max_hp};
+                if (monster.hp() > 0 && hp_display == settings::TargetHpDisplay::TargetWidget) {
+                    game_hud.draw_target_health(ui, *engine, name_font, health);
+                } else if (monster.hp() > 0 &&
+                           hp_display == settings::TargetHpDisplay::SideWidget &&
+                           is_monster_rendered(selected_mob_id) &&
+                           monster_instances.find(selected_mob_id) != monster_instances.end()) {
+                    const float dx = monster.wx() - cam_eye.x;
+                    const float dz = monster.wz() - cam_eye.z;
+                    if (dx * dx + dz * dz <= kMonsterNameDist2) {
+                        float half, height;
+                        monster_pick_size(monster, half, height);
+                        const float mid_y =
+                            floor.get_floor(monster.wx(), monster.wz()) + height * 0.5f;
+                        draw_side_health(health, monster.wx(), mid_y, monster.wz(), half);
+                    }
+                }
+            }
+
+            const auto player_hp_anchor = [&](const client::AnimatedActor& actor,
+                                              client::Class clazz,
+                                              const engine::Mat4& model) {
+                constexpr int head_effect_slot = 2;
+                int head_bone = -1;
+                if (actor.metamo_type() < 0) {
+                    head_bone =
+                        client::EquipmentPaths::effect_slot_skeleton(clazz, head_effect_slot);
+                } else if (const auto* shinsu =
+                               shinsu_db.find(actor.metamo_type(), actor.metamo_level())) {
+                    head_bone = shinsu_db.skeleton_bone(shinsu->bone(), head_effect_slot);
+                }
+                engine::Vec3 anchor{model.m[12], model.m[13], model.m[14]};
+                if (actor.bone_world(model, head_bone, anchor.x, anchor.y, anchor.z)) {
+                    anchor.y += 5.0f;
+                } else {
+                    anchor.y += (client::kBodyHeight + client::Nameplate::kMonsterNameLift) *
+                                actor.metamo_scale();
+                }
+                return anchor;
+            };
+
+            if (selected_opponent) {
+                const auto& opponent = *selected_opponent;
+                const auto status = net.pvp_status(opponent.id());
+                const std::string_view display_name =
+                    status.masked ? protocol::kAssassinName : std::string_view(opponent.name());
+                const client::TargetHealthData health{display_name,
+                                                      pvp_health->hp,
+                                                      pvp_health->max_hp,
+                                                      player_hp,
+                                                      player_max_hp,
+                                                      true};
+                if (hp_display == settings::TargetHpDisplay::TargetWidget) {
+                    game_hud.draw_target_health(ui, *engine, name_font, health);
+                } else if (hp_display == settings::TargetHpDisplay::SideWidget &&
+                           remote_players.is_rendered(opponent.id())) {
+                    const float scale = opponent.actor().metamo_scale();
+                    draw_side_health(health,
+                                     opponent.wx(),
+                                     opponent.wy() +
+                                         client::WorldPick::kNpcBaseHeight * scale * 0.5f,
+                                     opponent.wz(),
+                                     client::WorldPick::kNpcHalfExtent * scale);
                 }
             }
 
@@ -12346,10 +12461,13 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                 if (remote->name().empty() || !remote_players.is_rendered(remote->id())) {
                     continue;
                 }
-                const float hx = remote->wx();
-                const float hy =
-                    remote->wy() + client::kBodyHeight + client::Nameplate::kMonsterNameLift;
-                const float hz = remote->wz();
+                const auto [hx, hy, hz] =
+                    remote == selected_opponent
+                        ? player_hp_anchor(remote->actor(), remote->clazz(), remote->model_matrix())
+                        : engine::Vec3{remote->wx(),
+                                       remote->wy() + client::kBodyHeight +
+                                           client::Nameplate::kMonsterNameLift,
+                                       remote->wz()};
                 float sx = 0.0f;
                 float sy = 0.0f;
                 if (!client::WorldPick::project_world_to_screen(
@@ -12372,6 +12490,12 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             for (const auto& projected : projected_names) {
                 const auto* remote = projected.remote;
                 const auto sx = projected.sx, sy = projected.sy;
+                const bool show_target_hp = remote == selected_opponent;
+                const float hp_height =
+                    large_target_hp ? client::Nameplate::kLargeHpBarH : client::Nameplate::kHpBarH;
+                const float hp_y = sy - hp_height;
+                const float label_y =
+                    show_target_hp ? hp_y - client::Nameplate::kHpBarNameGapPx : sy;
                 set_name_depth(projected.hx, projected.hy, projected.hz);
                 if (named_players.count(remote->id()) != 0) {
                     const auto status = net.pvp_status(remote->id());
@@ -12386,10 +12510,20 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
                             ? std::string{}
                             : client::Nameplate::guild_label(net.guild_title(remote->id()),
                                                              net.guild_name(remote->id()));
-                    client::Nameplate::draw_player(
-                        *engine, name_font, ui, sx, sy, label, guild_label, name_color(status));
+                    client::Nameplate::draw_player(*engine,
+                                                   name_font,
+                                                   ui,
+                                                   sx,
+                                                   label_y,
+                                                   label,
+                                                   guild_label,
+                                                   name_color(status));
                 }
-                overhead_chat.draw(*engine, name_font, remote->name(), sx, sy);
+                overhead_chat.draw(*engine, name_font, remote->name(), sx, label_y);
+                if (show_target_hp) {
+                    const float ratio = static_cast<float>(pvp_health->hp) / pvp_health->max_hp;
+                    client::Nameplate::draw_hp(ui, sx, hp_y, ratio, large_target_hp);
+                }
                 engine->set_ui_world_anchor(nullptr);
             }
 
@@ -12397,69 +12531,59 @@ int openkal::client::ClientSession::Impl::run(int argc, char** argv, bool skip_s
             const std::string own_name =
                 own_status.masked ? std::string(protocol::kAssassinName) : boot.selected.name;
             const bool show_local_name = client_settings.show_own_name;
-            if (name_font.ready() &&
+            const bool show_own_label =
+                name_font.ready() &&
                 (show_local_name || !overhead_chat.message(own_name).empty() || own_status.masked ||
                  own_status.relation != protocol::PvpRelation::Neutral ||
-                 !net.guild_name(net.local_player_id()).empty())) {
+                 !net.guild_name(net.local_player_id()).empty());
+            const bool show_own_hp = std::chrono::steady_clock::now() < player_overhead_hp_until;
+            if (show_own_label || show_own_hp) {
+                const auto [hx, hy, hz] =
+                    show_own_hp ? player_hp_anchor(player_actor, local_player.clazz(), player_model)
+                                : engine::Vec3{local_player.pos().x,
+                                               local_player.pos().y + client::kBodyHeight +
+                                                   client::Nameplate::kMonsterNameLift,
+                                               local_player.pos().z};
                 float sx = 0.0f;
                 float sy = 0.0f;
                 if (client::WorldPick::project_world_to_screen(
-                        cam,
-                        local_player,
-                        local_player.pos().x,
-                        local_player.pos().y + client::kBodyHeight +
-                            client::Nameplate::kMonsterNameLift,
-                        local_player.pos().z,
-                        sw,
-                        sh,
-                        sx,
-                        sy)) {
-                    set_name_depth(local_player.pos().x,
-                                   local_player.pos().y + client::kBodyHeight +
-                                       client::Nameplate::kMonsterNameLift,
-                                   local_player.pos().z);
-                    const auto guild_label =
-                        own_status.masked
-                            ? std::string{}
-                            : client::Nameplate::guild_label(net.guild_title(net.local_player_id()),
-                                                             net.guild_name(net.local_player_id()));
-                    std::string_view honor_rank;
-                    if (show_local_name && !own_status.masked) {
-                        const auto& honor = net.connected() ? net.honor_status() : offline_honor;
-                        if (honor && honor->rank != protocol::HonorRank::Unranked) {
-                            honor_rank = protocol::honor_rank_name(honor->rank);
-                        }
-                    }
-                    client::Nameplate::draw_player(
-                        *engine,
-                        name_font,
-                        ui,
-                        sx,
-                        sy,
-                        client::Nameplate::player_label(own_name, honor_rank),
-                        guild_label,
-                        name_color(own_status));
-                    overhead_chat.draw(*engine, name_font, own_name, sx, sy);
-                    engine->set_ui_world_anchor(nullptr);
-                }
-            }
-
-            if (std::chrono::steady_clock::now() < player_overhead_hp_until) {
-                const float hx = local_player.pos().x;
-                const float hy = local_player.pos().y + client::kBodyHeight;
-                const float hz = local_player.pos().z;
-                float sx = 0.0f;
-                float sy = 0.0f;
-                if (client::WorldPick::project_world_to_screen(
-                        cam, local_player, hx, hy, hz, sw, sh, sx, sy) &&
-                    sx >= -40.0f && sy >= -20.0f && sx <= sw + 40.0f && sy <= sh + 20.0f) {
-                    const float ratio =
-                        player_max_hp > 0
-                            ? static_cast<float>(std::max(0, static_cast<int>(player_hp))) /
-                                  static_cast<float>(player_max_hp)
-                            : 0.0f;
+                        cam, local_player, hx, hy, hz, sw, sh, sx, sy)) {
+                    const float hp_y = sy - client::Nameplate::kHpBarH;
                     set_name_depth(hx, hy, hz);
-                    client::Nameplate::draw_hp(ui, sx, sy, ratio);
+                    if (show_own_label) {
+                        const auto guild_label = own_status.masked
+                                                     ? std::string{}
+                                                     : client::Nameplate::guild_label(
+                                                           net.guild_title(net.local_player_id()),
+                                                           net.guild_name(net.local_player_id()));
+                        std::string_view honor_rank;
+                        if (show_local_name && !own_status.masked) {
+                            const auto& honor =
+                                net.connected() ? net.honor_status() : offline_honor;
+                            if (honor && honor->rank != protocol::HonorRank::Unranked) {
+                                honor_rank = protocol::honor_rank_name(honor->rank);
+                            }
+                        }
+                        const float label_y =
+                            show_own_hp ? hp_y - client::Nameplate::kHpBarNameGapPx : sy;
+                        client::Nameplate::draw_player(
+                            *engine,
+                            name_font,
+                            ui,
+                            sx,
+                            label_y,
+                            client::Nameplate::player_label(own_name, honor_rank),
+                            guild_label,
+                            name_color(own_status));
+                        overhead_chat.draw(*engine, name_font, own_name, sx, label_y);
+                    }
+                    if (show_own_hp && sx >= -40.0f && sy >= -20.0f && sx <= sw + 40.0f &&
+                        sy <= sh + 20.0f) {
+                        const float ratio = player_max_hp > 0
+                                                ? static_cast<float>(player_hp) / player_max_hp
+                                                : 0.0f;
+                        client::Nameplate::draw_hp(ui, sx, hp_y, ratio);
+                    }
                     engine->set_ui_world_anchor(nullptr);
                 }
             }

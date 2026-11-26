@@ -175,6 +175,32 @@ namespace openkal::settings {
 
     }  // namespace
 
+    std::string_view to_string(TargetHpDisplay value) {
+        switch (value) {
+        case TargetHpDisplay::TargetWidget:
+            return "target_widget";
+        case TargetHpDisplay::LargeBar:
+            return "large_bar";
+        case TargetHpDisplay::SideWidget:
+            return "side_widget";
+        case TargetHpDisplay::Standard:
+        default:
+            return "standard";
+        }
+    }
+
+    std::optional<TargetHpDisplay> parse_target_hp_display(std::string_view value) {
+        for (const auto mode : {TargetHpDisplay::Standard,
+                                TargetHpDisplay::TargetWidget,
+                                TargetHpDisplay::LargeBar,
+                                TargetHpDisplay::SideWidget}) {
+            if (value == to_string(mode)) {
+                return mode;
+            }
+        }
+        return std::nullopt;
+    }
+
     std::string_view to_string(DisplayMode value) {
         switch (value) {
         case DisplayMode::Maximized:
@@ -368,6 +394,14 @@ namespace openkal::settings {
         if (const auto value = parse_bool(document, "client.misc.show_own_name", result.warnings)) {
             result.settings.show_own_name = *value;
         }
+        if (const auto value = document.value("client.misc.monster_hp_display")) {
+            if (const auto mode = parse_target_hp_display(*value)) {
+                result.settings.target_hp_display = *mode;
+            } else {
+                result.warnings.emplace_back(
+                    "client.misc.monster_hp_display is invalid; using standard");
+            }
+        }
         auto corrections = validate_client_settings(result.settings);
         result.warnings.insert(result.warnings.end(), corrections.begin(), corrections.end());
 
@@ -441,6 +475,8 @@ namespace openkal::settings {
         document.set("client.misc.ignore_party_requests",
                      settings.ignore_party_requests ? "1" : "0");
         document.set("client.misc.show_own_name", settings.show_own_name ? "1" : "0");
+        document.set("client.misc.monster_hp_display",
+                     std::string(to_string(settings.target_hp_display)));
         document.set("client.settings_version", std::to_string(settings.version));
         document.set("client.display.mode", std::string(to_string(settings.display.mode)));
         document.set("client.display.width", std::to_string(settings.display.width));

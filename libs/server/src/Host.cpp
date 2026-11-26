@@ -368,6 +368,8 @@ namespace openkal::server {
             std::string assassin_last_hitter;
             bool assassin_warning_active = false;
             std::unordered_map<std::uint32_t, std::uint8_t> pvp_displays;
+            /** The viewer's subscription and the last health sent for it. */
+            protocol::PvpTargetHealth pvp_target_health;
             CastleWarPosition castle_return{};
             bool castle_return_pending = false;
             std::uint64_t castle_return_deadline_ms = 0;
@@ -3295,6 +3297,18 @@ namespace openkal::server {
             broadcast_mstate(c, clients);
         }
 
+        /** Ends sitting and its consumables, and synchronizes the standing pose.
+         * @param c Session to update.
+         * @param clients Sight broadcast list.
+         */
+        void stand_player(ClientSession& c, std::vector<ClientSession>& clients) {
+            cancel_rest_food(c, clients);
+            if (c.resting) {
+                c.resting = false;
+                broadcast_rest_action(c, clients);
+            }
+        }
+
         /**
          * Applies compatibility behavior. Sit arms the 5s first pulse and clears compatibility
          * behavior.
@@ -3307,21 +3321,17 @@ namespace openkal::server {
                                std::vector<ClientSession>& clients,
                                bool want,
                                std::uint64_t now_ms) {
-            if (want) {
-                if (c.resting) {
-                    return;
-                }
-                c.resting = true;
-                c.boosting = false;
-                c.walking_on_air = false;
-                c.next_sit_regen_ms = player_regen::sit_first_due_ms(now_ms);
-            } else {
-                cancel_rest_food(c, clients);
-                if (!c.resting) {
-                    return;
-                }
-                c.resting = false;
+            if (!want) {
+                stand_player(c, clients);
+                return;
             }
+            if (c.resting) {
+                return;
+            }
+            c.resting = true;
+            c.boosting = false;
+            c.walking_on_air = false;
+            c.next_sit_regen_ms = player_regen::sit_first_due_ms(now_ms);
             broadcast_rest_action(c, clients);
         }
 
@@ -7640,6 +7650,7 @@ namespace openkal::server {
                     }
                 }
                 if (hit.target_is_player && hit.player_target && hit.damage > 0) {
+                    stand_player(*hit.player_target, clients);
                     record_pvp_hit(*hit.owner, hit.player_target, true, hit.dead);
                 }
                 if (!hit.dead) {
@@ -8055,6 +8066,9 @@ namespace openkal::server {
                     if (peer.phase == SessionPhase::Playing && peer.sock) {
                         peer.sock->enqueue(skill);
                     }
+                }
+                if (hit.target_is_player && hit.player_target && hit.damage > 0) {
+                    stand_player(*hit.player_target, clients);
                 }
             }
             for (const auto& move : moves) {
@@ -9155,6 +9169,9 @@ namespace openkal::server {
                             target.skill_buffs.perfect_defense_self_percent());
                         target.cur_hp = combat::clamp_nonneg_i32(
                             static_cast<std::int64_t>(target.cur_hp) - dealt);
+                        if (dealt > 0) {
+                            stand_player(target, clients);
+                        }
                         if (target.sock) {
                             target.sock->enqueue(protocol::Property::frame_update(
                                 static_cast<std::uint8_t>(protocol::PropertyType::CurHp),
@@ -9511,6 +9528,9 @@ namespace openkal::server {
                             target.skill_buffs.perfect_defense_self_percent());
                         target.cur_hp = combat::clamp_nonneg_i32(
                             static_cast<std::int64_t>(target.cur_hp) - dealt);
+                        if (dealt > 0) {
+                            stand_player(target, clients);
+                        }
                         if (target.sock) {
                             target.sock->enqueue(protocol::Property::frame_update(
                                 static_cast<std::uint8_t>(protocol::PropertyType::CurHp),
@@ -11100,12 +11120,10 @@ namespace openkal::server {
                             static_cast<std::uint8_t>(protocol::PropertyType::CurHp),
                             victim->cur_hp));
                     }
+                    stand_player(*victim, clients);
                     if (victim->cur_hp > 0) {
-                        apply_player_rest(*victim, clients, false, steady_ms_now());
                         continue;
                     }
-                    cancel_rest_food(*victim, clients);
-                    victim->resting = false;
                     const auto die = protocol::Skill::frame_action_die(victim->player_id);
                     for (auto& peer : clients) {
                         if (peer.phase == SessionPhase::Playing && peer.sock &&
@@ -13536,6 +13554,8 @@ namespace openkal::server {
                     continue;
                 }
                 bool warning = false;
+                auto& selected_health = viewer.pvp_target_health;
+                protocol::PvpTargetHealth next_health{selected_health.target};
                 for (const auto& subject : clients) {
                     const bool self = &viewer == &subject;
                     if (!self && !viewer.known_players.count(subject.player_id)) {
@@ -13546,6 +13566,12 @@ namespace openkal::server {
                     status.masked = is_assassin(subject);
                     status.dueling = subject.duel_peer != 0 || subject.duel_recovery_at_ms != 0;
                     status.attackable = !self && pvp_allows_attack(viewer, &subject);
+                    if (next_health.target.player_id == subject.player_id && status.attackable &&
+                        subject.phase == SessionPhase::Playing && subject.sock &&
+                        subject.sock->alive() && subject.cur_hp > 0 && subject.max_hp > 0) {
+                        next_health.hp = std::min(subject.cur_hp, subject.max_hp);
+                        next_health.max_hp = subject.max_hp;
+                    }
                     status.defeated =
                         subject.cur_hp <= 0 &&
                         (subject.castle_side != CastleWarSide::None ||
@@ -13577,6 +13603,11 @@ namespace openkal::server {
                         viewer.sock->enqueue(protocol::frame_pvp_status(status));
                         viewer.pvp_displays[subject.player_id] = display;
                     }
+                }
+                if ((next_health.hp != selected_health.hp ||
+                     next_health.max_hp != selected_health.max_hp) &&
+                    viewer.sock->enqueue(protocol::frame_pvp_target_health(next_health))) {
+                    selected_health = next_health;
                 }
                 if (warning && !viewer.assassin_warning_active) {
                     send_system_chat(viewer, protocol::kAssassinWarning);
@@ -15527,6 +15558,9 @@ namespace openkal::server {
                                     persist_character(m_store.get(), c);
                                 }
                                 test_send_snapshot(c);
+                                if (m_config.multiplayer) {
+                                    c.sock->enqueue(protocol::frame_pvp_target_health({}));
+                                }
                                 log::info("ServerHost: handshake ok (player_id=" +
                                           std::to_string(c.player_id) +
                                           " char=" + std::to_string(c.character_id) +
@@ -17707,6 +17741,16 @@ namespace openkal::server {
                         (void) pickup_ground_item(
                             c, item_id, m_world, m_store.get(), m_next_iid, clients, parties);
                     } else if (c.phase == SessionPhase::Playing &&
+                               type == static_cast<std::uint8_t>(protocol::C2S::PvpTargetHealth)) {
+                        protocol::PvpTargetHealthRequest request;
+                        if (m_config.multiplayer &&
+                            protocol::parse_pvp_target_health_request(
+                                payload.data(), payload.size(), request) &&
+                            (request.serial != c.pvp_target_health.target.serial ||
+                             request.player_id != c.pvp_target_health.target.player_id)) {
+                            c.pvp_target_health = {request};
+                        }
+                    } else if (c.phase == SessionPhase::Playing &&
                                type == static_cast<std::uint8_t>(protocol::C2S::PlayerOptions)) {
                         protocol::PlayerOptionsRequest request;
                         if (protocol::parse_player_options_request(
@@ -17893,6 +17937,9 @@ namespace openkal::server {
                                             protocol::Skill::frame_action_die(target_id));
                                     }
                                 }
+                            }
+                            if (dealt > 0) {
+                                stand_player(*target, clients);
                             }
                             continue;
                         }
@@ -19579,6 +19626,7 @@ namespace openkal::server {
                                     hit.dead = target.cur_hp <= 0;
                                     if (dealt > 0) {
                                         record_pvp_hit(c, &target, true);
+                                        stand_player(target, clients);
                                     }
                                     hits.push_back(hit);
                                 }
@@ -20403,6 +20451,7 @@ namespace openkal::server {
                                     hit.dead = target.cur_hp <= 0;
                                     if (dealt > 0) {
                                         record_pvp_hit(c, &target, true);
+                                        stand_player(target, clients);
                                     }
                                     hits.push_back(hit);
                                 }
@@ -21259,6 +21308,7 @@ namespace openkal::server {
                                     send_cur_property(*player_target.session,
                                                       protocol::PropertyType::CurHp,
                                                       player_target.cur_hp());
+                                    stand_player(*player_target.session, clients);
                                 }
                                 target_died = player_target.cur_hp() <= 0;
                             } else {
@@ -21640,6 +21690,7 @@ namespace openkal::server {
                                     record_pvp_hit(c, &enemy, true);
                                     send_cur_property(
                                         enemy, protocol::PropertyType::CurHp, enemy.cur_hp);
+                                    stand_player(enemy, clients);
                                 }
                                 const auto packet = protocol::Skill::frame_server_damage(
                                     static_cast<std::uint8_t>(def->index),
@@ -21747,6 +21798,7 @@ namespace openkal::server {
                                 send_cur_property(*target.session,
                                                   protocol::PropertyType::CurHp,
                                                   target.cur_hp());
+                                stand_player(*target.session, clients);
                             }
                             if (result.hit && (def->index == 9 || def->index == 22) &&
                                 combat::can_conti_skill(c.level, defender.level)) {
@@ -21870,6 +21922,7 @@ namespace openkal::server {
                                     send_cur_property(*player_target.session,
                                                       protocol::PropertyType::CurHp,
                                                       player_target.cur_hp());
+                                    stand_player(*player_target.session, clients);
                                 }
                             }
                             if (result.hit) {
@@ -22855,6 +22908,7 @@ namespace openkal::server {
                                     record_pvp_hit(c, &target, true);
                                     send_cur_property(
                                         target, protocol::PropertyType::CurHp, target.cur_hp);
+                                    stand_player(target, clients);
                                 }
                                 if (target.cur_hp <= 0) {
                                     const auto action =

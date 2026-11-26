@@ -1,0 +1,17 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "target_health_side",
+  "kind": "window",
+  "window": {"w": 192, "h": 58, "draggable": false},
+  "chrome": {"kind": "nine_slice", "preset": "dragon_compact", "edges": "repeat", "close": false},
+  "widgets": [
+    {"type": "text", "id": "target_label", "x": 7, "y": 3, "text": "${target_health.target_label}", "pixel_size": 12, "color": "#E5CF9E"},
+    {"type": "text", "id": "target_hp", "x": 185, "y": 3, "text": "${target_health.target_hp}", "align": "right", "pixel_size": 12, "color": "#EEE7D6"},
+    {"type": "fill", "id": "target_track", "x": 7, "y": 21, "w": 178, "h": 5, "color": "#322321"},
+    {"type": "progress", "id": "target_fill", "x": 7, "y": 21, "w": 178, "h": 5, "bind": "target_health.target_ratio", "color": "#D64D48"},
+    {"type": "text", "id": "player_label", "x": 7, "y": 30, "text": "${target_health.player_label}", "pixel_size": 12, "color": "#E5CF9E"},
+    {"type": "text", "id": "player_hp", "x": 185, "y": 30, "text": "${target_health.player_hp}", "align": "right", "pixel_size": 12, "color": "#EEE7D6"},
+    {"type": "fill", "id": "player_track", "x": 7, "y": 48, "w": 178, "h": 5, "color": "#233127"},
+    {"type": "progress", "id": "player_fill", "x": 7, "y": 48, "w": 178, "h": 5, "bind": "target_health.player_ratio", "color": "#62AD66"}
+  ]
+}

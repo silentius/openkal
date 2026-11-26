@@ -87,4 +87,49 @@ namespace openkal::protocol {
         return true;
     }
 
+    std::vector<std::uint8_t>
+    frame_pvp_target_health_request(const PvpTargetHealthRequest& request) {
+        PacketWriter writer;
+        writer.write_u32(request.player_id);
+        writer.write_u32(request.serial);
+        return writer.frame(static_cast<std::uint8_t>(C2S::PvpTargetHealth));
+    }
+
+    bool parse_pvp_target_health_request(const std::uint8_t* data,
+                                         std::size_t size,
+                                         PvpTargetHealthRequest& request) {
+        PacketReader reader(data, size);
+        PvpTargetHealthRequest parsed;
+        if (!reader.read_u32(parsed.player_id) || !reader.read_u32(parsed.serial) ||
+            parsed.serial == 0 || reader.remaining() != 0) {
+            return false;
+        }
+        request = parsed;
+        return true;
+    }
+
+    std::vector<std::uint8_t> frame_pvp_target_health(const PvpTargetHealth& health) {
+        PacketWriter writer;
+        writer.write_u32(health.target.player_id);
+        writer.write_u32(health.target.serial);
+        writer.write_i32(health.hp);
+        writer.write_i32(health.max_hp);
+        return writer.frame(static_cast<std::uint8_t>(S2C::PvpTargetHealth));
+    }
+
+    bool
+    parse_pvp_target_health(const std::uint8_t* data, std::size_t size, PvpTargetHealth& health) {
+        PacketReader reader(data, size);
+        PvpTargetHealth parsed;
+        if (!reader.read_u32(parsed.target.player_id) || !reader.read_u32(parsed.target.serial) ||
+            !reader.read_i32(parsed.hp) || !reader.read_i32(parsed.max_hp) ||
+            reader.remaining() != 0 || parsed.hp < 0 || parsed.max_hp < parsed.hp ||
+            (parsed.target.player_id == 0 ? parsed.target.serial != 0 || parsed.max_hp != 0
+                                          : parsed.target.serial == 0)) {
+            return false;
+        }
+        health = parsed;
+        return true;
+    }
+
 }  // namespace openkal::protocol

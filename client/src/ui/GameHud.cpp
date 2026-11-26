@@ -91,15 +91,16 @@ namespace openkal::client {
                                 : (doc.fallback_h() > 0.0f ? doc.fallback_h() : fh);
             return {w, h};
         }
-        std::string clock_caption(const FreetypeFont& font, std::string text) {
+        std::string
+        fit_caption(const FreetypeFont& font, std::string text, float pixel_size, float width) {
             if (!font.ready()) {
                 return text;
             }
-            const float scale = 11.0f / std::max(1, font.pixel_size());
-            if (font.text_width(text, scale) <= 150) {
+            const float scale = pixel_size / std::max(1, font.pixel_size());
+            if (font.text_width(text, scale) <= width) {
                 return text;
             }
-            while (!text.empty() && font.text_width(text + "...", scale) > 150) {
+            while (!text.empty() && font.text_width(text + "...", scale) > width) {
                 auto last = text.size() - 1;
                 while (last > 0 && (static_cast<unsigned char>(text[last]) & 0xC0) == 0x80) {
                     --last;
@@ -516,6 +517,97 @@ namespace openkal::client {
         draw_clock(ui, engine);
     }
 
+    void GameHud::draw_target_health(WidgetTools& ui,
+                                     engine::IEngine& engine,
+                                     const FreetypeFont& font,
+                                     const TargetHealthData& health,
+                                     const TargetHealthAnchor* anchor) const {
+        if (!m_layouts || !font.ready()) {
+            return;
+        }
+        const auto& doc =
+            UiView::document(&m_layouts->get(anchor ? "target_health_side" : "target_health"));
+        if (doc.widgets().empty() || doc.window_w() <= 0.0f || doc.window_h() <= 0.0f) {
+            return;
+        }
+
+        const auto frame = UiView::frame_style(doc);
+        constexpr float margin = 8.0f;
+        const float native_w = doc.window_w() + frame.pad_left() + frame.pad_right();
+        const float native_h = doc.window_h() + frame.pad_top() + frame.pad_bottom();
+        const float scale = std::min(
+            {m_scale, (m_last_w - 2 * margin) / native_w, (m_last_h - 2 * margin) / native_h});
+        if (scale < 0.25f) {
+            return;
+        }
+        const float w = native_w * scale;
+        const float h = native_h * scale;
+        float x = (m_last_w - w) * 0.5f;
+        float y = panel(HudPanelId::MenuBar).h() + 10.0f * scale;
+        if (anchor) {
+            const float gap = 8.0f * scale;
+            x = anchor->right + gap;
+            const float left_x = anchor->left - gap - w;
+            if (x + w + margin > m_last_w && left_x >= margin) {
+                x = left_x;
+            }
+            y = anchor->center_y - h * 0.5f;
+        }
+        x = std::clamp(x, margin, std::max(margin, m_last_w - w - margin));
+        y = std::clamp(y, margin, std::max(margin, m_last_h - h - margin));
+
+        UiVarMap vars;
+        ui_fill_theme_vars(doc, vars);
+        const auto bind_health = [&](const char* value_key,
+                                     const char* ratio_key,
+                                     std::int32_t hp,
+                                     std::int32_t max_hp) {
+            hp = std::max(hp, 0);
+            if (max_hp > 0) {
+                hp = std::min(hp, max_hp);
+            }
+            vars[value_key] = std::to_string(hp);
+            if (max_hp > 0) {
+                vars[value_key] += " / " + std::to_string(max_hp);
+            }
+            vars[ratio_key] = std::to_string(max_hp > 0 ? static_cast<float>(hp) / max_hp : 0.0f);
+        };
+        bind_health("target_health.target_hp",
+                    "target_health.target_ratio",
+                    health.target_hp,
+                    health.target_max_hp);
+        if (anchor) {
+            vars["target_health.target_label"] =
+                health.player_target ? "Opponent HP" : "Monster HP";
+            vars["target_health.player_label"] = "Your HP";
+            bind_health("target_health.player_hp",
+                        "target_health.player_ratio",
+                        health.player_hp,
+                        health.player_max_hp);
+        } else {
+            const auto* label = doc.find_widget("target_name");
+            const auto& title = m_hud_bold_font.ready() ? m_hud_bold_font : font;
+            vars["target_health.target_name"] = fit_caption(
+                title,
+                std::string(health.target_name),
+                label && label->pixel_size() > 0 ? label->pixel_size() : font.pixel_size(),
+                doc.window_w() - 16.0f);
+        }
+        UiView::draw(engine,
+                     ui,
+                     doc,
+                     x + frame.pad_left() * scale,
+                     y + frame.pad_top() * scale,
+                     doc.window_w() * scale,
+                     doc.window_h() * scale,
+                     scale,
+                     vars,
+                     font,
+                     m_hud_bold_font,
+                     nullptr,
+                     true);
+    }
+
     UiVarMap GameHud::clock_vars() const {
         UiVarMap vars;
         const auto& doc = UiView::document(m_layouts ? &m_layouts->get("clock") : nullptr);
@@ -531,7 +623,8 @@ namespace openkal::client {
         if (m_server_clock) {
             for (const auto& event : m_server_clock->events()) {
                 if (event.id == m_clock_event_id) {
-                    vars["clock.selected_event"] = clock_caption(m_hud_font, event.name) + "  v";
+                    vars["clock.selected_event"] =
+                        fit_caption(m_hud_font, event.name, 11.0f, 150.0f) + "  v";
                 }
             }
         }
@@ -547,11 +640,12 @@ namespace openkal::client {
             const auto key = "clock.option." + std::to_string(row);
             vars[key + ".visible"] = index <= count ? "true" : "false";
             vars[key] =
-                index == 0
-                    ? "No event"
-                    : (index <= count
-                           ? clock_caption(m_hud_font, m_server_clock->events()[index - 1].name)
-                           : "");
+                index == 0 ? "No event"
+                           : (index <= count ? fit_caption(m_hud_font,
+                                                           m_server_clock->events()[index - 1].name,
+                                                           11.0f,
+                                                           150.0f)
+                                             : "");
         }
         return vars;
     }

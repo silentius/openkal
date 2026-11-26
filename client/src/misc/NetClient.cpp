@@ -1236,6 +1236,27 @@ namespace openkal::client {
         return pvp_status(player).attackable;
     }
 
+    void NetClient::select_pvp_health_target(std::uint32_t player) {
+        if (!m_pvp_health_supported || m_read_only) {
+            return;
+        }
+        if (player == m_local_player_id || !pvp_can_attack(player)) {
+            player = 0;
+        }
+        if (player == m_pvp_health_request.player_id) {
+            return;
+        }
+        m_pvp_target_health.reset();
+        auto serial = m_pvp_health_request.serial + 1;
+        if (serial == 0) {
+            serial = 1;
+        }
+        const protocol::PvpTargetHealthRequest request{player, serial};
+        if (send_packet(protocol::frame_pvp_target_health_request(request))) {
+            m_pvp_health_request = request;
+        }
+    }
+
     bool NetClient::send_packet(const std::vector<std::uint8_t>& packet) {
         if (!m_session || packet.empty()) {
             return false;
@@ -1618,6 +1639,9 @@ namespace openkal::client {
         m_guild_view = {};
         m_guild_displays.clear();
         m_pvp_status.clear();
+        m_pvp_health_supported = false;
+        m_pvp_health_request = {};
+        m_pvp_target_health.reset();
         m_pending_duel_defeats.clear();
         m_char_guild.clear();
         m_char_guild_pos.clear();
@@ -1743,6 +1767,25 @@ namespace openkal::client {
                     m_pending_duel_defeats.insert(status.player_id);
                 }
                 previous = status;
+                if (!status.attackable && status.player_id == m_pvp_health_request.player_id) {
+                    m_pvp_target_health.reset();
+                }
+            }
+            return true;
+        }
+        if (type == static_cast<std::uint8_t>(protocol::S2C::PvpTargetHealth)) {
+            protocol::PvpTargetHealth health;
+            if (protocol::parse_pvp_target_health(payload.data(), payload.size(), health)) {
+                if (health.target.player_id == 0) {
+                    m_pvp_health_supported = true;
+                } else if (health.target.player_id == m_pvp_health_request.player_id &&
+                           health.target.serial == m_pvp_health_request.serial) {
+                    if (health.max_hp > 0 && pvp_can_attack(health.target.player_id)) {
+                        m_pvp_target_health = health;
+                    } else {
+                        m_pvp_target_health.reset();
+                    }
+                }
             }
             return true;
         }
@@ -2293,6 +2336,9 @@ namespace openkal::client {
             if (protocol::CreatePlayer::parse_remove(payload.data(), payload.size(), id)) {
                 m_guild_displays.erase(id);
                 m_pvp_status.erase(id);
+                if (id == m_pvp_health_request.player_id) {
+                    m_pvp_target_health.reset();
+                }
                 m_pending_duel_defeats.erase(id);
                 m_pending_remove_others.push_back(id);
                 m_pending_other_players.erase(
