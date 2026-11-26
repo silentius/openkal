@@ -11902,6 +11902,24 @@ namespace {
                    "H9 unrecognized magic index retains the zero-stat fallback and skill payload");
             h9_observe("unrecognized-skill-fallback", p, r);
         }
+        {
+            H9Players p;
+            p.world.monsters().push_back(H9Players::monster(4000, 9999));
+            p.attacks = {{MonsterAttackEvent::Kind::Basic, 4000, 700, 0, 1, 43}};
+            const auto attacker = monster_combatant(p.world.monsters().front(), nullptr);
+            const auto target = make_session_combatant(p.owner(), p.owner());
+            const unsigned seed =
+                h9_seed_for([&] { return combat::resolve_physical(attacker, target).hit; });
+            std::srand(seed);
+            const auto expected = combat::resolve_physical(attacker, target);
+            const auto next = std::rand();
+            const auto result = p.run(seed);
+            const auto packet = protocol::Attack::frame_server(
+                4000, 700, expected.damage, 0, pack_attack_flags(expected));
+            expect(p.owner().cur_hp == 1000 - expected.damage && !result.packets[0].empty() &&
+                       result.packets[0].front() == packet && result.next_random == next,
+                   "a missing monster definition preserves default combat stats, packets and RNG");
+        }
     }
     void test_h9_mitigation_and_counted_defense() {
         for (int mode = 0; mode < 9; ++mode) {

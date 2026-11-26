@@ -15,6 +15,7 @@
 #include "openkal/server/world/GameWorld.h"
 #include "test_util.h"
 
+#include <algorithm>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -49,6 +50,61 @@ namespace {
         std::ofstream out(path);
         out << text;
         return static_cast<bool>(out);
+    }
+
+    void test_definition_lookup(const std::filesystem::path& root) {
+        using openkal::test::expect;
+        const auto initial = root / "lookup-initial";
+        const auto replacement = root / "lookup-replacement";
+        const auto invalid = root / "lookup-invalid";
+        std::filesystem::create_directories(initial);
+        std::filesystem::create_directories(replacement);
+        std::filesystem::create_directories(invalid);
+        expect(write(initial / "1.json", R"({"index":7,"name":"Duplicate A"})") &&
+                   write(initial / "2.json", R"({"index":2147483647,"name":"Sparse ID"})") &&
+                   write(initial / "3.json", R"({"index":7,"name":"Duplicate B"})") &&
+                   write(initial / "4.json", R"({"index":65000,"name":"Removed on reload"})") &&
+                   write(replacement / "1.json", R"({"index":7,"name":"Replacement"})") &&
+                   write(invalid / "1.json", R"({"index":0,"name":"Invalid ID"})"),
+               "write the initial, replacement and invalid definition catalogs");
+
+        openkal::server::GameWorld world;
+        expect(world.find_def(7) == nullptr, "an unloaded catalog has no definition for an ID");
+        expect(world.load_monsters_json_dir(initial.string(), 0, 0, 0),
+               "load sparse and duplicate definition IDs");
+        const auto& definitions = world.defs();
+        const auto first = std::find_if(
+            definitions.begin(), definitions.end(), [](const auto& def) { return def.index == 7; });
+        expect(definitions.size() == 4 &&
+                   std::count_if(definitions.begin(),
+                                 definitions.end(),
+                                 [](const auto& def) { return def.index == 7; }) == 2 &&
+                   first != definitions.end() && world.find_def(7) == &*first,
+               "duplicate records stay in catalog order and lookup returns the first one");
+        const auto* sparse = world.find_def(std::numeric_limits<int>::max());
+        expect(sparse && sparse->name == "Sparse ID" && world.find_def(8) == nullptr &&
+                   world.find_def(-1) == nullptr,
+               "lookup accepts the largest valid ID and returns no match for absent IDs");
+
+        const auto first_name = first == definitions.end() ? std::string{} : first->name;
+        expect(!world.load_monsters_json_dir(
+                   replacement.string(), 0, 0, 0, (root / "missing-strength.json").string()) &&
+                   world.find_def(7) && world.find_def(7)->name == first_name &&
+                   world.find_def(65000),
+               "failure to load strength settings preserves the previous catalog");
+        expect(world.load_monsters_json_dir(replacement.string(), 0, 0, 0) &&
+                   definitions.size() == 1 && world.find_def(7) == &definitions.front() &&
+                   definitions.front().name == "Replacement" && world.find_def(65000) == nullptr &&
+                   world.find_def(std::numeric_limits<int>::max()) == nullptr,
+               "reloading replaces retained IDs and removes IDs omitted from the new catalog");
+        expect(!world.load_monsters_json_dir((root / "missing-monsters").string(), 0, 0, 0) &&
+                   definitions.empty() && world.find_def(7) == nullptr,
+               "a missing catalog directory clears the previous definitions");
+        expect(world.load_monsters_json_dir(replacement.string(), 0, 0, 0) && world.find_def(7) &&
+                   !world.load_monsters_json_dir(invalid.string(), 0, 0, 0) &&
+                   definitions.empty() && world.find_def(7) == nullptr &&
+                   world.find_def(0) == nullptr,
+               "a directory without valid records clears the previous definitions");
     }
 }  // namespace
 
@@ -239,6 +295,7 @@ int main() {
     expect(write(path, "{}") && !adjusted.load_monsters_json_dir(
                                     (dir / "monsters").string(), 0, 0, 0, path.string()),
            "monster loading propagates configuration failure");
+    test_definition_lookup(dir);
     std::filesystem::remove_all(dir);
     return openkal::test::g_failures == 0 ? 0 : 1;
 }

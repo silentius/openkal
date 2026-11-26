@@ -1545,6 +1545,7 @@ namespace openkal::server {
             return false;
         }
         m_defs.clear();
+        m_def_positions.clear();
         m_spawns.clear();
         if (!platform::is_directory(dir)) {
             log::warn("GameWorld: monsters dir missing " + dir);
@@ -1705,6 +1706,7 @@ namespace openkal::server {
             finalize_monster_def(def);
             def.speed = 32000.0f / static_cast<float>(def.roam_speed_ms);
             m_defs.push_back(def);
+            m_def_positions.try_emplace(def.index, m_defs.size() - 1);
             ++loaded_defs;
 
             const platform::Json& spawns = root.at("spawns");
@@ -1790,12 +1792,8 @@ namespace openkal::server {
     }
 
     const MonsterDef* GameWorld::find_def(int index) const {
-        for (const auto& d : m_defs) {
-            if (d.index == index) {
-                return &d;
-            }
-        }
-        return nullptr;
+        const auto found = m_def_positions.find(index);
+        return found == m_def_positions.end() ? nullptr : &m_defs[found->second];
     }
 
     std::optional<std::uint32_t> GameWorld::spawn_monster_at(

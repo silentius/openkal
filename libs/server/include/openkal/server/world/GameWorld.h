@@ -1327,6 +1327,9 @@ namespace openkal::server {
         /** Loaded monster definitions. */
         std::vector<MonsterDef> m_defs;
 
+        /** First loaded position in m_defs for each monster definition ID. */
+        std::unordered_map<int, std::size_t> m_def_positions;
+
         /** Loaded item definitions. */
         std::unordered_map<int, ItemCombatDef> m_item_defs;
 
