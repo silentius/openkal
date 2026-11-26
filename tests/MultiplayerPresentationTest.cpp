@@ -894,6 +894,36 @@ int main() {
     expect(client.take_hit_fx(pvp_hit) && pvp_hit.attacker_id == 1 && pvp_hit.target_id == 2 &&
                !client.take_hit_fx(pvp_hit),
            "PvP presentation preserves the existing impact event");
+
+    using openkal::protocol::frame_pvp_target_health;
+    using openkal::protocol::frame_pvp_target_health_request;
+    input->sent.clear();
+    client.select_pvp_health_target(2);
+    expect(input->sent.empty(), "older servers receive no unsupported PvP health request");
+    input->queue(frame_pvp_target_health({}));
+    client.update(0.0f, 32);
+    client.select_pvp_health_target(2);
+    client.select_pvp_health_target(2);
+    expect(input->sent == frame_pvp_target_health_request({2, 1}),
+           "a supported opponent selection subscribes once");
+    input->queue(frame_pvp_target_health({{2, 1}, 70, 120}));
+    client.update(0.0f, 32);
+    expect(client.pvp_target_health() && client.pvp_target_health()->hp == 70 &&
+               client.pvp_target_health()->max_hp == 120,
+           "the selected opponent has authoritative current and maximum HP");
+    input->sent.clear();
+    client.select_pvp_health_target(3);
+    expect(input->sent == frame_pvp_target_health_request({0, 2}) && !client.pvp_target_health(),
+           "selecting a neutral player clears the PvP health subscription");
+    client.select_pvp_health_target(2);
+    input->queue(frame_pvp_target_health({{2, 1}, 65, 120}));
+    input->queue(frame_pvp_target_health({{3, 3}, 80, 130}));
+    client.update(0.0f, 32);
+    expect(!client.pvp_target_health(), "stale selections and unrelated targets are ignored");
+    input->queue(frame_pvp_target_health({{2, 3}, 55, 120}));
+    client.update(0.0f, 32);
+    expect(client.pvp_target_health() && client.pvp_target_health()->hp == 55,
+           "a new subscription accepts health for the newly selected opponent");
     input->queue(Attack::frame_server(2, 1, 0));
     input->queue(Move::frame_player_on(2, 1, 0, 0));
     client.update(0.0f, 32);
@@ -907,6 +937,7 @@ int main() {
     client.update(0.0f, 32);
     expect(!client.pvp_status(1).defeated && !client.pvp_status(2).defeated,
            "PvP status reflects the latest recovery");
+    expect(!client.pvp_target_health(), "losing PvP eligibility discards the opponent's health");
     expect(client.take_duel_defeat(1) && client.take_duel_defeat(2) &&
                !client.take_duel_defeat(1) && !client.take_duel_defeat(2),
            "a duel defeat is presented once even if recovery was received in the same poll");

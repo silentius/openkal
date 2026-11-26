@@ -1,0 +1,13 @@
+{
+  "schema": "openkal.ui/v1",
+  "id": "target_health",
+  "kind": "window",
+  "window": {"w": 232, "h": 47, "draggable": false},
+  "chrome": {"kind": "nine_slice", "preset": "dragon_compact", "edges": "repeat", "close": false},
+  "widgets": [
+    {"type": "text", "id": "target_name", "x": 116, "y": 1, "text": "${target_health.target_name}", "align": "center", "pixel_size": 14, "bold": true, "color": "#E5CF9E"},
+    {"type": "text", "id": "target_hp", "x": 116, "y": 21, "text": "${target_health.target_hp} HP", "align": "center", "pixel_size": 12, "color": "#EEE7D6"},
+    {"type": "fill", "id": "target_track", "x": 8, "y": 39, "w": 216, "h": 4, "color": "#322321"},
+    {"type": "progress", "id": "target_fill", "x": 8, "y": 39, "w": 216, "h": 4, "bind": "target_health.target_ratio", "color": "#D64D48"}
+  ]
+}

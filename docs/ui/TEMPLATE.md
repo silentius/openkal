@@ -90,6 +90,12 @@ The **Show own name** checkbox uses `settings.misc.show_own_name` and the
 No widget type or schema extension is needed. The UI editor supplies synthetic
 clock and event-choice values through the shared preview catalog.
 
+The Misc tab also binds its target health selector to
+`settings.target_hp_display`. The passive `target_health.json` and
+`target_health_side.json` layouts use Dragon compact chrome, FreeType text and
+standard progress widgets. The client positions the first at the top center of
+the screen and anchors the second to the selected opponent's projected body.
+
 ## Document shape
 
 The fullscreen `powerbook.json` uses standard fills, text, buttons, icon slots,

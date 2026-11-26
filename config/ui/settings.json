@@ -41,6 +41,13 @@
     {"type": "button", "id": "clock_enabled", "x": 440, "y": 173, "w": 28, "h": 28, "label": "${settings.clock_checked}", "align": "center", "action": "settings.misc.clock", "file_default": "dragon_dialog/icon_button_idle.bmp", "file_over": "dragon_dialog/icon_button_hover.bmp", "file_on": "dragon_dialog/icon_button_pressed.bmp", "visible_when": "settings.page.misc", "pixel_size": 13},
     {"type": "text", "id": "show_own_name_label", "x": 48, "y": 220, "text": "${settings.show_own_name_label}", "color": "${theme.colors.label}", "pixel_size": 13, "visible_when": "settings.page.misc"},
     {"type": "button", "id": "show_own_name", "x": 440, "y": 212, "w": 28, "h": 28, "label": "${settings.show_own_name_checked}", "align": "center", "action": "settings.misc.show_own_name", "file_default": "dragon_dialog/icon_button_idle.bmp", "file_over": "dragon_dialog/icon_button_hover.bmp", "file_on": "dragon_dialog/icon_button_pressed.bmp", "visible_when": "settings.page.misc", "pixel_size": 13},
+    {"type": "text", "id": "target_hp_display_label", "x": 48, "y": 259, "text": "${settings.target_hp_display_label}", "color": "${theme.colors.label}", "pixel_size": 13, "visible_when": "settings.page.misc"},
+    {"type": "tabs", "id": "target_hp_display", "bind": "settings.target_hp_display", "y": 284, "h": 28, "color_on": "#E5CF9E", "color_off": "#BDAE92", "align": "center", "pixel_size": 13, "visible_when": "settings.page.misc", "items": [
+      {"id": "standard", "x": 48, "w": 128, "label": "${settings.target_hp_display.standard}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+      {"id": "target_widget", "x": 184, "w": 128, "label": "${settings.target_hp_display.target_widget}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+      {"id": "large_bar", "x": 320, "w": 128, "label": "${settings.target_hp_display.large_bar}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"},
+      {"id": "side_widget", "x": 456, "w": 130, "label": "${settings.target_hp_display.side_widget}", "file_on": "dragon_dialog/button_pressed.bmp", "file_off": "dragon_dialog/button_idle.bmp"}
+    ]},
     {"type": "text", "x": 30, "y": 106, "text": "${settings.display_heading}", "color": "${theme.colors.title}", "pixel_size": 15, "bold": true, "visible_when": "settings.page.display"},
     {"type": "text", "x": 48, "y": 142, "text": "${settings.mode_label}", "color": "${theme.colors.label}", "visible_when": "settings.page.display", "pixel_size": 13},
     {"type": "text", "x": 386, "y": 142, "text": "${settings.mode}", "align": "center", "color": "${theme.colors.value}", "visible_when": "settings.page.display", "pixel_size": 13},

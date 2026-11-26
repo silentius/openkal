@@ -137,6 +137,7 @@ namespace openkal::protocol {
         PvpStatus,              // OpenKal observer-specific PvP state.
         AssassinList,           // OpenKal Town Board snapshot.
         HonorStatus,            // OpenKal personal Honor and Reward Points.
+        PvpTargetHealth,        // OpenKal selected PvP opponent's health.
         End,
     };
 
@@ -241,11 +242,12 @@ namespace openkal::protocol {
         Npc,
         Mixing,
         Riding,
-        TalentTree,     // OpenKal talent selection and Beacon state.
-        PlayerOptions,  // OpenKal selected-player context actions.
-        TradingPost,    // OpenKal anonymous marketplace.
-        SortInventory,  // Request: section byte; reply: section byte and committed flag.
-        StorageMoney,   // OpenKal account storage Geon transfer.
+        TalentTree,       // OpenKal talent selection and Beacon state.
+        PlayerOptions,    // OpenKal selected-player context actions.
+        TradingPost,      // OpenKal anonymous marketplace.
+        SortInventory,    // Request: section byte; reply: section byte and committed flag.
+        StorageMoney,     // OpenKal account storage Geon transfer.
+        PvpTargetHealth,  // OpenKal PvP health subscription for the selected opponent.
         End,
     };
 

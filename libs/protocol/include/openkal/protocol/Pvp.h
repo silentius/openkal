@@ -84,4 +84,52 @@ namespace openkal::protocol {
     [[nodiscard]] bool
     parse_pvp_status(const std::uint8_t* data, std::size_t size, PvpStatus& status);
 
+    /** Selects one opponent for health updates or clears the selection with player ID zero. */
+    struct PvpTargetHealthRequest {
+        std::uint32_t player_id = 0;
+        /** Identifies the selection so delayed updates cannot affect a newer one. */
+        std::uint32_t serial = 0;
+    };
+
+    /** Health visible to the viewer. Zero maximum revokes the snapshot.
+     * A fully zero snapshot advertises server support.
+     */
+    struct PvpTargetHealth {
+        PvpTargetHealthRequest target;
+        std::int32_t hp = 0;
+        std::int32_t max_hp = 0;
+    };
+
+    /** Encodes a PvP health subscription.
+     * @param request Opponent selection or clear request.
+     * @return Framed client packet.
+     */
+    [[nodiscard]] std::vector<std::uint8_t>
+    frame_pvp_target_health_request(const PvpTargetHealthRequest& request);
+
+    /** Decodes a PvP health subscription.
+     * @param data Packet payload.
+     * @param size Payload length.
+     * @param request Parsed opponent selection.
+     * @return Whether the payload is valid.
+     */
+    [[nodiscard]] bool parse_pvp_target_health_request(const std::uint8_t* data,
+                                                       std::size_t size,
+                                                       PvpTargetHealthRequest& request);
+
+    /** Encodes a PvP health snapshot or capability announcement.
+     * @param health Selected opponent's health and request identity.
+     * @return Framed server packet.
+     */
+    [[nodiscard]] std::vector<std::uint8_t> frame_pvp_target_health(const PvpTargetHealth& health);
+
+    /** Decodes a PvP health snapshot or capability announcement.
+     * @param data Packet payload.
+     * @param size Payload length.
+     * @param health Parsed snapshot.
+     * @return Whether the payload is valid.
+     */
+    [[nodiscard]] bool
+    parse_pvp_target_health(const std::uint8_t* data, std::size_t size, PvpTargetHealth& health);
+
 }  // namespace openkal::protocol

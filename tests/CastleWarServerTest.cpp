@@ -736,8 +736,18 @@ namespace {
         ServerHost host;
         require(host.start(config), "start PvP without guild or Castle War services");
         std::this_thread::sleep_for(150ms);
+        const auto target_health = [](std::uint32_t player, std::uint32_t serial, bool visible) {
+            return [=](const auto& payload) {
+                PvpTargetHealth health;
+                return parse_pvp_target_health(payload.data(), payload.size(), health) &&
+                       health.target.player_id == player && health.target.serial == serial &&
+                       (health.max_hp > 0) == visible;
+            };
+        };
         std::uint32_t guard = 0, master = 0;
         auto a = enter_world(port, "castlefounder", 1, guard, master);
+        require(a.receive(S2C::PvpTargetHealth, target_health(0, 0, false)),
+                "server advertises PvP target health");
         guard = master = 0;
         auto b = enter_world(port, "castlechallenger", 2, guard, master);
         guard = master = 0;
@@ -819,6 +829,12 @@ namespace {
                 "duel opponent is hostile in the starter safe area");
         require(b.pvp_status(b.id(), PvpRelation::Ally, false),
                 "duel participant sees their own side as allied");
+        a.send(frame_pvp_target_health_request({b.id(), 1}), "select duel opponent for health");
+        require(a.receive(S2C::PvpTargetHealth, target_health(b.id(), 1, true)),
+                "a visible duel opponent exposes current and maximum health to the selector");
+        witness.send(frame_pvp_target_health_request({b.id(), 1}), "select a neutral duelist");
+        require(!witness.receive(S2C::PvpTargetHealth, target_health(b.id(), 1, true), 200ms),
+                "third-party viewers cannot subscribe to a neutral player's health");
         const auto has_hp = [](bool alive) {
             return [alive](const auto& payload) {
                 UpdatePropertyFields update;
@@ -835,6 +851,8 @@ namespace {
         require(collapsed, "a lethal duel hit sends zero HP to the defeated player");
         require(a.pvp_status(b.id(), PvpRelation::Enemy, false, false, true),
                 "the opponent sees the duel defeat before automatic recovery");
+        require(a.receive(S2C::PvpTargetHealth, target_health(b.id(), 1, false)),
+                "defeat revokes the opponent's health snapshot");
         require(b.pvp_status(b.id(), PvpRelation::Ally, false, false, true),
                 "the defeated player sees the same duel defeat");
         b.send(Skill::frame_client_revival(), "attempt village revival during the collapse");
@@ -906,9 +924,24 @@ namespace {
 
         require(c.read_assassin_list(master).entries.empty(),
                 "a duel and an unmasked defeat leave the board empty");
+        const auto rest_action = [&](bool sitting) {
+            return [id = a.id(), sitting](const auto& payload) {
+                std::uint32_t player = 0;
+                std::uint8_t action = 0, value = 0;
+                return Skill::parse_action(payload.data(), payload.size(), player, action, value) &&
+                       player == id && action == kAtRest && value == sitting;
+            };
+        };
+        a.send(Skill::frame_rest(1), "the Assassin sits before the practice attack");
+        require(a.receive(S2C::Action, rest_action(true)) &&
+                    witness.receive(S2C::Action, rest_action(true)),
+                "both clients see the Assassin sitting");
         strike(witness, a);
         require(witness.player_attack(a.id(), 3s, 1),
                 "a different player damages the Assassin first");
+        require(a.receive(S2C::Action, rest_action(false)) &&
+                    witness.receive(S2C::Action, rest_action(false)),
+                "a nonlethal PvP attack makes the sitting target stand on both clients");
         defeat(c, a, [&] {
             const auto saved = store.load_character(1);
             return saved && saved->hp == 0 && saved->pvp_death_exp_percent == 15;

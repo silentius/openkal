@@ -1067,6 +1067,16 @@ namespace openkal::client {
          */
         [[nodiscard]] bool pvp_can_attack(std::uint32_t player) const;
 
+        /** Updates the subscription for the selected PvP opponent, if supported by the server.
+         * @param player Selected remote player ID, or zero to clear.
+         */
+        void select_pvp_health_target(std::uint32_t player);
+
+        /** @return Latest health snapshot for the active PvP target, if available. */
+        [[nodiscard]] const std::optional<protocol::PvpTargetHealth>& pvp_target_health() const {
+            return m_pvp_target_health;
+        }
+
         /** @return Latest authoritative party snapshot. */
         const protocol::PartyState& party() const {
             return m_party;
@@ -2347,6 +2357,10 @@ namespace openkal::client {
         std::deque<protocol::PlayerOptionsState> m_pending_player_options;
         std::unordered_map<std::uint32_t, platform::Json> m_guild_displays;
         std::unordered_map<std::uint32_t, protocol::PvpStatus> m_pvp_status;
+        /** Whether the server has advertised the PvP health subscription. */
+        bool m_pvp_health_supported = false;
+        protocol::PvpTargetHealthRequest m_pvp_health_request;
+        std::optional<protocol::PvpTargetHealth> m_pvp_target_health;
         std::unordered_set<std::uint32_t> m_pending_duel_defeats;
         std::uint64_t m_guild_serial = 0, m_guild_request = 0;
         std::deque<protocol::PartyItemNotice> m_pending_party_items;

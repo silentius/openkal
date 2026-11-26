@@ -12,11 +12,20 @@
 
 #include "openkal/platform/ProfileDocument.h"
 
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
 
 namespace openkal::settings {
+
+    /** Display modes for the selected opponent's health. */
+    enum class TargetHpDisplay {
+        Standard,
+        TargetWidget,
+        LargeBar,
+        SideWidget,
+    };
 
     /** Supported client window modes. */
     enum class DisplayMode {
@@ -103,6 +112,8 @@ namespace openkal::settings {
         bool clock_enabled = true;
         /** Shows the local character's overhead nameplate. */
         bool show_own_name = false;
+        /** Selected opponent health display saved in the client profile. */
+        TargetHpDisplay target_hp_display = TargetHpDisplay::Standard;
     };
 
     /** Settings plus non-fatal corrections made while loading. */
@@ -134,6 +145,18 @@ namespace openkal::settings {
      * @return Profile value.
      */
     [[nodiscard]] std::string_view to_string(ShadowQuality value);
+
+    /** Returns the profile key value for a target HP display mode.
+     * @param value Display mode.
+     * @return Stable profile value.
+     */
+    [[nodiscard]] std::string_view to_string(TargetHpDisplay value);
+
+    /** Parses a target HP display mode from a profile or UI selection.
+     * @param value Stable profile value.
+     * @return Matching mode, or an empty result for an unknown value.
+     */
+    [[nodiscard]] std::optional<TargetHpDisplay> parse_target_hp_display(std::string_view value);
 
     /** Expands a built-in preset to concrete settings.
      * @param preset Preset other than Custom.

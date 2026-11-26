@@ -1497,6 +1497,8 @@ config/ui/startup.json
 config/ui/status.json
 config/ui/storage.json
 config/ui/talent_tree.json
+config/ui/target_health.json
+config/ui/target_health_side.json
 config/ui/trade.json
 config/ui/trade_invitation.json
 config/ui/trade_quantity.json

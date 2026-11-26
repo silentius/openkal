@@ -19,6 +19,7 @@ namespace openkal::client {
 
     int icon_draws = 0;
     float icon_x = 0, icon_y = 0, icon_w = 0, icon_h = 0;
+    float bar_x = 0, bar_y = 0, bar_w = 0, bar_h = 0, bar_ratio = 0;
     TexInfo WidgetTools::tex_info(const std::string&) {
         return TexInfo({}, 64, 32);
     }
@@ -38,7 +39,14 @@ namespace openkal::client {
         return 0.0f;
     }
 
-    void WidgetTools::draw_bar(float, float, float, float, float, float, float, float) {}
+    void
+    WidgetTools::draw_bar(float x, float y, float w, float h, float ratio, float, float, float) {
+        bar_x = x;
+        bar_y = y;
+        bar_w = w;
+        bar_h = h;
+        bar_ratio = ratio;
+    }
 
     void WidgetTools::draw_progress_lcr(const char*, float, float, float, float, float) {}
 
@@ -83,6 +91,15 @@ int main() {
     Nameplate::draw_npc_icon(ui, 100, 100, "owned-icon.bmp", 0, 1);
     expect(openkal::client::icon_y == 82,
            "configured NPC icon remains above the head even when the name is hidden");
+    Nameplate::draw_hp(ui, 200, 100, 0.5f);
+    expect(openkal::client::bar_x == 155 && openkal::client::bar_y == 100 &&
+               openkal::client::bar_w == 90 && openkal::client::bar_h == 10,
+           "default overhead HP bar retains its size and center");
+    Nameplate::draw_hp(ui, 200, 100, 0.5f, true);
+    expect(openkal::client::bar_x == 132.5f && openkal::client::bar_y == 100 &&
+               openkal::client::bar_w == 135 && openkal::client::bar_h == 12.5f &&
+               openkal::client::bar_ratio == 0.5f,
+           "enlarged monster HP bar is centered, 50 percent wider and 25 percent taller");
 
     expect(near_rgb(Nameplate::npc_color(), 180, 150, 255), "npc fixed color");
     expect(near_rgb(Nameplate::player_color(), 255, 255, 255), "player name white");

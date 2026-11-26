@@ -1738,6 +1738,28 @@ Invitations appear independently of the roster and never add list rows.
 
 See [Party behavior](../Party.md) for reward rules and behavioral provenance.
 
+## Target HP display
+
+| Key | Type | Example | Used by |
+|---|---|---|---|
+| `settings.target_hp_display` | string | `standard` | Misc tab selection, saved as `client.misc.monster_hp_display` |
+| `settings.target_hp_display_label` | string | `Target HP display` | Misc selector caption |
+| `settings.target_hp_display.standard` | string | `Standard` | Default mode label |
+| `settings.target_hp_display.target_widget` | string | `Target widget` | Top-center widget mode label |
+| `settings.target_hp_display.large_bar` | string | `Larger bar` | Enlarged overhead bar mode label |
+| `settings.target_hp_display.side_widget` | string | `Beside target` | Opponent-anchored widget mode label |
+| `target_health.target_name` | string | `Demon Plunderer` | Selected opponent's visible name in the top-center widget |
+| `target_health.target_label` / `target_health.player_label` | string | `Monster HP`, `Opponent HP` / `Your HP` | Row captions for the widget beside the opponent |
+| `target_health.target_hp` / `target_health.player_hp` | string | `870 / 1200` | Current and maximum health |
+| `target_health.target_ratio` / `target_health.player_ratio` | float | `0.725` | Progress fill in the corresponding health row |
+
+The Misc selector changes the draft mode. Save applies it to the current
+client and profile. The overhead bar is shown in every mode for the selected
+monster or attackable player. For player targets, the client subscribes after
+the server advertises support. The server sends authoritative health while
+the opponent is visible and attackable. Masked players use the display name
+`Assassin`.
+
 ## Guild (`guild.json`)
 
 The window follows the global UI scale and reduces it only as needed to fit
